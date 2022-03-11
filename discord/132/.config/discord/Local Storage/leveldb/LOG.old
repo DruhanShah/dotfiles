@@ -1,6 +1,0 @@
-2022/02/22-09:42:55.151 ea8 Reusing MANIFEST /home/druhan/snap/discord/132/.config/discord/Local Storage/leveldb/MANIFEST-000001
-2022/02/22-09:42:55.151 ea8 Recovering log #7
-2022/02/22-09:42:55.152 ea8 Reusing old log /home/druhan/snap/discord/132/.config/discord/Local Storage/leveldb/000007.log 
-2022/02/22-09:43:57.763 ed8 Level-0 table #11: started
-2022/02/22-09:43:57.766 ed8 Level-0 table #11: 21561 bytes OK
-2022/02/22-09:43:57.768 ed8 Delete type=0 #7
