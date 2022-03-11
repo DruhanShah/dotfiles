@@ -1,0 +1,35 @@
+.panel-workspace-indicator {
+  padding: 0px 5px;
+  border-radius: 20px;
+  font-size: 2.1em;
+  font-family: Fira Code;
+  font-weight: light;
+}
+
+.panel-workspace-indicator-box {
+  padding: 0px;
+  margin: 0px;
+}
+
+.panel-workspace-indicator-box .workspace {
+  width: 50px;
+}
+
+.panel-workspace-indicator,
+.panel-workspace-indicator-box .workspace {
+  background-color: rgba(40, 42, 54, 0.35)`;
+}
+
+.panel-workspace-indicator-box .workspace {
+  background-color: #282a36;
+  border-left-width: 0;
+}
+
+.panel-workspace-indicator-box .workspace:first-child {
+  border-left-width: 0px;
+}
+
+.active {
+  border: none;
+  color: #bd93f9;
+}

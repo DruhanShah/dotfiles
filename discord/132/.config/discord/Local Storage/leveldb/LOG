@@ -1,0 +1,24 @@
+2022/02/23-08:58:52.370 df9 Reusing MANIFEST /home/druhan/snap/discord/132/.config/discord/Local Storage/leveldb/MANIFEST-000001
+2022/02/23-08:58:52.370 df9 Recovering log #10
+2022/02/23-08:58:52.371 df9 Reusing old log /home/druhan/snap/discord/132/.config/discord/Local Storage/leveldb/000010.log 
+2022/02/23-10:30:51.941 df8 Level-0 table #14: started
+2022/02/23-10:30:51.948 df8 Level-0 table #14: 12880 bytes OK
+2022/02/23-10:30:51.949 df8 Delete type=0 #10
+2022/02/23-14:25:17.871 df9 Level-0 table #16: started
+2022/02/23-14:25:17.872 df9 Level-0 table #16: 14117 bytes OK
+2022/02/23-14:25:17.873 df9 Delete type=0 #13
+2022/02/23-14:45:50.952 df8 Level-0 table #18: started
+2022/02/23-14:45:50.961 df8 Level-0 table #18: 13884 bytes OK
+2022/02/23-14:45:50.962 df8 Delete type=0 #15
+2022/02/23-14:45:50.962 df8 Compacting 4@0 + 1@1 files
+2022/02/23-14:45:50.965 df8 Generated table #19@0: 99 keys, 360290 bytes
+2022/02/23-14:45:50.965 df8 Compacted 4@0 + 1@1 files => 360290 bytes
+2022/02/23-14:45:50.966 df8 compacted to: files[ 0 1 1 0 0 0 0 ]
+2022/02/23-14:45:50.966 df8 Delete type=2 #14
+2022/02/23-14:45:50.966 df8 Delete type=2 #16
+2022/02/23-14:45:50.966 df8 Delete type=2 #8
+2022/02/23-14:45:50.966 df8 Delete type=2 #11
+2022/02/23-14:45:50.966 df8 Delete type=2 #18
+2022/02/23-16:39:41.415 df8 Level-0 table #21: started
+2022/02/23-16:39:41.422 df8 Level-0 table #21: 17384 bytes OK
+2022/02/23-16:39:41.424 df8 Delete type=0 #17
