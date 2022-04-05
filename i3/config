@@ -73,7 +73,8 @@ bindsym Control+Mod1+f exec "kitty -- ranger"
 bindsym Control+Shift+w kill
 
 # start rofi (a program launcher)
-bindsym $mod+r exec rofi -show run
+bindsym $mod+r exec "rofi -show run"
+bindsym Mod1+Tab exec "rofi -show window"
 
 # change focus
 bindsym $mod+j focus left
