@@ -208,5 +208,7 @@ bindsym Control+Shift+r mode "resize"
 bindsym Print exec "flameshot gui"
 
 # lock screen with i3lock
-bindsym $mod+Escape exec "i3lock --blur=10 --indicator --clock --time-color=f8f8f2 --date-color=f8f8f2 --inside-color=282a36aa --ring-color=f8f8f2 --ring-width=5 --line-uses-inside --keyhl-color=50fa7b --bshl-color=ff5555 --separator-color=282a36 --time-font=FiraCode --date-font=FiraCode --verif-font=FiraCode --wrong-font=FiraCode --radius=120 --wrong-text=Incorrect --verif-text=''"
+bindsym $mod+Escape exec "i3lock --blur=10 --indicator --clock --time-color=f8f8f2 --date-color=f8f8f2 --inside-color=282a36aa --ring-color=f8f8f2 --ring-width=3 --line-uses-inside --keyhl-color=50fa7b --bshl-color=ff5555 --separator-color=282a36 --time-font=FiraCode --date-font=FiraCode --verif-font=FiraCode --wrong-font=FiraCode --radius=110 --wrong-text=Incorrect --verif-text='' --insidever-color=282a36aa --ringver-color=8be9fd --insidewrong-color=282a36aa --ringwrong-color=ff5555 --wrong-color=f8f8f2 --date-str='%A, %d-%m-%Y'"
+
+for_window [class="Yad" title="yad-calendar"] floating enable
 
