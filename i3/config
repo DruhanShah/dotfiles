@@ -10,6 +10,7 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
+set $Alt Mod1
 
 # rice look with gaps and border
 for_window [class=".*"] border pixel 1
@@ -17,14 +18,14 @@ gaps inner 4
 gaps outer 4
 
 # Dracula color scheme
-#class			border	bground	text	indicator child_border
-client.focused		#BD93F9	#BD93F9	#F8F8F2 #BD93F9	  #BD93F9
+#class					border	bground	text	indicator child_border
+client.focused			#BD93F9	#BD93F9	#F8F8F2 #BD93F9	  #BD93F9
 client.focused_inactive	#44475A #44475A #F8F8F2 #44475A	  #44475A
-client.unfocused	#6272A4	#6272A4	#F8F8F2	#6272A4   #6272A4
-client.urgent		#44475A #FF5555 #F8F8F2 #FF5555	  #FF5555
-client.placeholder	#282A36 #282A36 #F8F8F2	#282A36   #282A36
+client.unfocused		#44475A	#44475A	#F8F8F2	#6272A4   #6272A4
+client.urgent			#44475A #FF5555 #F8F8F2 #FF5555	  #FF5555
+client.placeholder		#282A36 #282A36 #F8F8F2	#282A36   #282A36
 
-client.background	#F8F8F2
+client.background		#F8F8F2
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -47,6 +48,12 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+# Polybar run from custom config and startup script that ensures no repeated polybars
+exec_always --no-startup-id /home/druhan/.config/polybar/launch.sh
+
+# Running clipster daemon in the background so roficlip can work
+exec --no-startup-id clipster -d
+
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -58,23 +65,23 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 # start a terminal
-bindsym Control+Mod1+t exec kitty
+bindsym Control+$Alt+t exec kitty
 
 # open the text editor
-bindsym Control+Mod1+n exec "kitty -- nvim"
+bindsym Control+$Alt+n exec "kitty -- nvim"
 
 # start the web browser
-bindsym Control+Mod1+b exec firefox
+bindsym Control+$Alt+b exec "brave"
 
 # open the file manager
-bindsym Control+Mod1+f exec "kitty -- ranger"
+bindsym Control+$Alt+f exec "kitty -- ranger"
 
 # kill focused window
-bindsym Control+Shift+w kill
+bindsym Control+Shift+w "kill"
 
 # start rofi (a program launcher)
 bindsym $mod+r exec "rofi -show run"
-bindsym Mod1+Tab exec "rofi -show window"
+bindsym $Alt+Tab exec "rofi -show window"
 
 # change focus
 bindsym $mod+j focus left
@@ -124,7 +131,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+d focus child
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -197,4 +204,11 @@ mode "resize" {
 
 bindsym Control+Shift+r mode "resize"
 
-exec_always --no-startup-id /home/druhan/.config/polybar/launch.sh
+# start flameshot tool
+bindsym Print exec "flameshot gui"
+
+# lock screen with i3lock
+bindsym $mod+Escape exec "i3lock --blur=10 --indicator --clock --time-color=f8f8f2 --date-color=f8f8f2 --inside-color=282a36aa --ring-color=f8f8f2 --ring-width=3 --line-uses-inside --keyhl-color=50fa7b --bshl-color=ff5555 --separator-color=282a36 --time-font=FiraCode --date-font=FiraCode --verif-font=FiraCode --wrong-font=FiraCode --radius=110 --wrong-text=Incorrect --verif-text='' --insidever-color=282a36aa --ringver-color=8be9fd --insidewrong-color=282a36aa --ringwrong-color=ff5555 --wrong-color=f8f8f2 --date-str='%A, %d-%m-%Y'"
+
+for_window [class="Yad" title="yad-calendar"] floating enable
+
