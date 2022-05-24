@@ -11,5 +11,6 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 	Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 	Plug 'tpope/vim-fugitive'
 	Plug 'nvim-telescope/telescope-file-browser.nvim'
+	Plug 'b3nj5m1n/kommentary'
 
 call plug#end()
