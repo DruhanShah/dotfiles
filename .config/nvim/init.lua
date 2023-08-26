@@ -1,0 +1,6 @@
+require("plugins")
+require("options")
+require("plug-config")
+require("keybinds")
+require("completion")
+require("lsp")
