@@ -73,7 +73,16 @@ require("dashboard").setup {
 	},
 }
 
-require("nvim-surround").setup()
+require("nvim-surround").setup {
+	surrounds = {
+		["c"] = {
+			add = function()
+				local command = require("nvim-surround.config").get_input("Enter LaTeX command: ")
+				return { { "\\" ..command.. "{" }, { "}" } }
+			end,
+		},
+	},
+}
 
 require("colorizer").setup()
 
@@ -82,3 +91,8 @@ require("oil").setup()
 require("glow").setup()
 
 require("Comment").setup()
+
+require("indent_blankline").setup {
+	show_current_context = true,
+	show_current_context_start = false,
+}

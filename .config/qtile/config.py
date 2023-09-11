@@ -3,7 +3,9 @@ from libqtile import bar, layout, widget, hook
 from libqtile.config import Drag, Group, Key, KeyChord, Match, Screen, ScratchPad, DropDown
 from libqtile.lazy import lazy
 from qtile_extras import widget
+from qtile_extras.widget import modify
 from qtile_extras.widget.decorations import RectDecoration
+from spotify import Spotify
 
 #############################################
 # GLOBALS
@@ -208,28 +210,28 @@ screens = [
                 ),
                 widget.TextBox(),
                 widget.Memory(
-                    format="RAM: {MemUsed:.0f}M",
+                    format="RAM {MemUsed:.0f}M",
                     foreground=PEACH,
                     decorations=[
                         RectDecoration(
                             colour=PEACH,
                             # filled=True,
                             padding_y=4,
-                        )
-                    ],
+                            )
+                        ],
                     padding=6,
                 ),
                 widget.TextBox(),
                 widget.CPU(
-                    format="CPU: {load_percent}%",
+                    format="CPU {load_percent}%",
                     foreground=YELLOW,
                     decorations=[
                         RectDecoration(
                             colour=YELLOW,
                             # filled=True,
                             padding_y=4,
-                        )
-                    ],
+                            )
+                        ],
                     padding=6,
                 ),
                 widget.TextBox(),
@@ -241,13 +243,28 @@ screens = [
                             colour=ROSEWATER,
                             # filled=True,
                             padding_y=4,
-                        )
-                    ],
+                            )
+                        ],
                     padding=6,
                 ),
                 widget.Spacer(),
+                modify(
+                    Spotify,
+                    format="{icon} {track} - {artist}",
+                    foreground=GREEN,
+                    decorations=[
+                        RectDecoration(
+                            colour=GREEN,
+                            padding_y=4,
+                        )
+                    ],
+                    padding=6,
+                    pause_icon="󰐊",
+                    play_icon="󰏤"
+                ),
+                widget.Spacer(),
                 widget.Clock(
-                    format="%A %d %B %Y - %H:%M:%S",
+                    format="%d %b '%y - %H:%M:%S",
                     foreground=BLUE,
                     decorations=[
                         RectDecoration(
@@ -265,8 +282,8 @@ screens = [
                     charge_char="󰂋",
                     discharge_char="󰁿",
                     update_interval=20,
-                    foreground=GREEN,
-                    background=GREEN,
+                    foreground=TEAL,
+                    background=TEAL,
                     low_background=RED,
                     low_foreground=RED,
                     low_percentage=0.2,
@@ -296,11 +313,6 @@ screens = [
                     func=lambda: subprocess.check_output("/home/druhan/.config/qtile/scripts/volume.sh").decode().strip(),
                     **decoration_group,
                     padding=6,
-                ),
-                widget.TextBox(),
-                widget.CurrentLayoutIcon(
-                    foreground=BASE,
-                    scale=0.6,
                 ),
                 widget.TextBox(),
                 widget.Systray(
@@ -336,28 +348,15 @@ screens = [
                 ),
                 widget.TextBox(),
                 widget.Memory(
-                    format="RAM: {MemUsed:.0f}M",
+                    format="RAM {MemUsed:.0f}M",
                     foreground=PEACH,
                     decorations=[
                         RectDecoration(
                             colour=PEACH,
                             # filled=True,
                             padding_y=4,
-                        )
-                    ],
-                    padding=6,
-                ),
-                widget.TextBox(),
-                widget.CPU(
-                    format="CPU: {load_percent}%",
-                    foreground=YELLOW,
-                    decorations=[
-                        RectDecoration(
-                            colour=YELLOW,
-                            # filled=True,
-                            padding_y=4,
-                        )
-                    ],
+                            )
+                        ],
                     padding=6,
                 ),
                 widget.TextBox(),
@@ -369,13 +368,28 @@ screens = [
                             colour=ROSEWATER,
                             # filled=True,
                             padding_y=4,
-                        )
-                    ],
+                            )
+                        ],
                     padding=6,
                 ),
                 widget.Spacer(),
+                modify(
+                    Spotify,
+                    format="{icon} {track} - {artist}",
+                    foreground=GREEN,
+                    decorations=[
+                        RectDecoration(
+                            colour=GREEN,
+                            padding_y=4,
+                        )
+                    ],
+                    padding=6,
+                    pause_icon="󰐊",
+                    play_icon="󰏤"
+                ),
+                widget.Spacer(),
                 widget.Clock(
-                    format="%A %d %B %Y - %H:%M:%S",
+                    format="%d %b '%y - %H:%M:%S",
                     foreground=BLUE,
                     decorations=[
                         RectDecoration(
@@ -393,8 +407,8 @@ screens = [
                     charge_char="󰂋",
                     discharge_char="󰁿",
                     update_interval=20,
-                    foreground=GREEN,
-                    background=GREEN,
+                    foreground=TEAL,
+                    background=TEAL,
                     low_background=RED,
                     low_foreground=RED,
                     low_percentage=0.2,
@@ -424,11 +438,6 @@ screens = [
                     func=lambda: subprocess.check_output("/home/druhan/.config/qtile/scripts/volume.sh").decode().strip(),
                     **decoration_group,
                     padding=6,
-                ),
-                widget.TextBox(),
-                widget.CurrentLayoutIcon(
-                    foreground=BASE,
-                    scale=0.6,
                 ),
                 widget.TextBox(),
             ],
