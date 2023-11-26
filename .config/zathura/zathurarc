@@ -1,5 +1,5 @@
 set window-title-basename "false"
-set guioptions "none"
+set guioptions "s"
 set selection-clipboard "clipboard"
 
 # Catppuccin Mocha color scheme

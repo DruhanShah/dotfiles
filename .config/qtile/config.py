@@ -39,10 +39,12 @@ BASE = "#1e1e2e"
 MANTLE = "#181825"
 CRUST = "#11111b"
 
+# Other variables I can't be bothered to write every time
 mod = "mod4"
 control = "control"
 shift = "shift"
 alt = "mod1"
+game_script = "/home/druhan/.config/rofi/scripts/game.sh"
 
 #############################################
 # KEYBINDINGS
@@ -88,6 +90,7 @@ keys = [
     Key([control, alt], "d", lazy.spawn("discord")),
     Key([mod], "r", lazy.spawn("rofi -show run")),
     Key([mod], "c", lazy.spawn("rofi -show calc")),
+    Key([mod], "g", lazy.spawn(f"rofi -show game -modes \"game:{game_script}\"")),
     Key([control, alt], "c", lazy.spawn("roficlip < /dev/null")),
 
     Key([control, shift], "w", lazy.window.kill()),
@@ -102,7 +105,7 @@ keys = [
 
 groups = [Group(str(i)) for i in range(1, 11)]
 
-scratch_names = ["Scribble", "Music", "Whatsapp"]
+scratch_names = ["Notes", "Music", "Whatsapp"]
 scratch_commands = [
     "kitty -- fish -c 'note'",
     "spotify",
@@ -174,17 +177,35 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-decoration_group = dict(
-    decorations=[
-        RectDecoration(
-            colour=PINK,
-            # filled=True,
-            padding_y=4,
-            group=True,
-        ),
-    ],
-    foreground=PINK,
-)
+
+def decoration_base(col):
+    return { "decorations": [
+            RectDecoration(
+                colour=col,
+                filled=False,
+                line_colour=col,
+                line_width=1,
+                padding_y=4,
+            ),
+        ],
+            "foreground":col,
+    }
+
+
+def decoration_group(col):
+    return { "decorations": [
+            RectDecoration(
+                colour=col,
+                filled=False,
+                line_colour=col,
+                line_width=1,
+                padding_y=4,
+                group=1,
+            ),
+        ],
+            "foreground":col,
+    }
+
 
 screens = [
     # First screen (Laptop monitor)
@@ -201,7 +222,8 @@ screens = [
                     other_current_screen_border=SURFACE1,
                     decorations=[
                         RectDecoration(
-                            colour=MAUVE,
+                            line_width=1,
+                            line_colour=MAUVE,
                             # filled=True,
                             padding_y=4,
                         )
@@ -211,53 +233,20 @@ screens = [
                 widget.TextBox(),
                 widget.Memory(
                     format="RAM {MemUsed:.0f}M",
-                    foreground=PEACH,
-                    decorations=[
-                        RectDecoration(
-                            colour=PEACH,
-                            # filled=True,
-                            padding_y=4,
-                            )
-                        ],
+                    **decoration_base(PEACH),
                     padding=6,
                 ),
                 widget.TextBox(),
                 widget.CPU(
                     format="CPU {load_percent}%",
-                    foreground=YELLOW,
-                    decorations=[
-                        RectDecoration(
-                            colour=YELLOW,
-                            # filled=True,
-                            padding_y=4,
-                            )
-                        ],
-                    padding=6,
-                ),
-                widget.TextBox(),
-                widget.Net(
-                    format="{up} ⇅ {down}",
-                    foreground=ROSEWATER,
-                    decorations=[
-                        RectDecoration(
-                            colour=ROSEWATER,
-                            # filled=True,
-                            padding_y=4,
-                            )
-                        ],
+                    **decoration_base(YELLOW),
                     padding=6,
                 ),
                 widget.Spacer(),
                 modify(
                     Spotify,
                     format="{icon} {track} - {artist}",
-                    foreground=GREEN,
-                    decorations=[
-                        RectDecoration(
-                            colour=GREEN,
-                            padding_y=4,
-                        )
-                    ],
+                    **decoration_base(GREEN),
                     padding=6,
                     pause_icon="󰐊",
                     play_icon="󰏤"
@@ -265,14 +254,7 @@ screens = [
                 widget.Spacer(),
                 widget.Clock(
                     format="%d %b '%y - %H:%M:%S",
-                    foreground=BLUE,
-                    decorations=[
-                        RectDecoration(
-                            colour=BLUE,
-                            # filled=True,
-                            padding_y=4,
-                        )
-                    ],
+                    **decoration_base(BLUE),
                     mouse_callbacks={"Button1": lazy.spawn("galendae")},
                     padding=6,
                 ),
@@ -282,42 +264,33 @@ screens = [
                     charge_char="󰂋",
                     discharge_char="󰁿",
                     update_interval=20,
-                    foreground=TEAL,
-                    background=TEAL,
-                    low_background=RED,
+                    background=BASE,
+                    low_background=BASE,
                     low_foreground=RED,
                     low_percentage=0.2,
-                    decorations=[
-                        RectDecoration(
-                            use_widget_background=True,
-                            # filled=True,
-                            padding_y=4,
-                        )
-                    ],
+                    **decoration_base(TEAL),
                     padding=6,
                 ),
                 widget.TextBox(),
                 widget.Backlight(
                     backlight_name="intel_backlight",
                     fmt="󰃟 {}",
-                    **decoration_group,
                     padding=6,
+                    **decoration_group(PINK),
                 ),
                 widget.Sep(
                     foregound=BASE,
-                    **decoration_group,
+                    **decoration_group(PINK),
                 ),
                 widget.GenPollText(
                     fmt=" {}",
                     update_interval=0.1,
                     func=lambda: subprocess.check_output("/home/druhan/.config/qtile/scripts/volume.sh").decode().strip(),
-                    **decoration_group,
                     padding=6,
+                    **decoration_group(PINK),
                 ),
                 widget.TextBox(),
-                widget.Systray(
-                    padding=2,
-                ),
+                widget.Systray(),
                 widget.TextBox(),
             ],
             32,
@@ -339,7 +312,8 @@ screens = [
                     other_current_screen_border=SURFACE1,
                     decorations=[
                         RectDecoration(
-                            colour=MAUVE,
+                            line_width=1,
+                            line_colour=MAUVE,
                             # filled=True,
                             padding_y=4,
                         )
@@ -349,40 +323,20 @@ screens = [
                 widget.TextBox(),
                 widget.Memory(
                     format="RAM {MemUsed:.0f}M",
-                    foreground=PEACH,
-                    decorations=[
-                        RectDecoration(
-                            colour=PEACH,
-                            # filled=True,
-                            padding_y=4,
-                            )
-                        ],
+                    **decoration_base(PEACH),
                     padding=6,
                 ),
                 widget.TextBox(),
-                widget.Net(
-                    format="{up} ⇅ {down}",
-                    foreground=ROSEWATER,
-                    decorations=[
-                        RectDecoration(
-                            colour=ROSEWATER,
-                            # filled=True,
-                            padding_y=4,
-                            )
-                        ],
+                widget.CPU(
+                    format="CPU {load_percent}%",
+                    **decoration_base(YELLOW),
                     padding=6,
                 ),
                 widget.Spacer(),
                 modify(
                     Spotify,
                     format="{icon} {track} - {artist}",
-                    foreground=GREEN,
-                    decorations=[
-                        RectDecoration(
-                            colour=GREEN,
-                            padding_y=4,
-                        )
-                    ],
+                    **decoration_base(GREEN),
                     padding=6,
                     pause_icon="󰐊",
                     play_icon="󰏤"
@@ -390,14 +344,7 @@ screens = [
                 widget.Spacer(),
                 widget.Clock(
                     format="%d %b '%y - %H:%M:%S",
-                    foreground=BLUE,
-                    decorations=[
-                        RectDecoration(
-                            colour=BLUE,
-                            # filled=True,
-                            padding_y=4,
-                        )
-                    ],
+                    **decoration_base(BLUE),
                     mouse_callbacks={"Button1": lazy.spawn("galendae")},
                     padding=6,
                 ),
@@ -407,38 +354,33 @@ screens = [
                     charge_char="󰂋",
                     discharge_char="󰁿",
                     update_interval=20,
-                    foreground=TEAL,
-                    background=TEAL,
-                    low_background=RED,
+                    background=BASE,
+                    low_background=BASE,
                     low_foreground=RED,
                     low_percentage=0.2,
-                    decorations=[
-                        RectDecoration(
-                            use_widget_background=True,
-                            # filled=True,
-                            padding_y=4,
-                        )
-                    ],
+                    **decoration_base(TEAL),
                     padding=6,
                 ),
                 widget.TextBox(),
                 widget.Backlight(
                     backlight_name="intel_backlight",
                     fmt="󰃟 {}",
-                    **decoration_group,
                     padding=6,
+                    **decoration_group(PINK),
                 ),
                 widget.Sep(
                     foregound=BASE,
-                    **decoration_group,
+                    **decoration_group(PINK),
                 ),
                 widget.GenPollText(
                     fmt=" {}",
                     update_interval=0.1,
                     func=lambda: subprocess.check_output("/home/druhan/.config/qtile/scripts/volume.sh").decode().strip(),
-                    **decoration_group,
                     padding=6,
+                    **decoration_group(PINK),
                 ),
+                widget.TextBox(),
+                widget.Systray(),
                 widget.TextBox(),
             ],
             32,
@@ -474,6 +416,7 @@ floating_layout = layout.Floating(
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
         Match(title="file-picker"),
+        Match(wm_class="matplotlib"),
     ],
     border_focus=BASE,
     border_normal=BASE,
@@ -494,7 +437,5 @@ wmname = "QTile"
 def fixed_size(window):
     if window.match(Match(wm_class="mpv")):
         window.cmd_set_size_floating(1600, 900)
-        window.center()
     if window.match(Match(title="file-picker")):
         window.cmd_set_size_floating(1280, 720)
-        window.center()

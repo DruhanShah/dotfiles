@@ -6,6 +6,7 @@ SETUVAR --path INFOPATH:/usr/local/texlive/2023/texmf\x2ddist/doc/info
 SETUVAR --export --path LD_LIBRARY_PATH:/home/druhan/Programs/Zotero/libxul\x2eso
 SETUVAR --export MANPAGER:nvim\x20\x2bMan\x21
 SETUVAR --path MANPATH:
+SETUVAR SDL_JOYSTICK_DEVICE:/dev/input/js0
 SETUVAR --export SPACESHIP_PROMPT_ADD_NEWLINE:\x1d
 SETUVAR --export STARSHIP_PROMPT_ADD_NEWLINE:\x1d
 SETUVAR --export VISUAL:nvim

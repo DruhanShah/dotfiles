@@ -32,6 +32,7 @@ c.fileselect.multiple_files.command = ["kitty", "-T", "file-picker", "--", "rang
 c.fileselect.folder.command = ["kitty", "-T", "file-picker", "--", "ranger", "--choosedir", "{}"]
 
 c.fonts.default_family = "JetBrains Mono"
+c.fonts.default_size = "12pt"
 
 c.bindings.commands["normal"] = {}
 c.bindings.commands["normal"]["xt"] = "config-cycle tabs.show always switching"

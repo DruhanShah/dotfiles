@@ -15,7 +15,7 @@ key("n", "<C-J>", ":bnext<CR>", opts)
 key("n", "<C-K>", ":bprevious<CR>", opts)
 
 key("n", "<C-n>", ":lua require(\"oil\").toggle_float(\".\")<CR>", opts)
-key("n", "<leader>n", ":lua require(\"nabla\").popup()<CR>", opts)
+key("n", "<C-m>", ":Detour<CR>", opts)
 
 -- Insert mode --
 key("i", "{<CR>", "{<CR>}<Esc>ko", opts)

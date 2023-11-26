@@ -129,7 +129,7 @@ def setup(c, flavour, samecolorrows = False):
     ## Bottom border color of the completion widget category headers.
     c.colors.completion.category.border.bottom = palette["mantle"]
     ## Top border color of the completion widget category headers.
-    c.colors.completion.category.border.top = palette["overlay2"]
+    c.colors.completion.category.border.top = palette["mantle"]
     ## Foreground color of completion widget category headers.
     c.colors.completion.category.fg = palette["green"]
     ## Background color of the completion widget for even and odd rows.
@@ -143,13 +143,13 @@ def setup(c, flavour, samecolorrows = False):
     c.colors.completion.fg = palette["subtext0"]
 
     ## Background color of the selected completion item.
-    c.colors.completion.item.selected.bg = palette["surface2"]
+    c.colors.completion.item.selected.bg = palette["sky"]
     ## Bottom border color of the selected completion item.
-    c.colors.completion.item.selected.border.bottom = palette["surface2"]
+    c.colors.completion.item.selected.border.bottom = palette["sky"]
     ## Top border color of the completion widget category headers.
-    c.colors.completion.item.selected.border.top = palette["surface2"]
+    c.colors.completion.item.selected.border.top = palette["sky"]
     ## Foreground color of the selected completion item.
-    c.colors.completion.item.selected.fg = palette["text"]
+    c.colors.completion.item.selected.fg = palette["crust"]
     ## Foreground color of the selected completion item.
     c.colors.completion.item.selected.match.fg = palette["rosewater"]
     ## Foreground color of the matched text in the completion.
@@ -244,7 +244,7 @@ def setup(c, flavour, samecolorrows = False):
     ## Background color of the statusbar.
     c.colors.statusbar.normal.bg = palette["base"]
     ## Background color of the statusbar in insert mode.
-    c.colors.statusbar.insert.bg = palette["crust"]
+    c.colors.statusbar.insert.bg = palette["base"]
     ## Background color of the statusbar in command mode.
     c.colors.statusbar.command.bg = palette["base"]
     ## Background color of the statusbar in caret mode.
