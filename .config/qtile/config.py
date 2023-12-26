@@ -380,8 +380,6 @@ screens = [
                     **decoration_group(PINK),
                 ),
                 widget.TextBox(),
-                widget.Systray(),
-                widget.TextBox(),
             ],
             32,
             margin=[8, 8, 0, 8],

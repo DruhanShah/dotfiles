@@ -20,6 +20,8 @@ local options = {
 	conceallevel = 2,
 	splitright = true,
 	splitbelow = true,
+	spell = true,
+	spelllang = "en_us",
 }
 
 local plug_options = {
@@ -75,7 +77,8 @@ local plug_options = {
 	jukil_mpl_block = 1,
 	jukit_custom_backend = -1,
 	jukit_inline_plotting = 1,
-	jukit_mpl_style = "~/.config/nvim/plugged/vim-jukit/helpers/matplotlib-backend-kitty/backend.mplstyle"
+	jukit_mpl_style = "~/.config/nvim/plugged/vim-jukit/helpers/matplotlib-backend-kitty/backend.mplstyle",
+	vim_markdown_math = 1,
 }
 
 vim.cmd(":colorscheme catppuccin-mocha")

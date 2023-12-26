@@ -90,6 +90,16 @@ require("oil").setup()
 
 require("glow").setup()
 
-require("Comment").setup()
-
 require("ibl").setup()
+
+require("lean").setup {
+	lsp = { on_attach = on_attach, },
+	mappings = true,
+}
+
+require("kiwi").setup {
+	{
+		name="notes",
+		path="/home/druhan/Notes"
+	}
+}

@@ -14,8 +14,11 @@ key("n", "<C-l>", "<C-w>l", opts)
 key("n", "<C-J>", ":bnext<CR>", opts)
 key("n", "<C-K>", ":bprevious<CR>", opts)
 
-key("n", "<C-n>", ":lua require(\"oil\").toggle_float(\".\")<CR>", opts)
-key("n", "<C-m>", ":Detour<CR>", opts)
+key("i", "<C-s>", "<C-g>u<Esc>[s1z=`]a<C-g>u")
+
+key("n", "<C-n>", require("oil").toggle_float, opts)
+key("n", "<C-Space>", require("kiwi").todo.toggle, opts)
+key("n", "<leader>ww", ":lua require(\"kiwi\").open_wiki_index(notes)<CR>", opts)
 
 -- Insert mode --
 key("i", "{<CR>", "{<CR>}<Esc>ko", opts)
