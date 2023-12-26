@@ -14,7 +14,7 @@ require("catppuccin").setup {
 
 require("lualine").setup {
 	options = {
-		theme = "catppuccin",
+		theme = "nord",
 		component_separators = {
 			left = "|",
 			right = "|",

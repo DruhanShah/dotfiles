@@ -1,16 +1,16 @@
 # See dunst(5) for all configuration options
 [urgency_low]
-background = "#1E1E2E"
-foreground = "#CDD6F4"
+background = "#2e3440"
+foreground = "#eceff4"
 
 [urgency_normal]
-background = "#1E1E2E"
-foreground = "#CDD6F4"
+background = "#2e3440"
+foreground = "#eceff4"
 
 [urgency_critical]
-background = "#1E1E2E"
-foreground = "#CDD6F4"
-frame_color = "#FAB387"
+background = "#2e3440"
+foreground = "#eceff4"
+frame_color = "#d08770"
 
 [global]
     ### Display ###
@@ -101,7 +101,7 @@ frame_color = "#FAB387"
     frame_width = 2
 
     # Defines color of the frame around the notification window.
-	frame_color = "#89B4FA"
+	frame_color = "#8fbcbb"
 
     # Define a color for the separator.
     # possible values are:
@@ -302,17 +302,17 @@ frame_color = "#FAB387"
 
 
 [urgency_low]
-	background = "#1E1E2E"
-	foreground = "#CDD6F4"
+	background = "#2e3440"
+	foreground = "#eceff4"
 
 [urgency_normal]
-	background = "#1E1E2E"
-	foreground = "#CDD6F4"
+	background = "#2e3440"
+	foreground = "#eceff4"
 
 [urgency_critical]
-	background = "#1E1E2E"
-	foreground = "#CDD6F4"
-	frame_color = "#FAB387"
+	background = "#2e3440"
+	foreground = "#eceff4"
+	frame_color = "#d08770"
 
 # Every section that isn't one of the above is interpreted as a rules to
 # override settings for certain messages.

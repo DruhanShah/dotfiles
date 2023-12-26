@@ -3,6 +3,7 @@ local Plug = vim.fn["plug#"]
 vim.call("plug#begin", "~/.config/nvim/plugged")
 
 	Plug("catppuccin/nvim", {['as'] = "catppuccin"})
+	Plug("shaunsingh/nord.nvim")
 
 	Plug("nvim-lua/plenary.nvim")
 	Plug("nvim-treesitter/nvim-treesitter", {['do'] = vim.fn[":TSUpdate"]})

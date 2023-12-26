@@ -1,44 +1,35 @@
 * {
-    /* Dracula theme colour palette */
-	Rosewater:	#f5e0dc;
-	Flamingo:	#f2cdcd;
-	Pink:		#f5c2e7;
-	Mauve:		#cba6f7;
-	Red:		#f38ba8;
-	Maroon:		#eba0ac;
-	Peach:		#fab387;
-	Yellow:		#f9e2af;
-	Green:		#a6e3a1;
-	Teal:		#94e2d5;
-	Sky:		#89dceb;
-	Sapphire:	#74c7ec;
-	Blue:		#89b4fa;
-	Lavender:	#b4befe;
-	Text:		#cdd6f4;
-	Subtext1:	#bac2de;
-	Subtext0:	#a6adc8;
-	Overlay2:	#9399b2;
-	Overlay1:	#7f849c;
-	Overlay0:	#6c7086;
-	Surface2:	#585b70;
-	Surface1:	#45475a;
-	Surface0:	#313244;
-	Base:		#1e1e2e;
-	Mantle:		#181825;
-	Crust:		#11111b;
+    /* Nord theme colour palette */
+	polarnight1: #2e3440;
+	polarnight2: #3b4252;
+	polarnight3: #434c5e;
+	polarnight4: #4c566a;
+	snowstorm1: #d8dee9;
+	snowstorm2: #e5e9f0;
+	snowstorm3: #eceff4;
+	frost1: #8fbcbb;
+	frost2: #88c0d0;
+	frost3: #81a1c1;
+	frost4: #5e81ac;
+	aurora1: #bf616a;
+	aurora2: #d08770;
+	aurora3: #ebcb8b;
+	aurora4: #a3be8c;
+	aurora5: #b48ead;
+	
 
     font: "JetBrains Mono 12";
 
-    foreground: @Text;
-    background-color: @Base;
-    active-background: @Flamingo;
-    urgent-background: @Red;
+    foreground: @snowstorm3;
+    background-color: @polarnight1;
+    active-background: @frost2;
+    urgent-background: @aurora1;
     
-    selected-background: @Sky;
-    selected-urgent-background: @Sky;
-    selected-active-background: @Sky;
-    separatorcolor: @Rosewater;
-    bordercolor: @Blue;
+    selected-background: @frost2;
+    selected-urgent-background: @frost2;
+    selected-active-background: @frost2;
+    separatorcolor: @aurora5;
+    bordercolor: @frost1;
 }
 
 #window {
@@ -133,12 +124,12 @@
 }
 #entry {
     spacing:    0;
-    text-color: @Sky;
+    text-color: @frost2;
 }
 #prompt {
     spacing:    0;
-    text-color: @Crust;
-	background-color: @Green;
+    text-color: @polarnight1;
+	background-color: @aurora4;
 	padding:	0 4 0 4;
 }
 #inputbar {
@@ -148,7 +139,7 @@
     expand:     false;
     str:        "";
     margin:     0px 0.3em 0em 0em ;
-    text-color: @Green;
+    text-color: @aurora4;
 }
 element-text, element-icon {
     background-color: inherit;

@@ -1,16 +1,16 @@
-palette = "catppuccin_mocha"
+palette = "nord"
 
 format = """
 $character\
 $git_branch\
 $directory\
 $cmd_duration\
-\n[  ](fg:green bg:base)"""
+\n[  ](fg:aurora4 bg:polarnight1)"""
 
 add_newline = false
 
 [directory]
-format = "[ $path](bg:base fg:text)"
+format = "[ $path](bg:polarnight1 fg:snowstorm1)"
 truncation_length = 4
 truncation_symbol = "…/"
 
@@ -21,20 +21,20 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-format = '[ $symbol $branch ](bg:surface0 fg:rosewater)'
+format = '[ $symbol $branch ](bg:surface0 fg:snowstorm3)'
 
 [cmd_duration]
-format = "[ | ](bg:base fg:text)[$duration](bg:base fg:green)"
+format = "[ | ](bg:base fg:text)[$duration](bg:polarnight1 fg:aurora4)"
 min_time = 500
 
 [character]
 format = "$symbol"
-success_symbol = "[ INSERT ](fg:crust bg:blue bold)"
-error_symbol = "[ INSERT ](fg:crust bg:blue bold)"
-vimcmd_symbol = "[ NORMAL ](fg:crust bg:peach bold)"
-vimcmd_replace_one_symbol = "[ REPLACE ](fg:crust bg:red bold)"
-vimcmd_replace_symbol = "[ REPLACE ](fg:crust bg:red bold)"
-vimcmd_visual_symbol = "[ VISUAL ](fg:crust bg:mauve bold)"
+success_symbol = "[ INSERT ](fg:polarnight1 bg:frost2 bold)"
+error_symbol = "[ INSERT ](fg:polarnight1 bg:frost2 bold)"
+vimcmd_symbol = "[ NORMAL ](fg:polarnight1 bg:aurora2 bold)"
+vimcmd_replace_one_symbol = "[ REPLACE ](fg:polarnight1 bg:aurora1 bold)"
+vimcmd_replace_symbol = "[ REPLACE ](fg:polarnight1 bg:aurora1 bold)"
+vimcmd_visual_symbol = "[ VISUAL ](fg:polarnight1 bg:aurora5 bold)"
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
@@ -63,3 +63,21 @@ surface0 = "#313244"
 base = "#1e1e2e"
 mantle = "#181825"
 crust = "#11111b"
+
+[palettes.nord]
+polarnight1 = "#2e3440"
+polarnight2 = "#3b4252"
+polarnight3 = "#434c5e"
+polarnight4 = "#4c566a"
+snowstorm1 = "#d8dee9"
+snowstorm2 = "#e5e9f0"
+snowstorm3 = "#eceff4"
+frost1 = "#8fbcbb"
+frost2 = "#88c0d0"
+frost3 = "#81a1c1"
+frost4 = "#5e81ac"
+aurora1 = "#bf616a"
+aurora2 = "#d08770"
+aurora3 = "#ebcb8b"
+aurora4 = "#a3be8c"
+aurora5 = "#b48ead"

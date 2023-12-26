@@ -1,6 +1,8 @@
-import catppuccin
+# import catppuccin
 
-catppuccin.setup(c, "mocha", True)
+# catppuccin.setup(c, "mocha", True)
+
+config.source("nord/nord.py")
 
 config.load_autoconfig(False)
 

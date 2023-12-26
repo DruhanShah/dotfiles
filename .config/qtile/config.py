@@ -12,39 +12,30 @@ from spotify import Spotify
 #############################################
 
 # Colorscheme
-ROSEWATER = "#f5e0dc"
-FLAMINGO = "#f2cdcd"
-PINK = "#f5c2e7"
-MAUVE = "#cba6f7"
-RED = "#F38ba8"
-MAROON = "#eba0ac"
-PEACH = "#fab387"
-YELLOW = "#f9e2af"
-GREEN = "#a6e3a1"
-TEAL = "#94e2d5"
-SKY = "#89dceb"
-SAPPHIRE = "#74c7ec"
-BLUE = "#89b4fa"
-LAVENDER = "#b4befe"
-TEXT = "#cdd6f4"
-SUBTEXT1 = "#bac2de"
-SUBTEXT0 = "#a6adc8"
-OVERLAY2 = "#9399b2"
-OVERLAY1 = "#7f849c"
-OVERLAY0 = "#6c7086"
-SURFACE2 = "#585b70"
-SURFACE1 = "#45475a"
-SURFACE0 = "#313244"
-BASE = "#1e1e2e"
-MANTLE = "#181825"
-CRUST = "#11111b"
+POLARNIGHT1 = "#2e3440"
+POLARNIGHT2 = "#3b4252"
+POLARNIGHT3 = "#434c5e"
+POLARNIGHT4 = "#4c566a"
+SNOWSTORM1 = "#d8dee9"
+SNOWSTORM2 = "#e5e9f0"
+SNOWSTORM3 = "#eceff4"
+FROST1 = "#8fbcbb"
+FROST2 = "#88c0d0"
+FROST3 = "#81a1c1"
+FROST4 = "#5e81ac"
+AURORA1 = "#bf616a"
+AURORA2 = "#d08770"
+AURORA3 = "#ebcb8b"
+AURORA4 = "#a3be8c"
+AURORA5 = "#b48ead"
+AURORA6 = "#b48ead"
 
 # Other variables I can't be bothered to write every time
 mod = "mod4"
 control = "control"
 shift = "shift"
 alt = "mod1"
-game_script = "/home/druhan/.config/rofi/scripts/game.sh"
+g_script = "/home/druhan/.config/rofi/scripts/game.sh"
 
 #############################################
 # KEYBINDINGS
@@ -90,7 +81,7 @@ keys = [
     Key([control, alt], "d", lazy.spawn("discord")),
     Key([mod], "r", lazy.spawn("rofi -show run")),
     Key([mod], "c", lazy.spawn("rofi -show calc")),
-    Key([mod], "g", lazy.spawn(f"rofi -show game -modes \"game:{game_script}\"")),
+    Key([mod], "g", lazy.spawn(f"rofi -show game -modes \"game:{g_script}\"")),
     Key([control, alt], "c", lazy.spawn("roficlip < /dev/null")),
 
     Key([control, shift], "w", lazy.window.kill()),
@@ -138,22 +129,22 @@ for name, command, key in zip(scratch_names, scratch_commands, scratch_keys):
 
 layouts = [
     layout.Columns(
-        border_focus=BASE,
-        border_focus_stack=BASE,
-        border_normal=BASE,
-        border_normal_stack=BASE,
+        border_focus=POLARNIGHT1,
+        border_focus_stack=POLARNIGHT1,
+        border_normal=POLARNIGHT1,
+        border_normal_stack=POLARNIGHT1,
         border_on_single=True,
         border_width=0,
         margin=8,
     ),
     layout.Floating(
-        border_focus=BASE,
-        border_normal=BASE,
+        border_focus=POLARNIGHT1,
+        border_normal=POLARNIGHT1,
         border_width=0,
     ),
     layout.MonadWide(
-        border_focus=BASE,
-        border_normal=BASE,
+        border_focus=POLARNIGHT1,
+        border_normal=POLARNIGHT1,
         border_width=0,
         margin=8,
         ratio=0.6,
@@ -188,7 +179,7 @@ def decoration_base(col):
                 padding_y=4,
             ),
         ],
-            "foreground":col,
+            "foreground": col,
     }
 
 
@@ -203,7 +194,7 @@ def decoration_group(col):
                 group=1,
             ),
         ],
-            "foreground":col,
+            "foreground": col,
     }
 
 
@@ -216,14 +207,14 @@ screens = [
                 widget.GroupBox(
                     highlight_method="border",
                     disable_drag="True",
-                    this_current_screen_border=OVERLAY1,
-                    other_screen_border=SURFACE1,
-                    this_screen_border=OVERLAY1,
-                    other_current_screen_border=SURFACE1,
+                    this_current_screen_border=SNOWSTORM1,
+                    other_screen_border=POLARNIGHT4,
+                    this_screen_border=SNOWSTORM1,
+                    other_current_screen_border=POLARNIGHT4,
                     decorations=[
                         RectDecoration(
                             line_width=1,
-                            line_colour=MAUVE,
+                            line_colour=AURORA5,
                             # filled=True,
                             padding_y=4,
                         )
@@ -233,20 +224,20 @@ screens = [
                 widget.TextBox(),
                 widget.Memory(
                     format="RAM {MemUsed:.0f}M",
-                    **decoration_base(PEACH),
+                    **decoration_base(AURORA2),
                     padding=6,
                 ),
                 widget.TextBox(),
                 widget.CPU(
                     format="CPU {load_percent}%",
-                    **decoration_base(YELLOW),
+                    **decoration_base(AURORA3),
                     padding=6,
                 ),
                 widget.Spacer(),
                 modify(
                     Spotify,
                     format="{icon} {track} - {artist}",
-                    **decoration_base(GREEN),
+                    **decoration_base(AURORA4),
                     padding=6,
                     pause_icon="󰐊",
                     play_icon="󰏤"
@@ -254,7 +245,7 @@ screens = [
                 widget.Spacer(),
                 widget.Clock(
                     format="%d %b '%y - %H:%M:%S",
-                    **decoration_base(BLUE),
+                    **decoration_base(FROST3),
                     mouse_callbacks={"Button1": lazy.spawn("galendae")},
                     padding=6,
                 ),
@@ -264,11 +255,11 @@ screens = [
                     charge_char="󰂋",
                     discharge_char="󰁿",
                     update_interval=20,
-                    background=BASE,
-                    low_background=BASE,
-                    low_foreground=RED,
+                    background=POLARNIGHT1,
+                    low_background=POLARNIGHT1,
+                    low_foreground=AURORA1,
                     low_percentage=0.2,
-                    **decoration_base(TEAL),
+                    **decoration_base(FROST1),
                     padding=6,
                 ),
                 widget.TextBox(),
@@ -276,18 +267,18 @@ screens = [
                     backlight_name="intel_backlight",
                     fmt="󰃟 {}",
                     padding=6,
-                    **decoration_group(PINK),
+                    **decoration_group(AURORA6),
                 ),
                 widget.Sep(
-                    foregound=BASE,
-                    **decoration_group(PINK),
+                    foregound=POLARNIGHT1,
+                    **decoration_group(AURORA6),
                 ),
                 widget.GenPollText(
                     fmt=" {}",
                     update_interval=0.1,
                     func=lambda: subprocess.check_output("/home/druhan/.config/qtile/scripts/volume.sh").decode().strip(),
                     padding=6,
-                    **decoration_group(PINK),
+                    **decoration_group(AURORA6),
                 ),
                 widget.TextBox(),
                 widget.Systray(),
@@ -295,7 +286,7 @@ screens = [
             ],
             32,
             margin=[8, 8, 0, 8],
-            background=BASE,
+            background=POLARNIGHT1,
         ),
     ),
     # Second screen (External monitor)
@@ -306,14 +297,14 @@ screens = [
                 widget.GroupBox(
                     highlight_method="border",
                     disable_drag="True",
-                    this_current_screen_border=OVERLAY1,
-                    other_screen_border=SURFACE1,
-                    this_screen_border=OVERLAY1,
-                    other_current_screen_border=SURFACE1,
+                    this_current_screen_border=SNOWSTORM1,
+                    other_screen_border=POLARNIGHT4,
+                    this_screen_border=SNOWSTORM1,
+                    other_current_screen_border=POLARNIGHT4,
                     decorations=[
                         RectDecoration(
                             line_width=1,
-                            line_colour=MAUVE,
+                            line_colour=AURORA5,
                             # filled=True,
                             padding_y=4,
                         )
@@ -323,20 +314,20 @@ screens = [
                 widget.TextBox(),
                 widget.Memory(
                     format="RAM {MemUsed:.0f}M",
-                    **decoration_base(PEACH),
+                    **decoration_base(AURORA2),
                     padding=6,
                 ),
                 widget.TextBox(),
                 widget.CPU(
                     format="CPU {load_percent}%",
-                    **decoration_base(YELLOW),
+                    **decoration_base(AURORA3),
                     padding=6,
                 ),
                 widget.Spacer(),
                 modify(
                     Spotify,
                     format="{icon} {track} - {artist}",
-                    **decoration_base(GREEN),
+                    **decoration_base(AURORA4),
                     padding=6,
                     pause_icon="󰐊",
                     play_icon="󰏤"
@@ -344,7 +335,7 @@ screens = [
                 widget.Spacer(),
                 widget.Clock(
                     format="%d %b '%y - %H:%M:%S",
-                    **decoration_base(BLUE),
+                    **decoration_base(FROST3),
                     mouse_callbacks={"Button1": lazy.spawn("galendae")},
                     padding=6,
                 ),
@@ -354,11 +345,11 @@ screens = [
                     charge_char="󰂋",
                     discharge_char="󰁿",
                     update_interval=20,
-                    background=BASE,
-                    low_background=BASE,
-                    low_foreground=RED,
+                    background=POLARNIGHT1,
+                    low_background=POLARNIGHT1,
+                    low_foreground=AURORA1,
                     low_percentage=0.2,
-                    **decoration_base(TEAL),
+                    **decoration_base(FROST1),
                     padding=6,
                 ),
                 widget.TextBox(),
@@ -366,24 +357,24 @@ screens = [
                     backlight_name="intel_backlight",
                     fmt="󰃟 {}",
                     padding=6,
-                    **decoration_group(PINK),
+                    **decoration_group(AURORA6),
                 ),
                 widget.Sep(
-                    foregound=BASE,
-                    **decoration_group(PINK),
+                    foregound=POLARNIGHT1,
+                    **decoration_group(AURORA6),
                 ),
                 widget.GenPollText(
                     fmt=" {}",
                     update_interval=0.1,
                     func=lambda: subprocess.check_output("/home/druhan/.config/qtile/scripts/volume.sh").decode().strip(),
                     padding=6,
-                    **decoration_group(PINK),
+                    **decoration_group(AURORA6),
                 ),
                 widget.TextBox(),
             ],
             32,
             margin=[8, 8, 0, 8],
-            background=BASE,
+            background=POLARNIGHT1,
         ),
     ),
 
@@ -416,8 +407,8 @@ floating_layout = layout.Floating(
         Match(title="file-picker"),
         Match(wm_class="matplotlib"),
     ],
-    border_focus=BASE,
-    border_normal=BASE,
+    border_focus=POLARNIGHT1,
+    border_normal=POLARNIGHT1,
     border_width=0,
 )
 auto_fullscreen = True

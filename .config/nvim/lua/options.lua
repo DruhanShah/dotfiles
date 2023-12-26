@@ -81,7 +81,7 @@ local plug_options = {
 	vim_markdown_math = 1,
 }
 
-vim.cmd(":colorscheme catppuccin-mocha")
+vim.cmd(":colorscheme nord")
 vim.api.nvim_set_hl(0, "CursorLineNr", {
 	fg = "#a6e3a1",
 	bold = true,
