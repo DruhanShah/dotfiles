@@ -15,15 +15,22 @@ snippet boiler "Boilerplate stuff"
 \documentclass{article}
 \author{Druhan Rajiv Shah}
 \title{$1}
-endsnippet
 
-snippet package "Package include statements" b
 \usepackage[margin=2cm]{geometry}
 
 \usepackage{amsmath, amssymb, amsfonts}
 \usepackage{graphicx, subcaption}
 \usepackage{tipa}
 \usepackage{url, hyperref, apacite}
+
+\input{~/Latex/commands.tex}
+
+\begin{document}
+	\maketitle
+
+	$0
+
+\end{document}
 endsnippet
 
 snippet env "Environment" b

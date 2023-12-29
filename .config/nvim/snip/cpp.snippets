@@ -1,0 +1,21 @@
+snippet << "Spaces" A
+<<" "<< $0
+endsnippet
+
+snippet vec "Vector definition" bA
+vector<${1:int}> $0
+endsnippet
+
+snippet init "Vector initialisation" A
+FOR(i,0,$1) cin >> $2(i);
+$0
+endsnippet
+
+snippet testcase "Testcase while loop" bA
+int T; cin >> T;
+while(t--) {
+
+	$0
+
+}
+endsnippet

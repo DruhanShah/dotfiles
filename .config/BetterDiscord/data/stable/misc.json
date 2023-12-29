@@ -1,0 +1,12 @@
+{
+    "version": "1.9.7",
+    "drawerStates": {
+        "settings": {
+            "addons": false,
+            "customcss": false,
+            "editor": false,
+            "window": false,
+            "developer": false
+        }
+    }
+}
