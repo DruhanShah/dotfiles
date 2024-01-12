@@ -11,7 +11,7 @@ endglobal
 # Actual snippets
 ##############################
 
-snippet boiler "Boilerplate stuff"
+snippet article "Boilerplate stuff"
 \documentclass{article}
 \author{Druhan Rajiv Shah}
 \title{$1}
@@ -20,8 +20,10 @@ snippet boiler "Boilerplate stuff"
 
 \usepackage{amsmath, amssymb, amsfonts}
 \usepackage{graphicx, subcaption}
-\usepackage{tipa}
-\usepackage{url, hyperref, apacite}
+\usepackage{url, hyperref}
+
+\usepackage[style=apa]{biblatex}
+% \addbibresource{}
 
 \input{~/Latex/commands.tex}
 
@@ -29,6 +31,36 @@ snippet boiler "Boilerplate stuff"
 	\maketitle
 
 	$0
+
+	% \printbibliography
+
+\end{document}
+endsnippet
+
+snippet beamer "Boilerplate stuff"
+\documentclass{beamer}
+\usetheme{Copenhagen}
+
+\author{Druhan Rajiv Shah}
+\title{$1}
+
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx, subcaption}
+\usepackage{url, hyperref}
+
+\usepackage[style=apa]{biblatex}
+% \addbibresource{}
+
+\input{~/Latex/commands.tex}
+
+\begin{document}
+	\maketitle
+
+	$0
+
+	% \begin{frame}
+		% \printbibliography
+	% \end{frame}
 
 \end{document}
 endsnippet
@@ -39,6 +71,20 @@ snippet env "Environment" b
 \end{$1}
 endsnippet
 
+snippet frame "Frame" b
+\begin{frame}{$1}
+	$0
+\end{frame}
+endsnippet
+
+snippet onlyenv "Slide-limited Environment" b
+\begin{onlyenv}<$1>
+	\begin{itemize}[<+->]
+		$0
+	\end{itemize}
+\end{onlyenv}
+endsnippet
+
 context "math()"
 snippet __ "Subscript" A
 _{$1}$0
@@ -47,4 +93,44 @@ endsnippet
 context "math()"
 snippet ^^ "Superscript" A
 ^{$1}$0
+endsnippet
+
+priority 10
+context "math()"
+snippet bar "bar" rA
+\overline{$1}$0
+endsnippet
+
+priority 100
+context "math()"
+snippet ([a-zA-Z])bar "bar" rA
+\overline{`!p snip.rv=match.group(1)`}
+endsnippet
+
+priority 10
+context "math()"
+snippet hat "hat" rA
+\hat{$1}$0
+endsnippet
+
+priority 100
+context "math()"
+snippet ([a-zA-Z])hat "hat" rA
+\hat{`!p snip.rv=match.group(1)`}
+endsnippet
+
+priority 100
+context "math()"
+snippet (\\\w+)(--) "vector" rA
+\vec{`!p snip.rv=match.group(1)`}
+endsnippet
+
+context "math()"
+snippet sum "sum" A
+\sum _{$1} ^{$2} $0
+endsnippet
+
+context "math()"
+snippet prod "prod" A
+\prod _{$1} ^{$2} $0
 endsnippet

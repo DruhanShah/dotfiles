@@ -80,9 +80,8 @@ keys = [
     Key([control, alt], "b", lazy.spawn("brave")),
     Key([control, alt], "d", lazy.spawn("discord")),
     Key([mod], "r", lazy.spawn("rofi -show run")),
-    Key([mod], "c", lazy.spawn("rofi -show calc")),
+    Key([mod], "c", lazy.spawn("roficlip < /dev/null")),
     Key([mod], "g", lazy.spawn(f"rofi -show game -modes \"game:{g_script}\"")),
-    Key([control, alt], "c", lazy.spawn("roficlip < /dev/null")),
 
     Key([control, shift], "w", lazy.window.kill()),
     Key([mod, shift], "r", lazy.reload_config()),
@@ -214,7 +213,7 @@ screens = [
                     decorations=[
                         RectDecoration(
                             line_width=1,
-                            line_colour=AURORA5,
+                            line_colour=SNOWSTORM1,
                             # filled=True,
                             padding_y=4,
                         )
@@ -224,13 +223,13 @@ screens = [
                 widget.TextBox(),
                 widget.Memory(
                     format="RAM {MemUsed:.0f}M",
-                    **decoration_base(AURORA2),
+                    **decoration_base(FROST1),
                     padding=6,
                 ),
                 widget.TextBox(),
                 widget.CPU(
                     format="CPU {load_percent}%",
-                    **decoration_base(AURORA3),
+                    **decoration_base(FROST2),
                     padding=6,
                 ),
                 widget.Spacer(),
@@ -267,18 +266,18 @@ screens = [
                     backlight_name="intel_backlight",
                     fmt="󰃟 {}",
                     padding=6,
-                    **decoration_group(AURORA6),
+                    **decoration_group(FROST2),
                 ),
                 widget.Sep(
                     foregound=POLARNIGHT1,
-                    **decoration_group(AURORA6),
+                    **decoration_group(FROST2),
                 ),
                 widget.GenPollText(
                     fmt=" {}",
                     update_interval=0.1,
                     func=lambda: subprocess.check_output("/home/druhan/.config/qtile/scripts/volume.sh").decode().strip(),
                     padding=6,
-                    **decoration_group(AURORA6),
+                    **decoration_group(FROST2),
                 ),
                 widget.TextBox(),
                 widget.Systray(),

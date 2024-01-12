@@ -6,6 +6,7 @@ if test (count $argv) = 0;
 	echo "Risk-of-Rain-2"
 	echo "Hades"
 	echo "Return-of-the-Obra-Dinn"
+	echo "Shadows-of-Doubt"
 else;
 	$HOME/Games/.scripts/$argv > /dev/null 2>&1 &
 	exit 0
