@@ -5,11 +5,13 @@ vim.call("plug#begin", "~/.config/nvim/plugged")
 	Plug("catppuccin/nvim", {['as'] = "catppuccin"})
 	Plug("shaunsingh/nord.nvim")
 
+	Plug("github/copilot.vim")
+
 	Plug("nvim-lua/plenary.nvim")
 	Plug("nvim-treesitter/nvim-treesitter", {['do'] = vim.fn[":TSUpdate"]})
 	Plug("nvim-tree/nvim-web-devicons")
 	Plug("nvim-lualine/lualine.nvim")
-	Plug("glepnir/dashboard-nvim")
+	Plug("luukvbaal/nnn.nvim")
 	Plug("norcalli/nvim-colorizer.lua")
 	Plug("lukas-reineke/indent-blankline.nvim")
 	Plug("kylechui/nvim-surround")
@@ -35,5 +37,7 @@ vim.call("plug#begin", "~/.config/nvim/plugged")
 	Plug("hrsh7th/cmp-cmdline")
 	Plug("hrsh7th/nvim-cmp")
 	Plug("quangnguyen30192/cmp-nvim-ultisnips")
+
+	Plug("karb94/neoscroll.nvim")
 
 vim.call("plug#end")

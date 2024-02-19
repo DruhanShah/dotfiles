@@ -14,11 +14,22 @@ key("n", "<C-l>", "<C-w>l", opts)
 key("n", "<C-J>", ":bnext<CR>", opts)
 key("n", "<C-K>", ":bprevious<CR>", opts)
 
-key("i", "<C-s>", "<C-g>u<Esc>[s1z=`]a<C-g>u")
+key("n", "<leader>m", "K", opts)
+key("n", "M", "J", opts)
 
-key("n", "<C-n>", require("oil").toggle_float, opts)
+key("n", "H", "^", opts)
+key("n", "J", "6j", opts)
+key("n", "K", "6k", opts)
+key("n", "L", "$", opts)
+
+key("n", "<C-n>", ":NnnPicker<CR>", opts)
 key("n", "<C-Space>", require("kiwi").todo.toggle, opts)
 key("n", "<leader>ww", ":lua require(\"kiwi\").open_wiki_index(notes)<CR>", opts)
+
+key("n", "ZC", "ggVGyZZ", opts)
+
+key("n", "<Esc>", ":noh<CR>:echo<CR>", opts)
+
 
 -- Insert mode --
 key("i", "{<CR>", "{<CR>}<Esc>ko", opts)
@@ -35,6 +46,7 @@ key("i", "\'", "\'\'<Esc>ha", opts)
 key("i", "\"\"", "\"\"", opts)
 key("i", "\'\'", "\'\'", opts)
 
+key("i", "<C-s>", "<C-g>u<Esc>[s1z=`]a<C-g>u")
 
 -- Visual mode --
 key("v", "<", "<gv", opts)

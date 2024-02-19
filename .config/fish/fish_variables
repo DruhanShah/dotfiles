@@ -6,6 +6,12 @@ SETUVAR --path INFOPATH:/usr/local/texlive/2023/texmf\x2ddist/doc/info
 SETUVAR --export --path LD_LIBRARY_PATH:/home/druhan/Programs/Zotero/libxul\x2eso
 SETUVAR --export MANPAGER:nvim\x20\x2bMan\x21
 SETUVAR --path MANPATH:
+SETUVAR --export NNN_FCOLORS:0b0b04060006060009060b06
+SETUVAR --export NNN_FIFO:/tmp/nnn\x2efifo
+SETUVAR --export NNN_PLUG:p\x3apreview\x2dtui\x3bx\x3atogglex\x3bs\x3asuedit\x3bf\x3afixname\x3bd\x3adragdrop\x3bn\x3a\x2d\x21nvim\x20\x22\x22
+SETUVAR --export NNN_TMPFILE:/home/druhan/\x2econfig/nnn/\x2elastd
+SETUVAR --export NNN_TRASH:1
+SETUVAR --export PAGER:nvim\x20\x2bMan\x21
 SETUVAR SDL_JOYSTICK_DEVICE:/dev/input/js0
 SETUVAR --export SPACESHIP_PROMPT_ADD_NEWLINE:\x1d
 SETUVAR --export STARSHIP_PROMPT_ADD_NEWLINE:\x1d
@@ -51,4 +57,4 @@ SETUVAR fish_pager_color_selected_background:\x2d\x2dbackground\x3dbrblack
 SETUVAR fish_pager_color_selected_completion:\x1d
 SETUVAR fish_pager_color_selected_description:\x1d
 SETUVAR fish_pager_color_selected_prefix:\x1d
-SETUVAR fish_user_paths:/usr/local/texlive/2023/bin/x86_64\x2dlinux
+SETUVAR fish_user_paths:/usr/local/texlive/2023/bin/x86_64\x2dlinux\x1e/home/druhan/\x2elocal/share/gem/ruby/3\x2e0\x2e0/bin

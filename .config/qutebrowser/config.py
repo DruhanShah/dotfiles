@@ -26,17 +26,18 @@ c.content.javascript.clipboard = "access-paste"
 
 c.colors.webpage.preferred_color_scheme = "dark"
 
-c.editor.command = ["kitty", "--", "nvim", "{}"]
+c.editor.command = ["kitty", "-T", "temp-editor", "--", "nvim", "{}"]
 
 c.fileselect.handler = "external"
-c.fileselect.single_file.command = ["kitty", "-T", "file-picker", "--", "ranger", "--choosefile", "{}"]
-c.fileselect.multiple_files.command = ["kitty", "-T", "file-picker", "--", "ranger", "--choosefiles", "{}"]
-c.fileselect.folder.command = ["kitty", "-T", "file-picker", "--", "ranger", "--choosedir", "{}"]
+c.fileselect.single_file.command = ["kitty", "-T", "file-picker", "--", "nnn", "-ep", "{}"]
+c.fileselect.multiple_files.command = ["kitty", "-T", "file-picker", "--", "nnn", "-ep", "{}"]
+c.fileselect.folder.command = ["kitty", "-T", "file-picker", "--", "nnn", "-ep", "{}"]
 
 c.fonts.default_family = "JetBrains Mono"
 c.fonts.default_size = "12pt"
 
 c.bindings.commands["normal"] = {}
+c.bindings.commands["insert"] = {}
 c.bindings.commands["normal"]["xt"] = "config-cycle tabs.show always switching"
 c.bindings.commands["normal"]["xs"] = "config-cycle statusbar.show always in-mode"
 c.bindings.commands["normal"][" m"] = "spawn mpv {url}"
@@ -51,6 +52,7 @@ c.bindings.commands["normal"]["A"] = "fake-key <End>;; mode-enter insert"
 c.bindings.commands["normal"]["cw"] = "fake-key <Ctrl-Delete>;; mode-enter insert"
 c.bindings.commands["normal"]["cc"] = "fake-key <Home><Shift-End><Delete>;; mode-enter insert"
 c.bindings.commands["normal"]["c$"] = "fake-key <Shift-End><Delete>;; mode-enter insert"
+c.bindings.commands["insert"]["<Ctrl-w>"] = "fake-key <Ctrl-Backspace>"
 
 c.aliases["zotero"] = "spawn --userscript zotero.py"
 c.aliases["Zotero"] = "hint links userscript zotero.py"

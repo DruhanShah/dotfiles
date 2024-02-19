@@ -1,17 +1,3 @@
-require("catppuccin").setup {
-	integrations = {
-		treesitter = true,
-		notify = true,
-		cmp = true,
-		mason = true,
-		dashboard = true,
-		telescope = {
-			enabled = true,
-		},
-
-	}
-}
-
 require("lualine").setup {
 	options = {
 		theme = "nord",
@@ -27,49 +13,14 @@ require("lualine").setup {
 }
 
 require("nvim-treesitter.configs").setup {
-	ensure_installed = {"c", "cpp", "python", "lua", "latex", "bibtex", "fish", "astro", "html", "css", "javascript"},
+	ensure_installed = {"c", "cpp", "python", "lua", "latex", "bibtex", "fish", "astro", "html", "css", "javascript", "markdown", "markdown_inline"},
 
 
 	auto_install = true,
 	highlight = {
 		enable = true,
-		disable = {"latex"},
+		disable = {"latex", "markdown", "markdown_inline"},
 		additional_vim_regex_highlighting = false,
-	},
-}
-
-require("dashboard").setup {
-	theme = "hyper",
-	config = {
-		week_header = { enable = true, },
-		shortcut = {
-			{ desc = '󰊳 Update', group = '@property', action = 'Lazy update', key = 'u' },
-			{
-				icon = ' ',
-				icon_hl = '@variable',
-				desc = 'Files',
-				group = 'Label',
-				action = 'Telescope find_files',
-				key = 'f',
-			},
-			{
-				desc = ' Apps',
-					group = 'DiagnosticHint',
-					action = 'Telescope app',
-					key = 'a',
-			},
-			{
-				desc = ' dotfiles',
-					group = 'Number',
-					action = 'Telescope dotfiles',
-					key = 'd',
-			},
-		},
-	},
-	hide = {
-		tabline = true,
-		statusline = false,
-		winbar = true,
 	},
 }
 
@@ -103,3 +54,15 @@ require("kiwi").setup {
 		path="/home/druhan/Notes"
 	}
 }
+
+require("nnn").setup {
+	picker = {
+		cmd = "tmux new-session nnn",
+		style = { border = "rounded", width=0.7, height=0.7 },
+		session = "shared",
+	},
+	replace_netrw = "picker",
+	offset = true,
+}
+
+require("neoscroll").setup()

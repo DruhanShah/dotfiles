@@ -20,11 +20,18 @@ local options = {
 	conceallevel = 2,
 	splitright = true,
 	splitbelow = true,
-	spell = true,
+	spell = false,
 	spelllang = "en_us",
 }
 
 local plug_options = {
+	markdown_fenced_languages = {
+		"tex",
+		"python",
+		"bash=sh",
+	},
+	vim_markdown_conceal = 2,
+	vim_markdown_math = 1,
 	vimtex_view_method = "zathura",
 	vimtex_compiler_method = "latexmk",
 	vimtex_syntax_conceal = {
@@ -90,7 +97,6 @@ local plug_options = {
 	jukit_custom_backend = -1,
 	jukit_inline_plotting = 1,
 	jukit_mpl_style = "~/.config/nvim/plugged/vim-jukit/helpers/matplotlib-backend-kitty/backend.mplstyle",
-	vim_markdown_math = 1,
 }
 
 vim.cmd(":colorscheme nord")

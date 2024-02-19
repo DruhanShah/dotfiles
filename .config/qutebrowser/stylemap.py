@@ -2,6 +2,7 @@ styles = {
     "qute.help.css": ["qute://help*"],
     "github.css": ["*github.com/*"],
     # "archwiki.css": ["*wiki.archlinux.org*"],
+    "wikipedia.css": ["*wikipedia.org/*"],
     "codeforces.css": ["*codeforces.com/*"],
     "whatsapp.css": ["*web.whatsapp.com/*"],
     "reddit.css": ["*reddit.com/*"],

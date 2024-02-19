@@ -95,36 +95,6 @@ snippet ^^ "Superscript" A
 ^{$1}$0
 endsnippet
 
-priority 10
-context "math()"
-snippet bar "bar" rA
-\overline{$1}$0
-endsnippet
-
-priority 100
-context "math()"
-snippet ([a-zA-Z])bar "bar" rA
-\overline{`!p snip.rv=match.group(1)`}
-endsnippet
-
-priority 10
-context "math()"
-snippet hat "hat" rA
-\hat{$1}$0
-endsnippet
-
-priority 100
-context "math()"
-snippet ([a-zA-Z])hat "hat" rA
-\hat{`!p snip.rv=match.group(1)`}
-endsnippet
-
-priority 100
-context "math()"
-snippet (\\\w+)(--) "vector" rA
-\vec{`!p snip.rv=match.group(1)`}
-endsnippet
-
 context "math()"
 snippet sum "sum" A
 \sum _{$1} ^{$2} $0

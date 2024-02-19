@@ -27,6 +27,7 @@ from libqtile.group import _Group
 from libqtile.config import Screen
 
 from libqtile.widget import base
+from libqtile.log_utils import logger
 
 SPOTIFY = "Spotify"
 
@@ -44,11 +45,11 @@ class Spotify(base.ThreadPoolText):
     ]
 
     def __init__(self, **config) -> None:
-        base.ThreadPoolText.__init__(self, text="", **config)
+        # init base class
+        super().__init__(text="", **config)
         self.add_defaults(Spotify.defaults)
         self.add_callbacks(
             {
-                "Button3": self.toggle_between_groups,
                 "Button1": self.toggle_music,
             }
         )
@@ -56,9 +57,9 @@ class Spotify(base.ThreadPoolText):
     def _is_proc_running(self, proc_name: str) -> bool:
         # create regex pattern to search for to avoid similar named processes
         pattern = f"{proc_name}$"
-
         # pgrep will return a string of pids for matching processes
-        proc_out = run(["pgrep", "-fli", pattern], capture_output=True).stdout.decode(
+        cmd = ["pgrep", "-fli", pattern]
+        proc_out = run(cmd, capture_output=True).stdout.decode(
             "utf-8"
         )
 
@@ -71,10 +72,13 @@ class Spotify(base.ThreadPoolText):
         """
         current_screen: Screen = self.qtile.current_screen
         current_group_info = self.qtile.current_group.info()
+        logger.warning(f"current group info: {current_group_info}")
         windows = current_group_info["windows"]
         if SPOTIFY in windows:
             # go to previous group
-            current_screen.previous_group.cmd_toscreen()
+            logger.warning("going to previous group")
+            current_screen.group.get_previous_group().toscreen()
+            logger.warning("went to previous group")
         else:
             self.go_to_spotify()
 
@@ -85,7 +89,7 @@ class Spotify(base.ThreadPoolText):
         """
         # spawn spotify if not already running
         if not self._is_proc_running("spotify"):
-            self.qtile.cmd_spawn("spotify", shell=True)
+            self.qtile.spawn("spotify", shell=True)
             return
 
         all_groups: List[_Group] = self.qtile.groups
@@ -98,51 +102,61 @@ class Spotify(base.ThreadPoolText):
                 name = group.name
                 # switch to 'name' group
                 spotify_group = self.qtile.groups_map[name]
-                spotify_group.cmd_toscreen()
+                spotify_group.toscreen()
                 break
 
-    def poll(self) -> str:
+    def poll(self) -> str: # type: ignore
         """Poll content for the text box"""
         vars = {
-            "icon": self.play_icon if self.playing else self.pause_icon,
+            "icon": self.pause_icon if self.playing else self.play_icon,
             "artist": self.artist,
             "track": self.song_title,
             "album": self.album,
         }
 
-        return self.format.format(**vars)
+        return self.format.format(**vars) # type: ignore
 
     def toggle_music(self) -> None:
-        run(
-            "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause",
-            shell=True,
-        )
+        cmd = """
+        dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify \
+        /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+        """
+        run(cmd, shell=True)
+
 
     def get_proc_output(self, proc: CompletedProcess) -> str:
-        if proc.stderr.decode("utf-8") != "":
-            return (
-                ""
-                if "org.mpris.MediaPlayer2.spotify" in proc.stderr.decode("utf-8")
-                else proc.stderr.decode("utf-8")
-            )
+        stdout = proc.stdout.decode("utf-8")
+        no_spotify = "Error" in stdout
+        return (
+            ""
+            if no_spotify
+            else stdout.rstrip()
+        )
 
-        return proc.stdout.decode("utf-8").rstrip()
 
     @property
     def _meta(self) -> str:
-        proc = run(
-            "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'",
-            shell=True,
-            capture_output=True,
-        )
+        cmd = """dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify \
+            /org/mpris/MediaPlayer2 \
+            org.freedesktop.DBus.Properties.Get \
+            string:'org.mpris.MediaPlayer2.Player' \
+            string:'Metadata'
+        """
+        proc = run( cmd, shell=True, capture_output=True)
 
         output: str = proc.stdout.decode("utf-8").replace("'", "ʼ").rstrip()
         return "" if ("org.mpris.MediaPlayer2.spotify" in output) else output
 
     @property
     def artist(self) -> str:
-        proc: CompletedProcess = run(
-            "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | grep -m1 'xesam:artist' -b2 | tail -n 1 | grep -o '\".*\"' | sed 's/\"//g' | sed -e 's/&/and/g'",
+        cmd ="""
+        dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify \
+        /org/mpris/MediaPlayer2 \
+        org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' \
+        string:'Metadata' | grep -m1 'xesam:artist' -b2 | tail -n 1 | grep -o '\".*\"' | \
+        sed 's/\"//g' | sed -e 's/&/and/g'
+        """
+        proc: CompletedProcess = run(cmd,
             shell=True,
             capture_output=True,
         )
@@ -151,18 +165,24 @@ class Spotify(base.ThreadPoolText):
 
     @property
     def song_title(self) -> str:
-        proc: CompletedProcess = run(
-            f"echo '{self._meta}' | grep -m1 'xesam:title' -b1 | tail -n1 | grep -o '\".*\"' | sed 's/\"//g' | sed -e 's/&/and/g'",
+        cmd = f"""
+        echo '{self._meta}' | grep -m1 'xesam:title' -b1 | tail -n1 | grep -o '\".*\"' | \
+        sed 's/\"//g' | sed -e 's/&/and/g'
+        """
+        proc: CompletedProcess = run(cmd,
             shell=True,
-            capture_output=True,
+            capture_output=True
         )
 
         return self.get_proc_output(proc)
 
     @property
     def album(self) -> str:
-        proc = run(
-            f"echo '{self._meta}' | grep -m1 'xesam:album' -b1 | tail -n1 | grep -o '\".*\"' | sed 's/\"//g' | sed -e 's/&/and/g'",
+        cmd =  f"""
+        echo '{self._meta}' | grep -m1 'xesam:album' -b1 | tail -n1 | grep -o '\".*\"' | \
+        sed 's/\"//g' | sed -e 's/&/and/g'
+        """
+        proc = run(cmd,
             shell=True,
             capture_output=True,
         )
@@ -171,8 +191,12 @@ class Spotify(base.ThreadPoolText):
 
     @property
     def playing(self) -> bool:
-        play = run(
-            "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | grep -o Playing",
+        cmd = """
+        dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify \
+        /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
+        string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | grep -o Playing
+        """
+        play = run(cmd,
             shell=True,
             capture_output=True,
         ).stdout.decode("utf-8")

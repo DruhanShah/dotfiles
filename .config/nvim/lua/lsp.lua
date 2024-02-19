@@ -1,11 +1,5 @@
 require("mason").setup()
-require("mason-lspconfig").setup({
-	ensure_installed = {
-		"lua_ls",
-		"pylsp",
-		"texlab",
-	}
-})
+require("mason-lspconfig").setup()
 
 require("lspconfig.ui.windows").default_options = {
 	border = "rounded"

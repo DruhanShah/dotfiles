@@ -11,7 +11,8 @@ from spotify import Spotify
 # GLOBALS
 #############################################
 
-# Colorscheme
+# Nord Colorscheme
+TRANSPARENT = "#00000000"
 POLARNIGHT1 = "#2e3440"
 POLARNIGHT2 = "#3b4252"
 POLARNIGHT3 = "#434c5e"
@@ -103,14 +104,23 @@ scratch_commands = [
 ]
 scratch_keys = ["n", "m", "w"]
 
+# For dual monitors
+# for group in groups:
+#     name = group.name
+#     keys.append(KeyChord([mod], name[-1], [
+#         Key([], "1", lazy.group[name].toscreen(0, toggle=True)),
+#         Key([], "2", lazy.group[name].toscreen(1, toggle=True)),
+#     ]))
+#     keys.append(Key([mod, shift], name[-1], lazy.window.togroup(name)))
+
+# For single monitor
 for group in groups:
     name = group.name
-    keys.append(KeyChord([mod], name[-1], [
-        Key([], "1", lazy.group[name].toscreen(0, toggle=True)),
-        Key([], "2", lazy.group[name].toscreen(1, toggle=True)),
-    ]))
-    keys.append(Key([mod, shift], name[-1], lazy.window.togroup(name)))
+    key = name[-1]
+    keys.append(Key([mod], key, lazy.group[name].toscreen(toggle=True)))
+    keys.append(Key([mod, shift], key, lazy.window.togroup(name)))
 
+# Scratchpads
 for name, command, key in zip(scratch_names, scratch_commands, scratch_keys):
     groups.append(ScratchPad(name, [DropDown("temporary", command,
                                              x=0.2,
@@ -134,7 +144,7 @@ layouts = [
         border_normal_stack=POLARNIGHT1,
         border_on_single=True,
         border_width=0,
-        margin=8,
+        margin=12,
     ),
     layout.Floating(
         border_focus=POLARNIGHT1,
@@ -145,9 +155,9 @@ layouts = [
         border_focus=POLARNIGHT1,
         border_normal=POLARNIGHT1,
         border_width=0,
-        margin=8,
+        margin=12,
         ratio=0.6,
-        single_margin=8,
+        single_margin=12,
     ),
 ]
 
@@ -171,10 +181,10 @@ extension_defaults = widget_defaults.copy()
 def decoration_base(col):
     return { "decorations": [
             RectDecoration(
-                colour=col,
-                filled=False,
-                line_colour=col,
-                line_width=1,
+                colour=POLARNIGHT1,
+                filled=True,
+                line_colour=POLARNIGHT1,
+                # line_width=1,
                 padding_y=4,
             ),
         ],
@@ -185,9 +195,9 @@ def decoration_base(col):
 def decoration_group(col):
     return { "decorations": [
             RectDecoration(
-                colour=col,
-                filled=False,
-                line_colour=col,
+                colour=POLARNIGHT1,
+                filled=True,
+                line_colour=POLARNIGHT1,
                 line_width=1,
                 padding_y=4,
                 group=1,
@@ -212,9 +222,10 @@ screens = [
                     other_current_screen_border=POLARNIGHT4,
                     decorations=[
                         RectDecoration(
-                            line_width=1,
-                            line_colour=SNOWSTORM1,
-                            # filled=True,
+                            # line_width=1,
+                            line_colour=FROST4,
+                            colour=POLARNIGHT1,
+                            filled=True,
                             padding_y=4,
                         )
                     ],
@@ -229,7 +240,7 @@ screens = [
                 widget.TextBox(),
                 widget.CPU(
                     format="CPU {load_percent}%",
-                    **decoration_base(FROST2),
+                    **decoration_base(FROST1),
                     padding=6,
                 ),
                 widget.Spacer(),
@@ -238,13 +249,13 @@ screens = [
                     format="{icon} {track} - {artist}",
                     **decoration_base(AURORA4),
                     padding=6,
-                    pause_icon="󰐊",
-                    play_icon="󰏤"
+                    play_icon="󰐊",
+                    pause_icon="󰏤"
                 ),
                 widget.Spacer(),
                 widget.Clock(
                     format="%d %b '%y - %H:%M:%S",
-                    **decoration_base(FROST3),
+                    **decoration_base(FROST1),
                     mouse_callbacks={"Button1": lazy.spawn("galendae")},
                     padding=6,
                 ),
@@ -254,8 +265,6 @@ screens = [
                     charge_char="󰂋",
                     discharge_char="󰁿",
                     update_interval=20,
-                    background=POLARNIGHT1,
-                    low_background=POLARNIGHT1,
                     low_foreground=AURORA1,
                     low_percentage=0.2,
                     **decoration_base(FROST1),
@@ -266,26 +275,26 @@ screens = [
                     backlight_name="intel_backlight",
                     fmt="󰃟 {}",
                     padding=6,
-                    **decoration_group(FROST2),
+                    **decoration_group(FROST1),
                 ),
                 widget.Sep(
                     foregound=POLARNIGHT1,
-                    **decoration_group(FROST2),
+                    **decoration_group(FROST1),
                 ),
                 widget.GenPollText(
                     fmt=" {}",
                     update_interval=0.1,
                     func=lambda: subprocess.check_output("/home/druhan/.config/qtile/scripts/volume.sh").decode().strip(),
                     padding=6,
-                    **decoration_group(FROST2),
+                    **decoration_group(FROST1),
                 ),
                 widget.TextBox(),
-                widget.Systray(),
-                widget.TextBox(),
+                # widget.Systray(),
+                # widget.TextBox(),
             ],
             32,
             margin=[8, 8, 0, 8],
-            background=POLARNIGHT1,
+            background=TRANSPARENT,
         ),
     ),
     # Second screen (External monitor)
@@ -302,9 +311,10 @@ screens = [
                     other_current_screen_border=POLARNIGHT4,
                     decorations=[
                         RectDecoration(
-                            line_width=1,
-                            line_colour=AURORA5,
-                            # filled=True,
+                            # line_width=1,
+                            line_colour=FROST4,
+                            colour=POLARNIGHT1,
+                            filled=True,
                             padding_y=4,
                         )
                     ],
@@ -313,13 +323,13 @@ screens = [
                 widget.TextBox(),
                 widget.Memory(
                     format="RAM {MemUsed:.0f}M",
-                    **decoration_base(AURORA2),
+                    **decoration_base(FROST1),
                     padding=6,
                 ),
                 widget.TextBox(),
                 widget.CPU(
                     format="CPU {load_percent}%",
-                    **decoration_base(AURORA3),
+                    **decoration_base(FROST1),
                     padding=6,
                 ),
                 widget.Spacer(),
@@ -328,13 +338,13 @@ screens = [
                     format="{icon} {track} - {artist}",
                     **decoration_base(AURORA4),
                     padding=6,
-                    pause_icon="󰐊",
-                    play_icon="󰏤"
+                    play_icon="󰐊",
+                    pause_icon="󰏤"
                 ),
                 widget.Spacer(),
                 widget.Clock(
                     format="%d %b '%y - %H:%M:%S",
-                    **decoration_base(FROST3),
+                    **decoration_base(FROST1),
                     mouse_callbacks={"Button1": lazy.spawn("galendae")},
                     padding=6,
                 ),
@@ -344,8 +354,6 @@ screens = [
                     charge_char="󰂋",
                     discharge_char="󰁿",
                     update_interval=20,
-                    background=POLARNIGHT1,
-                    low_background=POLARNIGHT1,
                     low_foreground=AURORA1,
                     low_percentage=0.2,
                     **decoration_base(FROST1),
@@ -356,24 +364,24 @@ screens = [
                     backlight_name="intel_backlight",
                     fmt="󰃟 {}",
                     padding=6,
-                    **decoration_group(AURORA6),
+                    **decoration_group(FROST1),
                 ),
                 widget.Sep(
                     foregound=POLARNIGHT1,
-                    **decoration_group(AURORA6),
+                    **decoration_group(FROST1),
                 ),
                 widget.GenPollText(
                     fmt=" {}",
                     update_interval=0.1,
                     func=lambda: subprocess.check_output("/home/druhan/.config/qtile/scripts/volume.sh").decode().strip(),
                     padding=6,
-                    **decoration_group(AURORA6),
+                    **decoration_group(FROST1),
                 ),
                 widget.TextBox(),
             ],
             32,
             margin=[8, 8, 0, 8],
-            background=POLARNIGHT1,
+            background=TRANSPARENT,
         ),
     ),
 
@@ -391,7 +399,7 @@ mouse = [
 dgroups_key_binder = None
 dgroups_app_rules = []
 follow_mouse_focus = False
-bring_front_click = False
+bring_front_click = True
 cursor_warp = False
 
 floating_layout = layout.Floating(
@@ -404,7 +412,10 @@ floating_layout = layout.Floating(
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
         Match(title="file-picker"),
+        Match(title="temp-editor"),
         Match(wm_class="matplotlib"),
+        Match(wm_class="mpv"),
+        Match(wm_class="nitrogen"),
     ],
     border_focus=POLARNIGHT1,
     border_normal=POLARNIGHT1,
@@ -413,11 +424,7 @@ floating_layout = layout.Floating(
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
-
 auto_minimize = False
-
-# When using the Wayland backend, this can be used to configure input devices.
-wl_input_rules = None
 wmname = "QTile"
 
 
@@ -427,3 +434,5 @@ def fixed_size(window):
         window.cmd_set_size_floating(1600, 900)
     if window.match(Match(title="file-picker")):
         window.cmd_set_size_floating(1280, 720)
+    if window.match(Match(title="temp-editor")):
+        window.cmd_set_size_floating(720, 200)

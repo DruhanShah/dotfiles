@@ -38,10 +38,14 @@
     border-radius:	  10;
     border-color: 	  @bordercolor;
     padding:          8;
+	location:         south;
+	anchor:           south;
 }
 #mainbox {
     border:  0;
     padding: 3;
+
+	children: [listview, inputbar];
 }
 #message {
     border:       0px dash 0px 0px ;
@@ -73,11 +77,11 @@
 }
 #element.normal.active {
     background-color: @active-background;
-    text-color:       @background-color;
+    text-color:       @foreground;
 }
 #element.selected.normal {
     background-color: @selected-background;
-    text-color:       @background-color;
+    text-color:       @foreground;
 }
 #element.selected.urgent {
     background-color: @selected-urgent-background;
@@ -85,7 +89,7 @@
 }
 #element.selected.active {
     background-color: @selected-active-background;
-    text-color:       @background-color;
+    text-color:       @foreground;
 }
 #element.alternate.normal {
     background-color: @background-color;

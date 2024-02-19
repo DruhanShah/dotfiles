@@ -21,7 +21,7 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-format = '[ $symbol $branch ](bg:surface0 fg:snowstorm3)'
+format = '[ $symbol $branch ](bg:polarnight3 fg:snowstorm3)'
 
 [cmd_duration]
 format = "[ | ](bg:base fg:text)[$duration](bg:polarnight1 fg:aurora4)"

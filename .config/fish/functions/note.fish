@@ -1,6 +1,6 @@
 function note
 	cd ~/Notes/
-	nvim .
+	nvim index.md
 	git add .
 	git commit -m "Update"
 	git push
