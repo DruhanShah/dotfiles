@@ -1,0 +1,6 @@
+modmap:
+  - name: Screw Caps
+    remap:
+      KEY_CAPSLOCK:
+        alone: KEY_ESC
+        held: KEY_LEFTCTRL

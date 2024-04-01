@@ -1,0 +1,43 @@
+##############################
+# Usual Python definition
+##############################
+
+global !p
+def math():
+	return vim.eval("vimtex#syntax#in_mathzone()") == "1"
+endglobal
+
+##############################
+# Actual snippets
+##############################
+
+snippet boiler "Boilerplate stuff"
+\documentclass{article}
+\author{Druhan Rajiv Shah}
+\title{$1}
+endsnippet
+
+snippet package "Package include statements" b
+\usepackage[margin=2cm]{geometry}
+
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx, subcaption}
+\usepackage{tipa}
+\usepackage{url, hyperref, apacite}
+endsnippet
+
+snippet env "Environment" b
+\begin{$1}
+	$0
+\end{$1}
+endsnippet
+
+context "math()"
+snippet __ "Subscript" A
+_{$1}$0
+endsnippet
+
+context "math()"
+snippet ^^ "Superscript" A
+^{$1}$0
+endsnippet
