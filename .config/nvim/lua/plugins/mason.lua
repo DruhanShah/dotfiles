@@ -11,11 +11,11 @@ return {
         }
 
         require("lspconfig.ui.windows").default_options = {
-            border = "rounded"
+            border = "single"
         }
         vim.lsp.handlers["textDocument/hover"] = vim.lsp.with (
             vim.lsp.handlers.hover, {
-                border = "rounded"
+                border = "single"
             }
         )
         vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -25,7 +25,7 @@ return {
         )
         vim.diagnostic.config {
             float = {
-                border = "rounded"
+                border = "single"
             }
         }
 

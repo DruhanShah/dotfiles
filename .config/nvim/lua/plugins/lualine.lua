@@ -132,6 +132,12 @@ return {
             color = { fg = colors.fg, gui = 'bold' },
         }
 
+        ins_left {
+            "filetype",
+            colored = true,
+            icon_only = true,
+        }
+
         ins_left_in {
             'filename',
             cond = conditions.buffer_not_empty,
@@ -171,7 +177,7 @@ return {
                 end
                 return msg
             end,
-            icon = ' LSP:',
+            icon = '  LSP:',
             color = { fg = '#ffffff', gui = 'bold' },
         }
 

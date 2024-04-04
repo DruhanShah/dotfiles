@@ -1,45 +1,30 @@
 return {
     "hrsh7th/nvim-cmp",
     dependencies = {
+        "onsails/lspkind-nvim",
         "neovim/nvim-lspconfig",
+        "hrsh7th/cmp-nvim-lua",
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
+        "micangl/cmp-vimtex",
+        "zbirenbaum/copilot-cmp"
     },
     config = function()
-        local kind_icons = {
-          Text = "󰊄",
-          Method = "m",
-          Function = "󰊕",
-          Constructor = "",
-          Field = "",
-          Variable = "󰫧",
-          Class = "",
-          Interface = "",
-          Module = "",
-          Property = "",
-          Unit = "",
-          Value = "",
-          Enum = "",
-          Keyword = "󰌆",
-          Snippet = "",
-          Color = "",
-          File = "",
-          Reference = "",
-          Folder = "",
-          EnumMember = "",
-          Constant = "",
-          Struct = "",
-          Event = "",
-          Operator = "",
-          TypeParameter = "󰉺",
-        }
-
         local cmp = require("cmp")
+        local lspkind = require("lspkind")
         local lspconfig = require("lspconfig")
+        lspkind.init {
+            symbol_map = {
+                Copilot = "",
+            }
+        }
+        vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#a6e3a1" })
+
+        require("copilot_cmp").setup()
 
         cmp.setup {
             snippet = {
@@ -48,7 +33,12 @@ return {
                 end,
             },
             window = {
-                completion = cmp.config.window.bordered(),
+                completion = {
+                    winhighlight = "FloatBorder:NormalFloat",
+                },
+                documentation = {
+                    winhighlight = "FloatBorder:NormalFloat",
+                },
             },
             mapping = {
                 ['<C-k>'] = cmp.mapping.select_prev_item(),
@@ -61,25 +51,34 @@ return {
                 },
             },
             formatting = {
-                fields = { "kind", "abbr", "menu" },
-                format = function(entry, vim_item)
-                    vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
-                    vim_item.menu = ({
-                        ultisnips = "[Snippet]",
+                format = lspkind.cmp_format({
+                    mode = 'symbol',
+                    maxwidth = 50,
+                    ellipsis_char = '...',
+                    show_labelDetails = true,
+                    menu = ({
+                        nvim_lua = "[API]",
+                        nvim_lsp = "[LSP]",
                         buffer = "[Buffer]",
                         path = "[Path]",
-                        nvim_lsp = "[LSP]"
-                    })[entry.source.name]
-                    return vim_item
-                end,
+                        cmdline = "[Command]",
+                        luasnip = "[Snippet]",
+                        neorg = "[Neorg]",
+                        vimtex = "[Vimtex]",
+                        copilot = "[Copilot]",
+                    })
+                })
             },
             sources = {
+                { name = "nvim_lua" },
                 { name = "nvim_lsp" },
-                { name = "buffer" },
+                { name = "buffer", keyword_length = 5 },
                 { name = "path" },
                 { name = "cmdline" },
                 { name = "luasnip" },
                 { name = "neorg" },
+                { name = "vimtex" },
+                { name = "copilot" },
             },
         }
 

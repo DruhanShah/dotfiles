@@ -4,7 +4,6 @@ return {
         "vhyrro/luarocks.nvim",
     },
     lazy = false,
-    version = "*",
     config = function()
         require("neorg").setup {
             load = {
@@ -88,8 +87,6 @@ return {
                         workspace = "notes",
                     },
                 },
-                ["core.integrations.image"] = {},
-                ["core.latex.renderer"] = {},
             },
         }
 

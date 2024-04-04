@@ -7,6 +7,7 @@ local options = {
     showtabline = 1,
     clipboard = "unnamedplus",
     cmdwinheight = 2,
+    cmdheight = 1,
     showmode = false,
     swapfile = false,
     termguicolors = true,
