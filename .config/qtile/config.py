@@ -46,11 +46,11 @@ CRUST = "#11111b"
 home = os.path.expanduser("~")
 
 mod = "mod4"
-control = "control"
+ctrl = "control"
 shift = "shift"
 alt = "mod1"
 vb_command = f"{home}/.config/qtile/scripts/dunst-vb.sh"
-wallpaper = f"{home}/.config/Wallpapers/pixel-plateau.png"
+wallpaper = f"{home}/Wallpapers/pixel-plateau.png"
 roficlip = "rofi -modi 'clipboard:greenclip print' -show clipboard"
 
 #############################################
@@ -75,7 +75,7 @@ def toggle_trackpad(qtile):
 def rofi(qtile, command):
 
     async def run():
-        proc = await asyncio.create_subprocess_shell(f"{command}")
+        proc = await asyncio.create_subprocess_shell(command)
         return await proc.wait()
 
     def callback(task):
@@ -117,10 +117,10 @@ keys = [
     Key([mod, shift], "l", lazy.layout.shuffle_right()),
     Key([mod, shift], "j", lazy.layout.shuffle_down()),
     Key([mod, shift], "k", lazy.layout.shuffle_up()),
-    Key([mod, control], "h", lazy.layout.grow_left()),
-    Key([mod, control], "l", lazy.layout.grow_right()),
-    Key([mod, control], "j", lazy.layout.grow_down()),
-    Key([mod, control], "k", lazy.layout.grow_up()),
+    Key([mod, ctrl], "h", lazy.layout.grow_left()),
+    Key([mod, ctrl], "l", lazy.layout.grow_right()),
+    Key([mod, ctrl], "j", lazy.layout.grow_down()),
+    Key([mod, ctrl], "k", lazy.layout.grow_up()),
 
     Key([mod, shift], "space", lazy.window.toggle_floating()),
     Key([mod], "f", lazy.window.toggle_fullscreen()),
@@ -130,7 +130,7 @@ keys = [
     Key([mod], "b", lazy.spawn("qutebrowser")),
 
     # Notification stuff
-    Key([mod, control], "space", lazy.spawn("dunstctl close-all")),
+    Key([mod, ctrl], "space", lazy.spawn("dunstctl close-all")),
 
     # Rofi
     Key([mod], "Semicolon", rofi("rofi -show run")),
@@ -144,7 +144,7 @@ keys = [
     Key([mod], "q", lazy.run_extension(powermenu)),
 
     Key([mod], "F9", toggle_trackpad),
-    Key([control, shift], "w", lazy.window.kill()),
+    Key([ctrl, shift], "w", lazy.window.kill()),
     Key([mod, shift], "r", lazy.reload_config()),
     Key([mod], "Escape", lazy.spawn("betterlockscreen -l")),
 ]
@@ -154,10 +154,10 @@ keys = [
 #############################################
 
 opts = {
-    "x": 0.25,
-    "y": 0.125,
-    "width": 0.5,
-    "height": 0.75,
+    "x": 0.2,
+    "y": 0.1,
+    "width": 0.6,
+    "height": 0.8,
     "opacity": 1,
 }
 
@@ -220,7 +220,7 @@ def trim(text):
 
 
 widget_defaults = dict(
-    font="JetBrains Mono",
+    font="Caskaydia Cove NF",
     fontsize=15,
     padding=0,
     foreground=TEXT,
@@ -293,7 +293,7 @@ screens = [
         bottom=bar.Bar(
             widgets=widget_list,
             size=28,
-            margin=0,
+            margin=[0, 0, 0, 0],
         ),
     ),
 ]

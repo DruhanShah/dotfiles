@@ -24,13 +24,12 @@ c.content.javascript.enabled = True
 c.content.javascript.clipboard = "access-paste"
 
 c.colors.webpage.preferred_color_scheme = "dark"
-c.colors.webpage.bg = "#cdd6f4"
 
 c.statusbar.padding = {
-    "top": 6,
-    "bottom": 6,
-    "left": 2,
-    "right": 2,
+    "top": 8,
+    "bottom": 8,
+    "left": 4,
+    "right": 4,
 }
 c.colors.statusbar.insert.bg = "#a6e3a1"
 c.colors.statusbar.insert.fg = "#11111b"
@@ -41,6 +40,9 @@ c.tabs.padding = {
     "left": 10,
     "right": 6,
 }
+
+c.completion.height = "40%"
+
 
 c.editor.command = ["wezterm", "-e", "nvim", "{}"]
 
@@ -73,8 +75,8 @@ c.fileselect.folder.command = [
     "{}"
 ]
 
-c.fonts.default_family = "JetBrains Mono"
-c.fonts.default_size = "12pt"
+c.fonts.default_family = "Caskaydia Cove NF"
+c.fonts.default_size = "11pt"
 
 c.bindings.commands = {
     "normal": {

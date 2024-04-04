@@ -346,5 +346,5 @@ def setup(c, flavour, samecolorrows = False):
     # }}}
 
     # background color for webpages {{{
-    c.colors.webpage.bg = palette["base"]
+    c.colors.webpage.bg = palette["text"]
     # }}}
