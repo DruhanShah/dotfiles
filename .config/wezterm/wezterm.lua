@@ -2,7 +2,6 @@ local wezterm = require("wezterm")
 local config = {}
 
 local function is_vim(pane)
-  -- this is set by the plugin, and unset on ExitPre in Neovim
   return pane:get_user_vars().IS_NVIM == 'true'
 end
 
@@ -41,35 +40,50 @@ end
 
 config.color_scheme = "catppuccin-mocha"
 
-config.font = wezterm.font("JetBrains Mono")
+config.font = wezterm.font("Caskaydia Cove NF")
+config.font_size = 12
+config.cell_width = 1.0
+config.line_height = 1.5
 config.font_rules = {
     {
         intensity = "Bold",
-        font = wezterm.font("JetBrains Mono", {weight = "ExtraBold"}),
+        font = wezterm.font("Caskaydia Cove NF", {weight="Bold"}),
     },
     {
-        italic = true,
-        font = wezterm.font("JetBrains Mono", {italic = true}),
-    },
-    {
-        italic = true,
         intensity = "Bold",
-        font = wezterm.font("JetBrains Mono", {italic = true, weight = "ExtraBold"}),
-    },
-    {
-        intensity = "Half",
-        font = wezterm.font("JetBrains Mono", {weight = "ExtraLight"}),
-    },
-    {
         italic = true,
+        font = wezterm.font("Caskaydia Cove NF", {weight="Bold", italic=true}),
+    },
+    {
+        intensity = "Normal",
+        font = wezterm.font("Caskaydia Cove NF", {weight="Regular"}),
+    },
+    {
+        intensity = "Normal",
+        italic = true,
+        font = wezterm.font("Caskaydia Cove NF", {weight="Regular", italic=true}),
+    },
+    {
         intensity = "Half",
-        font = wezterm.font("JetBrains Mono", {italic = true, weight = "ExtraLight"}),
+        font = wezterm.font("Caskaydia Cove NF", {weight="ExtraLight"}),
+    },
+    {
+        intensity = "Half",
+        italic = true,
+        font = wezterm.font("Caskaydia Cove NF", {weight="ExtraLight", italic=true}),
     },
 }
 
 config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "NONE"
 config.enable_tab_bar = false
+config.window_padding = {
+    left = 4,
+    right = 1,
+    top = 0,
+    bottom = 0,
+}
+config.cursor_blink_rate = 0
 
 config.leader = {
     mods = "CTRL",
@@ -106,9 +120,6 @@ config.keys = {
         action = wezterm.action.ActivateCopyMode,
     },
 }
-
-
-
 
 
 return config
