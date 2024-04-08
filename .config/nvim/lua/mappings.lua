@@ -10,6 +10,14 @@ local function toggle_number()
     end
 end
 
+-- Leader commands --
+
+key("n", "<leader>la", ":Lazy<CR>", {
+    silent = true,
+    noremap = true,
+    desc = "Lazy dialog",
+})
+
 -- Normal mode --
 key("n", "<C-h>", "<C-w>h", {
 	silent = true,

@@ -13,6 +13,7 @@ local options = {
     termguicolors = true,
     undofile = true,
     signcolumn = "number",
+    foldlevel = 0,
     conceallevel = 2,
     concealcursor = "n",
     cursorline = true,

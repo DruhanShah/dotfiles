@@ -6,10 +6,9 @@ categories: [
     Configuration
 ]
 created: 2024-03-22T10:48:49+0530
-updated: 2024-03-29T17:43:06+0530
+updated: 2024-04-04T14:19:25+0530
 version: 1.1.1
 @end
-
 
 * Neovim configuration
   %This is going to be one hell of a literate config, but here we go.%
@@ -59,4 +58,14 @@ version: 1.1.1
    #tangle init.lua
    @code lua
    require("lazy").setup("plugins")
+   @end
+
+   As a side note, we also change some highlights so that the line numbers as in the colorscheme aren't very intrusive. This allows for a much cleaner look while not sacrificing on functionality.
+
+   #tangle init.lua
+   @code lua
+   vim.api.nvim_set_hl(0, "LineNr", { fg = "#1e1e2e" })
+   vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#45475a" })
+   vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#45475a" })
+   vim.api.nvim_set_hl(0, "NormalFloat", { fg = "#181825" })
    @end

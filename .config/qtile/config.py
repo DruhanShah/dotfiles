@@ -235,17 +235,33 @@ widget_list = [
     ),
     custom.Mode(
         doom=True,
-        padding=6,
+        padding=3,
         tiling_mode=GREEN,
         floating_mode=RED,
         command_mode=PINK,
     ),
-    custom.Window(
+    widget.Memory(
         foreground=TEXT,
-        fmt="<b>{}</b>",
+        background=CRUST,
+        padding=6,
+        format="{MemUsed: .1f}M",
+    ),
+    custom.Window(
+        foreground=TEAL,
+        fmt="<b>  {}</b>",
         padding=12,
         parse_text=trim,
     ),
+    widget.Spacer(),
+    custom.Spotify(
+        format="{icon} {track} - {artist}",
+        fmt="<b>{}</b>",
+        padding=12,
+        pause_icon="󰏤",
+        play_icon="󰐊",
+        foreground=GREEN,
+    ),
+    widget.Spacer(),
     widget.Battery(
         format="{char} {percent:2.0%}",
         charge_char="󰂋",
@@ -259,19 +275,9 @@ widget_list = [
         low_percentage=0.2,
         padding=12,
     ),
-    widget.Spacer(),
-    custom.Spotify(
-        format="{icon} {track} - {artist}",
-        fmt="<b>{}</b>",
-        padding=12,
-        pause_icon="󰏤",
-        play_icon="󰐊",
-        foreground=GREEN,
-    ),
-    widget.Spacer(),
     custom.GroupScreen(
         padding=0,
-        foreground=MAUVE,
+        foreground=TEXT,
     ),
     widget.Clock(
         format="%H:%M:%S",
