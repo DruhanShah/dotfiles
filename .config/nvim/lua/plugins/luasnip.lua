@@ -1,5 +1,6 @@
 return {
     "L3MON4D3/LuaSnip",
+    enabled = false,
     version = "*",
     event = "VeryLazy",
     build = "make install_jsregexp",

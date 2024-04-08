@@ -2,6 +2,7 @@ import os
 import re
 import subprocess
 import asyncio
+import psutil
 from libqtile import bar, layout, widget, hook, extension
 from libqtile.utils import create_task
 from libqtile.config import Drag, Group, Key, KeyChord, Match, Screen
@@ -9,11 +10,6 @@ from libqtile.config import ScratchPad, DropDown
 from libqtile.lazy import lazy
 import widgets as custom
 
-#############################################
-# GLOBALS
-#############################################
-
-# Colorscheme
 TRANSPARENT = "#00000000"
 ROSEWATER = "#f5e0dc"
 FLAMINGO = "#f2cdcd"
@@ -42,7 +38,6 @@ BASE = "#1e1e2e"
 MANTLE = "#181825"
 CRUST = "#11111b"
 
-# Other variables I can't be bothered to write every time
 home = os.path.expanduser("~")
 
 mod = "mod4"
@@ -52,10 +47,6 @@ alt = "mod1"
 vb_command = f"{home}/.config/qtile/scripts/dunst-vb.sh"
 wallpaper = f"{home}/Wallpapers/pixel-plateau.png"
 roficlip = "rofi -modi 'clipboard:greenclip print' -show clipboard"
-
-#############################################
-# KEYBINDINGS
-#############################################
 
 
 @lazy.function
@@ -98,7 +89,6 @@ powermenu = extension.CommandSet(
 )
 
 keys = [
-    # Function Row keybinds
     Key([], "XF86MonBrightnessUp", lazy.spawn(f"{vb_command} bright_up")),
     Key([], "XF86MonBrightnessDown", lazy.spawn(f"{vb_command} bright_down")),
     Key([], "XF86AudioRaiseVolume", lazy.spawn(f"{vb_command} vol_up")),
@@ -107,7 +97,6 @@ keys = [
     Key([], "XF86AudioPlay", lazy.spawn(f"{vb_command} play_pause")),
     Key([], "print", lazy.spawn("flameshot gui")),
 
-    # Tiling navigation, moving and resizing
     Key([mod], "h", lazy.layout.left()),
     Key([mod], "l", lazy.layout.right()),
     Key([mod], "j", lazy.layout.down()),
@@ -125,14 +114,11 @@ keys = [
     Key([mod, shift], "space", lazy.window.toggle_floating()),
     Key([mod], "f", lazy.window.toggle_fullscreen()),
 
-    # Basic programs
     Key([mod], "Return", lazy.spawn("wezterm")),
     Key([mod], "b", lazy.spawn("qutebrowser")),
 
-    # Notification stuff
     Key([mod, ctrl], "space", lazy.spawn("dunstctl close-all")),
 
-    # Rofi
     Key([mod], "Semicolon", rofi("rofi -show run")),
     KeyChord([mod], "r", [
         Key([], "w", rofi("rifi")),
@@ -148,10 +134,6 @@ keys = [
     Key([mod, shift], "r", lazy.reload_config()),
     Key([mod], "Escape", lazy.spawn("betterlockscreen -l")),
 ]
-
-#############################################
-# GROUPS AND SCRATCHPADS
-#############################################
 
 opts = {
     "x": 0.2,
@@ -185,11 +167,6 @@ groups.append(ScratchPad("scratch", [
 for name, key in zip(scratch_names, scratch_keys):
     keys.append(Key([mod], key, lazy.group["scratch"].dropdown_toggle(name)))
 
-
-#############################################
-# LAYOUTS
-#############################################
-
 layouts = [
     layout.Columns(
         border_focus=SKY,
@@ -201,10 +178,6 @@ layouts = [
         margin=8,
     ),
 ]
-
-#############################################
-# SCREENS AND BARS
-#############################################
 
 
 def trim(text):
@@ -244,13 +217,21 @@ widget_list = [
         foreground=TEXT,
         background=CRUST,
         padding=6,
-        format="{MemUsed: .1f}M",
+        format="{MemUsed: .1f}{mm}",
+    ),
+    widget.TextBox(
+        fmt="   ",
+        padding=0,
+        foreground=MAUVE,
     ),
     custom.Window(
         foreground=TEAL,
-        fmt="<b>  {}</b>",
-        padding=12,
+        padding=6,
         parse_text=trim,
+    ),
+    widget.TextBox(
+        fmt="  ",
+        foreground=PEACH,
     ),
     widget.Spacer(),
     custom.Spotify(
@@ -304,10 +285,6 @@ screens = [
     ),
 ]
 
-#############################################
-# OTHER STUFF
-#############################################
-
 mouse = [
     Drag([mod], "Button1", lazy.window.set_position_floating(),
          start=lazy.window.get_position()),
@@ -335,7 +312,7 @@ floating_layout = layout.Floating(
     ],
     border_focus=SKY,
     border_normal=SKY,
-    border_width=1,
+    border_width=0,
 )
 auto_fullscreen = True
 focus_on_window_activation = "smart"
@@ -356,3 +333,26 @@ def fixed_size(window):
         window.cmd_set_size_floating(1600, 900)
     if window.match(Match(wm_class="file-picker")):
         window.cmd_set_size_floating(1280, 720)
+
+
+@hook.subscribe.client_new
+def _swallow(window):
+    pid = window.window.get_net_wm_pid()
+    ppid = psutil.Process(pid).ppid()
+    window_map = window.qtile.windows_map
+    cpids = {c.window.get_net_wm_pid(): wid for wid, c in window_map.items()}
+    for i in range(5):
+        if not ppid:
+            return
+        if ppid in cpids:
+            parent = window.qtile.windows_map.get(cpids[ppid])
+            parent.minimized = True
+            window.parent = parent
+            return
+        ppid = psutil.Process(ppid).ppid()
+
+
+@hook.subscribe.client_killed
+def _unswallow(window):
+    if hasattr(window, "parent"):
+        window.parent.minimized = False
