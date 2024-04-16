@@ -1,0 +1,13 @@
+{METADATA}
+
+[Index]{:$/index:}
+[Yesterday]{{:$/Journal/{YESTERDAY_AS_FILEPATH}:}} - [Tomorrow]{{:$/Journal/{TOMORROW_AS_FILEPATH}:}}
+
+* {TODAY}
+
+** What happened today
+
+   {CURSOR}
+
+** Things to do today
+   - ( ) Write journal

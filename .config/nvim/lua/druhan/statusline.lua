@@ -38,18 +38,14 @@ local Mode = {
             t =  "green",
         },
     },
-    provider = "",
-    hl = function (self)
-        local mode = self.mode:sub(1, 1)
-        return { fg = self.mode_colors[mode], bg = "crust" }
-    end,
-    update = {
-        "ModeChanged",
-        pattern = "*:*",
-        callback = vim.schedule_wrap(function ()
-            vim.cmd("redrawstatus")
-        end),
-    }
+    {
+        provider = "",
+        hl = function (self)
+            local mode = self.mode:sub(1, 1)
+            return { fg = self.mode_colors[mode], bg = "crust" }
+        end,
+        condition = conditions.is_active,
+    },
 }
 
 local FileSize = {
@@ -95,7 +91,7 @@ local FileName = {
         end
         return filename
     end,
-    hl = { fg = "teal", bg = "crust" },
+    hl = { fg = "teal", bg = "crust", bold = true },
 }
 
 local FileFlags = {
@@ -113,6 +109,14 @@ local FileFlags = {
         provider = "",
         hl = { fg = "red", bg = "crust", bold = true },
     },
+    {
+        condition = function()
+            return vim.bo.modified or vim.bo.readonly
+        end,
+        {
+            padding(1),
+        }
+    },
 }
 
 FileNameBlock = utils.insert(FileNameBlock,
@@ -126,7 +130,7 @@ FileNameBlock = utils.insert(FileNameBlock,
 local Diagnostics = {
     condition = conditions.has_diagnostics,
     static = {
-        error_icon = " ",
+        error_icon = "",
         warn_icon = " ",
         info_icon = " ",
         hint_icon = " ",
@@ -162,6 +166,9 @@ local Diagnostics = {
         end,
         hl = { fg = "yellow", bg = "crust" }
     },
+    {
+        padding(3),
+    }
 }
 
 local LSPActive = {
@@ -231,8 +238,71 @@ local Git = {
     },
 }
 
+local EditingBuffer = {
+    Bracket,
+    padding(1),
+    Mode,
+    {
+        condition = conditions.is_active,
+        padding(2),
+        FileSize
+    },
+    padding(2),
+    FileNameBlock,
+    {
+        condition = conditions.is_active,
+        padding(1),
+        Position
+    },
+    spacer,
+    {
+        condition = conditions.is_active,
+        LSPActive,
+        spacer,
+        Git,
+        padding(2),
+        Diagnostics
+    },
+    Bracket
+}
+
+local SpecialBuffer = {
+    Bracket,
+    padding(1),
+    { condition = conditions.is_active, Mode },
+    padding(2),
+    {
+        provider = function ()
+            local ft = vim.bo.filetype
+            if string.find(ft, "dashboard") then
+                return "DASHBOARD"
+            elseif string.find(ft, "Neogit") then
+                return "NEOGIT"
+            elseif string.find(ft, "oil") then
+                return "OIL"
+            end
+        end,
+        hl = { fg = "blue", bg = "crust", bold = true },
+    },
+    padding(1),
+    { condition = conditions.is_active, FileFlags },
+    spacer,
+    Bracket,
+}
+
 return {
-    Bracket, { condition = conditions.is_active, padding(1), Mode, padding(2), FileSize }, padding(2), FileNameBlock, { condition = conditions.is_active, padding(2), Diagnostics }, spacer,
-    { condition = conditions.is_active, LSPActive, spacer,
-    Git, padding(2), Position, padding(2), Percentage, padding(2), Bracket }
+    fallthrough = false,
+    {
+        condition = function ()
+            return conditions.buffer_matches {
+                filetype = {
+                    "dashboard",
+                    "Neogit*",
+                    "oil",
+                }
+            }
+        end,
+        SpecialBuffer,
+    },
+    EditingBuffer,
 }

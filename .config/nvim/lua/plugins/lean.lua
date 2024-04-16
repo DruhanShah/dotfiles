@@ -1,6 +1,5 @@
 return {
     "Julian/lean.nvim",
-    enabled = false,
     event = {
         "BufReadPre *.lean",
         "BufNewFile *.lean",

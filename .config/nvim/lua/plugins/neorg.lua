@@ -2,17 +2,14 @@ return {
     "nvim-neorg/neorg",
     dependencies = {
         "vhyrro/luarocks.nvim",
+        "nvim-tree/nvim-treesitter",
+        { "pysan3/neorg-templates", dependencies = { "L3MON4D3/LuaSnip" } },
     },
     lazy = false,
     config = function()
         require("neorg").setup {
             load = {
                 ["core.defaults"] = {},
-                ["core.completion"] = {
-                    config = {
-                        engine = "nvim-cmp",
-                    },
-                },
                 ["core.dirman"] = {
                     config = {
                         workspaces = {
@@ -24,6 +21,7 @@ return {
                 },
                 ["core.concealer"] = {
                     config = {
+                        init_open_folds = "always",
                         icon_preset = "diamond",
                         icons = {
                             code_block = {
@@ -83,11 +81,31 @@ return {
                 ["core.journal"] = {
                     config = {
                         journal_folder = "Journal",
-                        use_template = true,
                         workspace = "notes",
                     },
                 },
                 ["core.ui.calendar"] = {},
+                ["external.templates"] = {
+                    config = {
+                        keywords = {
+                            TODAY_AS_FILEPATH = function()
+                                local ls = require("luasnip")
+                                local s = require("neorg.modules.external.templates.default_snippets")
+                                return ls.text_node(s.parse_date(0, s.file_name_date(), "%Y/%m/%d"))
+                            end,
+                            TOMORROW_AS_FILEPATH = function()
+                                local ls = require("luasnip")
+                                local s = require("neorg.modules.external.templates.default_snippets")
+                                return ls.text_node(s.parse_date(1, s.file_name_date(), "%Y/%m/%d"))
+                            end,
+                            YESTERDAY_AS_FILEPATH = function()
+                                local ls = require("luasnip")
+                                local s = require("neorg.modules.external.templates.default_snippets")
+                                return ls.text_node(s.parse_date(-1, s.file_name_date(), "%Y/%m/%d"))
+                            end,
+                        },
+                    },
+                },
             },
         }
 

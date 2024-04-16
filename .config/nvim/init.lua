@@ -1,8 +1,9 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
-require("options")
-require("mappings")
+require("druhan.options")
+require("druhan.mappings")
+require("druhan.dashboard")
 
 local lazypath = vim.fn.stdpath("data") .. "lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -17,9 +18,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("plugins")
-
-vim.api.nvim_set_hl(0, "LineNr", { fg = "#1e1e2e" })
-vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#45475a" })
-vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#45475a" })
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#181825" })
+require("lazy").setup("plugins", {
+    change_detection = {
+        notify = false,
+    },
+})

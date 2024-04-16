@@ -15,13 +15,17 @@ return {
             },
             custom_highlights = function (colors)
                 return {
-                    -- Line number highlights
+                    -- Dashboard-specific highlights
+                    Doom = { fg = colors.blue },
+                    DashNeo = { bg = colors.green, fg = colors.crust, bold = true },
+                    DashVim = { bg = colors.blue, fg = colors.crust, bold = true },
+                    -- Quality of Life stuff
                     LineNr = { fg = colors.base },
                     LineNrAbove = { fg = colors.surface0 },
                     LineNrBelow = { fg = colors.surface0 },
-                    -- Floating window highlight
                     NormalFloat = { bg = colors.mantle },
-                    -- Completion highlights
+                    Folded = { bg = colors.surface0, fg = colors.subtext1 },
+                    -- Completion Icons
                     CmpItemAbbrDeprecated = { fg = colors.surface1, bg = "NONE", strikethrough = true, },
                     CmpItemAbbrMatch = { fg = colors.blue, bg = "NONE", bold = true, },
                     CmpItemAbbrMatchFuzzy = { fg = colors.blue, bg = "NONE", bold = true, },
@@ -52,6 +56,11 @@ return {
                     CmpItemKindInterface = { fg = colors.crust, bg = colors.teal, },
                     CmpItemKindColor = { fg = colors.crust, bg = colors.teal, },
                     CmpItemKindTypeParameter = { fg = colors.crust, bg = colors.teal, },
+                    -- Vimtex highlights
+                    texCmd = { fg = colors.blue },
+                    texArg = { fg = colors.peach },
+                    texRefArg = {fg = colors.yellow, bold = true },
+                    texPartArgTitle = { fg = colors.green, bold = true },
                 }
             end,
         }

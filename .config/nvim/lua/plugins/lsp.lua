@@ -1,9 +1,8 @@
 return {
-    "williamboman/mason.nvim",
+    "neovim/nvim-lspconfig",
     dependencies = {
+        "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
-        "neovim/nvim-lspconfig",
-        "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
         require("mason").setup()
@@ -28,17 +27,9 @@ return {
             noremap = true,
             desc = "Go to definition",
         })
-        vim.keymap.set("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", {
-            noremap = true,
-            desc = "Go to declaration",
-        })
         vim.keymap.set("n", "gl", "<Cmd>lua vim.diagnostic.open_float()<CR>", {
             noremap = true,
             desc = "Open diagnostics",
-        })
-        vim.keymap.set("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", {
-            noremap = true,
-            desc = "Show hover information",
         })
     end,
 }

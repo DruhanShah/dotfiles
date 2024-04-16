@@ -1,5 +1,10 @@
 return {
     "hrsh7th/nvim-cmp",
+    lazy = true,
+    event = {
+        "InsertEnter",
+        "CmdlineEnter"
+    },
     dependencies = {
         "onsails/lspkind-nvim",
         "hrsh7th/cmp-nvim-lua",
@@ -7,12 +12,14 @@ return {
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
-        -- "saadparwaiz1/cmp_luasnip",
-        "zbirenbaum/copilot-cmp"
+        "saadparwaiz1/cmp_luasnip",
+        "zbirenbaum/copilot-cmp",
     },
     config = function()
         local cmp = require("cmp")
         local lspkind = require("lspkind")
+        local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+        cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
         lspkind.init {
             symbol_map = {
                 Copilot = "",
@@ -22,11 +29,11 @@ return {
         require("copilot_cmp").setup()
 
         cmp.setup {
-            -- snippet = {
-                -- expand = function(args)
-                    -- require("luasnip").lsp_expand(args.body)
-                -- end,
-            -- },
+            snippet = {
+                expand = function(args)
+                    require("luasnip").lsp_expand(args.body)
+                end,
+            },
             window = {
                 completion = {
                     winhighlight = "FloatBorder:NormalFloat",
@@ -38,11 +45,11 @@ return {
                 },
             },
             mapping = {
-                ['<C-k>'] = cmp.mapping.select_prev_item(),
-                ['<C-j>'] = cmp.mapping.select_next_item(),
-                ['<C-Space>'] = cmp.mapping.complete(),
+                ['<C-p>'] = cmp.mapping.select_prev_item(),
+                ['<C-n>'] = cmp.mapping.select_next_item(),
+                ['<C-CR>'] = cmp.mapping.complete(),
                 ['<C-Esc>'] = cmp.mapping.abort(),
-                ["<CR>"] = cmp.mapping.confirm {
+                ["<C-y>"] = cmp.mapping.confirm {
                     behavior = cmp.ConfirmBehavior.Replace,
                     select = false,
                 },
@@ -62,7 +69,7 @@ return {
                             path = "[Path]",
                             cmdline = "[Command]",
                             -- luasnip = "[Snippet]",
-                            copilot = "[Copilot]",
+                            -- copilot = "[Copilot]",
                         })
                     } (entry, vim_item)
                     local strings = vim.split(kind.kind, "%s", { trimempty = true })
@@ -78,11 +85,10 @@ return {
                 { name = "path", max_item_count = 10 },
                 { name = "cmdline", max_item_count = 10 },
                 -- { name = "luasnip", max_item_count = 3 },
-                { name = "copilot", max_item_count = 3 },
+                -- { name = "copilot", max_item_count = 3 },
             },
         }
 
-        -- Use buffer source for `/` and `?`
         cmp.setup.cmdline({ '/', '?' }, {
             mapping = cmp.mapping.preset.cmdline(),
             sources = {
@@ -90,7 +96,6 @@ return {
             }
         })
 
-        -- Use cmdline and path source for ':'
         cmp.setup.cmdline(':', {
             mapping = cmp.mapping.preset.cmdline(),
             sources = cmp.config.sources({

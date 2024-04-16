@@ -10,14 +10,6 @@ local function toggle_number()
     end
 end
 
--- Leader commands --
-
-key("n", "<leader>la", ":Lazy<CR>", {
-    silent = true,
-    noremap = true,
-    desc = "Lazy dialog",
-})
-
 -- Normal mode --
 key("n", "<C-h>", "<C-w>h", {
 	silent = true,
@@ -51,11 +43,6 @@ key("n", "H", "^", {
 	noremap = true,
 	desc = "Move to beginning",
 })
-key("n", "J", "<Nop>", {
-	silent = true,
-	noremap = true,
-	desc = "Do nothing",
-})
 key("n", "L", "$", {
 	silent = true,
 	noremap = true,
@@ -72,20 +59,6 @@ key("n", "<C-1>", toggle_number, {
 	silent = true,
 	noremap = true,
 	desc = "Toggle relative line numbers",
-})
-
--- Insert mode --
-key("i", "{<CR>", "{<CR>}<Esc>ko", {
-	silent = true,
-	noremap = true,
-})
-key("i", "[<CR>", "[<CR>]<Esc>ko", {
-	silent = true,
-	noremap = true,
-})
-key("i", "(<CR>", "(<CR>)<Esc>ko", {
-	silent = true,
-	noremap = true,
 })
 
 -- Visual mode --

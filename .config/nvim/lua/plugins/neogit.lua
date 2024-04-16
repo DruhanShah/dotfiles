@@ -6,21 +6,18 @@ return {
         "nvim-telescope/telescope.nvim",
         "sindrets/diffview.nvim",
     },
-    config = function()
-        require("neogit").setup {
-            kind = "tab",
-            graph_style = "unicode",
-            disable_signs = false,
-            disable_line_numbers = false,
-            signs = {
-                section = { " ", " " },
-                item = { " ", " " },
-                hunk = { "", "" },
-            },
-            integrations = {
-                telescope = true,
-                diffview = true,
-            }
+    config = {
+        graph_style = "unicode",
+        disable_hint = true,
+        disable_signs = false,
+        signs = {
+            section = { " ", " " },
+            item = { " ", " " },
+            hunk = { "", "" },
+        },
+        integrations = {
+            telescope = true,
+            diffview = true,
         }
-    end,
+    }
 }
