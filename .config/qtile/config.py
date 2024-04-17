@@ -2,7 +2,6 @@ import os
 import re
 import subprocess
 import asyncio
-import psutil
 from libqtile import bar, layout, widget, hook, extension
 from libqtile.utils import create_task
 from libqtile.config import Drag, Group, Key, KeyChord, Match, Screen
@@ -114,7 +113,7 @@ keys = [
     Key([mod, shift], "space", lazy.window.toggle_floating()),
     Key([mod], "f", lazy.window.toggle_fullscreen()),
 
-    Key([mod], "Return", lazy.spawn("wezterm")),
+    Key([mod], "Return", lazy.spawn("kitty")),
     Key([mod], "b", lazy.spawn("qutebrowser")),
 
     Key([mod, ctrl], "space", lazy.spawn("dunstctl close-all")),
@@ -136,10 +135,10 @@ keys = [
 ]
 
 opts = {
-    "x": 0.2,
-    "y": 0.1,
-    "width": 0.6,
-    "height": 0.8,
+    "x": 0.25,
+    "y": 0.075,
+    "width": 0.5,
+    "height": 0.85,
     "opacity": 1,
 }
 
@@ -147,9 +146,9 @@ groups = [Group(str(i)) for i in range(1, 11)]
 
 scratch_names = ["Notes", "Music", "Diagnostics"]
 scratch_commands = [
-    "wezterm -e zsh -ci 'note'",
+    "kitty -e zsh -ci 'note'",
     "spotify",
-    "wezterm -e zsh -ci 'btop'"
+    "kitty -e zsh -ci 'btop'"
 ]
 scratch_keys = ["n", "m", "d"]
 
@@ -187,8 +186,6 @@ def trim(text):
         return "zotero"
     if text == "gl":
         return "mpv"
-    if text == "org.wezfurlong.wezterm":
-        return "wezterm"
     return text
 
 
@@ -216,22 +213,22 @@ widget_list = [
     widget.Memory(
         foreground=TEXT,
         background=CRUST,
-        padding=6,
+        padding=4,
         format="{MemUsed: .1f}{mm}",
     ),
     widget.TextBox(
         fmt="   ",
         padding=0,
-        foreground=MAUVE,
+        foreground=BLUE,
     ),
     custom.Window(
         foreground=TEAL,
+        fmt="<b>{}</b>",
         padding=6,
         parse_text=trim,
     ),
-    widget.TextBox(
-        fmt="  ",
-        foreground=PEACH,
+    custom.GroupScreen(
+        foreground=TEXT,
     ),
     widget.Spacer(),
     custom.Spotify(
@@ -256,16 +253,17 @@ widget_list = [
         low_percentage=0.2,
         padding=12,
     ),
-    custom.GroupScreen(
-        padding=0,
-        foreground=TEXT,
+    widget.TextBox(
+        fmt=" ",
     ),
     widget.Clock(
         format="%H:%M:%S",
         mouse_callbacks={"Button1": lazy.spawn("galendae")},
         foreground=PINK,
         fmt="<b>{}</b>",
-        padding=18,
+    ),
+    widget.TextBox(
+        fmt="  ",
     ),
     widget.TextBox(
         background=BLUE,
@@ -279,7 +277,7 @@ screens = [
         wallpaper=wallpaper,
         bottom=bar.Bar(
             widgets=widget_list,
-            size=28,
+            size=32,
             margin=[0, 0, 0, 0],
         ),
     ),
@@ -307,7 +305,7 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
-        Match(wm_class="file-picker"),
+        Match(title="file-picker"),
         Match(wm_class="matplotlib"),
     ],
     border_focus=SKY,
@@ -325,34 +323,12 @@ wmname = "QTile"
 def autostart():
     subprocess.Popen(["greenclip", "daemon"])
     subprocess.Popen([f"{home}/.config/qtile/scripts/onedrive.sh"])
+    subprocess.Popen(["picom", "&"], shell=True)
 
 
 @hook.subscribe.client_new
-def fixed_size(window):
+def resize(window):
     if window.match(Match(wm_class="mpv")):
         window.cmd_set_size_floating(1600, 900)
     if window.match(Match(wm_class="file-picker")):
         window.cmd_set_size_floating(1280, 720)
-
-
-@hook.subscribe.client_new
-def _swallow(window):
-    pid = window.window.get_net_wm_pid()
-    ppid = psutil.Process(pid).ppid()
-    window_map = window.qtile.windows_map
-    cpids = {c.window.get_net_wm_pid(): wid for wid, c in window_map.items()}
-    for i in range(5):
-        if not ppid:
-            return
-        if ppid in cpids:
-            parent = window.qtile.windows_map.get(cpids[ppid])
-            parent.minimized = True
-            window.parent = parent
-            return
-        ppid = psutil.Process(ppid).ppid()
-
-
-@hook.subscribe.client_killed
-def _unswallow(window):
-    if hasattr(window, "parent"):
-        window.parent.minimized = False

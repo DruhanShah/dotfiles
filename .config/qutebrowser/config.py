@@ -1,20 +1,19 @@
+import os
 import catppuccin
 from qutebrowser.api import interceptor
+
+home = os.path.expanduser("~")
 
 catppuccin.setup(c, "mocha", True)
 
 config.load_autoconfig(False)
 
-config.set('content.cookies.accept', 'all', 'chrome-devtools://*')
-config.set('content.cookies.accept', 'all', 'devtools://*')
-
-config.set('content.headers.accept_language', '', 'https://matchmaker.krunker.io/*')
 config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}', 'https://web.whatsapp.com/')
 config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}; rv:90.0) Gecko/20100101 Firefox/90.0', 'https://accounts.google.com/*')
 config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99 Safari/537.36', 'https://*.slack.com/*')
 
-c.url.start_pages = "/home/druhan/.config/qutebrowser/startpage.html"
-c.url.default_page = "/home/druhan/.config/qutebrowser/startpage.html"
+c.url.start_pages = f"{home}/.config/qutebrowser/homepage/index.html"
+c.url.default_page = f"{home}/.config/qutebrowser/homepage/index.html"
 
 c.content.blocking.method = "both"
 c.tabs.position = "left"
@@ -44,32 +43,32 @@ c.tabs.padding = {
 c.completion.height = "40%"
 
 
-c.editor.command = ["wezterm", "-e", "nvim", "{}"]
+c.editor.command = ["kitty", "-e", "nvim", "{}"]
 
 c.fileselect.handler = "external"
 c.fileselect.single_file.command = [
-    "wezterm",
-    "start",
-    "--class",
+    "kitty",
+    "-T",
     "file-picker",
+    "-e",
     "ranger",
     "--choosefile",
     "{}"
 ]
 c.fileselect.multiple_files.command = [
-    "wezterm",
-    "start",
-    "--class",
+    "kitty",
+    "-T",
     "file-picker",
+    "-e",
     "ranger",
     "--choosefiles",
     "{}"
 ]
 c.fileselect.folder.command = [
-    "wezterm",
-    "start",
-    "--class",
+    "kitty",
+    "-T",
     "file-picker",
+    "-e",
     "ranger",
     "--choosedir",
     "{}"
@@ -95,6 +94,7 @@ c.bindings.commands = {
         "cw": "fake-key <Ctrl-Delete>;; mode-enter insert",
         "cc": "fake-key <Home><Shift-End><Delete>;; mode-enter insert",
         "c$": "fake-key <Shift-End><Delete>;; mode-enter insert",
+        "<Esc>": "mode-enter insert;; fake-key <Shift-Esc>;; mode-enter normal"
     },
 }
 
@@ -103,12 +103,15 @@ c.aliases["zotero"] = "spawn --userscript zotero.py"
 c.aliases["Zotero"] = "hint links userscript zotero.py"
 
 
+# Block YouTube ads
 def filter_yt(info: interceptor.Request):
     """Block the given request if necessary."""
     url = info.request_url
-    if (url.host() == 'www.youtube.com'
+    if (
+        url.host() == 'www.youtube.com'
         and url.path() == '/get_video_info'
-        and '&adformat=' in url.query()):
+        and '&adformat=' in url.query()
+       ):
         info.block()
 
 

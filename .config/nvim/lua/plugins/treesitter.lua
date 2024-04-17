@@ -10,7 +10,7 @@ return {
             highlight = {
                 enable = true,
                 disable = { "latex" },
-                additional_vim_regex_highlighting = false,
+                additional_vim_regex_highlighting = { "latex" },
             },
             incremental_selection = {
                 enable = true,
