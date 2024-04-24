@@ -12,12 +12,12 @@ local options = {
         foldmethod = "expr",
         foldlevel = 100,
         foldexpr = "v:lua.vim.treesitter.foldexpr()",
-        foldtext = 'v:lua.require("druhan.utils").fold_text()',
+        foldtext = 'v:lua.require("config.utils").fold_text()',
         conceallevel = 2,
         concealcursor = "n",
     },
     Spelling = {
-        spell = true,
+        spell = false,
         spelllang = "en_us",
     },
     LineNumbers = {

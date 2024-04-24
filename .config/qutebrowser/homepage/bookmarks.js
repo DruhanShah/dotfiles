@@ -17,19 +17,20 @@ const bookmarks = [
         ],
     },
     {
-        title: "Reddit",
+        title: "Academics",
         links: [
-            { name: "/r/neovim", url: "https://reddit.com/r/neovim" },
-            { name: "/r/unixporn", url: "https://reddit.com/r/unixporn" },
-            { name: "/r/linguisticshumor", url: "https://reddit.com/r/linguisticshumor" },
-            { name: "/r/news", url: "https://reddit.com/r/news" },
+            { name: "ACL Anthology", url: "https://aclanthology.org" },
+            { name: "ArXiv", url: "https://arxiv.org/list/cs.CL/recent" },
+            { name: "Open Review", url: "https://openreview.net" },
         ],
     },
     {
         title: "Social",
         links: [
+            { name: "LinkedIn", url: "https://linkedin.com" },
             { name: "Twitter", url: "https://twitter.com" },
             { name: "Instagram", url: "https://instagram.com" },
+            { name: "Reddit", url: "https://reddit.com" },
         ],
     },
 ];

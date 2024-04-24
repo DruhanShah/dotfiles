@@ -33,7 +33,7 @@ class Window(base._TextBox):
             wm_class = window.get_wm_class()[0]
             if callable(self.parse_text):
                 wm_class = self.parse_text(wm_class)
-            final = wm_class + " [+]"
+            final = wm_class
         else:
             final = "[No name]"
 

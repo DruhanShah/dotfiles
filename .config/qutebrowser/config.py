@@ -34,9 +34,9 @@ c.colors.statusbar.insert.bg = "#a6e3a1"
 c.colors.statusbar.insert.fg = "#11111b"
 
 c.tabs.padding = {
-    "top": 10,
-    "bottom": 10,
-    "left": 10,
+    "top": 16,
+    "bottom": 16,
+    "left": 16,
     "right": 6,
 }
 
@@ -74,8 +74,8 @@ c.fileselect.folder.command = [
     "{}"
 ]
 
-c.fonts.default_family = "Caskaydia Cove NF"
-c.fonts.default_size = "11pt"
+c.fonts.default_family = "Operator Mono SSm Book"
+c.fonts.default_size = "14px"
 
 c.bindings.commands = {
     "normal": {

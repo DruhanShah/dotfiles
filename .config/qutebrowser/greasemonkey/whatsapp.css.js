@@ -3,7 +3,7 @@
 // @include    *web.whatsapp.com/*
 // ==/UserScript==
 GM_addStyle(`* {
-    font-family: "CaskaydiaCove NF" !important;
+    font-family: "Operator Mono SSm Medium" !important;
 }
 
 body {

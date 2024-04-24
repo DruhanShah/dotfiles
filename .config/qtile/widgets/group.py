@@ -6,7 +6,7 @@ class GroupScreen(base._TextBox):
     defaults = [
         ("default_text", "", "Default text to display"),
         ("format", "{name}", "Display format"),
-        ("fmt", "<b>{}</b>", "Display format"),
+        ("fmt", "{}", "Display format"),
         ("parse_text", None, "Function to parse the window name"),
         ("tiling_mode", "#000000", "Color when in tiling mode"),
         ("floating_mode", "#000000", "Color when in floating mode"),

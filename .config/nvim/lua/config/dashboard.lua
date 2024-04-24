@@ -1,4 +1,4 @@
-local utils = require("druhan.utils")
+local utils = require("config.utils")
 
 local splash_screen = vim.schedule_wrap(function()
     local header = {
@@ -15,7 +15,8 @@ local splash_screen = vim.schedule_wrap(function()
         [[    ██               N E O  V I M               █   ]],
     }
     local arg = vim.fn.argv(0)
-    if (vim.bo.ft ~= "lazy") and (vim.bo.ft ~= "netrw") and (arg == "") then
+    if (vim.bo.ft == "")
+        and (arg == "") then
         vim.fn.matchadd("Doom", "[█]")
         vim.fn.matchadd("DashNeo", " N E O ")
         vim.fn.matchadd("DashVim", " V I M ")

@@ -135,22 +135,19 @@ keys = [
 ]
 
 opts = {
-    "x": 0.25,
-    "y": 0.075,
-    "width": 0.5,
-    "height": 0.85,
+    "x": 0.2, "width": 0.6,
+    "y": 0.1, "height": 0.8,
     "opacity": 1,
 }
 
 groups = [Group(str(i)) for i in range(1, 11)]
 
-scratch_names = ["Notes", "Music", "Diagnostics"]
+scratch_names = ["Music", "Diagnostics"]
 scratch_commands = [
-    "kitty -e zsh -ci 'note'",
     "spotify",
     "kitty -e zsh -ci 'btop'"
 ]
-scratch_keys = ["n", "m", "d"]
+scratch_keys = ["m", "d"]
 
 for group in groups:
     name = group.name
@@ -190,8 +187,8 @@ def trim(text):
 
 
 widget_defaults = dict(
-    font="Caskaydia Cove NF",
-    fontsize=15,
+    font="Operator Mono SSm",
+    fontsize=14,
     padding=0,
     foreground=TEXT,
     background=CRUST,

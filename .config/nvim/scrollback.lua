@@ -1,9 +1,11 @@
+-- This is only supposed to be a minimal config for the Kitty scrollback buffer.
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 require("config.options")
+vim.opt.number = false
 require("config.mappings")
-require("config.dashboard")
 
 local lazypath = vim.fn.stdpath("data") .. "lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -18,8 +20,10 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("plugins", {
-    change_detection = {
-        notify = false,
-    },
+local heirline = require("plugins.heirline")
+local colorscheme = require("plugins.catppuccin")
+require("lazy").setup({
+    heirline,
+    colorscheme,
+    "nvim-tree/nvim-web-devicons",
 })

@@ -50,7 +50,7 @@ class Mode(base._TextBox):
                 self.background = self.tiling_mode
                 final = "   TILING   "
         else:
-            final = "     "
+            final = "  "
             if rofi:
                 self.foreground = self.command_mode
             elif window is None:

@@ -5,7 +5,7 @@
   --containerBg: #111112;
   --searchBg: var(--containerBg);
   --scrollbarColor: #45475a;
-  --fontFamily: "CaskaydiaCove NF", monospace;
+  --fontFamily: "Operator Mono SSm", monospace;
 }
 
 body {

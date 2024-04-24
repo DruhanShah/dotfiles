@@ -11,7 +11,7 @@ M.highlight = function (colors)
         LineNrAbove = { fg = colors.surface0 },
         LineNrBelow = { fg = colors.surface0 },
         NormalFloat = { bg = colors.mantle },
-        Folded = { bg = colors.surface0, fg = colors.subtext1 },
+        Folded = { bg = colors.base, fg = colors.text },
         Conceal = { fg = "NONE", bg = "NONE" },
         -- Completion Icons
         CmpItemAbbrDeprecated = { fg = colors.surface1, bg = "NONE", strikethrough = true, },
@@ -53,6 +53,8 @@ M.highlight = function (colors)
         texCmdCSubsection = { fg = colors.green, bold = true },
         texCSubsubsectionArg = { fg = colors.teal, bold = true },
         texCmdCSubssubection = { fg = colors.teal, bold = true },
+        -- Neorg highlights
+        ["@neorg.tags.ranged_verbatim.document_meta.title.norg_meta"] = { bg = colors.mauve, fg = colors.crust, bold = true },
     }
 
 end

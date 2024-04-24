@@ -17,8 +17,10 @@
  (#eq? @function.builtin "sum")
  (#set! conceal "∑"))
 
-((call function: (identifier) @function.builtin)
- (#eq? @function.builtin "all")
+(for_statement "for" @keyword.repeat
+ (#set! conceal "∀"))
+
+(for_in_clause "for" @keyword.repeat
  (#set! conceal "∀"))
 
 ((call function: (identifier) @function.builtin)

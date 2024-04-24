@@ -1,0 +1,158 @@
+@document.meta
+title: QTile
+description: Literate config for QTile WM
+tags:
+updated: 2024-04-22T10:44:35
+@end
+
+
+* QTile WM configuration
+  %The ultimate literate config v1%
+
+  This config uses primarily QTile built in commands, and as such only requires the `qtile` package be installed. Any other dependencies will be updated as we go.
+
+** Setting up
+
+*** Import statements
+
+    We use the `os`, `re` and `subprocess` for their obvious purposes. `asyncio` is used to make `rofi` trigger the Command mode. 
+    The rest are all built in QTile modules and are imported just as is.
+    There is a widgets folder containing widgets that I have written. Their source code is included in {* Widgets}
+
+    @code python
+    import os
+    import re
+    import subprocess
+    import asyncio
+    from libqtile import bar, layout, widget, hook, extension
+    from libqtile.utils import create_task
+    from libqtile.config import Drag, Group, Key, KeyChord, Match, Screen
+    from libqtile.config import ScratchPad, DropDown
+    from libtile.lazy import lazy
+    from widgets import custom
+    @end
+
+*** Color scheme
+
+    Now we define as global variables, the colors that we intend to use throughout the configuration.
+    This is based on the [Catppuccin Mocha] color scheme.
+
+    @code python
+    TRANSPARENT = "#00000000"
+    ROSEWATER = "#f5e0dc"
+    FLAMINGO = "#f2cdcd"
+    PINK = "#f5c2e7"
+    MAUVE = "#cba6f7"
+    RED = "#F38ba8"
+    MAROON = "#eba0ac"
+    PEACH = "#fab387"
+    YELLOW = "#f9e2af"
+    GREEN = "#a6e3a1"
+    TEAL = "#94e2d5"
+    SKY = "#89dceb"
+    SAPPHIRE = "#74c7ec"
+    BLUE = "#89b4fa"
+    LAVENDER = "#b4befe"
+    TEXT = "#cdd6f4"
+    SUBTEXT1 = "#bac2de"
+    SUBTEXT0 = "#a6adc8"
+    OVERLAY2 = "#9399b2"
+    OVERLAY1 = "#7f849c"
+    OVERLAY0 = "#6c7086"
+    SURFACE2 = "#585b70"
+    SURFACE1 = "#45475a"
+    SURFACE0 = "#313244"
+    BASE = "#1e1e2e"
+    MANTLE = "#181825"
+    CRUST = "#11111b"
+    @end
+    [Catppuccin Mocha]{https://github.com/catppuccin/catppuccin}
+
+*** Home expansion
+
+    We choose not to expand the `~` symbol as the home directory explicitly since we want this to be extensible as much as possible, and mentioning the username explicitly would defeat that purpose.
+
+    @code python
+    home = os.path.expanduser("~")
+    @end
+
+*** Modifiers
+
+    We define the modifiers right here so we don't have to clutter the keybinds with the full names.
+
+    @code python
+    mod = "mod4"
+    ctrl = "control"
+    shift = "shift"
+    alt = "mod1"
+    @end
+
+
+** Keybinds
+
+*** Auxiliary functions
+
+    We define some auxiliary functions to assign mappings to.
+
+    The first function is to toggle the enabling of the trackpad. This is because the trackpad was being very annoying and tapping randomly when typing. This also is an excuse for me to be more keyboard-reliant.
+
+    @code python
+    @lazy.function
+    def toggle_trackpad(qtile):
+        status = subprocess.check_output(["xinput", "list_props", "10"])
+    status = status.decode("utf-8")
+    status = re.search(r"Device Enabled.*(\d)", status).group(1)
+
+    if status == "1":
+        subprocess.run(["xinput", "disable", "10"])
+    else:
+        subprocess.run(["xinput", "enable", "10"])
+    @end
+
+    The next function serves to activate the Mode widget when running any rofi command. This allows the WM to "Enter Command Mode", so to speak.
+
+    @code python
+    @lazy.function
+    def rofi(qtile, command):
+
+        async def run():
+            proc = await asyncio.create_subprocess_shell(command)
+        return await proc.wait()
+
+        def callback(task):
+            widget_list[1].hook_response(rofi=False)
+
+            widget_list[1].hook_response(rofi=True)
+    task = create_task(run())
+    task.add_done_callback(callback)
+    @end
+
+*** Powermenu CommandSet
+
+    We also define a CommandSet extension to function as our power menu.
+    *Note:* This needs to be fixed because even though `rofi` opens, the mode indicator doesn't show Command Mode.
+
+    @code python
+    powermenu = extension.CommandSet(
+        commands={
+            "quit qtile": "qtile cmd-obj -o cmd -f shutdown",
+            "lock": "betterlockscreen -l",
+            "suspend": "systemctl suspend",
+            "reboot": "reboot",
+            "shutdown": "shutdown now",
+        },
+        dmenu_command="rofi -dmenu"
+    )
+    @end
+
+*** Key Table
+
+    This is the main table containing all the keybindings.
+    *Note:* This needs to be updated with descriptions for all the keybinds.
+
+    @code python
+    keys = [
+        ...
+    ]
+    @end
+

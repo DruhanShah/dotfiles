@@ -9,7 +9,7 @@ return {
             which_key = true,
             telescope = { style = "nvchad" },
         },
-        custom_highlights = require("druhan.colorscheme").highlight,
+        custom_highlights = require("config.highlights").highlight,
     },
     config = function(_, opts)
         require("catppuccin").setup(opts)

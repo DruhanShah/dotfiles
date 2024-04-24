@@ -27,7 +27,7 @@
 	Mantle:		#181825;
 	Crust:		#11111b;
 
-    font: "Caskaydia Cove NF 12";
+    font: "Operator Mono SSm Light 11";
 
     foreground: @Text;
     background-color: @Crust;
@@ -45,7 +45,7 @@
     background-color: @background-color;
     border:           0;
     border-color: 	  @bordercolor;
-    padding:          6 6 0 6;
+    padding:          6 6 3 6;
     width: 30%;
     location: south west;
     x-offset: 40px;

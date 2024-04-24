@@ -1,11 +1,66 @@
 local telescope = require("telescope")
-local config = require("telescope.config")
 local builtin = require("telescope.builtin")
+local pickers = require("telescope.pickers")
+local finders = require("telescope.finders")
+local previewers = require("telescope.previewers")
+local putils = require("telescope.previewers.utils")
+local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
+local conf = require("telescope.config").values
 
 local M = {}
 
+function M.gtd(opts)
+    opts = opts or {}
+
+    pickers.new(opts, {
+        prompt_title = "GTD list",
+        finder = finders.new_table {
+            results = {
+                { "Refile", "~/Notes/index.norg" },
+                { "Next Actions", "~/Notes/next.norg" },
+                { "Deadlines", "~/Notes/deadlines.norg" },
+                { "Projects", "~/Notes/Projects/index.norg" },
+                { "Someday/Maybe", "~/Notes/someday-maybe.norg" },
+                { "Waiting for", "~/Notes/waiting.norg" },
+            },
+            entry_maker = function (entry)
+                return {
+                    value = entry[2],
+                    display = entry[1],
+                    ordinal = entry[1],
+                }
+            end
+        },
+        sorter = conf.generic_sorter(opts),
+        previewer = previewers.new_buffer_previewer {
+            define_preview = function(self, entry)
+                conf.buffer_previewer_maker(entry.value, self.state.bufnr, {
+                    bufname = self.state.bufname,
+                    callback = function (bufnr)
+                        putils.highlighter(bufnr, "norg")
+                    end
+                })
+            end
+        },
+        attach_mappings = function (prompt_bufnr, map)
+            actions.select_default:replace(function ()
+                local selection = action_state.get_selected_entry()
+                actions.close(prompt_bufnr)
+                print(vim.inspect(selection))
+                vim.cmd(":e " .. selection.value)
+            end)
+            return true
+        end
+    }):find()
+end
+
 function M.help ()
     builtin.help_tags()
+end
+
+function M.highlights ()
+    builtin.highlights()
 end
 
 function M.oldfiles ()

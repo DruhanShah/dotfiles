@@ -44,6 +44,7 @@ set highlight-active-color		"#F5C2E7"
 set window-title-basename "false"
 set guioptions "s"
 set selection-clipboard "clipboard"
-set font "JetBrains Mono 11"
+set font "Operator Mono SSm 11"
 set adjust-open width
 set recolor false
+set filemonitor "signal"

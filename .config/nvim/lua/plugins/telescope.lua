@@ -1,10 +1,7 @@
 local function map(lhs, rhs, desc)
     vim.keymap.set("n", lhs, function ()
-        require("druhan.telescope")[rhs]()
-    end, {
-        noremap = true,
-        desc = "[Telescope] " .. desc,
-    })
+        require("config.telescope")[rhs]()
+    end, { desc = desc, })
 end
 
 return {
@@ -20,16 +17,18 @@ return {
         },
     },
     init = function ()
-        map("<leader>ff", "find_files", "Find Files")
-        map("<leader>fo", "oldfiles", "File History")
-        map("<leader>fb", "file_browser", "File Browser")
-        map("<leader>fB", "buffers", "Buffer List")
-        map("<leader>fh", "help", "Search Neovim Help")
-        map("<leader>fn", "config", "Search Neovim Config")
-        map("<leader>fz", "zotero", "Search Zotero")
-        map("gr", "reference", "List object references")
+        map("<leader>ff", "find_files", "[Telescope] Find Files")
+        map("<leader>fo", "oldfiles", "[Telescope] File History")
+        map("<leader>fb", "file_browser", "[Telescope] File Browser")
+        map("<leader>fB", "buffers", "[Telescope] Buffer List")
+        map("<leader>fh", "help", "[Telescope] Search Neovim Help")
+        map("<leader>fH", "highlights", "[Telescope] Find highlights")
+        map("<leader>fn", "config", "[Telescope] Search Neovim Config")
+        map("<leader>fz", "zotero", "[Telescope] Search Zotero")
+        map("<leader>ng", "gtd", "[Telescope|Neorg] GTD Lists")
+        map("gr", "reference", "[Telescope|LSP] List object references")
     end,
     config = function ()
-        require("druhan.telescope").setup()
+        require("config.telescope").setup()
     end,
 }
