@@ -69,9 +69,10 @@ def rofi(qtile, command):
         return await proc.wait()
 
     def callback(task):
-        widget_list[1].hook_response(rofi=False)
+        # widget_list[1].hook_response(rofi=False)
+        pass
 
-    widget_list[1].hook_response(rofi=True)
+    # widget_list[1].hook_response(rofi=True)
     task = create_task(run())
     task.add_done_callback(callback)
 
@@ -140,7 +141,7 @@ opts = {
     "opacity": 1,
 }
 
-groups = [Group(str(i)) for i in range(1, 11)]
+groups = [Group(str(i), label="") for i in range(1, 11)]
 
 scratch_names = ["Music", "Diagnostics"]
 scratch_commands = [
@@ -191,41 +192,21 @@ widget_defaults = dict(
     fontsize=14,
     padding=0,
     foreground=TEXT,
-    background=CRUST,
+    background=BASE,
 )
 extension_defaults = widget_defaults.copy()
 
 widget_list = [
-    widget.TextBox(
-        background=BLUE,
-        padding=-1,
-    ),
-    custom.Mode(
-        doom=True,
-        padding=3,
-        tiling_mode=GREEN,
-        floating_mode=RED,
-        command_mode=PINK,
-    ),
-    widget.Memory(
-        foreground=TEXT,
-        background=CRUST,
-        padding=4,
-        format="{MemUsed: .1f}{mm}",
-    ),
-    widget.TextBox(
-        fmt="   ",
-        padding=0,
-        foreground=BLUE,
-    ),
-    custom.Window(
-        foreground=TEAL,
-        fmt="<b>{}</b>",
-        padding=6,
-        parse_text=trim,
-    ),
-    custom.GroupScreen(
-        foreground=TEXT,
+    widget.TextBox(),
+    widget.GroupBox(
+        highlight_method="text",
+        active=TEXT,
+        inactive=SURFACE0,
+        urgent_text=RED,
+        this_current_screen_border=PEACH,
+        this_screen_border=PEACH,
+        other_current_screen_border=YELLOW,
+        other_screen_border=YELLOW,
     ),
     widget.Spacer(),
     custom.Spotify(
@@ -250,21 +231,11 @@ widget_list = [
         low_percentage=0.2,
         padding=12,
     ),
-    widget.TextBox(
-        fmt=" ",
-    ),
     widget.Clock(
         format="%H:%M:%S",
         mouse_callbacks={"Button1": lazy.spawn("galendae")},
-        foreground=PINK,
-        fmt="<b>{}</b>",
-    ),
-    widget.TextBox(
-        fmt="  ",
-    ),
-    widget.TextBox(
-        background=BLUE,
-        padding=-1,
+        foreground=SKY,
+        padding=12,
     ),
 ]
 
@@ -272,10 +243,10 @@ screens = [
     Screen(
         wallpaper_mode="fill",
         wallpaper=wallpaper,
-        bottom=bar.Bar(
+        top=bar.Bar(
             widgets=widget_list,
             size=32,
-            margin=[0, 0, 0, 0],
+            margin=[8, 8, 0, 8],
         ),
     ),
 ]

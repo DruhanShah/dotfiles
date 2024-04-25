@@ -27,10 +27,10 @@
 	Mantle:		#181825;
 	Crust:		#11111b;
 
-    font: "Operator Mono SSm Light 11";
+    font: "Operator Mono SSm Book 10";
 
     foreground: @Text;
-    background-color: @Crust;
+    background-color: @Mantle;
     active-background: @Flamingo;
     urgent-background: @Red;
     
@@ -46,14 +46,12 @@
     border:           0;
     border-color: 	  @bordercolor;
     padding:          6 6 3 6;
-    width: 30%;
-    location: south west;
-    x-offset: 40px;
+    location: center;
 }
 #mainbox {
     border:  0;
     padding: 3;
-    children: [ listview,inputbar ];
+    children: [ inputbar,listview ];
 }
 #message {
     border:       0px dash 0px 0px ;
@@ -73,7 +71,7 @@
 }
 #element {
     border:  0;
-    padding: 4 3 4 3;
+    padding: 6 3 6 3;
 }
 #element.normal.normal {
     background-color: @background-color;
@@ -128,7 +126,7 @@
 #inputbar {
     spacing:    3px;
     text-color: @foreground;
-    padding:    1px ;
+    padding:    0 0 4 0 ;
 }
 #case-indicator {
     spacing:    0;
@@ -137,19 +135,20 @@
 #entry {
     spacing:    0;
     text-color: @Sky;
+	padding:	4 4 4 4;
 }
 #prompt {
     spacing:    0;
     text-color: @Crust;
 	background-color: @Green;
-	padding:	0 4 0 4;
+	padding:	4 4 4 4;
 }
 #inputbar {
-    children:   [ textbox-prompt-colon,entry,case-indicator ];
+    children:   [ prompt,textbox-prompt-colon,entry,case-indicator ];
 }
 #textbox-prompt-colon {
     expand:     false;
-    str:        ":";
+    str:        "";
     margin:     0 0 0 0;
     text-color: @foreground;
 }
