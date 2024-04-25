@@ -211,7 +211,6 @@ widget_list = [
     widget.Spacer(),
     custom.Spotify(
         format="{icon} {track} - {artist}",
-        fmt="<b>{}</b>",
         padding=12,
         pause_icon="󰏤",
         play_icon="󰐊",
