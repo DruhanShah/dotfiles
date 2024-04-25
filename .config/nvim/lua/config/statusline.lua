@@ -203,6 +203,18 @@ local Git = {
     end,
     hl = { fg = "mauve", bg = "crust" },
 
+    {   -- git branch name
+        provider = function(self)
+            return " " .. self.status_dict.head
+        end,
+        hl = { bold = true }
+    },
+    {
+        provider = "  ",
+        condition = function (self)
+            return self.has_changes
+        end
+    },
     {
         provider = function(self)
             local count = self.status_dict.added or 0
@@ -224,18 +236,6 @@ local Git = {
         end,
         hl = { fg = "peach" },
     },
-    {
-        provider = "  ",
-        condition = function (self)
-            return self.has_changes
-        end
-    },
-    {   -- git branch name
-        provider = function(self)
-            return " " .. self.status_dict.head
-        end,
-        hl = { bold = true }
-    },
 }
 
 local FileEncoding = {
@@ -246,12 +246,12 @@ local FileEncoding = {
     hl = { bg = "crust", fg = "text" },
 }
 
-local FileFormat = {
+local FileType = {
     provider = function()
-        local fmt = vim.bo.fileformat
+        local fmt = vim.bo.filetype
         return fmt:upper()
     end,
-    hl = { bg = "crust", fg = "peach", bold = true },
+    hl = { bg = "crust", fg = "blue", bold = true },
 }
 
 local EditingBuffer = {
@@ -269,8 +269,6 @@ local EditingBuffer = {
         condition = conditions.is_active,
         padding(1),
         Position,
-        padding(2),
-        Diagnostics,
     },
     spacer,
     {
@@ -281,7 +279,7 @@ local EditingBuffer = {
         padding(2),
         FileEncoding,
         padding(2),
-        FileFormat
+        FileType
     },
     padding(2),
     Bracket

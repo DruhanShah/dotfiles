@@ -1,10 +1,10 @@
 palette = "catppuccin_mocha"
 
 format = """
-[▌](fg:blue) $character  $directory $git_branch$cmd_duration
+[▋](fg:blue) $character  $directory $git_branch$cmd_duration $fill [▋](fg:blue)
 [  ](fg:green)
 """
-add_newline = true
+add_newline = false
 
 [directory]
 format = "[$path](bg:base fg:rosewater bold)"
@@ -26,9 +26,12 @@ min_time = 500
 
 [character]
 format = "$symbol"
-success_symbol = "[](bg:base fg:green bold)"
-error_symbol = "[](bg:base fg:green bold)"
-vimcmd_symbol = "[](bg:base fg:red bold)"
+success_symbol = "[](bg:base fg:green bold)"
+error_symbol = "[](bg:base fg:green bold)"
+vimcmd_symbol = "[](bg:base fg:red bold)"
+
+[fill]
+symbol = " "
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"

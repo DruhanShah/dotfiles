@@ -4,3 +4,7 @@ modmap:
       KEY_CAPSLOCK:
         alone: KEY_ESC
         held: KEY_LEFTCTRL
+      KEY_RIGHTALT:
+        alone: KEY_COMPOSE
+        held: KEY_RIGHTALT
+

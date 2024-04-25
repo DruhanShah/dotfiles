@@ -40,48 +40,20 @@ end
 
 config.color_scheme = "catppuccin-mocha"
 
-config.font = wezterm.font("Caskaydia Cove NF")
-config.font_size = 12
+config.font = wezterm.font("CaskaydiaCove NF")
+config.font_size = 11
 config.cell_width = 1.0
-config.line_height = 1.5
-config.font_rules = {
-    {
-        intensity = "Bold",
-        font = wezterm.font("Caskaydia Cove NF", {weight="Bold"}),
-    },
-    {
-        intensity = "Bold",
-        italic = true,
-        font = wezterm.font("Caskaydia Cove NF", {weight="Bold", italic=true}),
-    },
-    {
-        intensity = "Normal",
-        font = wezterm.font("Caskaydia Cove NF", {weight="Regular"}),
-    },
-    {
-        intensity = "Normal",
-        italic = true,
-        font = wezterm.font("Caskaydia Cove NF", {weight="Regular", italic=true}),
-    },
-    {
-        intensity = "Half",
-        font = wezterm.font("Caskaydia Cove NF", {weight="ExtraLight"}),
-    },
-    {
-        intensity = "Half",
-        italic = true,
-        font = wezterm.font("Caskaydia Cove NF", {weight="ExtraLight", italic=true}),
-    },
-}
+config.line_height = 1.8
+config.strikethrough_position = "0.5cell"
 
 config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "NONE"
 config.enable_tab_bar = false
 config.window_padding = {
-    left = 4,
-    right = 1,
-    top = 0,
-    bottom = 0,
+    left = 24,
+    right = 24,
+    top = 24,
+    bottom = 16,
 }
 config.cursor_blink_rate = 0
 
