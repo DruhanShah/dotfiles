@@ -74,10 +74,6 @@ function M.find_files()
     builtin.find_files()
 end
 
-function M.file_browser()
-    telescope.extensions.file_browser.file_browser()
-end
-
 function M.zotero()
     telescope.extensions.zotero.zotero()
 end
@@ -138,7 +134,6 @@ function M.setup ()
 
     telescope.load_extension("fzf")
     telescope.load_extension("zotero")
-    telescope.load_extension("file_browser")
 end
 
 return M

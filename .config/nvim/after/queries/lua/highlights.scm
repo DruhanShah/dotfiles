@@ -2,10 +2,7 @@
 
 (variable_declaration
   "local" @keyword
-  (#set! conceal "$"))
-(assignment_statement
-  "=" @keyword
-  (#set! conceal "≜"))
+  (#set! conceal "∴"))
 
 (function_definition
   "function" @keyword.function
@@ -13,12 +10,6 @@
 (function_definition
   "end" @keyword.function
   (#set! conceal "∎"))
-
-("==" @operator (#set! conceal "≡"))
-("~=" @operator (#set! conceal "≢"))
-("<=" @operator (#set! conceal "≤"))
-(">=" @operator (#set! conceal "≥"))
-("*" @operator (#set! conceal "∙"))
 
 (("not" @keyword.operator) (#set! conceal "¬"))
 ("or" @keyword.operator (#set! conceal "∨"))

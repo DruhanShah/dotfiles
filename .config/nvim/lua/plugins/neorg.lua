@@ -9,6 +9,7 @@ return {
             "vhyrro/luarocks.nvim",
             "nvim-treesitter/nvim-treesitter",
             { "pysan3/neorg-templates", dependencies = { "L3MON4D3/LuaSnip" } },
+            -- { dir = "~/Stuff/Lua/better-conceal" },
         },
         lazy = false,
         init = function ()

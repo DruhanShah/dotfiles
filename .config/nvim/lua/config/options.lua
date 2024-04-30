@@ -35,8 +35,8 @@ local options = {
     },
     CmdLine = {
         showtabline = 1,
-        cmdwinheight = 2,
-        cmdheight = 1,
+        cmdwinheight = 1,
+        cmdheight = 0,
         showmode = false,
     },
 }

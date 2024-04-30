@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/bin/sh
 
 volume_step=5
 brightness_step=4800

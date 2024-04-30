@@ -27,16 +27,16 @@
 	Mantle:		#181825;
 	Crust:		#11111b;
 
-    font: "Operator Mono SSm Book 10";
+    font: "Operator Mono SSm Lig 10";
 
     foreground: @Text;
     background-color: @Mantle;
     active-background: @Flamingo;
     urgent-background: @Red;
     
-    selected-background: @Sky;
-    selected-urgent-background: @Sky;
-    selected-active-background: @Sky;
+    selected-background: @Blue;
+    selected-urgent-background: @Blue;
+    selected-active-background: @Blue;
     separatorcolor: @Rosewater;
     bordercolor: @Blue;
 }

@@ -36,8 +36,6 @@ return {
                 icon_preset = "basic",
                 icons = {
                     code_block = {
-                        conceal = true,
-                        content_only = false,
                         width = "content",
                         padding = {
                             left = 1,
@@ -46,17 +44,12 @@ return {
                     },
                     heading = {
                         icons = {
-                            " ",
-                            " ",
-                            " ",
-                            " ",
-                            "󰜌 ",
-                            "✺ ",
-                        }
-                    },
-                    list = {
-                        icons = {
-                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "󰜌",
+                            "✺",
                         }
                     },
                     todo = {
@@ -65,6 +58,9 @@ return {
                         },
                         uncertain = {
                             icon = "",
+                        },
+                        cancelled = {
+                            icon = "",
                         },
                     },
                 },
@@ -140,5 +136,6 @@ return {
                 },
             },
         },
+        -- ["external.better-conceal"] = {},
     },
 }

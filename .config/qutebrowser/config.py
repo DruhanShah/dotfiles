@@ -74,7 +74,7 @@ c.fileselect.folder.command = [
     "{}"
 ]
 
-c.fonts.default_family = "Operator Mono SSm Book"
+c.fonts.default_family = "Operator Mono SSm Lig Book"
 c.fonts.default_size = "14px"
 
 c.bindings.commands = {

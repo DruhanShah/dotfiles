@@ -11,4 +11,9 @@ return {
         },
         delete_to_trash = true,
     },
+    init = function ()
+        -- vim.keymap.set("n", "<leader>o", require("config.file-explorer").popup, {
+        --     desc = "Open file explorer",
+        -- })
+    end
 }

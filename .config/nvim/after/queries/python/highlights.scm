@@ -7,12 +7,6 @@
 ("in" @keyword.operator (#set! conceal "∈"))
 ("not" @keyword.operator (#eq? @keyword.operator "in") (#set! conceal "∉"))
 
-("==" @operator (#set! conceal "≡"))
-("!=" @operator (#set! conceal "≢"))
-("<=" @operator (#set! conceal "≤"))
-(">=" @operator (#set! conceal "≥"))
-("*" @operator (#set! conceal "∙"))
-
 ((call function: (identifier) @function.builtin)
  (#eq? @function.builtin "sum")
  (#set! conceal "∑"))

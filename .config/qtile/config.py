@@ -1,41 +1,12 @@
 import os
 import re
 import subprocess
-import asyncio
 from libqtile import bar, layout, widget, hook, extension
-from libqtile.utils import create_task
 from libqtile.config import Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.config import ScratchPad, DropDown
 from libqtile.lazy import lazy
 import widgets as custom
-
-TRANSPARENT = "#00000000"
-ROSEWATER = "#f5e0dc"
-FLAMINGO = "#f2cdcd"
-PINK = "#f5c2e7"
-MAUVE = "#cba6f7"
-RED = "#F38ba8"
-MAROON = "#eba0ac"
-PEACH = "#fab387"
-YELLOW = "#f9e2af"
-GREEN = "#a6e3a1"
-TEAL = "#94e2d5"
-SKY = "#89dceb"
-SAPPHIRE = "#74c7ec"
-BLUE = "#89b4fa"
-LAVENDER = "#b4befe"
-TEXT = "#cdd6f4"
-SUBTEXT1 = "#bac2de"
-SUBTEXT0 = "#a6adc8"
-OVERLAY2 = "#9399b2"
-OVERLAY1 = "#7f849c"
-OVERLAY0 = "#6c7086"
-SURFACE2 = "#585b70"
-SURFACE1 = "#45475a"
-SURFACE0 = "#313244"
-BASE = "#1e1e2e"
-MANTLE = "#181825"
-CRUST = "#11111b"
+from catppuccin import PALETTE
 
 home = os.path.expanduser("~")
 
@@ -45,7 +16,10 @@ shift = "shift"
 alt = "mod1"
 vb_command = f"{home}/.config/qtile/scripts/dunst-vb.sh"
 wallpaper = f"{home}/Wallpapers/pixel-plateau.png"
-roficlip = "rofi -modi 'clipboard:greenclip print' -show clipboard"
+
+colorscheme = {}
+for color in PALETTE.mocha.colors:
+    colorscheme[color.name.upper()] = color.hex
 
 
 @lazy.function
@@ -59,22 +33,6 @@ def toggle_trackpad(qtile):
         subprocess.run(["xinput", "disable", "10"])
     else:
         subprocess.run(["xinput", "enable", "10"])
-
-
-@lazy.function
-def rofi(qtile, command):
-
-    async def run():
-        proc = await asyncio.create_subprocess_shell(command)
-        return await proc.wait()
-
-    def callback(task):
-        # widget_list[1].hook_response(rofi=False)
-        pass
-
-    # widget_list[1].hook_response(rofi=True)
-    task = create_task(run())
-    task.add_done_callback(callback)
 
 
 powermenu = extension.CommandSet(
@@ -119,13 +77,13 @@ keys = [
 
     Key([mod, ctrl], "space", lazy.spawn("dunstctl close-all")),
 
-    Key([mod], "Semicolon", rofi("rofi -show run")),
+    Key([mod], "Semicolon", lazy.spawn("rofi -show run")),
     KeyChord([mod], "r", [
-        Key([], "w", rofi("rifi")),
-        Key([], "b", rofi("rofi-bluetooth")),
-        Key([], "c", rofi(roficlip)),
-        Key([], "q", rofi("rofi -show calc")),
-        Key([], "n", rofi("rofi -modi nerdy -show nerdy")),
+        Key([], "w", lazy.spawn("rifi")),
+        Key([], "b", lazy.spawn("rofi-bluetooth")),
+        Key([], "c", lazy.spawn("roficlip")),
+        Key([], "q", lazy.spawn("rofi -show calc")),
+        Key([], "n", lazy.spawn("rofi -modi nerdy -show nerdy")),
     ]),
     Key([mod], "q", lazy.run_extension(powermenu)),
 
@@ -141,12 +99,12 @@ opts = {
     "opacity": 1,
 }
 
-groups = [Group(str(i), label="") for i in range(1, 11)]
+groups = [Group(str(i), label="") for i in range(1, 11)]
 
 scratch_names = ["Music", "Diagnostics"]
 scratch_commands = [
     "spotify",
-    "kitty -e zsh -ci 'btop'"
+    "kitty -e 'btop'"
 ]
 scratch_keys = ["m", "d"]
 
@@ -166,10 +124,10 @@ for name, key in zip(scratch_names, scratch_keys):
 
 layouts = [
     layout.Columns(
-        border_focus=SKY,
-        border_focus_stack=SKY,
-        border_normal=SKY,
-        border_normal_stack=SKY,
+        border_focus=colorscheme["SKY"],
+        border_focus_stack=colorscheme["SKY"],
+        border_normal=colorscheme["SKY"],
+        border_normal_stack=colorscheme["SKY"],
         border_on_single=True,
         border_width=0,
         margin=8,
@@ -188,11 +146,11 @@ def trim(text):
 
 
 widget_defaults = dict(
-    font="Operator Mono SSm",
+    font="Operator Mono SSm Lig",
     fontsize=14,
-    padding=0,
-    foreground=TEXT,
-    background=BASE,
+    padding=2,
+    foreground=colorscheme["TEXT"],
+    background=colorscheme["BASE"],
 )
 extension_defaults = widget_defaults.copy()
 
@@ -200,42 +158,50 @@ widget_list = [
     widget.TextBox(),
     widget.GroupBox(
         highlight_method="text",
-        active=TEXT,
-        inactive=SURFACE0,
-        urgent_text=RED,
-        this_current_screen_border=PEACH,
-        this_screen_border=PEACH,
-        other_current_screen_border=YELLOW,
-        other_screen_border=YELLOW,
+        active=colorscheme["SUBTEXT 0"],
+        inactive=colorscheme["SURFACE 0"],
+        urgent_text=colorscheme["RED"],
+        this_current_screen_border=colorscheme["BLUE"],
+        this_screen_border=colorscheme["BLUE"],
+        other_current_screen_border=colorscheme["YELLOW"],
+        other_screen_border=colorscheme["YELLOW"],
     ),
     widget.Spacer(),
     custom.Spotify(
         format="{icon} {track} - {artist}",
-        padding=12,
         pause_icon="󰏤",
         play_icon="󰐊",
-        foreground=GREEN,
+        foreground=colorscheme["GREEN"],
     ),
     widget.Spacer(),
-    widget.Battery(
-        format="{char} {percent:2.0%}",
-        charge_char="󰂋",
-        discharge_char="󰁿",
-        full_char="󱟢",
-        unknown_char="󰂑",
-        show_short_text=False,
-        update_interval=20,
-        foreground=GREEN,
-        low_foreground=RED,
-        low_percentage=0.2,
-        padding=12,
+    widget.TextBox(
+        fmt=" ",
+        padding=3,
+        fontsize=18,
+        foreground=colorscheme["LAVENDER"],
     ),
     widget.Clock(
-        format="%H:%M:%S",
+        format="%H %M %S",
         mouse_callbacks={"Button1": lazy.spawn("galendae")},
-        foreground=SKY,
-        padding=12,
+        foreground=colorscheme["LAVENDER"],
     ),
+    widget.TextBox(
+        padding=10,
+    ),
+    widget.Battery(
+        format="{char}",
+        charge_char="󰂋 ",
+        discharge_char="󰁿 ",
+        full_char="󱟢 ",
+        unknown_char="󰂑 ",
+        show_short_text=False,
+        update_interval=20,
+        foreground=colorscheme["GREEN"],
+        low_foreground=colorscheme["RED"],
+        low_percentage=0.2,
+        fontsize=18,
+    ),
+    widget.TextBox(),
 ]
 
 screens = [
@@ -266,17 +232,17 @@ cursor_warp = False
 floating_layout = layout.Floating(
     float_rules=[
         *layout.Floating.default_float_rules,
-        Match(wm_class="confirmreset"),  # gitk
-        Match(wm_class="makebranch"),  # gitk
-        Match(wm_class="maketag"),  # gitk
-        Match(wm_class="ssh-askpass"),  # ssh-askpass
-        Match(title="branchdialog"),  # gitk
-        Match(title="pinentry"),  # GPG key password entry
+        Match(wm_class="confirmreset"),
+        Match(wm_class="makebranch"),
+        Match(wm_class="maketag"),
+        Match(wm_class="ssh-askpass"),
+        Match(title="branchdialog"),
+        Match(title="pinentry"),
         Match(title="file-picker"),
         Match(wm_class="matplotlib"),
     ],
-    border_focus=SKY,
-    border_normal=SKY,
+    border_focus=colorscheme["SKY"],
+    border_normal=colorscheme["SKY"],
     border_width=0,
 )
 auto_fullscreen = True
@@ -288,14 +254,12 @@ wmname = "QTile"
 
 @hook.subscribe.startup_once
 def autostart():
-    subprocess.Popen(["greenclip", "daemon"])
-    subprocess.Popen([f"{home}/.config/qtile/scripts/onedrive.sh"])
-    subprocess.Popen(["picom", "&"], shell=True)
+    subprocess.Popen([f"{home}/.config/qtile/scripts/autostart.sh"])
 
 
 @hook.subscribe.client_new
 def resize(window):
     if window.match(Match(wm_class="mpv")):
         window.cmd_set_size_floating(1600, 900)
-    if window.match(Match(wm_class="file-picker")):
+    if window.match(Match(title="file-picker")):
         window.cmd_set_size_floating(1280, 720)
