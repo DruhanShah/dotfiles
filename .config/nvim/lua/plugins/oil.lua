@@ -5,15 +5,12 @@ return {
     },
     opts = {
         default_file_explorer = true,
-        columns = {
-            "icon",
-            "permissions",
-        },
+        columns = { "icon", "permissions" },
         delete_to_trash = true,
     },
     init = function ()
-        -- vim.keymap.set("n", "<leader>o", require("config.file-explorer").popup, {
-        --     desc = "Open file explorer",
-        -- })
+        vim.keymap.set("n", "<leader>o", function ()
+            require("oil").open()
+        end, { desc = "Open file explorer" })
     end
 }

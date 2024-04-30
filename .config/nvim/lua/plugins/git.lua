@@ -1,12 +1,8 @@
 return {
     {
-        "lewis6991/gitsigns.nvim",
-        lazy = true,
-        opts = { signcolumn = false },
-    },
-    {
         "NeogitOrg/neogit",
         branch = "nightly",
+        cmd = "Neogit",
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-telescope/telescope.nvim",
