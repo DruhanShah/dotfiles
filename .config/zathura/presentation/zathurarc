@@ -2,10 +2,7 @@ include catppuccin-mocha
 
 # Startup options
 
-set window-title-basename "false"
-set guioptions "s"
-set selection-clipboard "clipboard"
 set font "Operator Mono SSm Lig 11"
-set adjust-open width
 set recolor false
-set filemonitor "signal"
+set guioptions ""
+set selection-clipboard "clipboard"

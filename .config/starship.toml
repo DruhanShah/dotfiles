@@ -1,13 +1,13 @@
 palette = "catppuccin_mocha"
 
 format = """
-[▋](fg:blue) [](fg:green)  $directory $sudo $git_branch$cmd_duration $fill [▋](fg:blue)
+[[▋](fg:blue) [](bg:crust fg:green)  $directory $sudo $git_branch$cmd_duration $fill [▋](fg:blue)](bg:crust)
 $character
 """
 add_newline = false
 
 [directory]
-format = "[$path](bg:base fg:rosewater bold)"
+format = "[$path](bg:crust fg:rosewater bold)"
 truncation_length = 4
 truncation_symbol = "…/"
 
@@ -18,10 +18,10 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-format = " [$symbol $branch](bg:base fg:subtext0) "
+format = " [$symbol $branch](bg:crust fg:subtext0) "
 
 [cmd_duration]
-format = "| [$duration](bg:base fg:green)"
+format = "| [$duration](bg:crust fg:green)"
 min_time = 500
 
 [character]
@@ -32,11 +32,12 @@ vimcmd_symbol = "[  ](bg:base fg:peach)"
 
 [fill]
 symbol = " "
+style = "bg:crust"
 
 [sudo]
 format = "$symbol"
-symbol = "[](bg:base fg:peach)"
-disabled = false
+symbol = "[](bg:crust fg:peach)"
+disabled = true
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"

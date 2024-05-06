@@ -6,5 +6,5 @@
 
 config_version: 2
 settings:
-  tabs.show:
-    global: switching
+  statusbar.show:
+    global: in-mode

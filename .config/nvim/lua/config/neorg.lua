@@ -1,4 +1,4 @@
-local update_date = function ()
+local update_date = function()
     return os.date("%Y-%m-%dT%H:%M:%S")
 end
 
@@ -20,22 +20,23 @@ return {
                 template = {
                     {
                         "title",
-                        function ()
+                        function()
                             return vim.fn.expand("%:p:t:r")
                         end,
                     },
                     { "description", "" },
-                    { "categories", "" },
-                    { "updated", update_date },
+                    { "categories",  "" },
+                    { "updated",     update_date },
                 }
             },
         },
         ["core.concealer"] = {
             config = {
-                init_open_folds = "always",
+                init_open_folds = "auto",
                 icon_preset = "basic",
                 icons = {
                     code_block = {
+                        conceal = true,
                         width = "content",
                         padding = {
                             left = 1,
@@ -68,15 +69,15 @@ return {
         },
         ["core.highlights"] = {
             config = {
-                -- dim = {
-                --     tags = {
-                --         ranged_verbatim = {
-                --             code_block = {
-                --                 percentage = 50,
-                --             },
-                --         },
-                --     },
-                -- },
+                dim = {
+                    tags = {
+                        ranged_verbatim = {
+                            code_block = {
+                                percentage = 30,
+                            },
+                        },
+                    },
+                },
                 highlights = {
                     headings = {
                         ["1"] = {
@@ -104,6 +105,16 @@ return {
                             prefix = "guifg=#fab387 gui=bold",
                         },
                     },
+                    todo_items = {
+                        done = "guibg=#a6e3a1 guifg=#11111b gui=bold",
+                        undone = "guibg=#9399b2 guifg=#11111b gui=bold",
+                        urgent = "guibg=#f38ba8 guifg=#11111b gui=bold",
+                        on_hold = "guibg=#89b4fa guifg=#11111b gui=bold",
+                        pending = "guibg=#b4befe guifg=#11111b gui=bold",
+                        recurring = "guibg=#cba6f7 guifg=#11111b gui=bold",
+                        uncertain = "guibg=#fab387 guifg=#11111b gui=bold",
+                        cancelled = "guibg=#45475a guifg=#cdd6f4 gui=bold",
+                    },
                 },
             },
         },
@@ -115,6 +126,8 @@ return {
             },
         },
         ["core.ui.calendar"] = {},
+        -- ["core.integrations.image"] = {},
+        -- ["core.latex.renderer"] = {},
         ["external.templates"] = {
             config = {
                 keywords = {
@@ -136,6 +149,5 @@ return {
                 },
             },
         },
-        -- ["external.better-conceal"] = {},
     },
 }

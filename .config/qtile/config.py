@@ -15,7 +15,7 @@ ctrl = "control"
 shift = "shift"
 alt = "mod1"
 vb_command = f"{home}/.config/qtile/scripts/dunst-vb.sh"
-wallpaper = f"{home}/Wallpapers/pixel-plateau.png"
+wallpaper = f"{home}/Wallpapers/painting-mountain.png"
 
 colorscheme = {}
 for color in PALETTE.mocha.colors:
@@ -99,7 +99,7 @@ opts = {
     "opacity": 1,
 }
 
-groups = [Group(str(i), label="") for i in range(1, 11)]
+groups = [Group(str(i), label="󱓻") for i in range(1, 11)]
 
 scratch_names = ["Music", "Diagnostics"]
 scratch_commands = [
@@ -146,74 +146,32 @@ def trim(text):
 
 
 widget_defaults = dict(
-    font="Operator Mono SSm Lig",
-    fontsize=14,
-    padding=2,
+    fontsize=16,
+    padding=0,
     foreground=colorscheme["TEXT"],
     background=colorscheme["BASE"],
 )
 extension_defaults = widget_defaults.copy()
 
 widget_list = [
-    widget.TextBox(),
-    widget.GroupBox(
-        highlight_method="text",
-        active=colorscheme["SUBTEXT 0"],
-        inactive=colorscheme["SURFACE 0"],
-        urgent_text=colorscheme["RED"],
-        this_current_screen_border=colorscheme["BLUE"],
-        this_screen_border=colorscheme["BLUE"],
-        other_current_screen_border=colorscheme["YELLOW"],
-        other_screen_border=colorscheme["YELLOW"],
-    ),
+    custom.diagnostics,
+    custom.spotify,
     widget.Spacer(),
-    custom.Spotify(
-        format="{icon} {track} - {artist}",
-        pause_icon="󰏤",
-        play_icon="󰐊",
-        foreground=colorscheme["GREEN"],
-    ),
+    custom.groupbox,
     widget.Spacer(),
-    widget.TextBox(
-        fmt=" ",
-        padding=3,
-        fontsize=18,
-        foreground=colorscheme["LAVENDER"],
-    ),
-    widget.Clock(
-        format="%H %M %S",
-        mouse_callbacks={"Button1": lazy.spawn("galendae")},
-        foreground=colorscheme["LAVENDER"],
-    ),
-    widget.TextBox(
-        padding=10,
-    ),
-    widget.Battery(
-        format="{char}",
-        charge_char="󰂋 ",
-        discharge_char="󰁿 ",
-        full_char="󱟢 ",
-        unknown_char="󰂑 ",
-        show_short_text=False,
-        update_interval=20,
-        foreground=colorscheme["GREEN"],
-        low_foreground=colorscheme["RED"],
-        low_percentage=0.2,
-        fontsize=18,
-    ),
-    widget.TextBox(),
+    custom.datetime,
 ]
 
 screens = [
     Screen(
         wallpaper_mode="fill",
         wallpaper=wallpaper,
-        top=bar.Bar(
+        left=bar.Bar(
             widgets=widget_list,
-            size=32,
-            margin=[8, 8, 0, 8],
+            size=45,
+            margin=[8, 0, 8, 8],
         ),
-    ),
+    )
 ]
 
 mouse = [

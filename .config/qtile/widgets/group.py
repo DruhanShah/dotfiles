@@ -7,7 +7,7 @@ class GroupScreen(base._TextBox):
     defaults = [
         ("default_text", "", "Default text to display"),
         ("mode", "nvim", "Display style"),
-        ("format", "{base}", "Display format"),
+        ("format", "{name}", "Display format"),
         ("fmt", "{}", "Display format"),
         ("parse_text", None, "Function to parse the window name"),
         ("tiling_mode", "#000000", "Color when in tiling mode"),
@@ -35,24 +35,24 @@ class GroupScreen(base._TextBox):
         hook.unsubscribe.current_screen_change(self.hook_response)
 
     def hook_response(self, *args, rofi=False):
-        if self.mode == "nvim":
-            window = self.qtile.current_window
-            if rofi:
-                self.background = self.command_mode
-            elif window is None:
-                self.background = self.tiling_mode
-            elif window.info()["floating"]:
-                self.background = self.floating_mode
-            else:
-                self.background = self.tiling_mode
+        window = self.qtile.current_window
+        if rofi:
+            self.background = self.command_mode
+        elif window is None:
+            self.background = self.tiling_mode
+        elif window.info()["floating"]:
+            self.background = self.floating_mode
+        else:
+            self.background = self.tiling_mode
 
-        if self.mode == "nvim" or self.more == "doom":
+        if self.mode == "doom":
+            final = "   "
+        else:
             screen = self.qtile.current_screen
             group = screen.group
-
             final = f" {group.name}:{str(screen.index)} "
 
-        var = {"base": final}
+        var = {"name": final}
         unescaped = self.format.format(**var)
         self.draw()
         self.update(pangocffi.markup_escape_text(unescaped))

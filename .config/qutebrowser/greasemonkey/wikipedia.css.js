@@ -5,7 +5,7 @@
 GM_addStyle(`@import url("https://python.catppuccin.com/pygments/catppuccin-variables.important.css");
 
 * {
-    font-family: "Operator Mono SSm Medium" !important;
+    font-family: "Operator Mono SSm Lig" !important;
 }
 
 :root {

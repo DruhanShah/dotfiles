@@ -23,6 +23,7 @@ const bookmarks = [
             { name: "ACL Anthology", url: "https://aclanthology.org" },
             { name: "ArXiv", url: "https://arxiv.org/list/cs.CL/recent" },
             { name: "Open Review", url: "https://openreview.net" },
+            { name: "Google Scholar", url: "https://scholar.google.com" },
         ],
     },
     {

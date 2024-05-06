@@ -3,6 +3,8 @@ return {
     dependencies = {
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
+        "stevearc/conform.nvim",
+        "LittleEndianRoot/mason-conform",
     },
     init = function()
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, {

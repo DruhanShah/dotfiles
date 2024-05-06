@@ -17,14 +17,15 @@ function M.gtd(opts)
         prompt_title = "GTD list",
         finder = finders.new_table {
             results = {
-                { "Refile", "~/Notes/index.norg" },
-                { "Next Actions", "~/Notes/next.norg" },
-                { "Deadlines", "~/Notes/deadlines.norg" },
-                { "Projects", "~/Notes/Projects/index.norg" },
-                { "Someday/Maybe", "~/Notes/someday-maybe.norg" },
-                { "Waiting for", "~/Notes/waiting.norg" },
+                { "Refile",        "~/Notes/index.norg" },
+                { "Now",           "~/Notes/now.norg" },
+                { "Later",         "~/Notes/later.norg" },
+                { "Someday/Maybe", "~/Notes/maybe.norg" },
+                { "Deadlines",     "~/Notes/deadlines.norg" },
+                { "Projects",      "~/Notes/Projects/index.norg" },
+                { "Done",          "~/Notes/Projects/done.norg" },
             },
-            entry_maker = function (entry)
+            entry_maker = function(entry)
                 return {
                     value = entry[2],
                     display = entry[1],
@@ -37,14 +38,14 @@ function M.gtd(opts)
             define_preview = function(self, entry)
                 conf.buffer_previewer_maker(entry.value, self.state.bufnr, {
                     bufname = self.state.bufname,
-                    callback = function (bufnr)
+                    callback = function(bufnr)
                         putils.highlighter(bufnr, "norg")
                     end
                 })
             end
         },
-        attach_mappings = function (prompt_bufnr, map)
-            actions.select_default:replace(function ()
+        attach_mappings = function(prompt_bufnr, map)
+            actions.select_default:replace(function()
                 local selection = action_state.get_selected_entry()
                 actions.close(prompt_bufnr)
                 vim.cmd(":e " .. selection.value)
@@ -54,19 +55,19 @@ function M.gtd(opts)
     }):find()
 end
 
-function M.help ()
+function M.help()
     builtin.help_tags()
 end
 
-function M.highlights ()
+function M.highlights()
     builtin.highlights()
 end
 
-function M.oldfiles ()
+function M.oldfiles()
     builtin.oldfiles()
 end
 
-function M.buffers ()
+function M.buffers()
     builtin.buffers()
 end
 
@@ -86,7 +87,7 @@ function M.reference()
     builtin.lsp_references()
 end
 
-function M.setup ()
+function M.setup()
     telescope.setup {
         defaults = {
             file_ignore_patterns = {
@@ -99,6 +100,9 @@ function M.setup ()
             layout_strategy = "bottom_pane",
             layout_config = {
                 height = 15,
+            },
+            path_display = {
+                "filename_first",
             },
         },
         extensions = {
