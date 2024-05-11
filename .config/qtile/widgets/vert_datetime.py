@@ -61,8 +61,8 @@ datetime = DateTime(
     popup_show_args={
         "relative_to": 7,
         "relative_to_bar": True,
-        "x": 4,
-        "y": -8,
+        "x": 6,
+        "y": -12,
     },
     format="\n%H\n%M\n%S",
     foreground=colorscheme["LAVENDER"],

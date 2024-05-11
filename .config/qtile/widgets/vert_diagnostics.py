@@ -163,8 +163,8 @@ diagnostics = Diagnostics(
     popup_show_args={
         "relative_to": 1,
         "relative_to_bar": True,
-        "x": 2,
-        "y": 8,
+        "x": 6,
+        "y": 12,
     },
     format="{char}",
     charge_char="",

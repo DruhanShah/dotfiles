@@ -130,7 +130,7 @@ layouts = [
         border_normal_stack=colorscheme["SKY"],
         border_on_single=True,
         border_width=0,
-        margin=8,
+        margin=12,
     ),
 ]
 
@@ -169,7 +169,7 @@ screens = [
         left=bar.Bar(
             widgets=widget_list,
             size=45,
-            margin=[8, 0, 8, 8],
+            margin=[12, 0, 12, 12],
         ),
     )
 ]

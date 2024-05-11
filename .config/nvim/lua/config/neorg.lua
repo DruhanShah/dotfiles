@@ -128,26 +128,5 @@ return {
         ["core.ui.calendar"] = {},
         -- ["core.integrations.image"] = {},
         -- ["core.latex.renderer"] = {},
-        ["external.templates"] = {
-            config = {
-                keywords = {
-                    TODAY_AS_FILEPATH = function()
-                        local ls = require("luasnip")
-                        local s = require("neorg.modules.external.templates.default_snippets")
-                        return ls.text_node(s.parse_date(0, s.file_name_date(), "%Y/%m/%d"))
-                    end,
-                    TOMORROW_AS_FILEPATH = function()
-                        local ls = require("luasnip")
-                        local s = require("neorg.modules.external.templates.default_snippets")
-                        return ls.text_node(s.parse_date(1, s.file_name_date(), "%Y/%m/%d"))
-                    end,
-                    YESTERDAY_AS_FILEPATH = function()
-                        local ls = require("luasnip")
-                        local s = require("neorg.modules.external.templates.default_snippets")
-                        return ls.text_node(s.parse_date(-1, s.file_name_date(), "%Y/%m/%d"))
-                    end,
-                },
-            },
-        },
     },
 }

@@ -20,7 +20,10 @@ c.url.default_page = f"{home}/.config/qutebrowser/homepage/index.html"
 
 c.content.blocking.method = "both"
 c.tabs.position = "left"
-c.tabs.show = "switching"
+c.tabs.show = "always"
+c.tabs.width = 50
+c.tabs.favicons.scale = 1.5
+c.tabs.indicator.width = 0
 c.content.images = True
 c.content.javascript.enabled = True
 c.content.javascript.clipboard = "access-paste"
@@ -35,6 +38,7 @@ c.statusbar.padding = {
 }
 c.colors.statusbar.insert.bg = "#a6e3a1"
 c.colors.statusbar.insert.fg = "#11111b"
+c.statusbar.show = "in-mode"
 
 c.tabs.padding = {
     "top": 16,
@@ -77,12 +81,12 @@ c.fileselect.folder.command = [
     "{}"
 ]
 
-c.fonts.default_family = "Operator Mono SSm Lig Book"
+c.fonts.default_family = "Operator Mono SSm Lig"
 c.fonts.default_size = "14px"
 
 c.bindings.commands = {
     "normal": {
-        "xt": "config-cycle tabs.show always switching",
+        "xt": "config-cycle tabs.show switching always",
         "xs": "config-cycle statusbar.show in-mode always",
         ",m": "spawn mpv {url}",
         ",M": "hint links spawn mpv {hint-url}",

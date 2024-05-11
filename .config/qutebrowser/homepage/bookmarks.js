@@ -30,9 +30,9 @@ const bookmarks = [
         title: "Social",
         links: [
             { name: "LinkedIn", url: "https://linkedin.com" },
-            { name: "Twitter", url: "https://twitter.com" },
             { name: "Instagram", url: "https://instagram.com" },
             { name: "Reddit", url: "https://reddit.com" },
+            { name: "WhatsApp", url: "https://web.whatsapp.com" },
         ],
     },
 ];

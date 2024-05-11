@@ -37,6 +37,7 @@ not_playing = popup.PopupRelativeLayout(
 playing_controls = [
     popup.PopupImage(
         name="artwork",
+        filename="",
         pos_x=0.05,
         pos_y=0.05,
         width=0.3,
@@ -60,7 +61,7 @@ playing_controls = [
         foreground=colorscheme["OVERLAY 2"],
         pos_x=0.4,
         pos_y=0.4,
-        width=0.4,
+        width=0.6,
         height=0.2,
         h_align="left",
     ),
@@ -98,11 +99,11 @@ class Spotify(base._TextBox, ExtendedPopupMixin):
     def _update_popup(self):
         manager = Playerctl.PlayerManager()
         names = manager.props.player_names
-        if len(names) <= 1:
+        if not names:
             self.extended_popup = deepcopy(self.not_playing)
             self.extended_popup._configure(self.qtile)
         else:
-            name = names[1]
+            name = names[0]
             player = Playerctl.Player.new_from_name(name)
             metadata = player.props.metadata
             title = metadata["xesam:title"]
@@ -151,8 +152,8 @@ spotify = Spotify(
     popup_show_args={
         "relative_to": 1,
         "relative_to_bar": True,
-        "x": 2,
-        "y": 48,
+        "x": 6,
+        "y": 52,
     },
     text="",
     foreground=colorscheme["GREEN"],
