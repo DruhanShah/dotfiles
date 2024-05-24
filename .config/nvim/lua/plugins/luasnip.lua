@@ -3,6 +3,7 @@ return {
     version = "*",
     event = "VeryLazy",
     build = "make install_jsregexp",
+    enabled = false,
 
     init = function ()
         local ls = require("luasnip")

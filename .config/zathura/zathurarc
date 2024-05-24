@@ -4,7 +4,7 @@ include catppuccin-mocha
 # Startup options
 set font "Operator Mono SSm Lig 11"
 set recolor true
-set guioptions "s"
+set guioptions ""
 set selection-clipboard "clipboard"
 set synctex true
 set synctex-editor-command "nvim --headless -c \"VimtexInverseSearch % {line} '%{input}'\""

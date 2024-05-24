@@ -1,0 +1,59 @@
+@import "../catppuccin.rasi"
+
+* {
+    background-color: @Mantle;
+    text-color: @Green;
+}
+
+window {
+    location: south west;
+    anchor: south west;
+    x-offset: 60;
+    y-offset: -12;
+    transparency: "real";
+    width: 500px;
+    height: 525px;
+}
+
+prompt {
+    padding: 15px;
+    border-radius: 10px;
+    expand: false;
+}
+
+inputbar {
+    children: [ prompt ];
+    background-image: url("/tmp/cover.png");
+    expand: false;
+    border-radius: 8px 8px 0px 0px;
+    padding: 290px 15px 15px 15px;
+}
+
+listview {
+    cycle: true;
+    layout: horizontal;
+    padding: 10px 10px 10px 10px;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+}
+
+element {
+    padding: 0px 10px 0px 10px;
+    border-radius: 8px;
+}
+
+element-text {
+    margin: 5px 18px 5px 18px;
+    padding: 0px 0px 0px 0px;
+    font: "FiraCode Nerd Font 40";
+    background-color: inherit;
+    text-color: inherit; 
+}
+element selected {
+    background-color: @Green;
+    text-color: @Mantle;
+}
+
+/* vim:ft=rasi

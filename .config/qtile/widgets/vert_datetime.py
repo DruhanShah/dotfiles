@@ -1,26 +1,13 @@
 from libqtile import widget
 from libqtile.widget import base
-from qtile_extras.popup import toolkit as popup
-from qtile_extras.widget.mixins import ExtendedPopupMixin
-from catppuccin import PALETTE
-
-colorscheme = {}
-for color in PALETTE.mocha.colors:
-    colorscheme[color.name.upper()] = color.hex
 
 
-class DateTime(widget.Clock, ExtendedPopupMixin):
+class V_DateTime(widget.Clock):
 
     orientation = base.ORIENTATION_BOTH
 
     def __init__(self, **config):
         widget.Clock.__init__(self, **config)
-        ExtendedPopupMixin.__init__(self, **config)
-        self.add_defaults(ExtendedPopupMixin.defaults)
-        self.add_callbacks({"Button1": self.show_popup})
-
-    def _update_popup(self):
-        self.extended_popup.update_controls()
 
     def draw(self):
         if not self.can_draw():
@@ -42,32 +29,3 @@ class DateTime(widget.Clock, ExtendedPopupMixin):
             offsetx=self.offsetx, offsety=self.offsety,
             width=self.width, height=self.height
         )
-
-
-datetime_controls = [
-
-]
-
-datetime_layout = popup.PopupRelativeLayout(
-    width=400,
-    height=600,
-    controls=datetime_controls,
-    background=colorscheme["MANTLE"],
-)
-
-datetime = DateTime(
-    popup_layout=datetime_layout,
-    popup_hide_timeout=3,
-    popup_show_args={
-        "relative_to": 7,
-        "relative_to_bar": True,
-        "x": 6,
-        "y": -12,
-    },
-    format="\n%H\n%M\n%S",
-    foreground=colorscheme["LAVENDER"],
-    font="Operator Mono SSm Lig Bold",
-    fontsize=20,
-    padding=35,
-    margin_x=10,
-)

@@ -20,10 +20,10 @@ M.views = {
     cmdline_popup = {
         border = {
             style = "none",
-            padding = { 1, 1 },
+            padding = { 0, 1 },
         },
         position = {
-            row = -2,
+            row = -1,
             col = 0,
         },
         size = {

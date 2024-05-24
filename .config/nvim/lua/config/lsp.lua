@@ -3,13 +3,6 @@ local M = {}
 M.setup = function()
     require("mason").setup()
     require("mason-lspconfig").setup()
-    require("conform").setup {
-        format_on_save = {
-            timeout_ms = 500,
-            lsp_fallback = true,
-        },
-    }
-    require("mason-conform").setup()
 
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
 

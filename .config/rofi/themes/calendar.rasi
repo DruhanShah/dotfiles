@@ -1,0 +1,143 @@
+@import "../catppuccin.rasi"
+
+* {
+    selected-normal-foreground:  @Crust;
+    normal-foreground:           @foreground;
+    red:                         @Red;
+    selected-urgent-foreground:  @Crust;
+    blue:                        @Blue;
+    urgent-foreground:           @Red;
+    active-foreground:           @Blue;
+    selected-active-foreground:  @Crust;
+    normal-background:           @Base;
+    selected-normal-background:  @Blue;
+    spacing:                     2;
+    separatorcolor:              @Subtext1;
+    urgent-background:           @Surface0;
+    selected-urgent-background:  @Red;
+    background-color:            @background-alt;
+    active-background:           @background-alt;
+    selected-active-background:  @Blue;
+}
+window {
+    location: south west;
+    anchor: south west;
+    x-offset: 60;
+    y-offset: -12;
+    background-color: @background;
+    border:           0;
+    padding:          0;
+    width:            350;
+}
+mainbox {
+    border:  0;
+    padding: 0;
+}
+message {
+    border:       1 0 0 ;
+    border-color: @separatorcolor;
+    padding:      0;
+}
+textbox {
+    text-color: @foreground;
+}
+listview {
+    fixed-height: 0;
+    border:       0 0 0 ;
+    border-color: @separatorcolor;
+    spacing:      2 ;
+    scrollbar:    false;
+    padding:      6;
+    columns:      7;
+    lines:        7;
+}
+element {
+    border:  0;
+    padding: 8 4;
+}
+element-text {
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+    background-color: inherit;
+    text-color:       inherit;
+}
+element.normal.normal, element.alternate.normal {
+    background-color: @normal-background;
+    text-color:       @normal-foreground;
+}
+element.normal.urgent, element.alternate.urgent {
+    background-color: @urgent-background;
+    text-color:       @urgent-foreground;
+}
+element.normal.active, element.alternate.active {
+    background-color: @active-background;
+    text-color:       @active-foreground;
+}
+element.selected.normal {
+    background-color: @selected-normal-background;
+    text-color:       @selected-normal-foreground;
+}
+element.selected.urgent {
+    background-color: @selected-urgent-background;
+    text-color:       @selected-urgent-foreground;
+}
+element.selected.active {
+    background-color: @selected-active-background;
+    text-color:       @selected-active-foreground;
+}
+
+scrollbar {
+    width:        4 ;
+    border:       0;
+    handle-color: @normal-foreground;
+    handle-width: 8 ;
+    padding:      0;
+}
+mode-switcher {
+    border:       2 0 0 ;
+    border-color: @separatorcolor;
+}
+button {
+    spacing:    0;
+    text-color: @normal-foreground;
+}
+button.selected {
+    background-color: @selected-normal-background;
+    text-color:       @selected-normal-foreground;
+}
+inputbar {
+    spacing:    0;
+    text-color: @normal-foreground;
+    padding:    20 0;
+    background-image: url("~/Wallpapers/city-sakura.png");
+}
+case-indicator {
+    spacing:    0;
+    text-color: @normal-foreground;
+}
+entry {
+    spacing:    0;
+    text-color: @normal-foreground;
+}
+prompt {
+    font: "Product Sans Bold 20";
+    padding: 20;
+    border-radius: 12;
+    spacing:    0;
+    text-color: @normal-foreground;
+}
+dummy {
+    expand: true;
+    background-color: transparent;
+}
+inputbar {
+    children:   [ dummy,prompt,dummy ];
+}
+textbox-prompt-colon {
+    expand:     false;
+    str:        ":";
+    margin:     0 0.3em 0em 0em ;
+    text-color: @normal-foreground;
+}
+
+/* vim:ft=rasi

@@ -5,7 +5,7 @@
   --containerBg: #111112;
   --searchBg: var(--bg);
   --scrollbarColor: #45475a;
-  --fontFamily: "Operator Mono SSm", monospace;
+  --fontFamily: "Operator Mono SSm Lig", monospace;
 }
 
 body {

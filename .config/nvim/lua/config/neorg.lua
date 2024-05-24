@@ -79,6 +79,9 @@ return {
                     },
                 },
                 highlights = {
+                    rendered = {
+                        latex = "guifg=#cdd6f4",
+                    },
                     headings = {
                         ["1"] = {
                             title = "guifg=#74c7ec gui=bold",
@@ -113,7 +116,7 @@ return {
                         pending = "guibg=#b4befe guifg=#11111b gui=bold",
                         recurring = "guibg=#cba6f7 guifg=#11111b gui=bold",
                         uncertain = "guibg=#fab387 guifg=#11111b gui=bold",
-                        cancelled = "guibg=#45475a guifg=#cdd6f4 gui=bold",
+                        cancelled = "guibg=#45475a guifg=#11111b gui=bold",
                     },
                 },
             },
@@ -126,7 +129,12 @@ return {
             },
         },
         ["core.ui.calendar"] = {},
-        -- ["core.integrations.image"] = {},
-        -- ["core.latex.renderer"] = {},
+        ["core.integrations.image"] = {},
+        ["core.latex.renderer"] = {
+            config = {
+                render_on_enter = true,
+            },
+        },
+        ["external.conceal-wrap"] = {},
     },
 }

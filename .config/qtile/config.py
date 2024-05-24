@@ -1,7 +1,7 @@
 import os
 import re
 import subprocess
-from libqtile import bar, layout, widget, hook, extension
+from libqtile import bar, layout, widget, hook
 from libqtile.config import Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.config import ScratchPad, DropDown
 from libqtile.lazy import lazy
@@ -16,6 +16,7 @@ shift = "shift"
 alt = "mod1"
 vb_command = f"{home}/.config/qtile/scripts/dunst-vb.sh"
 wallpaper = f"{home}/Wallpapers/painting-mountain.png"
+rofi_script = f"{home}/.config/rofi/scripts"
 
 colorscheme = {}
 for color in PALETTE.mocha.colors:
@@ -34,17 +35,6 @@ def toggle_trackpad(qtile):
     else:
         subprocess.run(["xinput", "enable", "10"])
 
-
-powermenu = extension.CommandSet(
-    commands={
-        "quit qtile": "qtile cmd-obj -o cmd -f shutdown",
-        "lock": "betterlockscreen -l",
-        "suspend": "systemctl suspend",
-        "reboot": "reboot",
-        "shutdown": "shutdown now",
-    },
-    dmenu_command="rofi -dmenu"
-)
 
 keys = [
     Key([], "XF86MonBrightnessUp", lazy.spawn(f"{vb_command} bright_up")),
@@ -75,22 +65,26 @@ keys = [
     Key([mod], "Return", lazy.spawn("kitty")),
     Key([mod], "b", lazy.spawn("qutebrowser")),
 
-    Key([mod, ctrl], "space", lazy.spawn("dunstctl close-all")),
-
-    Key([mod], "Semicolon", lazy.spawn("rofi -show run")),
+    Key([mod], "Semicolon", lazy.spawn(f"{rofi_script}/launcher.sh")),
     KeyChord([mod], "r", [
-        Key([], "w", lazy.spawn("rifi")),
-        Key([], "b", lazy.spawn("rofi-bluetooth")),
-        Key([], "c", lazy.spawn("roficlip")),
-        Key([], "q", lazy.spawn("rofi -show calc")),
-        Key([], "n", lazy.spawn("rofi -modi nerdy -show nerdy")),
+        Key([], "w", lazy.spawn(f"{rofi_script}/wifi.sh")),
+        Key([], "b", lazy.spawn(f"{rofi_script}/bluetooth.sh")),
+        Key([], "c", lazy.spawn(f"{rofi_script}/clipboard.sh")),
+        Key([], "q", lazy.spawn(f"{rofi_script}/calculator.sh")),
+        Key([], "n", lazy.spawn(f"{rofi_script}/nerd-fonts.sh")),
+        Key([], "z", lazy.spawn(f"{rofi_script}/zotero.sh")),
+        Key([], "6", lazy.spawn(f"{rofi_script}/battery.sh")),
+        Key([], "5", lazy.spawn(f"{rofi_script}/spotify.sh")),
+        Key([], "4", lazy.spawn(f"{rofi_script}/brightness.sh")),
+        Key([], "3", lazy.spawn(f"{rofi_script}/volume.sh")),
+        Key([], "2", lazy.spawn(f"{rofi_script}/calendar.sh")),
+        Key([], "1", lazy.spawn(f"{rofi_script}/powermenu.sh")),
     ]),
-    Key([mod], "q", lazy.run_extension(powermenu)),
+    Key([mod], "q", lazy.spawn(f"{rofi_script}/powermenu.sh")),
 
     Key([mod], "F9", toggle_trackpad),
     Key([ctrl, shift], "w", lazy.window.kill()),
     Key([mod, shift], "r", lazy.reload_config()),
-    Key([mod], "Escape", lazy.spawn("betterlockscreen -l")),
 ]
 
 opts = {
@@ -154,12 +148,93 @@ widget_defaults = dict(
 extension_defaults = widget_defaults.copy()
 
 widget_list = [
-    custom.diagnostics,
-    custom.spotify,
+    custom.V_TextBox(
+        text=" ",
+        margin_x=0,
+    ),
+    custom.V_GroupBox(
+        highlight_method="text",
+        active=colorscheme["TEXT"],
+        inactive=colorscheme["SURFACE 1"],
+        urgent_text=colorscheme["RED"],
+        this_current_screen_border=colorscheme["BLUE"],
+        this_screen_border=colorscheme["BLUE"],
+        other_current_screen_border=colorscheme["YELLOW"],
+        other_screen_border=colorscheme["YELLOW"],
+        padding=3,
+        fontsize=15,
+        margin_x=3,
+    ),
     widget.Spacer(),
-    custom.groupbox,
-    widget.Spacer(),
-    custom.datetime,
+    custom.V_Battery(
+        format="{char}",
+        charge_char="󰢞",
+        discharge_char="󰁾",
+        full_char="󱟢",
+        unknown_char="󰂑",
+        show_short_text=False,
+        foreground=colorscheme["TEAL"],
+        low_foreground=colorscheme["RED"],
+        low_percentage=0.2,
+        mouse_callbacks={
+            "Button1": lazy.spawn(f"{rofi_script}/battery.sh")
+        },
+        fontsize=20,
+        padding=8,
+        margin_x=8,
+    ),
+    custom.V_TextBox(
+        text="",
+        foreground=colorscheme["GREEN"],
+        mouse_callbacks={
+            "Button1": lazy.spawn(f"{rofi_script}/spotify.sh")
+        },
+        fontsize=24,
+        padding=8,
+        margin_x=8,
+    ),
+    custom.V_TextBox(
+        text="󰃟",
+        foreground=colorscheme["MAUVE"],
+        mouse_callbacks={
+            "Button1": lazy.spawn(f"{rofi_script}/brightness.sh")
+        },
+        fontsize=22,
+        padding=6,
+        margin_x=7,
+    ),
+    custom.V_Audio(
+        foreground=colorscheme["FLAMINGO"],
+        emoji=True,
+        emoji_list=["󰝟", "󰖀", "󰕾", "󰕾", "󰋋"],
+        mouse_callbacks={
+            "Button1": lazy.spawn(f"{rofi_script}/volume.sh")
+        },
+        fontsize=19,
+        padding=20,
+        margin_x=8,
+    ),
+    custom.V_DateTime(
+        format="00\n%H\n%M\n%S",
+        foreground=colorscheme["LAVENDER"],
+        mouse_callbacks={
+            "Button1": lazy.spawn(f"{rofi_script}/calendar.sh")
+        },
+        font="Product Sans Bold",
+        fontsize=18,
+        padding=25,
+        margin_x=6,
+    ),
+    custom.V_TextBox(
+        text="",
+        foreground=colorscheme["RED"],
+        mouse_callbacks={
+            "Button1": lazy.spawn(f"{rofi_script}/powermenu.sh")
+        },
+        fontsize=22,
+        padding=12,
+        margin_x=9,
+    ),
 ]
 
 screens = [
@@ -168,7 +243,7 @@ screens = [
         wallpaper=wallpaper,
         left=bar.Bar(
             widgets=widget_list,
-            size=45,
+            size=36,
             margin=[12, 0, 12, 12],
         ),
     )

@@ -1,35 +1,3 @@
-# Copyright (c) 2008, 2010 Aldo Cortesi
-# Copyright (c) 2009 Ben Duffield
-# Copyright (c) 2010 aldo
-# Copyright (c) 2010-2012 roger
-# Copyright (c) 2011 Florian Mounier
-# Copyright (c) 2011 Kenji_Takahashi
-# Copyright (c) 2011-2015 Tycho Andersen
-# Copyright (c) 2012-2013 dequis
-# Copyright (c) 2012 Craig Barnes
-# Copyright (c) 2013 xarvh
-# Copyright (c) 2013 Tao Sauvage
-# Copyright (c) 2014 Sean Vig
-# Copyright (c) 2014 Filipe Nepomuceno
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-
 import itertools
 
 from libqtile import hook
@@ -165,7 +133,7 @@ class _GroupBase(base._TextBox, base.PaddingMixin, base.MarginMixin):
         base._TextBox.finalize(self)
 
 
-class GroupBox(_GroupBase):
+class V_GroupBox(_GroupBase):
 
     orientations = base.ORIENTATION_BOTH
     defaults = [
@@ -241,7 +209,7 @@ class GroupBox(_GroupBase):
 
     def __init__(self, **config):
         _GroupBase.__init__(self, **config)
-        self.add_defaults(GroupBox.defaults)
+        self.add_defaults(V_GroupBox.defaults)
         self.clicked = None
         self.click = None
 
@@ -470,18 +438,3 @@ class GroupBox(_GroupBase):
                              offsety=self.offsety, width=self.width)
         else:
             self.draw_vertical()
-
-
-groupbox = GroupBox(
-    highlight_method="text",
-    active=colorscheme["OVERLAY 1"],
-    inactive=colorscheme["SURFACE 0"],
-    urgent_text=colorscheme["RED"],
-    this_current_screen_border=colorscheme["BLUE"],
-    this_screen_border=colorscheme["BLUE"],
-    other_current_screen_border=colorscheme["YELLOW"],
-    other_screen_border=colorscheme["YELLOW"],
-    padding=6,
-    fontsize=20,
-    margin_x=1,
-)

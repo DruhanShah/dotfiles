@@ -18,13 +18,6 @@ return {
     },
     {
         "lervag/vimtex",
-        init = function()
-            vim.g.vimtex_view_method = "zathura"
-            vim.g.vimtex_fold_enabled = true
-            vim.g.vimtex_syntax_conceal_cites = {
-                type = "icon",
-                icon = "󰎚",
-            }
-        end,
+        init = require("config.vimtex").init(),
     }
 }

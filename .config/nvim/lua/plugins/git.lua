@@ -1,7 +1,7 @@
 return {
     {
         "NeogitOrg/neogit",
-        branch = "nightly",
+        branch = "master",
         cmd = "Neogit",
         dependencies = {
             "nvim-lua/plenary.nvim",

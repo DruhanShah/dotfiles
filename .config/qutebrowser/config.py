@@ -38,7 +38,7 @@ c.statusbar.padding = {
 }
 c.colors.statusbar.insert.bg = "#a6e3a1"
 c.colors.statusbar.insert.fg = "#11111b"
-c.statusbar.show = "in-mode"
+c.statusbar.show = "always"
 
 c.tabs.padding = {
     "top": 16,

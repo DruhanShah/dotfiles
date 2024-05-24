@@ -1,6 +1,0 @@
-[Unit]
-Description=xremap
-
-[Service]
-Restart=alwats
-ExecStart=sudo xremap /home/druhan/.config/xremap/config.yml --watch

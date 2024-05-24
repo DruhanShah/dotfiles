@@ -14,7 +14,7 @@ local options = {
         foldexpr = "v:lua.vim.treesitter.foldexpr()",
         foldtext = 'v:lua.require("config.utils").fold_text()',
         conceallevel = 2,
-        concealcursor = "n",
+        concealcursor = "",
     },
     Spelling = {
         spell = false,
@@ -42,7 +42,7 @@ local options = {
 }
 
 for _, section in pairs(options) do
-    for k,v in pairs(section) do
+    for k, v in pairs(section) do
         vim.opt[k] = v
     end
 end
