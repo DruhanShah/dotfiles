@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 volume_step=5
 brightness_step=4800

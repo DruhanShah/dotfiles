@@ -140,6 +140,7 @@ def trim(text):
 
 
 widget_defaults = dict(
+    font="JetBrains Mono",
     fontsize=16,
     padding=0,
     foreground=colorscheme["TEXT"],
@@ -148,10 +149,6 @@ widget_defaults = dict(
 extension_defaults = widget_defaults.copy()
 
 widget_list = [
-    custom.V_TextBox(
-        text=" ",
-        margin_x=0,
-    ),
     custom.V_GroupBox(
         highlight_method="text",
         active=colorscheme["TEXT"],
@@ -161,9 +158,9 @@ widget_list = [
         this_screen_border=colorscheme["BLUE"],
         other_current_screen_border=colorscheme["YELLOW"],
         other_screen_border=colorscheme["YELLOW"],
-        padding=3,
-        fontsize=15,
-        margin_x=3,
+        padding=6,
+        fontsize=20,
+        margin_x=1,
     ),
     widget.Spacer(),
     custom.V_Battery(
@@ -180,8 +177,7 @@ widget_list = [
             "Button1": lazy.spawn(f"{rofi_script}/battery.sh")
         },
         fontsize=20,
-        padding=8,
-        margin_x=8,
+        padding=5,
     ),
     custom.V_TextBox(
         text="",
@@ -189,9 +185,8 @@ widget_list = [
         mouse_callbacks={
             "Button1": lazy.spawn(f"{rofi_script}/spotify.sh")
         },
-        fontsize=24,
-        padding=8,
-        margin_x=8,
+        fontsize=20,
+        padding=5,
     ),
     custom.V_TextBox(
         text="󰃟",
@@ -199,9 +194,8 @@ widget_list = [
         mouse_callbacks={
             "Button1": lazy.spawn(f"{rofi_script}/brightness.sh")
         },
-        fontsize=22,
-        padding=6,
-        margin_x=7,
+        fontsize=20,
+        padding=5,
     ),
     custom.V_Audio(
         foreground=colorscheme["FLAMINGO"],
@@ -210,20 +204,18 @@ widget_list = [
         mouse_callbacks={
             "Button1": lazy.spawn(f"{rofi_script}/volume.sh")
         },
-        fontsize=19,
-        padding=20,
-        margin_x=8,
+        fontsize=20,
+        padding=10,
     ),
     custom.V_DateTime(
-        format="00\n%H\n%M\n%S",
+        format="%H\n%M\n%S",
         foreground=colorscheme["LAVENDER"],
         mouse_callbacks={
             "Button1": lazy.spawn(f"{rofi_script}/calendar.sh")
         },
-        font="Product Sans Bold",
-        fontsize=18,
-        padding=25,
-        margin_x=6,
+        fmt="<b>{}</b>",
+        fontsize=20,
+        padding=10,
     ),
     custom.V_TextBox(
         text="",
@@ -231,9 +223,8 @@ widget_list = [
         mouse_callbacks={
             "Button1": lazy.spawn(f"{rofi_script}/powermenu.sh")
         },
-        fontsize=22,
-        padding=12,
-        margin_x=9,
+        fontsize=20,
+        padding=5,
     ),
 ]
 
@@ -243,7 +234,7 @@ screens = [
         wallpaper=wallpaper,
         left=bar.Bar(
             widgets=widget_list,
-            size=36,
+            size=32,
             margin=[12, 0, 12, 12],
         ),
     )

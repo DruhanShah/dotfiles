@@ -176,23 +176,25 @@ class V_Audio(widget.PulseVolume):
                     self.mute_format if self.mute or self.volume < 0 else self.unmute_format
                     ).format(volume=self.volume)
 
+    def calculate_length(self):
+        if self.text:
+            return min(self.layout.height, self.bar.height) + self.actual_padding * 2
+        else:
+            return 0
+
     def draw(self):
         if not self.can_draw():
             return
         self.drawer.clear(self.background or self.bar.background)
 
         self.drawer.ctx.save()
-        self.drawer.ctx.translate(self.margin_x, 0)
-
         size = self.bar.width
 
         self.layout.draw(
-            -self._scroll_offset,
-            int(size / 2.0 - self.layout.width / 2.0) + 1,
+            (size // 2) - (self.layout.width // 2) - 2,
+            0,
         )
         self.drawer.ctx.restore()
-
         self.drawer.draw(
-            offsetx=self.offsetx, offsety=self.offsety,
-            width=self.width, height=self.height
+            offsetx=self.offsetx, offsety=self.offsety, width=self.width, height=self.height
         )
