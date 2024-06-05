@@ -2,7 +2,7 @@
 include catppuccin-mocha
 
 # Startup options
-set font "Operator Mono SSm Lig 11"
+set font "JetBrains Mono 11"
 set recolor true
 set guioptions ""
 set selection-clipboard "clipboard"

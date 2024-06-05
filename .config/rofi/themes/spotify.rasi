@@ -6,12 +6,12 @@
 }
 
 window {
-    location: south west;
-    anchor: south west;
-    x-offset: 60;
+    location: south east;
+    anchor: south east;
+    x-offset: -60;
     y-offset: -12;
     transparency: "real";
-    width: 500px;
+    width: 510px;
     height: 525px;
 }
 
@@ -19,6 +19,7 @@ prompt {
     padding: 15px;
     border-radius: 10px;
     expand: false;
+    font: "Product Sans 12";
 }
 
 inputbar {
@@ -45,9 +46,9 @@ element {
 }
 
 element-text {
-    margin: 5px 18px 5px 18px;
+    margin: 10px 18px 0px 18px;
     padding: 0px 0px 0px 0px;
-    font: "FiraCode Nerd Font 40";
+    font: "Symbols Nerd Font 40";
     background-color: inherit;
     text-color: inherit; 
 }

@@ -1,5 +1,10 @@
 local M = {}
 
+M.cmdline = {
+    enabled = true,
+    view = "cmdline_popup",
+}
+
 M.lsp = {
     override = {
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
@@ -9,10 +14,7 @@ M.lsp = {
 }
 
 M.presets = {
-    bottom_search = false,
-    command_palette = true,
     long_message_to_split = true,
-    inc_rename = false,
     lsp_doc_border = false,
 }
 
@@ -20,16 +22,8 @@ M.views = {
     cmdline_popup = {
         border = {
             style = "none",
-            padding = { 0, 1 },
+            padding = { 1, 3 },
         },
-        position = {
-            row = -1,
-            col = 0,
-        },
-        size = {
-            width = "100%",
-        },
-        filter_options = {},
         win_options = {
             winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
         },

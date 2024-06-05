@@ -5,7 +5,7 @@
   --containerBg: #111112;
   --searchBg: var(--bg);
   --scrollbarColor: #45475a;
-  --fontFamily: "Operator Mono SSm Lig", monospace;
+  --fontFamily: "JetBrains Mono";
 }
 
 body {
@@ -23,9 +23,8 @@ body {
 }
 
 #clock {
-  font-family: sans-serif;
-  font-size: 3.5rem;
-  font-weight: 600;
+  font-size: 4.5rem;
+  font-weight: 800;
   font-family: var(--fontFamily);
   color: var(--fg);
   margin-bottom: 0.25em;

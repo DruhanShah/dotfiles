@@ -13,18 +13,16 @@ fi
 if [ "$#" -eq 0 ]; then
     MAIN=$(ncal -b -h | awk 'NR>2 {print}')
     DATE=$(date +'%_d')
-    DAY_STR=$(date +'%A')
+    DAY_STR=$(date +'%A' | tr '[:lower:]' '[:upper:]')
     MONTH=$(date +'%-m')
     MONTH_STR=$(date +'%b')
     YEAR=$(date +'%Y')
-    PROMPT="$DAY_STR,  $MONTH_STR $DATE"
 else
     MAIN=$(ncal -b -h -d "$1" | awk 'NR>2 {print}')
     TEMP=$(ncal -b -h -d "$1" | head -1 | awk '{$1=$1;print}')
     MONTH_STR=$(echo "$TEMP" | cut -d' ' -f1)
     YEAR=$(echo "$TEMP" | cut -d' ' -f2)
     MONTH=$(echo "$1" | cut -d'-' -f2)
-    PROMPT="$MONTH_STR $YEAR"
     ACTIVE=""
 fi
 
@@ -45,11 +43,13 @@ fi
 
 SELECT=$(echo -e "$VAL" | rofi -dmenu -no-custom \
     -theme "$THEME" \
+    -theme-str "textbox-prompt-colon {str:\"$DATE\";}" \
     -matching prefix \
     -select "$DATE" \
     -u "0,1,2,3,4,5" \
     -a "$ACTIVE" \
-    -p "$PROMPT")
+    -p "$MONTH_STR" \
+    -mesg "$DAY_STR")
 
 TEMP="$?"
 if [ $TEMP -eq 10 ]; then

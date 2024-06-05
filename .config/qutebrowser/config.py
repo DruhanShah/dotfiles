@@ -36,9 +36,14 @@ c.statusbar.padding = {
     "left": 4,
     "right": 4,
 }
-c.colors.statusbar.insert.bg = "#a6e3a1"
-c.colors.statusbar.insert.fg = "#11111b"
 c.statusbar.show = "always"
+c.statusbar.widgets = [
+    "keypress",
+    "search_match",
+    "url",
+    "history",
+    "progress",
+]
 
 c.tabs.padding = {
     "top": 16,
@@ -81,7 +86,7 @@ c.fileselect.folder.command = [
     "{}"
 ]
 
-c.fonts.default_family = "Operator Mono SSm Lig"
+c.fonts.default_family = "JetBrains Mono"
 c.fonts.default_size = "14px"
 
 c.bindings.commands = {

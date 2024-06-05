@@ -79,6 +79,14 @@ return {
                     },
                 },
                 highlights = {
+                    tags = {
+                        ranged_verbatim = {
+                            document_meta = {
+                                key = "guifg=#45475a",
+                                title = "guifg=#cba6f7 gui=bold",
+                            },
+                        },
+                    },
                     rendered = {
                         latex = "guifg=#cdd6f4",
                     },
@@ -109,14 +117,14 @@ return {
                         },
                     },
                     todo_items = {
-                        done = "guibg=#a6e3a1 guifg=#11111b gui=bold",
-                        undone = "guibg=#9399b2 guifg=#11111b gui=bold",
-                        urgent = "guibg=#f38ba8 guifg=#11111b gui=bold",
-                        on_hold = "guibg=#89b4fa guifg=#11111b gui=bold",
-                        pending = "guibg=#b4befe guifg=#11111b gui=bold",
-                        recurring = "guibg=#cba6f7 guifg=#11111b gui=bold",
-                        uncertain = "guibg=#fab387 guifg=#11111b gui=bold",
-                        cancelled = "guibg=#45475a guifg=#11111b gui=bold",
+                        done = "guifg=#a6e3a1 gui=bold",
+                        undone = "guifg=#9399b2 gui=bold",
+                        urgent = "guifg=#f38ba8 gui=bold",
+                        on_hold = "guifg=#89b4fa gui=bold",
+                        pending = "guifg=#b4befe gui=bold",
+                        recurring = "guifg=#cba6f7 gui=bold",
+                        uncertain = "guifg=#fab387 gui=bold",
+                        cancelled = "guifg=#45475a gui=bold",
                     },
                 },
             },

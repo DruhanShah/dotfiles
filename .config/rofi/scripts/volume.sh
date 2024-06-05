@@ -13,45 +13,45 @@ urgent=""
 # Speaker Info
 amixer get Master | grep '\[on\]' &>/dev/null
 if [[ "$?" == 0 ]]; then
-	active="-a 1"
-	stext='Unmute'
-	sicon=''
+	stext=''
+	sicon=''
 else
 	urgent="-u 1"
-	stext='Mute'
-	sicon=''
+	stext=''
+	sicon=''
 fi
 
 # Microphone Info
 amixer get Capture | grep '\[on\]' &>/dev/null
 if [[ "$?" == 0 ]]; then
     [ -n "$active" ] && active+=",3" || active="-a 3"
-	mtext='Unmute'
-	micon=''
+	mtext='󰍬'
+	micon='󰍭'
 else
     [ -n "$urgent" ] && urgent+=",3" || urgent="-u 3"
-	mtext='Mute'
-	micon=''
+	mtext='󰍭'
+	micon='󰍬'
 fi
 
 # Theme Elements
-prompt="S:$stext, M:$mtext"
+prompt="$stext   $mtext"
 
 list_col='5'
 list_row='1'
-win_width='670px'
+win_width='500px'
 
-option_1=""
+option_1="󰝝"
 option_2="$sicon"
-option_3=""
+option_3="󰝞"
 option_4="$micon"
-option_5=""
+option_5=""
 
 # Rofi CMD
 rofi_cmd() {
 	rofi -theme-str "window {width: $win_width;}" \
 		-theme-str "listview {columns: $list_col; lines: $list_row;}" \
-		-theme-str 'textbox-prompt-colon {str: "";}' \
+		-theme-str "element-text {horizontal-align: 0.4;}" \
+		-theme-str 'textbox-prompt-colon {str: "Audio";}' \
 		-dmenu \
 		-p "$prompt" \
 		${active} ${urgent} \

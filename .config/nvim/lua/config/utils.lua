@@ -9,7 +9,7 @@ M.fold_text = function ()
 
     return {
         { indent, "Folded" },
-        {"   ", "FoldMarker"},
+        {"  ", "FoldMarker"},
         {" " .. start_line .. "  " .. end_line .. " ", "FoldedText"},
         { spaces, "Folded" },
     }

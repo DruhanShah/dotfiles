@@ -24,6 +24,8 @@ return {
         map("<leader>fn", "config", "[Telescope] Search Neovim Config")
         map("<leader>fz", "zotero", "[Telescope] Search Zotero")
         map("<leader>fg", "gtd", "[Telescope|Neorg] GTD Lists")
+        map("<leader>f/", "search", "[Telescope] Fuzzy search in buffer")
+        map("z=", "spell", "[Telescope | Spellcheck] List spell suggestions")
         map("gr", "reference", "[Telescope|LSP] List object references")
     end,
     config = function ()

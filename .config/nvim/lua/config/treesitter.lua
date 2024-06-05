@@ -5,6 +5,8 @@ return {
         enable = true,
         disable = { "latex" },
         additional_vim_regex_highlighting = { "latex" },
+        -- disable = false,
+        -- additional_vim_regex_highlighting = false,
     },
     incremental_selection = {
         enable = true,

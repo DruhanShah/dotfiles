@@ -1,3 +1,7 @@
+* {
+    font-family: "JetBrains Mono" !important;
+}
+
 :root:not(.dark-bg) {
     --sds-color-text-02: #4c4f69 !important;
     --theme-col-txt-page-separator: #4c4f69!important;

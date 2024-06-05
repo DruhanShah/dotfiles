@@ -20,10 +20,10 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local heirline = require("plugins.heirline")
+local statusline = require("plugins.statusline")
 local colorscheme = require("plugins.catppuccin")
 require("lazy").setup({
-    heirline,
+    statusline,
     colorscheme,
     "nvim-tree/nvim-web-devicons",
 })

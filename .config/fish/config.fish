@@ -3,7 +3,7 @@ if status is-interactive
 end
 
 function starship_transient_prompt_func
-    starship module character
+    starship module custom.char
 end
 
 fish_vi_key_bindings

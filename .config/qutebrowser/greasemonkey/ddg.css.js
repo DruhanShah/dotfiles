@@ -2,7 +2,11 @@
 // @name    Userstyle (ddg.css)
 // @include    *duckduckgo.com/*
 // ==/UserScript==
-GM_addStyle(`:root:not(.dark-bg) {
+GM_addStyle(`* {
+    font-family: "Operator Mono SSm Lig" !important;
+}
+
+:root:not(.dark-bg) {
     --sds-color-text-02: #4c4f69 !important;
     --theme-col-txt-page-separator: #4c4f69!important;
     --theme-col-page-separator: #4c4f69 !important;

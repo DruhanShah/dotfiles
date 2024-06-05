@@ -20,9 +20,9 @@
     selected-active-background:  @Blue;
 }
 window {
-    location: south west;
-    anchor: south west;
-    x-offset: 60;
+    location: south east;
+    anchor: south east;
+    x-offset: -60;
     y-offset: -12;
     background-color: @background;
     border:           0;
@@ -34,12 +34,14 @@ mainbox {
     padding: 0;
 }
 message {
-    border:       1 0 0 ;
+    border:       0;
     border-color: @separatorcolor;
-    padding:      0;
+    padding: 10 0 20;
 }
 textbox {
     text-color: @foreground;
+    font:        "Product Sans Bold 10";
+    horizontal-align: 0.5;
 }
 listview {
     fixed-height: 0;
@@ -105,12 +107,6 @@ button.selected {
     background-color: @selected-normal-background;
     text-color:       @selected-normal-foreground;
 }
-inputbar {
-    spacing:    0;
-    text-color: @normal-foreground;
-    padding:    20 0;
-    background-image: url("~/Wallpapers/city-sakura.png");
-}
 case-indicator {
     spacing:    0;
     text-color: @normal-foreground;
@@ -120,10 +116,11 @@ entry {
     text-color: @normal-foreground;
 }
 prompt {
-    font: "Product Sans Bold 20";
-    padding: 20;
-    border-radius: 12;
+    font: "Product Sans Bold 35";
     spacing:    0;
+    border: 0 0 0 1;
+    padding: 10 0 10 10;
+    border-color: @normal-foreground;
     text-color: @normal-foreground;
 }
 dummy {
@@ -131,12 +128,19 @@ dummy {
     background-color: transparent;
 }
 inputbar {
-    children:   [ dummy,prompt,dummy ];
+    spacing:    0;
+    text-color: @normal-foreground;
+    padding:    20 0 10;
+    children:   [ dummy,textbox-prompt-colon,prompt,dummy ];
 }
 textbox-prompt-colon {
-    expand:     false;
-    str:        ":";
-    margin:     0 0.3em 0em 0em ;
+    font: "Product Sans Bold 35";
+    str: "10";
+    spacing:    0;
+    border: 0 1 0 0;
+    padding: 10 0 10;
+    horizontal-align: 0.6;
+    border-color: @normal-foreground;
     text-color: @normal-foreground;
 }
 

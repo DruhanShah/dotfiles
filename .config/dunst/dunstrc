@@ -39,7 +39,7 @@
     sort = yes
     idle_threshold = 0
 
-    font = Operator Mono SSm Lig 11
+    font = JetBrains Mono 11
     line_height = 0
     allow_markup = yes
     markup = full

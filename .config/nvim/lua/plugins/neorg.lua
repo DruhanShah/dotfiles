@@ -23,17 +23,6 @@ return {
             "benlubas/neorg-conceal-wrap",
         },
         lazy = false,
-        init = function()
-            vim.keymap.set("n", "<localleader>jt", ":Neorg journal today<cr>", {
-                desc = "[Neorg] Open today's journal",
-            })
-            vim.keymap.set("n", "<localleader>jT", ":Neorg journal tomorrow<cr>", {
-                desc = "[Neorg] Open tomorrow's journal",
-            })
-            vim.keymap.set("n", "<localleader>jy", ":Neorg journal yesterday<cr>", {
-                desc = "[Neorg] Open yesterday's journal",
-            })
-        end,
         opts = require("config.neorg"),
     }
 }

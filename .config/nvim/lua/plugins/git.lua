@@ -9,6 +9,7 @@ return {
             "sindrets/diffview.nvim",
         },
         opts = {
+            kind = "replace",
             graph_style = "unicode",
             disable_hint = true,
             disable_signs = false,

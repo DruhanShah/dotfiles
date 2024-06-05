@@ -3,25 +3,28 @@ local M = {}
 M.highlight = function(colors)
     return {
         -- Dashboard-specific highlights
-        Doom = { fg = colors.blue },
-        DashNeo = { bg = colors.green, fg = colors.crust, bold = true },
-        DashVim = { bg = colors.blue, fg = colors.crust, bold = true },
+        DashNeo = { bg = colors.base, fg = colors.green},
+        DashVim = { bg = colors.base, fg = colors.blue},
+        DashInter = { bg = colors.blue, fg = colors.green },
+        DashBase = { bg = colors.base, fg = colors.lavender },
         -- Quality of Life stuff
         LineNr = { fg = colors.base },
-        LineNrAbove = { fg = colors.surface0 },
-        LineNrBelow = { fg = colors.surface0 },
-        NormalFloat = { bg = colors.mantle },
-        FoldMarker = { bg = colors.mauve, fg = colors.crust },
+        LineNrAbove = { fg = colors.surface2 },
+        LineNrBelow = { fg = colors.surface2 },
+        FoldMarker = { bg = colors.green, fg = colors.crust },
         FoldedText = { bg = colors.surface0, fg = colors.text },
-        Folded = { bg = colors.base, fg = colors.text },
+        Folded = { bg = "NONE", fg = colors.text },
         Conceal = { fg = colors.lavender, bg = "NONE" },
-        OilSourcePath = { fg = colors.crust, bg = colors.red, bold = true },
+        WinSeparator = { fg = colors.surface2, bg = "NONE" },
+        TabLine = { fg = colors.surface2, bg = colors.base },
+        TabLineSel = { fg = colors.green, bg = colors.crust, bold = true },
+        TabLineFill = { fg = colors.surface2, bg = colors.base },
         -- Completion Icons
         CmpItemAbbrDeprecated = { fg = colors.surface1, bg = "NONE", strikethrough = true, },
         CmpItemAbbrMatch = { fg = colors.blue, bg = "NONE", bold = true, },
         CmpItemAbbrMatchFuzzy = { fg = colors.blue, bg = "NONE", bold = true, },
         CmpItemMenu = { fg = colors.mauve, bg = "NONE", italic = true, },
-        CmpItemKindCopilot = { fg = colors.base, bg = colors.surface3, },
+        CmpItemKindCopilot = { fg = colors.green, bg = colors.crust, },
         CmpItemKindField = { fg = colors.crust, bg = colors.red, },
         CmpItemKindProperty = { fg = colors.crust, bg = colors.red, },
         CmpItemKindEvent = { fg = colors.crust, bg = colors.red, },
@@ -56,8 +59,6 @@ M.highlight = function(colors)
         texCmdCSubsection = { fg = colors.green, bold = true },
         texCSubsubsectionArg = { fg = colors.teal, bold = true },
         texCmdCSubssubection = { fg = colors.teal, bold = true },
-        -- Neorg highlights
-        ["@neorg.tags.ranged_verbatim.document_meta.title.norg_meta"] = { bg = colors.mauve, fg = colors.crust, bold = true },
     }
 end
 

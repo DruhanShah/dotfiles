@@ -232,10 +232,10 @@ screens = [
     Screen(
         wallpaper_mode="fill",
         wallpaper=wallpaper,
-        left=bar.Bar(
+        right=bar.Bar(
             widgets=widget_list,
             size=32,
-            margin=[12, 0, 12, 12],
+            margin=[12, 12, 12, 0],
         ),
     )
 ]

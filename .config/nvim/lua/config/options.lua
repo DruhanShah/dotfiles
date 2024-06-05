@@ -14,7 +14,7 @@ local options = {
         foldexpr = "v:lua.vim.treesitter.foldexpr()",
         foldtext = 'v:lua.require("config.utils").fold_text()',
         conceallevel = 2,
-        concealcursor = "",
+        concealcursor = "nc",
     },
     Spelling = {
         spell = false,
@@ -34,8 +34,9 @@ local options = {
         breakindent = true,
     },
     CmdLine = {
-        showtabline = 1,
-        cmdwinheight = 1,
+        laststatus = 0,
+        showtabline = 2,
+        cmdwinheight = 2,
         cmdheight = 0,
         showmode = false,
     },

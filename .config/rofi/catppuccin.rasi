@@ -27,7 +27,7 @@
 	Mantle:		#181825;
 	Crust:		#11111b;
 
-    font: "Product Sans Bold 12";
+    font: "JetBrains Mono 11";
 
     background:     @Mantle;
     background-alt: @Crust;

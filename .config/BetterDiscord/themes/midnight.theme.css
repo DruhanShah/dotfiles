@@ -15,7 +15,7 @@
 /* customize things here */
 :root {
 	/* font, change to 'gg sans' for default discord font*/
-	--font: "Product Sans";
+	--font: "JetBrains Mono";
 
 	/* top left corner text */
 	--corner-text: 'Catppuccin';

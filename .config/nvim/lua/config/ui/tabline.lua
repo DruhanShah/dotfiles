@@ -13,19 +13,9 @@ local Tabpage = {
     end,
 }
 
-local TabpageClose = {
-    provider = "%999X x %X",
-    hl = "TabLine",
-}
-
-local TabPages = {
+return {
     condition = function()
-        return #vim.api.nvim_list_tabpages() >= 2
+        return #vim.api.nvim_list_tabpages() >= 1
     end,
     utils.make_tablist(Tabpage),
-    TabpageClose,
-}
-
-return {
-    TabPages,
 }

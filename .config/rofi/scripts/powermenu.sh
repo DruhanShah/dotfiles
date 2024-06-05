@@ -3,31 +3,31 @@
 uptime="`uptime -p | sed -e 's/up //g'`"
 host=`hostname`
 
-shutdown=''
-reboot=''
-lock=''
-suspend=''
-logout=''
-yes=''
-no=''
+shutdown=''
+reboot=''
+lock=''
+suspend='󰒲'
+logout=''
+yes=''
+no=''
 
 rofi_cmd() {
 	rofi -dmenu \
-		-p "Uptime: $uptime" \
-		-mesg "Uptime: $uptime" \
+		-p "$uptime" \
+		-mesg "$uptime" \
 		-theme $HOME/.config/rofi/themes/powermenu.rasi
 }
 
 confirm_cmd() {
-	rofi -theme-str 'window {location: center; anchor: center; fullscreen: false; width: 350px;}' \
-		-theme-str 'mainbox {children: [ "message", "listview" ];}' \
-		-theme-str 'listview {columns: 2; lines: 1;}' \
-		-theme-str 'element-text {horizontal-align: 0.5;}' \
-		-theme-str 'textbox {horizontal-align: 0.5;}' \
-		-dmenu \
-		-p 'Confirmation' \
-		-mesg 'Are you Sure?' \
-		-theme $HOME/.config/rofi/themes/powermenu.rasi
+	rofi -theme-str 'window {width: 350px;}' \
+		 -theme-str 'mainbox {children: [ "message", "listview" ];}' \
+		 -theme-str 'listview {columns: 2; lines: 1;}' \
+		 -theme-str 'element-text {horizontal-align: 0.5;}' \
+		 -theme-str 'textbox {horizontal-align: 0.5;}' \
+		 -dmenu \
+		 -p 'Confirmation' \
+		 -mesg 'Are you Sure?' \
+		 -theme $HOME/.config/rofi/themes/powermenu.rasi
 }
 
 confirm_exit() {
@@ -66,7 +66,7 @@ case ${chosen} in
 		run_cmd --reboot
         ;;
     $lock)
-        betterlockscreen -l
+        $HOME/.local/bin/lock
         ;;
     $suspend)
 		run_cmd --suspend

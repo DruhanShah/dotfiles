@@ -22,8 +22,7 @@ function M.gtd(opts)
                 { "Later",         "~/Notes/later.norg" },
                 { "Someday/Maybe", "~/Notes/maybe.norg" },
                 { "Deadlines",     "~/Notes/deadlines.norg" },
-                { "Projects",      "~/Notes/Projects/index.norg" },
-                { "Done",          "~/Notes/Projects/done.norg" },
+                { "Projects",      "~/Notes/Projects/" },
             },
             entry_maker = function(entry)
                 return {
@@ -79,12 +78,20 @@ function M.zotero()
     telescope.extensions.zotero.zotero()
 end
 
+function M.search()
+    builtin.current_buffer_fuzzy_find()
+end
+
 function M.config()
     builtin.find_files({ cwd = "~/.config/nvim" })
 end
 
 function M.reference()
     builtin.lsp_references()
+end
+
+function M.spell()
+    builtin.spell_suggest()
 end
 
 function M.setup()
@@ -95,15 +102,13 @@ function M.setup()
                 ".git/.*",
                 "OneDrive/.*",
             },
-            theme = "ivy",
-            sorting_strategy = "ascending",
-            layout_strategy = "bottom_pane",
-            layout_config = {
-                height = 15,
-            },
             path_display = {
                 "filename_first",
             },
+            layout_config = {
+                prompt_position = "top",
+            },
+            sorting_strategy = "ascending",
         },
         extensions = {
             file_browser = {

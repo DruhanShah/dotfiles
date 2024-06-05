@@ -8,6 +8,7 @@ from .vert_datetime import V_DateTime
 from .vert_group import V_GroupBox
 from .vert_battery import V_Battery
 from .vert_audio import V_Audio
+from .vert_wifi import V_Internet
 
 __all__ = [
     "Spotify",
@@ -20,4 +21,5 @@ __all__ = [
     "V_GroupBox",
     "V_Battery",
     "V_Audio",
+    "V_Internet",
 ]

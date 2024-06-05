@@ -29,8 +29,8 @@ musicmetadata() {
     status=${status:-Stopped}
 
     icon=""
-    [ "$sta~tus" = "Playing" ] && icon=""
-    [ "$status" = "Paused" ] && icon="喇"
+    [ "$sta~tus" = "Playing" ] && icon=""
+    [ "$status" = "Paused" ] && icon=""
 
     playlist=$(playerctl --player=$Control metadata xesam:trackNumber)
     playlist=${playlist:-0}
@@ -60,8 +60,8 @@ case $Control in
     *)       empty         ;;
 esac 2>/dev/null
 
-previous="玲"
-next="怜"
+previous="󰒮"
+next="󰒭"
 lyrics=""
 options="$player\n$previous\n$icon\n$next\n$lyrics"
 

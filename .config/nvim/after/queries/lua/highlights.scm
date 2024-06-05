@@ -27,6 +27,8 @@
 (elseif_statement "then" @keyword.conditional
               (#set! conceal "⇒"))
 
+((nil) @constant.builtin (#set! conceal "∅"))
+
 ((identifier) @variable
               (#eq? @variable "vim")
               (#set! conceal ""))
