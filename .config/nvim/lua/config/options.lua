@@ -34,11 +34,12 @@ local options = {
         breakindent = true,
     },
     CmdLine = {
-        laststatus = 0,
-        showtabline = 2,
-        cmdwinheight = 2,
-        cmdheight = 0,
+        laststatus = 2,
+        showtabline = 0,
+        cmdwinheight = 1,
+        cmdheight = 1,
         showmode = false,
+        shortmess = "astTWoOCF",
     },
 }
 

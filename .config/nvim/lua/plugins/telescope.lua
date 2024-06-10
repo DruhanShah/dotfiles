@@ -1,7 +1,7 @@
-local function map(lhs, rhs, desc)
+local function map(lhs, rhs)
     vim.keymap.set("n", lhs, function ()
         require("config.telescope")[rhs]()
-    end, { desc = desc, })
+    end)
 end
 
 return {
@@ -16,17 +16,17 @@ return {
         },
     },
     init = function ()
-        map("<leader>ff", "find_files", "[Telescope] Find Files")
-        map("<leader>fo", "oldfiles", "[Telescope] File History")
-        map("<leader>fb", "buffers", "[Telescope] Buffer List")
-        map("<leader>fh", "help", "[Telescope] Search Neovim Help")
-        map("<leader>fH", "highlights", "[Telescope] Find highlights")
-        map("<leader>fn", "config", "[Telescope] Search Neovim Config")
-        map("<leader>fz", "zotero", "[Telescope] Search Zotero")
-        map("<leader>fg", "gtd", "[Telescope|Neorg] GTD Lists")
-        map("<leader>f/", "search", "[Telescope] Fuzzy search in buffer")
-        map("z=", "spell", "[Telescope | Spellcheck] List spell suggestions")
-        map("gr", "reference", "[Telescope|LSP] List object references")
+        map("<leader>ff", "find_files")
+        map("<leader>fo", "oldfiles")
+        map("<leader>fb", "buffers")
+        map("<leader>fh", "help")
+        map("<leader>fH", "highlights")
+        map("<leader>fn", "config")
+        map("<leader>fz", "zotero")
+        map("<leader>fg", "gtd")
+        map("<leader>f/", "search")
+        map("z=", "spell")
+        map("gr", "reference")
     end,
     config = function ()
         require("config.telescope").setup()

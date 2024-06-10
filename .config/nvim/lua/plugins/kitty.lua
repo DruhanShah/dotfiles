@@ -8,25 +8,21 @@ return {
         {
             "<C-h>",
             function() require("kitty-navigator").navigateLeft() end,
-            desc = "Move left",
             mode = { "n" },
         },
         {
             "<C-j>",
             function() require("kitty-navigator").navigateDown() end,
-            desc = "Move down",
             mode = { "n" },
         },
         {
             "<C-k>",
             function() require("kitty-navigator").navigateUp() end,
-            desc = "Move up",
             mode = { "n" },
         },
         {
             "<C-l>",
             function() require("kitty-navigator").navigateRight() end,
-            desc = "Move right",
             mode = { "n" },
         },
     },

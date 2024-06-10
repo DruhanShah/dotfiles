@@ -3,25 +3,14 @@ return {
     version = "*",
     event = "VeryLazy",
     build = "make install_jsregexp",
-    enabled = false,
 
     init = function ()
         local ls = require("luasnip")
-        vim.keymap.set("i", "<Tab>", function() ls.expand() end, {
-            desc = "Expand snippet",
-        })
-        vim.keymap.set("i", "<C-n>", function() ls.jump(1) end, {
-            desc = "Jump to next input field",
-        })
-        vim.keymap.set("i", "<C-p>", function() ls.jump(-1) end, {
-            desc = "Jump to previous input field",
-        })
-        vim.keymap.set("i", "<C-s>", function() ls.change_choice(1) end, {
-            desc = "Change snippet choice",
-        })
-        vim.keymap.set("n", "<leader>sr", "<Cmd>source ~/.config/nvim/lua/plugins/luasnip.lua<CR>", {
-            desc = "Reload Luasnip",
-        })
+        vim.keymap.set("i", "<C-e>", function() ls.expand() end)
+        vim.keymap.set("i", "<C-n>", function() ls.jump(1) end)
+        vim.keymap.set("i", "<C-p>", function() ls.jump(-1) end)
+        vim.keymap.set("i", "<C-s>", function() ls.change_choice(1) end)
+        vim.keymap.set("n", "<leader>sr", "<Cmd>source ~/.config/nvim/lua/plugins/luasnip.lua<CR>")
     end,
 
     config = function()

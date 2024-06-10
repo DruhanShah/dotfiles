@@ -3,7 +3,6 @@ return {
     name = "catppuccin",
     priority = 1000,
     opts = {
-        flavour = "mocha",
         integrations = {
             mason = true,
             which_key = true,

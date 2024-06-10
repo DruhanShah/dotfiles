@@ -5,12 +5,8 @@ return {
         "williamboman/mason-lspconfig.nvim",
     },
     init = function()
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, {
-            desc = "Go to definition",
-        })
-        vim.keymap.set("n", "gl", vim.diagnostic.open_float, {
-            desc = "Open diagnostics",
-        })
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition)
+        vim.keymap.set("n", "gl", vim.diagnostic.open_float)
     end,
 
     config = function()

@@ -13,8 +13,6 @@ return {
         },
     },
     init = function ()
-        vim.keymap.set("n", "<leader>o", function ()
-            require("oil").open()
-        end, { desc = "Open file explorer" })
+        vim.keymap.set("n", "<leader>o", function () require("oil").open() end)
     end
 }

@@ -21,7 +21,7 @@ local custom_delim = function (cmd, args, char_o, char_m, char_c)
 end
 
 function M.init()
-    vim.g.vimtex_view_method = "zathura"
+    vim.g.vimtex_view_method = "sioyek"
     vim.g.vimtex_fold_enabled = true
     vim.g.vimtex_syntax_custom_cmds = {
 		custom_cmd("Real", "ℝ"),

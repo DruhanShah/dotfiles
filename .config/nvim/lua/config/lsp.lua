@@ -8,16 +8,8 @@ M.setup = function()
 
     require("lspconfig").hls.setup { capabilities = capabilities }
     require("lspconfig").texlab.setup { capabilities = capabilities }
-    require("lspconfig").pylsp.setup {
-        capabilities = capabilities,
-        settings = {
-            python = {
-                diagnostics = {
-                    globals = { "c", "config" },
-                },
-            },
-        },
-    }
+    require("lspconfig").pylsp.setup { capabilities = capabilities }
+    require("lspconfig").clangd.setup { capabilities = capabilities }
     require("lspconfig").lua_ls.setup {
         capabilities = capabilities,
         settings = {

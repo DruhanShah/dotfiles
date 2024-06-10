@@ -14,11 +14,11 @@ M.setup = function ()
 
     require("copilot_cmp").setup()
     cmp.setup {
-        -- snippet = {
-        --     expand = function(args)
-        --         require("luasnip").lsp_expand(args.body)
-        --     end,
-        -- },
+        snippet = {
+            expand = function(args)
+                require("luasnip").lsp_expand(args.body)
+            end,
+        },
         window = {
             completion = {
                 winhighlight = "FloatBorder:NormalFloat",
@@ -53,8 +53,9 @@ M.setup = function ()
                         buffer = "[Buffer]",
                         path = "[Path]",
                         cmdline = "[Command]",
-                        -- luasnip = "[Snippet]",
+                        luasnip = "[Snippet]",
                         copilot = "[Copilot]",
+                        neorg = "[Neorg]",
                     })
                 } (entry, vim_item)
                 local strings = vim.split(kind.kind, "%s", { trimempty = true })
@@ -69,8 +70,9 @@ M.setup = function ()
             { name = "buffer" },
             { name = "path" },
             { name = "cmdline" },
-            -- { name = "luasnip" },
+            { name = "luasnip" },
             { name = "copilot" },
+            { name = "neorg" },
         },
     }
 

@@ -5,6 +5,11 @@ end
 return {
     load = {
         ["core.defaults"] = {},
+        ["core.completion"] = {
+            config = {
+                engine = "nvim-cmp",
+            },
+        },
         ["core.dirman"] = {
             config = {
                 workspaces = {
@@ -137,12 +142,12 @@ return {
             },
         },
         ["core.ui.calendar"] = {},
-        ["core.integrations.image"] = {},
+        -- ["core.integrations.image"] = {},
         ["core.latex.renderer"] = {
             config = {
                 render_on_enter = true,
             },
         },
-        ["external.conceal-wrap"] = {},
+        -- ["external.conceal-wrap"] = {},
     },
 }

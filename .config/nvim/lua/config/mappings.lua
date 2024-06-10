@@ -1,72 +1,38 @@
 local key = vim.keymap.set
 
-local function toggle_number()
-    if vim.wo.number then
-        vim.wo.number = false
-        vim.wo.relativenumber = true
-    else
-        vim.wo.number = true
-        vim.wo.relativenumber = false
-    end
+local toggle_number = function()
+    vim.wo.number = not vim.wo.number
+    vim.wo.relativenumber = false
+end
+
+local toggle_relative = function ()
+    vim.wo.relativenumber = not vim.wo.relativenumber
+    vim.wo.number = false
 end
 
 -- Normal mode --
-key("n", "<C-h>", "<C-w>h", {
-	desc = "Move left",
-})
-key("n", "<C-j>", "<C-w>j", {
-	desc = "Move down",
-})
-key("n", "<C-k>", "<C-w>k", {
-	desc = "Move up",
-})
-key("n", "<C-l>", "<C-w>l", {
-	desc = "Move right",
-})
+key("n", "<C-h>", "<C-w>h")
+key("n", "<C-j>", "<C-w>j")
+key("n", "<C-k>", "<C-w>k")
+key("n", "<C-l>", "<C-w>l")
 
-key("n", "<Esc>", "<Esc>:noh<CR>", {
-    silent = true,
-	desc = "Clear search highlight",
-})
+key("n", "<Esc>", "<Esc>:noh<CR>")
 
-key("n", "H", "^", {
-	desc = "Move to beginning",
-})
-key("n", "L", "$", {
-	desc = "Move to end",
-})
+key("n", "H", "^")
+key("n", "L", "$")
 
-key("n", "M", "J", {
-	desc = "Merge current line with line below",
-})
+key("n", "M", "J")
 
-key("n", "<C-1>", toggle_number, {
-	desc = "Toggle relative line numbers",
-})
+key("n", "<C-1>", toggle_number)
+key("n", "<C-2>", toggle_relative)
 
 -- Visual mode --
-key("v", "<", "<gv", {
-	desc = "Dedent lines",
-})
-key("v", ">", ">gv", {
-	desc = "Indent lines",
-})
+key("v", "<", "<gv")
+key("v", ">", ">gv")
 
-key("v", "<A-j>", ":m .+1<CR>==", {
-	silent = true,
-	desc = "Move lines down",
-})
-key("v", "<A-k>", ":m .-2<CR>==", {
-	silent = true,
-	desc = "Move lines up",
-})
+key("v", "<A-j>", ":m .+1<CR>==")
+key("v", "<A-k>", ":m .-2<CR>==")
 
 -- Visual Block mode --
-key("x", "<A-j>", ":move '>+1<CR>gv-gv", {
-	silent = true,
-	desc = "Move block down",
-})
-key("x", "<A-k>", ":move '>-2<CR>gv-gv", {
-	silent = true,
-	desc = "Move block up",
-})
+key("x", "<A-j>", ":move '>+1<CR>gv-gv")
+key("x", "<A-k>", ":move '>-2<CR>gv-gv")
