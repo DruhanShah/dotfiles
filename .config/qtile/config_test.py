@@ -6,14 +6,15 @@ from libqtile.config import Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.config import ScratchPad, DropDown
 from libqtile.lazy import lazy
 import widgets as custom_widgets
+import layouts as custom_layouts
 from catppuccin import PALETTE
 
 home = os.path.expanduser("~")
 
-mod = "mod4"
+mod = "mod1"
 ctrl = "control"
 shift = "shift"
-alt = "mod1"
+alt = "mod4"
 vb_command = f"{home}/.config/qtile/scripts/dunst-vb.sh"
 wallpaper = f"{home}/Wallpapers/painting-mountain.png"
 rofi_script = f"{home}/.config/rofi/scripts"
@@ -49,10 +50,10 @@ keys = [
     Key([mod], "l", lazy.layout.right()),
     Key([mod], "j", lazy.layout.down()),
     Key([mod], "k", lazy.layout.up()),
-    Key([mod], "minus", lazy.layout.flip()),
     Key([mod], "space", lazy.group.next_window()),
-    Key([mod, shift], "h", lazy.layout.shuffle_left()),
-    Key([mod, shift], "l", lazy.layout.shuffle_right()),
+    Key([mod], "minus", lazy.layout.flip()),
+    Key([mod, shift], "h", lazy.layout.swap_main()),
+    Key([mod, shift], "l", lazy.layout.swap_right()),
     Key([mod, shift], "j", lazy.layout.shuffle_down()),
     Key([mod, shift], "k", lazy.layout.shuffle_up()),
     Key([mod, ctrl], "h", lazy.layout.shrink_main()),
@@ -118,17 +119,13 @@ for name, key in zip(scratch_names, scratch_keys):
     keys.append(Key([mod], key, lazy.group["scratch"].dropdown_toggle(name)))
 
 layouts = [
-    layout.MonadTall(
-        align=layout.MonadTall._left,
+    custom_layouts.Scrolling(
+        border_width=0,
         border_focus=colorscheme["SKY"],
         border_normal=colorscheme["SKY"],
-        border_on_single=True,
-        border_width=0,
-        change_size=20,
-        max_ratio=0.6,
-        min_ratio=0.4,
-        ratio=0.4,
+        default_width=50,
         margin=12,
+        width_rules={},
     ),
 ]
 

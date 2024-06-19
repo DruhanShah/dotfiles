@@ -7,7 +7,6 @@ setxkbmap -option ctrl:swapcaps
 xcape -e 'Control_L=Escape'
 
 # Autostart programs
-emacs --daemon &
 clipster -d &
 picom &
 rclone --vfs-cache-mode writes mount OneDrive: ~/OneDrive
