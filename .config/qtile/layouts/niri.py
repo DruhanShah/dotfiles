@@ -4,6 +4,10 @@ from libqtile.log_utils import logger
 
 
 class Column(base._ClientList):
+    """
+    A helper class to contain the clients in each column of the layout
+    """
+
     cw = base._ClientList.current_client
     current = base._ClientList.current_index
 
@@ -58,6 +62,25 @@ class Column(base._ClientList):
 
 class Scrolling(base.Layout):
 
+    """
+    Extension of the Columns layout.
+
+    The screen is split into columns, each of which has its own `width`
+    property. The layout can contain several columns even if they exceed the
+    screen width.
+    The `viewx` property allows the user to only see selective windows, and can
+    be used to 'scroll' through the windows, in a sense. This is an attempt to
+    mimic a similar feature present in Scrolling Window Managers like Niri.
+    The `maxwidth` property imposes an upper bound on the value of `viewx`.
+
+    Potential configuration:
+
+        Key([mod], "h", lazy.layout.left()),
+        Key([mod], "j", lazy.layout.down()),
+        Key([mod], "k", lazy.layout.up()),
+        Key([mod], "l", lazy.layout.right()),
+    """
+
     defaults = [
         ("border_width", 0, "Border width"),
         ("border_focus", "ffffff", "Border colour of focused window"),
@@ -66,29 +89,27 @@ class Scrolling(base.Layout):
         ("margin", 0, "Margin between windows"),
         ("width_rules", {}, "Rules for setting custom width"),
     ]
-    viewx = 0
 
     def __init__(self, **config):
         base.Layout.__init__(self, **config)
         self.add_defaults(Scrolling.defaults)
         self.current = 0
+        self.viewx = 0
+        self.maxwidth = self.default_width
         self.columns = [Column(0, self.default_width)]
 
     @property
     def cc(self):
+        """ Current column """
         return self.columns[self.current]
 
     def clone(self, group):
         c = base.Layout.clone(self, group)
         c.current = 0
-        c.columns = [Column(0, c.default_width)]
+        c.viewx = 0
+        c.maxwidth = self.default_width
+        c.columns = [Column(0, self.default_width)]
         return c
-
-    def get_windows(self):
-        clients = []
-        for c in self.columns:
-            clients.extend(c.clients)
-        return clients
 
     @expose_command()
     def info(self):
@@ -103,6 +124,11 @@ class Scrolling(base.Layout):
         return d
 
     def focus(self, client):
+        """
+        Focus the specified client and update the viewx variable to place it at
+        the left edge of the screen.
+        """
+        self.viewx = 0
         for i, c in enumerate(self.columns):
             if client in c:
                 c.focus(client)
@@ -111,21 +137,35 @@ class Scrolling(base.Layout):
             self.viewx += c.width
 
     def add_column(self, width):
+        """
+        Add a new column of given width, and increase `maxwidth` accordingly
+        """
         c = Column(self.insert_position, width)
+        self.maxwidth += width
         self.columns.append(c)
+        self.focus(self.cc.cw)
         return c
 
     def remove_column(self, col):
+        """
+        Remove the specified column and reduce `maxwidth` accordingly.
+        """
         if len(self.columns) == 1:
             logger.error("Can't remove last column")
             return
 
         idx = self.columns.index(col)
+        self.maxwidth -= col.width
         del self.columns[idx]
         if idx <= self.current:
             self.current = max(0, self.current - 1)
+            self.focus(self.cc.cw)
 
     def get_width(self, client):
+        """
+        Check among user-given rules to determine column width.
+        If nothing is provided, `self.default_width` is used.
+        """
         for match, width in self.width_rules.items():
             if client.match(match):
                 return width
@@ -155,10 +195,20 @@ class Scrolling(base.Layout):
         return self.columns[self.current].cw
 
     def configure(self, client, screen_rect):
+        """
+        Place windows on the screen.
+
+        Every window that should be visible given the current `viewx` and
+        dimensions, is placed; the rest are hidden.
+        posx, posy, viewx, widths and heights are in percentages of screen
+        dimensions.
+        """
         screenx = screen_rect.x
         screeny = screen_rect.y
+        screenh = screen_rect.height
+        screenw = screen_rect.width
 
-        posx = 0
+        posx = -self.viewx
         for col in self.columns:
             if client in col:
                 break
@@ -166,6 +216,7 @@ class Scrolling(base.Layout):
         else:
             client.hide()
             return
+
         posy = 0
         for c in col:
             if client == c:
@@ -180,17 +231,22 @@ class Scrolling(base.Layout):
         border = self.border_width
         margin_size = self.margin
 
-        width = int(0.5 + col.width * screenx * 0.01)
-        x = screenx + int(0.5 + (posx-self.viewx) * screenx * 0.01)
+        width = int(0.5 + col.width * screenw * 0.01)
+        x = screenx + int(0.5 + posx * screenw * 0.01)
 
-        height = int(0.5 + col.heights[client] * screeny * 0.01 / len(col))
-        y = screeny + int(0.5 + posy * screeny * 0.01 / len(col))
-        client.place(
-            x, y,
-            width - 2*border, height - 2*border,
-            border, color, margin=margin_size
-        )
-        client.unhide()
+        height = int(0.5 + col.heights[client] * screenh * 0.01 / len(col))
+        y = screeny + int(0.5 + posy * screenh * 0.01 / len(col))
+
+        # Iff some part of the window is visible, place it
+        if (x < screenx+screenw) or (x+width > 0):
+            client.place(
+                x, y,
+                width - 2*border, height - 2*border,
+                border, color, margin=margin_size,
+            )
+            client.unhide()
+        else:
+            client.hide()
 
     def focus_first(self):
         if self.columns:
@@ -203,6 +259,7 @@ class Scrolling(base.Layout):
         return None
 
     def focus_next(self, win):
+        """ Same as in Columns. """
         for idx, col in enumerate(self.columns):
             if win in col:
                 if nxt := col.focus_next(win):
@@ -213,6 +270,7 @@ class Scrolling(base.Layout):
         return None
 
     def focus_previous(self, win):
+        """ Same as in Columns. """
         for idx, col in enumerate(self.columns):
             if win in col:
                 if prev := col.focus_previous(win):
@@ -224,18 +282,21 @@ class Scrolling(base.Layout):
 
     @expose_command()
     def left(self):
+        """ Get the last active window of the column to the left. """
         if self.current > 0:
             self.current = self.current - 1
         self.group.focus(self.cc.cw, True)
 
     @expose_command()
     def right(self):
+        """ Get the last active window of the column to the right. """
         if len(self.columns) - 1 > self.current:
             self.current = self.current + 1
         self.group.focus(self.cc.cw, True)
 
     @expose_command()
     def up(self):
+        """ Get the window above the active one. """
         col = self.cc
         if col.current_index > 0:
             col.current_index -= 1
@@ -243,6 +304,7 @@ class Scrolling(base.Layout):
 
     @expose_command()
     def down(self):
+        """ Get the window below the active one. """
         col = self.cc
         if col.current_index < len(col) - 1:
             col.current_index += 1
@@ -250,6 +312,7 @@ class Scrolling(base.Layout):
 
     @expose_command()
     def next(self) -> None:
+        """ Get the next window. """
         if self.columns:
             self.current = (self.current + 1) % len(self.columns)
             self.cc.current = 0
@@ -257,6 +320,7 @@ class Scrolling(base.Layout):
 
     @expose_command()
     def previous(self) -> None:
+        """ Get the previous window. """
         if self.columns:
             self.current = (self.current - 1) % len(self.columns)
             self.cc.current = len(self.cc) - 1
@@ -264,6 +328,7 @@ class Scrolling(base.Layout):
 
     @expose_command()
     def shuffle_left(self):
+        """ Same as in Columns. """
         cur = self.cc
         client = cur.cw
         if client is None:
@@ -286,6 +351,7 @@ class Scrolling(base.Layout):
 
     @expose_command()
     def shuffle_right(self):
+        """ Same as in Columns. """
         cur = self.cc
         client = cur.cw
         if client is None:
@@ -308,18 +374,25 @@ class Scrolling(base.Layout):
 
     @expose_command()
     def shuffle_up(self):
+        """ Same as in Columns. """
         if self.cc.current_index > 0:
             self.cc.shuffle_up()
             self.group.layout_all()
 
     @expose_command()
     def shuffle_down(self):
+        """ Same as in Columns. """
         if self.cc.current_index + 1 < len(self.cc):
             self.cc.shuffle_down()
             self.group.layout_all()
 
     @expose_command()
     def grow_left(self):
+        """
+        Same as in Columns.
+        This is what allows this layout to work nicely. Windows have a fixed
+        width when initialized, but the columns can be resized at will.
+        """
         if self.current > 0:
             if self.columns[self.current - 1].width > self.grow_amount:
                 self.columns[self.current - 1].width -= self.grow_amount
@@ -333,6 +406,11 @@ class Scrolling(base.Layout):
 
     @expose_command()
     def grow_right(self):
+        """
+        Same as in Columns.
+        This is what allows this layout to work nicely. Windows have a fixed
+        width when initialized, but the columns can be resized at will.
+        """
         if self.current + 1 < len(self.columns):
             if self.columns[self.current + 1].width > self.grow_amount:
                 self.columns[self.current + 1].width -= self.grow_amount
@@ -346,6 +424,7 @@ class Scrolling(base.Layout):
 
     @expose_command()
     def grow_up(self):
+        """ Same as in Columns. """
         col = self.cc
         if col.current > 0:
             if col.heights[col[col.current - 1]] > self.grow_amount:
@@ -360,6 +439,7 @@ class Scrolling(base.Layout):
 
     @expose_command()
     def grow_down(self):
+        """ Same as in Columns. """
         col = self.cc
         if col.current + 1 < len(col):
             if col.heights[col[col.current + 1]] > self.grow_amount:
@@ -373,36 +453,19 @@ class Scrolling(base.Layout):
                 self.group.layout_all()
 
     @expose_command()
-    def normalize(self):
-        """Give columns equal widths."""
-        for col in self.columns:
-            for client in col:
-                col.heights[client] = 100
-            col.width = 100
-        self.group.layout_all()
+    def scroll_right(self):
+        """
+        The USP of this layout.
+        'Scrolls' the 'view' by 5% of the screen to the right up to maxwidth.
+        """
+        if self.viewx < self.maxwidth:
+            self.viewx += 5
 
     @expose_command()
-    def reset(self):
-        """Resets column widths, respecting 'initial_ratio' value."""
-        if self.initial_ratio == 1 or len(self.columns) == 1 or self.fair:
-            self.normalize()
-            return
-
-        self.group.layout_all()
-
-    def swap_column(self, s, t):
-        self.columns[s], self.columns[t] = self.columns[t], self.columns[s]
-        self.current = t
-        self.group.layout_all()
-
-    @expose_command()
-    def swap_column_left(self):
-        src = self.current
-        dst = src - 1 if src > 0 else len(self.columns) - 1
-        self.swap_column(src, dst)
-
-    @expose_command()
-    def swap_column_right(self):
-        src = self.current
-        dst = src + 1 if src < len(self.columns) - 1 else 0
-        self.swap_column(src, dst)
+    def scroll_left(self):
+        """
+        The USP of this layout.
+        'Scrolls' the 'view' by 5% of the screen to the left up to 0.
+        """
+        if self.viewx > 0:
+            self.viewx -= 5
