@@ -73,12 +73,24 @@ class Scrolling(base.Layout):
     mimic a similar feature present in Scrolling Window Managers like Niri.
     The `maxwidth` property imposes an upper bound on the value of `viewx`.
 
-    Potential configuration:
+    Potential keybind configuration:
 
+        Key([mod], "space", lazy.layout.next()),
         Key([mod], "h", lazy.layout.left()),
         Key([mod], "j", lazy.layout.down()),
         Key([mod], "k", lazy.layout.up()),
         Key([mod], "l", lazy.layout.right()),
+        Key([mod, shift], "h", lazy.layout.shuffle_left()),
+        Key([mod, shift], "j", lazy.layout.shuffle_down()),
+        Key([mod, shift], "k", lazy.layout.shuffle_up()),
+        Key([mod, shift], "l", lazy.layout.shuffle_right()),
+        Key([mod, control], "h", lazy.layout.grow_left()),
+        Key([mod, control], "j", lazy.layout.grow_down()),
+        Key([mod, control], "k", lazy.layout.grow_up()),
+        Key([mod, control], "l", lazy.layout.grow_right()),
+        Key([mod, control, shift], "h", lazy.layout.scroll_left()),
+        Key([mod, control, shift], "l", lazy.layout.scroll_right()),
+
     """
 
     defaults = [
