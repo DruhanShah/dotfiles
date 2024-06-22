@@ -84,12 +84,12 @@ class Scrolling(base.Layout):
         Key([mod, shift], "j", lazy.layout.shuffle_down()),
         Key([mod, shift], "k", lazy.layout.shuffle_up()),
         Key([mod, shift], "l", lazy.layout.shuffle_right()),
-        Key([mod, control], "h", lazy.layout.grow_left()),
-        Key([mod, control], "j", lazy.layout.grow_down()),
-        Key([mod, control], "k", lazy.layout.grow_up()),
-        Key([mod, control], "l", lazy.layout.grow_right()),
-        Key([mod, control, shift], "h", lazy.layout.scroll_left()),
-        Key([mod, control, shift], "l", lazy.layout.scroll_right()),
+        Key([mod, ctrl], "h", lazy.layout.grow_left()),
+        Key([mod, ctrl], "j", lazy.layout.grow_down()),
+        Key([mod, ctrl], "k", lazy.layout.grow_up()),
+        Key([mod, ctrl], "l", lazy.layout.grow_right()),
+        Key([mod, ctrl, shift], "h", lazy.layout.scroll_left()),
+        Key([mod, ctrl, shift], "l", lazy.layout.scroll_right()),
 
     """
 
@@ -137,22 +137,20 @@ class Scrolling(base.Layout):
 
     def focus(self, client):
         """
-        Focus the specified client and update the viewx variable to place it at
-        the left edge of the screen.
+        Focus the specified client.
+        Do not update the viewx property since it is only meant to be scrolled.
         """
-        self.viewx = 0
         for i, c in enumerate(self.columns):
             if client in c:
                 c.focus(client)
                 self.current = i
                 break
-            self.viewx += c.width
 
     def add_column(self, width):
         """
         Add a new column of given width, and increase `maxwidth` accordingly
         """
-        c = Column(self.insert_position, width)
+        c = Column(-1, width)
         self.maxwidth += width
         self.columns.append(c)
         self.focus(self.cc.cw)
@@ -185,24 +183,17 @@ class Scrolling(base.Layout):
 
     def add_client(self, client):
         c = self.cc
-        if len(c) > 0 and len(self.columns) < self.num_columns:
-            w = self.get_width(client)
-            c = self.add_column(width=w)
-        least = min(self.columns, key=len)
-        if len(least) < len(c):
-            c = least
-        self.current = self.columns.index(c)
         c.add_client(client)
 
     def remove(self, client):
-        remove = None
+        remove = False
         for c in self.columns:
             if client in c:
                 c.remove(client)
                 if len(c) == 0 and len(self.columns) > 1:
-                    remove = c
+                    remove = True
                 break
-        if remove is not None:
+        if remove:
             self.remove_column(c)
         return self.columns[self.current].cw
 
@@ -472,6 +463,7 @@ class Scrolling(base.Layout):
         """
         if self.viewx < self.maxwidth:
             self.viewx += 5
+        self.group.focus(self.cc.cw)
 
     @expose_command()
     def scroll_left(self):
@@ -481,3 +473,4 @@ class Scrolling(base.Layout):
         """
         if self.viewx > 0:
             self.viewx -= 5
+        self.group.focus(self.cc.cw)

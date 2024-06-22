@@ -6,7 +6,8 @@ from libqtile.config import Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.config import ScratchPad, DropDown
 from libqtile.lazy import lazy
 import widgets as custom_widgets
-from catppuccin import PALETTE
+import layouts as custom_layouts
+from utils import COLORSCHEME
 
 home = os.path.expanduser("~")
 
@@ -15,12 +16,8 @@ ctrl = "control"
 shift = "shift"
 alt = "mod1"
 vb_command = f"{home}/.config/qtile/scripts/dunst-vb.sh"
-wallpaper = f"{home}/Wallpapers/painting-mountain.png"
+wallpaper = f"{home}/Wallpapers/neuschwanstein.jpg"
 rofi_script = f"{home}/.config/rofi/scripts"
-
-colorscheme = {}
-for color in PALETTE.mocha.colors:
-    colorscheme[color.name.upper()] = color.hex
 
 
 @lazy.function
@@ -45,20 +42,21 @@ keys = [
     Key([], "XF86AudioPlay", lazy.spawn(f"{vb_command} play_pause")),
     Key([], "print", lazy.spawn("flameshot gui")),
 
+    Key([mod], "space", lazy.layout.next()),
     Key([mod], "h", lazy.layout.left()),
-    Key([mod], "l", lazy.layout.right()),
     Key([mod], "j", lazy.layout.down()),
     Key([mod], "k", lazy.layout.up()),
-    Key([mod], "minus", lazy.layout.flip()),
-    Key([mod], "space", lazy.group.next_window()),
+    Key([mod], "l", lazy.layout.right()),
     Key([mod, shift], "h", lazy.layout.shuffle_left()),
-    Key([mod, shift], "l", lazy.layout.shuffle_right()),
     Key([mod, shift], "j", lazy.layout.shuffle_down()),
     Key([mod, shift], "k", lazy.layout.shuffle_up()),
-    Key([mod, ctrl], "h", lazy.layout.shrink_main()),
-    Key([mod, ctrl], "l", lazy.layout.grow_main()),
+    Key([mod, shift], "l", lazy.layout.shuffle_right()),
+    Key([mod, ctrl], "h", lazy.layout.grow_left()),
     Key([mod, ctrl], "j", lazy.layout.grow_down()),
     Key([mod, ctrl], "k", lazy.layout.grow_up()),
+    Key([mod, ctrl], "l", lazy.layout.grow_right()),
+    Key([mod, ctrl, shift], "h", lazy.layout.scroll_left()),
+    Key([mod, ctrl, shift], "l", lazy.layout.scroll_right()),
 
     Key([mod, shift], "space", lazy.window.toggle_floating()),
     Key([mod], "f", lazy.window.toggle_fullscreen()),
@@ -118,17 +116,15 @@ for name, key in zip(scratch_names, scratch_keys):
     keys.append(Key([mod], key, lazy.group["scratch"].dropdown_toggle(name)))
 
 layouts = [
-    layout.MonadTall(
-        align=layout.MonadTall._left,
-        border_focus=colorscheme["SKY"],
-        border_normal=colorscheme["SKY"],
-        border_on_single=True,
+    custom_layouts.Scrolling(
         border_width=0,
-        change_size=20,
-        max_ratio=0.6,
-        min_ratio=0.4,
-        ratio=0.4,
+        border_focus=COLORSCHEME["SKY"],
+        border_normal=COLORSCHEME["SKY"],
+        default_width=60,
         margin=12,
+        width_rules={
+            Match(wm_class="kitty"): 50,
+        },
     ),
 ]
 
@@ -147,21 +143,21 @@ widget_defaults = dict(
     font="JetBrains Mono",
     fontsize=16,
     padding=0,
-    foreground=colorscheme["TEXT"],
-    background=colorscheme["BASE"],
+    foreground=COLORSCHEME["TEXT"],
+    background=COLORSCHEME["BASE"],
 )
 extension_defaults = widget_defaults.copy()
 
 widget_list = [
     custom_widgets.V_GroupBox(
         highlight_method="text",
-        active=colorscheme["TEXT"],
-        inactive=colorscheme["SURFACE 1"],
-        urgent_text=colorscheme["RED"],
-        this_current_screen_border=colorscheme["BLUE"],
-        this_screen_border=colorscheme["BLUE"],
-        other_current_screen_border=colorscheme["YELLOW"],
-        other_screen_border=colorscheme["YELLOW"],
+        active=COLORSCHEME["TEXT"],
+        inactive=COLORSCHEME["SURFACE 1"],
+        urgent_text=COLORSCHEME["RED"],
+        this_current_screen_border=COLORSCHEME["BLUE"],
+        this_screen_border=COLORSCHEME["BLUE"],
+        other_current_screen_border=COLORSCHEME["YELLOW"],
+        other_screen_border=COLORSCHEME["YELLOW"],
         padding=6,
         fontsize=20,
         margin_x=1,
@@ -174,8 +170,8 @@ widget_list = [
         full_char="󱟢",
         unknown_char="󰂑",
         show_short_text=False,
-        foreground=colorscheme["TEAL"],
-        low_foreground=colorscheme["RED"],
+        foreground=COLORSCHEME["TEAL"],
+        low_foreground=COLORSCHEME["RED"],
         low_percentage=0.2,
         mouse_callbacks={
             "Button1": lazy.spawn(f"{rofi_script}/battery.sh")
@@ -185,7 +181,7 @@ widget_list = [
     ),
     custom_widgets.V_TextBox(
         text="",
-        foreground=colorscheme["GREEN"],
+        foreground=COLORSCHEME["GREEN"],
         mouse_callbacks={
             "Button1": lazy.spawn(f"{rofi_script}/spotify.sh")
         },
@@ -194,7 +190,7 @@ widget_list = [
     ),
     custom_widgets.V_TextBox(
         text="󰃟",
-        foreground=colorscheme["MAUVE"],
+        foreground=COLORSCHEME["MAUVE"],
         mouse_callbacks={
             "Button1": lazy.spawn(f"{rofi_script}/brightness.sh")
         },
@@ -202,7 +198,7 @@ widget_list = [
         padding=5,
     ),
     custom_widgets.V_Audio(
-        foreground=colorscheme["FLAMINGO"],
+        foreground=COLORSCHEME["FLAMINGO"],
         emoji=True,
         emoji_list=["󰝟", "󰖀", "󰕾", "󰕾", "󰋋"],
         mouse_callbacks={
@@ -213,7 +209,7 @@ widget_list = [
     ),
     custom_widgets.V_DateTime(
         format="%H\n%M\n%S",
-        foreground=colorscheme["LAVENDER"],
+        foreground=COLORSCHEME["LAVENDER"],
         mouse_callbacks={
             "Button1": lazy.spawn(f"{rofi_script}/calendar.sh")
         },
@@ -223,7 +219,7 @@ widget_list = [
     ),
     custom_widgets.V_TextBox(
         text="",
-        foreground=colorscheme["RED"],
+        foreground=COLORSCHEME["RED"],
         mouse_callbacks={
             "Button1": lazy.spawn(f"{rofi_script}/powermenu.sh")
         },
@@ -236,10 +232,10 @@ screens = [
     Screen(
         wallpaper_mode="fill",
         wallpaper=wallpaper,
-        right=bar.Bar(
+        left=bar.Bar(
             widgets=widget_list,
-            size=32,
-            margin=[12, 12, 12, 0],
+            size=36,
+            margin=[12, 0, 12, 12],
         ),
     )
 ]
@@ -269,8 +265,8 @@ floating_layout = layout.Floating(
         Match(title="file-picker"),
         Match(wm_class="matplotlib"),
     ],
-    border_focus=colorscheme["SKY"],
-    border_normal=colorscheme["SKY"],
+    border_focus=COLORSCHEME["SKY"],
+    border_normal=COLORSCHEME["SKY"],
     border_width=0,
 )
 auto_fullscreen = True
