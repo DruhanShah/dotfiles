@@ -183,6 +183,8 @@ class Scrolling(base.Layout):
 
     def add_client(self, client):
         c = self.cc
+        if len(c) == 0:
+            c.width = self.get_width(client)
         c.add_client(client)
 
     def remove(self, client):
@@ -448,7 +450,8 @@ class Scrolling(base.Layout):
     def scroll_right(self):
         """
         The USP of this layout.
-        'Scrolls' the 'view' by 5% of the screen to the right up to maxwidth.
+        'Scrolls' the 'view' by 5% of the screen to the right up to one screen
+        beyond the last column.
         """
         if self.viewx < self.maxwidth:
             self.viewx += 5
@@ -458,8 +461,9 @@ class Scrolling(base.Layout):
     def scroll_left(self):
         """
         The USP of this layout.
-        'Scrolls' the 'view' by 5% of the screen to the left up to 0.
+        'Scrolls' the 'view' by 5% of the screen to the left up to one screen
+        beyond the first column.
         """
-        if self.viewx > 0:
+        if self.viewx > -100:
             self.viewx -= 5
         self.group.focus(self.cc.cw)

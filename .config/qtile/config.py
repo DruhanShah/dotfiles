@@ -5,7 +5,7 @@ from libqtile import bar, layout, widget, hook
 from libqtile.config import Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.config import ScratchPad, DropDown
 from libqtile.lazy import lazy
-import widgets as custom_widgets
+# import widgets as custom_widgets
 import layouts as custom_layouts
 from utils import COLORSCHEME
 
@@ -51,12 +51,12 @@ keys = [
     Key([mod, shift], "j", lazy.layout.shuffle_down()),
     Key([mod, shift], "k", lazy.layout.shuffle_up()),
     Key([mod, shift], "l", lazy.layout.shuffle_right()),
-    Key([mod, ctrl], "h", lazy.layout.shrink_left()),
-    Key([mod, ctrl], "j", lazy.layout.grow_down()),
-    Key([mod, ctrl], "k", lazy.layout.shrink_up()),
-    Key([mod, ctrl], "l", lazy.layout.grow_right()),
-    Key([mod, ctrl, shift], "h", lazy.layout.scroll_left()),
-    Key([mod, ctrl, shift], "l", lazy.layout.scroll_right()),
+    Key([mod, ctrl, shift], "h", lazy.layout.shrink_left()),
+    Key([mod, ctrl, shift], "j", lazy.layout.grow_down()),
+    Key([mod, ctrl, shift], "k", lazy.layout.shrink_up()),
+    Key([mod, ctrl, shift], "l", lazy.layout.grow_right()),
+    Key([mod, ctrl], "h", lazy.layout.scroll_left()),
+    Key([mod, ctrl], "l", lazy.layout.scroll_right()),
 
     Key([mod, shift], "space", lazy.window.toggle_floating()),
     Key([mod], "f", lazy.window.toggle_fullscreen()),
@@ -115,20 +115,6 @@ groups.append(ScratchPad("scratch", [
 for name, key in zip(scratch_names, scratch_keys):
     keys.append(Key([mod], key, lazy.group["scratch"].dropdown_toggle(name)))
 
-layouts = [
-    custom_layouts.Scrolling(
-        border_width=0,
-        border_focus=COLORSCHEME["SKY"],
-        border_normal=COLORSCHEME["SKY"],
-        default_width=60,
-        grow_amount=5,
-        margin=12,
-        width_rules={
-            Match(wm_class="kitty"): 50,
-        },
-    ),
-]
-
 
 def trim(text):
     if text == "org.pwmt.zathura":
@@ -150,7 +136,8 @@ widget_defaults = dict(
 extension_defaults = widget_defaults.copy()
 
 widget_list = [
-    custom_widgets.V_GroupBox(
+    widget.TextBox(),
+    widget.GroupBox(
         highlight_method="text",
         active=COLORSCHEME["TEXT"],
         inactive=COLORSCHEME["SURFACE 1"],
@@ -159,12 +146,11 @@ widget_list = [
         this_screen_border=COLORSCHEME["BLUE"],
         other_current_screen_border=COLORSCHEME["YELLOW"],
         other_screen_border=COLORSCHEME["YELLOW"],
-        padding=6,
+        padding=3,
         fontsize=20,
-        margin_x=1,
     ),
     widget.Spacer(),
-    custom_widgets.V_Battery(
+    widget.Battery(
         format="{char}",
         charge_char="󰢞",
         discharge_char="󰁾",
@@ -180,25 +166,25 @@ widget_list = [
         fontsize=20,
         padding=5,
     ),
-    custom_widgets.V_TextBox(
+    widget.TextBox(
         text="",
         foreground=COLORSCHEME["GREEN"],
         mouse_callbacks={
             "Button1": lazy.spawn(f"{rofi_script}/spotify.sh")
         },
         fontsize=20,
-        padding=5,
+        padding=10,
     ),
-    custom_widgets.V_TextBox(
+    widget.TextBox(
         text="󰃟",
         foreground=COLORSCHEME["MAUVE"],
         mouse_callbacks={
             "Button1": lazy.spawn(f"{rofi_script}/brightness.sh")
         },
         fontsize=20,
-        padding=5,
+        padding=10,
     ),
-    custom_widgets.V_Audio(
+    widget.PulseVolume(
         foreground=COLORSCHEME["FLAMINGO"],
         emoji=True,
         emoji_list=["󰝟", "󰖀", "󰕾", "󰕾", "󰋋"],
@@ -208,35 +194,36 @@ widget_list = [
         fontsize=20,
         padding=10,
     ),
-    custom_widgets.V_DateTime(
-        format="%H\n%M\n%S",
+    widget.Clock(
+        format="%H:%M:%S",
         foreground=COLORSCHEME["LAVENDER"],
         mouse_callbacks={
             "Button1": lazy.spawn(f"{rofi_script}/calendar.sh")
         },
         fmt="<b>{}</b>",
-        fontsize=20,
+        fontsize=15,
         padding=10,
     ),
-    custom_widgets.V_TextBox(
+    widget.TextBox(
         text="",
         foreground=COLORSCHEME["RED"],
         mouse_callbacks={
             "Button1": lazy.spawn(f"{rofi_script}/powermenu.sh")
         },
         fontsize=20,
-        padding=5,
+        padding=15,
     ),
+    widget.TextBox(),
 ]
 
 screens = [
     Screen(
         wallpaper_mode="fill",
         wallpaper=wallpaper,
-        left=bar.Bar(
+        top=bar.Bar(
             widgets=widget_list,
             size=36,
-            margin=[12, 0, 12, 12],
+            margin=[12, 12, 0, 12],
         ),
     )
 ]
@@ -248,11 +235,21 @@ mouse = [
          start=lazy.window.get_size()),
 ]
 
-dgroups_key_binder = None
-dgroups_app_rules = []
-follow_mouse_focus = False
-bring_front_click = False
-cursor_warp = False
+
+layouts = [
+    custom_layouts.Scrolling(
+        border_width=0,
+        border_focus=COLORSCHEME["SKY"],
+        border_normal=COLORSCHEME["SKY"],
+        default_width=60,
+        grow_amount=5,
+        margin=12,
+        width_rules={
+            Match(wm_class="kitty"): 50,
+            Match(wm_class="qutebrowser"): 100,
+        },
+    ),
+]
 
 floating_layout = layout.Floating(
     float_rules=[
@@ -270,11 +267,18 @@ floating_layout = layout.Floating(
     border_normal=COLORSCHEME["SKY"],
     border_width=0,
 )
+
+
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
 auto_minimize = False
 wmname = "QTile"
+dgroups_key_binder = None
+dgroups_app_rules = []
+follow_mouse_focus = False
+bring_front_click = False
+cursor_warp = False
 
 
 @hook.subscribe.startup_once
