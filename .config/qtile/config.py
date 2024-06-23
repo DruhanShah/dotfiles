@@ -2,8 +2,9 @@ import os
 import re
 import subprocess
 from libqtile import bar, layout, widget, hook
-from libqtile.config import Drag, Group, Key, KeyChord, Match, Screen
-from libqtile.config import ScratchPad, DropDown
+from libqtile.config import Match
+from libqtile.config import Click, Drag, Key, KeyChord
+from libqtile.config import Group, ScratchPad, DropDown, Screen
 from libqtile.lazy import lazy
 # import widgets as custom_widgets
 import layouts as custom_layouts
@@ -51,12 +52,12 @@ keys = [
     Key([mod, shift], "j", lazy.layout.shuffle_down()),
     Key([mod, shift], "k", lazy.layout.shuffle_up()),
     Key([mod, shift], "l", lazy.layout.shuffle_right()),
-    Key([mod, ctrl, shift], "h", lazy.layout.shrink_left()),
-    Key([mod, ctrl, shift], "j", lazy.layout.grow_down()),
-    Key([mod, ctrl, shift], "k", lazy.layout.shrink_up()),
-    Key([mod, ctrl, shift], "l", lazy.layout.grow_right()),
-    Key([mod, ctrl], "h", lazy.layout.scroll_left()),
-    Key([mod, ctrl], "l", lazy.layout.scroll_right()),
+    Key([mod, ctrl], "h", lazy.layout.shrink_left()),
+    Key([mod, ctrl], "j", lazy.layout.grow_down()),
+    Key([mod, ctrl], "k", lazy.layout.shrink_up()),
+    Key([mod, ctrl], "l", lazy.layout.grow_right()),
+    Key([mod, ctrl, shift], "h", lazy.layout.scroll_left()),
+    Key([mod, ctrl, shift], "l", lazy.layout.scroll_right()),
 
     Key([mod, shift], "space", lazy.window.toggle_floating()),
     Key([mod], "f", lazy.window.toggle_fullscreen()),
@@ -233,6 +234,8 @@ mouse = [
          start=lazy.window.get_position()),
     Drag([mod, shift], "Button1", lazy.window.set_size_floating(),
          start=lazy.window.get_size()),
+    Click([mod], "Button7", lazy.layout.scroll_right(5)),
+    Click([mod], "Button6", lazy.layout.scroll_left(5)),
 ]
 
 
@@ -245,8 +248,9 @@ layouts = [
         grow_amount=5,
         margin=12,
         width_rules={
-            Match(wm_class="kitty"): 50,
+            Match(wm_class="kitty"): 40,
             Match(wm_class="qutebrowser"): 100,
+            Match(wm_class="vesktop"): 100,
         },
     ),
 ]

@@ -447,23 +447,23 @@ class Scrolling(base.Layout):
                 self.group.layout_all()
 
     @expose_command()
-    def scroll_right(self):
+    def scroll_right(self, amt=5):
         """
         The USP of this layout.
         'Scrolls' the 'view' by 5% of the screen to the right up to one screen
         beyond the last column.
         """
         if self.viewx < self.maxwidth:
-            self.viewx += 5
+            self.viewx += amt
         self.group.focus(self.cc.cw)
 
     @expose_command()
-    def scroll_left(self):
+    def scroll_left(self, amt=5):
         """
         The USP of this layout.
         'Scrolls' the 'view' by 5% of the screen to the left up to one screen
         beyond the first column.
         """
         if self.viewx > -100:
-            self.viewx -= 5
+            self.viewx -= amt
         self.group.focus(self.cc.cw)
