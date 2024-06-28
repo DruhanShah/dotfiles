@@ -467,3 +467,9 @@ class Scrolling(base.Layout):
         if self.viewx > -100:
             self.viewx -= amt
         self.group.focus(self.cc.cw)
+
+    @expose_command
+    def reset_scroll(self):
+        self.viewx = 0
+        self.group.focus(self.cc.cw)
+
