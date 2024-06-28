@@ -1,0 +1,70 @@
+@import url(https://raw.githubusercontent.com/SEELE1306/Modular/release/src/main.css);
+
+/* --- CUSTOMIZABLE --- */
+
+/* comment out to enable, more add-ons at https://github.com/SEELE1306/CSS-Snippets/tree/main */
+/* Nitro gradients */
+/* @import url(https://raw.githubusercontent.com/SEELE1306/Modular/release/src/comp/nitro_themes.css); */
+/* Optional settings icons in Settings by saltssaumure */
+/* @import url(https://minidiscordthemes.github.io/SettingsIcons/SettingsIcons.theme.css); */
+
+:root {
+  /*
+	* [[ BACKGROUND ]]
+	* Change to none to use solid color theme, or use one of the premade Nitro gradients, or make your own gradient or even add a background (must be an URL) */
+  --modular-background: none !important;
+  --modular-background-blur-strength: 10px;
+  /* in px, Default is 10px */
+  --modular-background-brightness: 15%;
+  /* Between 0 and 100% - Default is 100% */
+  --modular-transparency: 25%;
+  /* Between 0 and 50% - Default is 25% */
+
+  /*
+	* Nitro gradients: aurora, forest, hanami, lofi, mint-apple, mars, neon-nights, retro-raincloud, strawberry-lemonade, sepia,
+  * midnight-blurple, chroma-glow, citrus-sherbert, cotton-candy, crimson-moon, desert-khaki, dusk, retro-storm, sunrise, sunset, under-the-sea
+	*/
+
+  /* [[ OVERALL ACCENT ]] */
+  --modular-hue: 240;
+  --modular-saturation: 21%;
+  /* Change the percentage to something else */
+  --brand-500: #89b4fa;
+
+  /* [[ STATUS COLORS ]]  */
+  --online-color: #a6e3a1;
+  --idle-color: #f9e2af;
+  --dnd-color: #f38ba8;
+  --streaming-color: #b4befe;
+  --bot-color: #89b4fa;
+
+  /* [[ CHAT BUBBLES ]] */
+  --enable-chat-bubble-border: 0; /* 1 to enable, 0 to disable */
+  --chat-bubble-default: #313244;
+  --chat-bubble-replying: #91d7e3;
+  --chat-bubble-mentioned: #f5a97f;
+  --chat-bubble-automod: #ed8796;
+
+  /* [[ FONT CHANGE ]] */
+  --font-main: "Fira Sans";
+  --font-code: "JetBrains Mono";
+
+  /* [[ CLIENT LAYOUT ]] */
+  --enable-client-border: 0; /* 1 to enable, 0 to disable */
+  --client-border-color: var(--brand-500);
+  --sidebar-orientation: column;
+  /* column-reverse for user panel on top */
+  --guild-orientation: row;
+  /* row-reverse for guild bar on the right */
+  --client-orientation: row;
+  /* row-reverse for server list and user panel on the right */
+  --memberlist-orientation: row;
+  /* row-reverse for member list on the left */
+  --friendlist-orientation: row;
+  /* row-reverse for now playing tab on the left */
+  --titlebar-name: "Discord";
+
+  /* [[ SPOTIFY TRACK BACKGROUND */
+  --blur-amount: 2px; /* higher px = stronger blur, 0 = no blur */
+  --darken-percent: 0.5; /* 0 = album cover is not darkened, 1 = album cover is darkened fully (black) */
+}
