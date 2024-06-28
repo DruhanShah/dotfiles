@@ -2,7 +2,7 @@
 
 local Job = require("plenary.job")
 
-local compile = function ()
+local function compile()
     Job:new({
         command = "latexmk",
         args = {

@@ -7,6 +7,20 @@ local putils = require("telescope.previewers.utils")
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 local conf = require("telescope.config").values
+local layout_strat = require("telescope.pickers.layout_strategies")
+
+layout_strat.vertico = function (picker, max_columns, max_lines, layout_config)
+    local base = layout_strat.center(picker, max_columns, max_lines, layout_config)
+    base.results.line = base.results.line - 1
+    base.prompt.line = base.prompt.line - 2
+    base.prompt.height = base.prompt.height
+    base.prompt.border = { 1, 1, 1, 1 }
+    base.prompt.borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
+    base.results.borderchars = { "", "", "─", "", "", "", "─", "─" }
+    base.results.title = ""
+
+    return base
+end
 
 local M = {}
 
@@ -43,7 +57,7 @@ function M.gtd(opts)
                 })
             end
         },
-        attach_mappings = function(prompt_bufnr, map)
+        attach_mappings = function(prompt_bufnr)
             actions.select_default:replace(function()
                 local selection = action_state.get_selected_entry()
                 actions.close(prompt_bufnr)
@@ -97,6 +111,9 @@ end
 function M.setup()
     telescope.setup {
         defaults = {
+            prompt_prefix = "    ",
+            selection_caret = " ",
+            entry_prefix = "  ",
             file_ignore_patterns = {
                 "node_modules/.*",
                 ".git/.*",
@@ -105,40 +122,15 @@ function M.setup()
             path_display = {
                 "filename_first",
             },
+            layout_strategy = "vertico",
             layout_config = {
-                prompt_position = "top",
+                preview_cutoff = 99999,
+                width = vim.o.columns,
+                height = 15,
+                anchor = "N",
             },
             sorting_strategy = "ascending",
         },
-        extensions = {
-            file_browser = {
-                mappings = {
-                    ["i"] = {
-                        ["<C-e>"] = function(bufnr)
-                            local Path = require("plenary.path")
-                            local fb_utils = require("telescope._extensions.file_browser.utils")
-                            local curr_pick = require("telescope.actions.state").get_current_picker(bufnr)
-                            local finder = curr_pick.finder
-                            local buf_path = Path:new(vim.fn.expand("#:p"))
-                            local buf_parent_path = buf_path:parent():absolute()
-
-                            if finder.path ~= buf_parent_path then
-                                finder.path = buf_parent_path
-                                fb_utils.selection_callback(curr_pick, buf_path:absolute())
-                            else
-                                finder.path = vim.loop.cwd()
-                            end
-                            fb_utils.redraw_border_title(curr_pick)
-                            curr_pick:refresh(finder, {
-                                new_prefix = fb_utils.relative_path_prefix(finder),
-                                reset_prompt = true,
-                                multi = curr_pick.multi,
-                            })
-                        end
-                    },
-                },
-            },
-        }
     }
 
     telescope.load_extension("fzf")

@@ -1,14 +1,5 @@
 local key = vim.keymap.set
-
-local toggle_number = function()
-    vim.wo.number = not vim.wo.number
-    vim.wo.relativenumber = false
-end
-
-local toggle_relative = function ()
-    vim.wo.relativenumber = not vim.wo.relativenumber
-    vim.wo.number = false
-end
+local utils = require("config.utils")
 
 -- Normal mode --
 key("n", "<C-h>", "<C-w>h")
@@ -19,12 +10,15 @@ key("n", "<C-l>", "<C-w>l")
 key("n", "<Esc>", "<Esc>:noh<CR>")
 
 key("n", "H", "^")
+key("n", "J", "gj")
+key("n", "K", "gk")
 key("n", "L", "$")
 
 key("n", "M", "J")
+key("n", "gk", "K")
 
-key("n", "<C-1>", toggle_number)
-key("n", "<C-2>", toggle_relative)
+key("n", "<C-1>", utils.toggle_number)
+key("n", "<C-2>", utils.toggle_relative)
 
 -- Visual mode --
 key("v", "<", "<gv")

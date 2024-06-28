@@ -3,6 +3,9 @@
 (variable_declaration
   "local" @keyword
   (#set! conceal "∴"))
+(function_declaration
+  "local" @keyword
+  (#set! conceal "∴"))
 
 (function_definition
   "function" @keyword.function
@@ -10,6 +13,9 @@
 (function_definition
   "end" @keyword.function
   (#set! conceal "∎"))
+(function_declaration
+  "function" @keyword.function
+  (#set! conceal "λ"))
 
 (("not" @keyword.operator) (#set! conceal "¬"))
 ("or" @keyword.operator (#set! conceal "∨"))

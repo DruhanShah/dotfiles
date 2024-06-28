@@ -1,6 +1,8 @@
-local update_date = function()
+local function update_date()
     return os.date("%Y-%m-%dT%H:%M:%S")
 end
+
+local colors = require("config.ui.colorscheme")
 
 return {
     load = {
@@ -60,13 +62,16 @@ return {
                     },
                     todo = {
                         pending = {
-                            icon = "",
+                            icon = "󱦟",
                         },
                         uncertain = {
                             icon = "",
                         },
                         cancelled = {
-                            icon = "",
+                            icon = "",
+                        },
+                        urgent = {
+                            icon = "󱈸",
                         },
                     },
                 },
@@ -87,49 +92,49 @@ return {
                     tags = {
                         ranged_verbatim = {
                             document_meta = {
-                                key = "guifg=#45475a",
-                                title = "guifg=#cba6f7 gui=bold",
+                                key = "guifg="..colors.surface1,
+                                title = "guifg="..colors.mauve.." gui=bold",
                             },
                         },
                     },
                     rendered = {
-                        latex = "guifg=#cdd6f4",
+                        latex = "guifg="..colors.text,
                     },
                     headings = {
                         ["1"] = {
-                            title = "guifg=#74c7ec gui=bold",
-                            prefix = "guifg=#74c7ec gui=bold",
+                            title = "guifg="..colors.sky.." gui=bold",
+                            prefix = "guifg="..colors.sky.." gui=bold",
                         },
                         ["2"] = {
-                            title = "guifg=#a6e3a1 gui=bold",
-                            prefix = "guifg=#a6e3a1 gui=bold",
+                            title = "guifg="..colors.green.." gui=bold",
+                            prefix = "guifg="..colors.green.." gui=bold",
                         },
                         ["3"] = {
-                            title = "guifg=#94e2d5 gui=bold",
-                            prefix = "guifg=#94e2d5 gui=bold",
+                            title = "guifg="..colors.teal.." gui=bold",
+                            prefix = "guifg="..colors.teal.." gui=bold",
                         },
                         ["4"] = {
-                            title = "guifg=#b4befe gui=bold",
-                            prefix = "guifg=#b4befe gui=bold",
+                            title = "guifg="..colors.lavender.." gui=bold",
+                            prefix = "guifg="..colors.lavender.." gui=bold",
                         },
                         ["5"] = {
-                            title = "guifg=#f9e2af gui=bold",
-                            prefix = "guifg=#f9e2af gui=bold",
+                            title = "guifg="..colors.yellow.." gui=bold",
+                            prefix = "guifg="..colors.yellow.." gui=bold",
                         },
                         ["6"] = {
-                            title = "guifg=#fab387 gui=bold",
-                            prefix = "guifg=#fab387 gui=bold",
+                            title = "guifg="..colors.peach.." gui=bold",
+                            prefix = "guifg="..colors.peach.." gui=bold",
                         },
                     },
                     todo_items = {
-                        done = "guifg=#a6e3a1 gui=bold",
-                        undone = "guifg=#9399b2 gui=bold",
-                        urgent = "guifg=#f38ba8 gui=bold",
-                        on_hold = "guifg=#89b4fa gui=bold",
-                        pending = "guifg=#b4befe gui=bold",
-                        recurring = "guifg=#cba6f7 gui=bold",
-                        uncertain = "guifg=#fab387 gui=bold",
-                        cancelled = "guifg=#45475a gui=bold",
+                        done = "guifg="..colors.green.." gui=bold",
+                        undone = "guifg="..colors.overlay2.." gui=bold",
+                        urgent = "guifg="..colors.red.." gui=bold",
+                        on_hold = "guifg="..colors.blue.." gui=bold",
+                        pending = "guifg="..colors.lavender.." gui=bold",
+                        recurring = "guifg="..colors.mauve.." gui=bold",
+                        uncertain = "guifg="..colors.peach.." gui=bold",
+                        cancelled = "guifg="..colors.surface1.." gui=bold",
                     },
                 },
             },
@@ -142,7 +147,7 @@ return {
             },
         },
         ["core.ui.calendar"] = {},
-        -- ["core.integrations.image"] = {},
+        ["core.integrations.image"] = {},
         ["core.latex.renderer"] = {
             config = {
                 render_on_enter = true,

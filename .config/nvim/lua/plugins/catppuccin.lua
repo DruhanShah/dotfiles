@@ -5,13 +5,12 @@ return {
     opts = {
         integrations = {
             mason = true,
-            which_key = true,
-            telescope = { style = "nvchad" },
         },
         custom_highlights = require("config.ui.highlights").highlight,
+        color_overrides = require("config.ui.highlights").overrides,
     },
     config = function(_, opts)
         require("catppuccin").setup(opts)
-        vim.cmd.colorscheme "catppuccin-mocha"
+        vim.cmd.colorscheme "catppuccin-latte"
     end,
 }

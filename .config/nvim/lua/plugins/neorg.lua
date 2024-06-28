@@ -18,8 +18,6 @@ return {
     {
         "nvim-neorg/neorg",
         dependencies = {
-            "vhyrro/luarocks.nvim",
-            "nvim-treesitter/nvim-treesitter",
             "benlubas/neorg-conceal-wrap",
         },
         lazy = false,

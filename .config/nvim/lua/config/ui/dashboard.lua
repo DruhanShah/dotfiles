@@ -1,60 +1,68 @@
-local M = {}
+local api = require("image")
+local utils = require("config.utils")
+local width = 21
+local height = 20
+local posx = math.ceil(vim.o.columns/2)
+local posy = math.ceil(vim.o.lines/2)
 
-local alpha = require("alpha")
-local dashboard = require("alpha.themes.dashboard")
+local image = api.from_file("~/.config/nvim/splash.png", {
+    inline = true,
+    width = width,
+    height = height,
+    x = posx - math.ceil(width/2),
+    y = posy - math.ceil(height/2)
+})
 
-dashboard.section.header.val = {
-    [[ ╭──────────────────────────────────────────────────────╮ ]],
-    [[ │                                                      │ ]],
-    [[ │                        0.10.0                        │ ]],
-    [[ │                                                      │ ]],
-    [[ │              ███       ███                        │ ]],
-    [[ │             ████      ████                       │ ]],
-    [[ │             ██████     █████                       │ ]],
-    [[ │             ███████    █████                       │ ]],
-    [[ │             ████████   █████                       │ ]],
-    [[ │             █████████  █████                       │ ]],
-    [[ │             █████ ████ █████                       │ ]],
-    [[ │             █████  █████████                       │ ]],
-    [[ │             █████   ████████   ██   █            │ ]],
-    [[ │             █████    ███████   ██  █             │ ]],
-    [[ │             █████     ██████   ██ █              │ ]],
-    [[ │             ████      ████   ███               │ ]],
-    [[ │              ███       ███    ███                │ ]],
-    [[ │                                                      │ ]],
-    [[ │                       Neovimium                      │ ]],
-    [[ │                                                      │ ]],
-    [[ ╰──────────────────────────────────────────────────────╯ ]],
-}
-
-dashboard.section.header.opts.hl = {
-    { { "DashBase", 1, 400 } },
-    { { "DashBase", 1, 400 } },
-    { { "DashBase", 1, 400 } },
-    { { "DashBase", 1, 400 } },
-    { { "DashBase", 1, 2 }, { "DashNeo", 12, 33 }, { "DashVim", 40, 52 }, { "DashBase", 52, 400 } },
-    { { "DashBase", 1, 2 }, { "DashVim", 17, 20 }, { "DashInter", 20, 22 }, { "DashNeo", 22, 40 }, { "DashVim", 40, 60 }, { "DashBase", 60, 400 } },
-    { { "DashBase", 1, 2 }, { "DashVim", 16, 22 }, { "DashInter", 23, 24 }, { "DashNeo", 25, 40 }, { "DashVim", 41, 60 }, { "DashBase", 61, 400 } },
-    { { "DashBase", 1, 2 }, { "DashVim", 16, 24 }, { "DashInter", 24, 27 }, { "DashNeo", 27, 42 }, { "DashVim", 42, 62 }, { "DashBase", 62, 400 } },
-    { { "DashBase", 1, 2 }, { "DashVim", 16, 28 }, { "DashInter", 28, 30 }, { "DashNeo", 30, 50 }, { "DashVim", 50, 65 }, { "DashBase", 65, 400 } },
-    { { "DashBase", 1, 2 }, { "DashVim", 16, 30 }, { "DashNeo", 30, 50 }, { "DashVim", 50, 65 }, { "DashBase", 65, 400 } },
-    { { "DashBase", 1, 2 }, { "DashVim", 16, 30 }, { "DashNeo", 30, 50 }, { "DashVim", 50, 65 }, { "DashBase", 65, 400 } },
-    { { "DashBase", 1, 2 }, { "DashVim", 16, 30 }, { "DashNeo", 30, 50 }, { "DashVim", 50, 65 }, { "DashBase", 65, 400 } },
-    { { "DashBase", 1, 2 }, { "DashVim", 16, 30 }, { "DashNeo", 30, 50 }, { "DashInter", 50, 52 }, { "DashVim", 53, 65 }, { "DashNeo", 66, 90 }, { "DashBase", 90, 400 } },
-    { { "DashBase", 1, 2 }, { "DashVim", 16, 30 }, { "DashNeo", 30, 50 }, { "DashInter", 49, 52 }, { "DashVim", 52, 63 }, { "DashNeo", 63, 90 }, { "DashBase", 90, 400 } },
-    { { "DashBase", 1, 2 }, { "DashVim", 16, 30 }, { "DashNeo", 30, 50 }, { "DashInter", 52, 55 }, { "DashVim", 55, 60 }, { "DashNeo", 60, 90 }, { "DashBase", 90, 400 } },
-    { { "DashBase", 1, 2 }, { "DashVim", 16, 30 }, { "DashNeo", 30, 52 }, { "DashInter", 52, 55 }, { "DashVim", 55, 58 }, { "DashNeo", 58, 90 }, { "DashBase", 90, 400 } },
-    { { "DashBase", 1, 2 }, { "DashVim", 16, 30 }, { "DashNeo", 30, 75 }, { "DashBase", 75, 400 } },
-    { { "DashBase", 1, 400 } },
-    { { "DashBase", 1, 400 } },
-    { { "DashBase", 1, 400 } },
-    { { "DashBase", 1, 400 } },
-}
-
-dashboard.section.buttons.val = {}
-
-M.setup = function ()
-    alpha.setup(dashboard.opts)
+local splash_text = {}
+for i = 1, posy-1 do
+    splash_text[i] = ""
 end
+splash_text[posy] = "NVIM 0.10.0"
+splash_text[posy+1] = "Editing text at the speed of thought"
+splash_text[posy+2] = "https://neovim.io"
+for i = posy+3, vim.o.lines-5 do
+    splash_text[i] = ""
+end
+splash_text[vim.o.lines-4] = "Type :h for help"
+splash_text[vim.o.lines-3] = "Based on Elegant Emacs by Nicolas Rougier"
 
-return M
+
+local g = vim.api.nvim_create_augroup("Dashboard", {})
+vim.api.nvim_create_autocmd('StdinReadPre', {
+    group = g,
+    callback = function()
+        vim.g.read_from_stdin = true
+    end,
+})
+vim.api.nvim_create_autocmd("UIEnter", {
+    pattern = "<buffer>",
+    group = g,
+    callback = vim.schedule_wrap(function ()
+        if utils.check_empty() then
+            vim.cmd "e .temp-nvim"
+            vim.api.nvim_put(utils.center(splash_text), "l", true, true)
+            image:render()
+            vim.cmd "silent! setl nowrite noma nonu nornu nobl acd ft=dashboard bh=wipe bt=nofile"
+            vim.fn.matchadd("DashNvim", "NVIM 0.10.0")
+            vim.fn.matchadd("DashLink", "https://neovim.io")
+            vim.fn.matchadd("DashFoot", "Type .*")
+            vim.fn.matchadd("DashFoot", "Based .*")
+        end
+    end),
+})
+vim.api.nvim_create_autocmd("BufLeave", {
+    pattern = ".temp-nvim",
+    group = g,
+    callback = function ()
+        image:clear()
+        vim.cmd "silent! setl write"
+    end,
+})
+vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = ".temp-nvim",
+    group = g,
+    callback = function ()
+        image:render()
+        vim.cmd "silent! setl nowrite"
+    end,
+})

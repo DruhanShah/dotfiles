@@ -1,6 +1,6 @@
 local M = {}
 
-local custom_cmd = function (cmd, char)
+local function custom_cmd(cmd, char)
     return {
         name = cmd,
         mathmode = true,
@@ -9,7 +9,7 @@ local custom_cmd = function (cmd, char)
     }
 end
 
-local custom_delim = function (cmd, args, char_o, char_m, char_c)
+local function custom_delim(cmd, args, char_o, char_m, char_c)
     return {
         name = cmd,
         nargs = args,

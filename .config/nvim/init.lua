@@ -21,4 +21,38 @@ require("lazy").setup("plugins", {
     change_detection = {
         notify = false,
     },
+    dev = {
+        path = "~/Stuff/Lua-fu",
+        fallback = false,
+    },
+    ui = {
+        backdrop = 100,
+        icons = {
+            cmd = " ",
+            config = "",
+            event = " ",
+            ft = " ",
+            init = " ",
+            import = " ",
+            keys = " ",
+            lazy = "󰒲 ",
+            loaded = " ",
+            not_loaded = " ",
+            plugin = " ",
+            runtime = " ",
+            require = "󰢱 ",
+            source = " ",
+            start = " ",
+            task = "✔ ",
+            list = {
+                "●",
+                "➜",
+                "★",
+                "‒",
+            },
+        },
+    },
 })
+
+require("config.ui.statusline")
+require("config.ui.dashboard")
