@@ -28,9 +28,9 @@ win_width='400px'
 
 # Options
 option_1=""
-option_2="󰃞"
-option_3=""
-option_4="󰃜"
+option_2=""
+option_3="󰃜"
+option_4="󰈊"
 
 # Rofi CMD
 rofi_cmd() {
@@ -53,11 +53,11 @@ run_cmd() {
 	if [[ "$1" == '--opt1' ]]; then
         $HOME/.config/qtile/scripts/dunst-vb.sh bright_up
 	elif [[ "$1" == '--opt2' ]]; then
-        notify-send "Optimal brightness not set"
-	elif [[ "$1" == '--opt3' ]]; then
         $HOME/.config/qtile/scripts/dunst-vb.sh bright_down
-	elif [[ "$1" == '--opt4' ]]; then
+	elif [[ "$1" == '--opt3' ]]; then
         brightnessctl set 1
+	elif [[ "$1" == '--opt4' ]]; then
+        $HOME/.config/rofi/scripts/theme.sh
 	fi
 }
 

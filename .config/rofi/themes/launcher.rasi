@@ -51,9 +51,8 @@ listbox {
 inputbar {
     enabled:                     true;
     spacing:                     0px;
-    padding:                     40px 40px;
-    background-color:            transparent;
-    background-image:            url("~/Wallpapers/painting-mountain-blur.png", width);
+    padding:                     20px 20px;
+    background-color:            @Text;
     text-color:                  @foreground;
     orientation:                 horizontal;
     children:                    [ "entry" ];

@@ -6,11 +6,11 @@ configuration {
 
 window {
     transparency:                "real";
-    location:                    south east;
-    anchor:                      south east;
+    location:                    south west;
+    anchor:                      south west;
     fullscreen:                  false;
     width:                       400px;
-    x-offset:                    -60px;
+    x-offset:                    60px;
     y-offset:                    -120px;
     margin:                      0px;
     padding:                     0px;

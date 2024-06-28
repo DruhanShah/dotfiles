@@ -20,9 +20,9 @@
     selected-active-background:  @Blue;
 }
 window {
-    location: south east;
-    anchor: south east;
-    x-offset: -60;
+    location: south west;
+    anchor: south west;
+    x-offset: 60;
     y-offset: -12;
     background-color: @background;
     border:           0;
