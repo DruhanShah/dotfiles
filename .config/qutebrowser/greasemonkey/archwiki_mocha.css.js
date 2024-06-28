@@ -1,13 +1,11 @@
-@media (prefers-color-scheme: dark) {
+// ==UserScript==
+// @name    Userstyle (archwiki_mocha.css)
+// @include    *wiki.archlinux.org/*
+// ==/UserScript==
+GM_addStyle(`@media (prefers-color-scheme: dark) {
     :root {
-        color-scheme: dark;
-    }
-    :root ::selection {
-        background-color: rgba(137, 180, 250, 0.3);
-    }
-    :root input::placeholder,
-    :root textarea::placeholder {
-        color: #a6adc8 !important;
+        /* stylelint-disable selector-not-notation */
+        /* stylelint-enable selector-not-notation */
     }
     :root #content table,
     :root #content h1,
@@ -33,13 +31,13 @@
     :root .vector-header-container {
         background-color: #1e1e2e !important;
     }
-    :root #content a:not([role="button"], .new),
-    :root header.mw-header li:not(.new) a:not([role="button"], .new),
-    :root #mw-panel-toc a:not([role="button"], .new),
-    :root #mw-navigation li:not(.new) a:not([role="button"], .new),
-    :root #mw-panel li:not(.new) a:not([role="button"], .new),
-    :root #column-one li:not(.new) a:not([role="button"], .new),
-    :root #footer a:not([role="button"], .new) {
+    :root #content a:not([role="button"]):not(.new),
+    :root header.mw-header li:not(.new) a:not([role="button"]):not(.new),
+    :root #mw-panel-toc a:not([role="button"]):not(.new),
+    :root #mw-navigation li:not(.new) a:not([role="button"]):not(.new),
+    :root #mw-panel li:not(.new) a:not([role="button"]):not(.new),
+    :root #column-one li:not(.new) a:not([role="button"]):not(.new),
+    :root #footer a:not([role="button"]):not(.new) {
         color: #89b4fa !important;
     }
     :root .vector-feature-zebra-design-disabled,
@@ -293,14 +291,8 @@
 }
 @media (prefers-color-scheme: light) {
     :root {
-        color-scheme: dark;
-    }
-    :root ::selection {
-        background-color: rgba(30, 102, 245, 0.3);
-    }
-    :root input::placeholder,
-    :root textarea::placeholder {
-        color: #6c6f85 !important;
+        /* stylelint-disable selector-not-notation */
+        /* stylelint-enable selector-not-notation */
     }
     :root #content table,
     :root #content h1,
@@ -326,13 +318,13 @@
     :root .vector-header-container {
         background-color: #eff1f5 !important;
     }
-    :root #content a:not([role="button"], .new),
-    :root header.mw-header li:not(.new) a:not([role="button"], .new),
-    :root #mw-panel-toc a:not([role="button"], .new),
-    :root #mw-navigation li:not(.new) a:not([role="button"], .new),
-    :root #mw-panel li:not(.new) a:not([role="button"], .new),
-    :root #column-one li:not(.new) a:not([role="button"], .new),
-    :root #footer a:not([role="button"], .new) {
+    :root #content a:not([role="button"]):not(.new),
+    :root header.mw-header li:not(.new) a:not([role="button"]):not(.new),
+    :root #mw-panel-toc a:not([role="button"]):not(.new),
+    :root #mw-navigation li:not(.new) a:not([role="button"]):not(.new),
+    :root #mw-panel li:not(.new) a:not([role="button"]):not(.new),
+    :root #column-one li:not(.new) a:not([role="button"]):not(.new),
+    :root #footer a:not([role="button"]):not(.new) {
         color: #1e66f5 !important;
     }
     :root .vector-feature-zebra-design-disabled,
@@ -585,4 +577,4 @@
     }
 }
 
-/* prettier-ignore */
+`)

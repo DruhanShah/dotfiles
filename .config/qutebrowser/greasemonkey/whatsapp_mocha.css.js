@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name    Userstyle (whatsapp.css)
+// @name    Userstyle (whatsapp_mocha.css)
 // @include    *web.whatsapp.com/*
 // ==/UserScript==
 GM_addStyle(`* {

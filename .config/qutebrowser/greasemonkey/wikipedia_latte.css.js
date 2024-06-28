@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name    Userstyle (wikipedia.css)
+// @name    Userstyle (wikipedia_latte.css)
 // @include    *wikipedia.org/*
 // ==/UserScript==
 GM_addStyle(`@import url("https://python.catppuccin.com/pygments/catppuccin-variables.important.css");

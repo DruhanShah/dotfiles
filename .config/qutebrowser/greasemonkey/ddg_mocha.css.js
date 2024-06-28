@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name    Userstyle (ddg.css)
+// @name    Userstyle (ddg_mocha.css)
 // @include    *duckduckgo.com/*
 // ==/UserScript==
 GM_addStyle(`* {

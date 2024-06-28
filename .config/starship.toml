@@ -1,13 +1,13 @@
-palette = "catppuccin_mocha"
+palette = "catppuccin_latte"
 
 format = """
-[[▋](fg:blue) [](bg:crust fg:green)  $directory $sudo $git_branch$cmd_duration $fill [▋](fg:blue)](bg:crust)
+$sudo$directory $git_branch$cmd_duration
 $character
 """
 add_newline = false
 
 [directory]
-format = "[$path](bg:crust fg:rosewater bold)"
+format = "[$path](bg:base fg:text bold)"
 truncation_length = 4
 truncation_symbol = "…/"
 
@@ -18,25 +18,23 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-format = " [$symbol $branch](bg:crust fg:subtext0) "
+format = " [$symbol $branch](bg:base fg:subtext0) "
 
 [cmd_duration]
-format = "| [$duration](bg:crust fg:green)"
+format = "| [$duration](bg:base fg:green)"
 min_time = 500
 
 [character]
 format = "$symbol"
-success_symbol = "[  ](bg:base fg:green)"
-error_symbol = "[  ](bg:base fg:red)"
-vimcmd_symbol = "[  ](bg:base fg:peach)"
-
-[fill]
-symbol = " "
-style = "bg:crust"
+success_symbol = "[ ](fg:green)"
+error_symbol = "[ ](fg:green)"
+vimcmd_symbol = "[ ](fg:peach)"
+vimcmd_visual_symbol = "[ ](fg:teal)"
+vimcmd_replace_symbol = "[ ](fg:red)"
 
 [sudo]
 format = "$symbol"
-symbol = "[](bg:crust fg:peach)"
+symbol = "[ ](bg:base fg:peach)"
 disabled = true
 
 [palettes.catppuccin_mocha]
