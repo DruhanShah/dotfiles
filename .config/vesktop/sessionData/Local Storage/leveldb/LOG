@@ -1,6 +1,0 @@
-2024/08/03-15:58:51.932 16b7c Reusing MANIFEST /home/druhan/.config/vesktop/sessionData/Local Storage/leveldb/MANIFEST-000001
-2024/08/03-15:58:51.936 16b7c Recovering log #411
-2024/08/03-15:58:51.936 16b7c Reusing old log /home/druhan/.config/vesktop/sessionData/Local Storage/leveldb/000411.log 
-2024/08/03-16:00:52.297 16b7e Level-0 table #415: started
-2024/08/03-16:00:52.306 16b7e Level-0 table #415: 36010 bytes OK
-2024/08/03-16:00:52.307 16b7e Delete type=0 #411
