@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-$HOME/.config/rofi/scripts/zotero.py --rofi-args="-theme $HOME/.config/rofi/themes/launcher.rasi"
+$HOME/.config/rofi/scripts/zotero.py

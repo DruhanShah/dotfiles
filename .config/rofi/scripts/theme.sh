@@ -7,11 +7,12 @@ make_latte() {
     echo "latte" > ~/.config/rofi/theme
     sed -i "s/mocha/latte/g" $HOME/.config/rofi/catppuccin.rasi
     sed -i "s/Mocha/Latte/g" $HOME/.config/kitty/kitty.conf
-    sed -i "s/mocha/latte/g" $HOME/.config/nvim/lua/config/ui/colorscheme.lua
-    sed -i "s/mocha/latte/g" $HOME/.config/nvim/lua/plugins/catppuccin.lua
+    sed -i "s/dark/light/g" $HOME/.config/nvim/init.lua
+    sed -i "s/dark/light/g" $HOME/.config/nvim/scrollback.lua
     sed -i "s/palette = \"catppuccin_mocha\"/palette = \"catppuccin_latte\"/g" $HOME/.config/starship.toml
     sed -i "s/mocha/latte/g" $HOME/.config/btop/btop.conf
-    sed -i "s/mocha/latte/g" $HOME/.config/sioyek/prefs_user.config
+    sed -i "s/mocha/latte/g" $HOME/.config/zathura/zathurarc
+    sed -i "s/mocha/latte/g" $HOME/.config/zathura/presentation/zathurarc
     sed -i "s/mocha/latte/g" $HOME/.config/qutebrowser/homepage/styles.css
 }
 
@@ -19,11 +20,12 @@ make_mocha() {
     echo "mocha" > ~/.config/rofi/theme
     sed -i "s/latte/mocha/g" $HOME/.config/rofi/catppuccin.rasi
     sed -i "s/Latte/Mocha/g" $HOME/.config/kitty/kitty.conf
-    sed -i "s/latte/mocha/g" $HOME/.config/nvim/lua/config/ui/colorscheme.lua
-    sed -i "s/latte/mocha/g" $HOME/.config/nvim/lua/plugins/catppuccin.lua
+    sed -i "s/light/dark/g" $HOME/.config/nvim/init.lua
+    sed -i "s/dark/light/g" $HOME/.config/nvim/scrollback.lua
     sed -i "s/palette = \"catppuccin_latte\"/palette = \"catppuccin_mocha\"/g" $HOME/.config/starship.toml
     sed -i "s/latte/mocha/g" $HOME/.config/btop/btop.conf
-    sed -i "s/latte/mocha/g" $HOME/.config/sioyek/prefs_user.config
+    sed -i "s/latte/mocha/g" $HOME/.config/zathura/zathurarc
+    sed -i "s/latte/mocha/g" $HOME/.config/zathura/presentation/zathurarc
     sed -i "s/latte/mocha/g" $HOME/.config/qutebrowser/homepage/styles.css
 }
 
