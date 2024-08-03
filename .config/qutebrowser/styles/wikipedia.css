@@ -1,8 +1,4 @@
-// ==UserScript==
-// @name    Userstyle (wikipedia.css)
-// @include    *wikipedia.org/*
-// ==/UserScript==
-GM_addStyle(`@-moz-document domain('wikipedia.org') {
+@-moz-document domain('wikipedia.org') {
   @import url("https://python.catppuccin.com/pygments/catppuccin-variables.important.css");
   @media (prefers-color-scheme: light) {
     :root {
@@ -2142,4 +2138,3 @@ GM_addStyle(`@-moz-document domain('wikipedia.org') {
   }
 }
 /* prettier-ignore */
-`)

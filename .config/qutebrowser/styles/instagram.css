@@ -1,8 +1,4 @@
-// ==UserScript==
-// @name    Userstyle (instagram.css)
-// @include    *instagram.com/*
-// ==/UserScript==
-GM_addStyle(`@-moz-document domain('instagram.com') {
+@-moz-document domain('instagram.com') {
   ._aa4d {
     color-scheme: dark;
     /* Sidebar */
@@ -1397,4 +1393,3 @@ GM_addStyle(`@-moz-document domain('instagram.com') {
   }
 }
 /* prettier-ignore */
-`)

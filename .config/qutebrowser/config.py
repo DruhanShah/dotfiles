@@ -4,16 +4,27 @@ from qutebrowser.api import interceptor
 
 home = os.path.expanduser("~")
 
-catppuccin.setup(c, "mocha", True)
+with open(f"{home}/.config/rofi/theme", "r") as f:
+    theme = f.read().strip()
+catppuccin.setup(c, theme, True)
 
 config.load_autoconfig(False)
 
-config.set('content.headers.user_agent',
-           'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}', 'https://web.whatsapp.com/')
-config.set('content.headers.user_agent',
-           'Mozilla/5.0 ({os_info}; rv:90.0) Gecko/20100101 Firefox/90.0', 'https://accounts.google.com/*')
-config.set('content.headers.user_agent',
-           'Mozilla/5.0 ({os_info}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99 Safari/537.36', 'https://*.slack.com/*')
+config.set(
+    'content.headers.user_agent',
+    'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}',
+    'https://web.whatsapp.com/'
+)
+config.set(
+    'content.headers.user_agent',
+    'Mozilla/5.0 ({os_info}; rv:90.0) Gecko/20100101 Firefox/90.0',
+    'https://accounts.google.com/*'
+)
+config.set(
+    'content.headers.user_agent',
+    'Mozilla/5.0 ({os_info}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99 Safari/537.36',
+    'https://*.slack.com/*'
+)
 
 c.url.start_pages = f"{home}/.config/qutebrowser/homepage/index.html"
 c.url.default_page = f"{home}/.config/qutebrowser/homepage/index.html"
@@ -21,18 +32,21 @@ c.url.default_page = f"{home}/.config/qutebrowser/homepage/index.html"
 c.content.blocking.method = "both"
 c.tabs.position = "left"
 c.tabs.show = "always"
-c.tabs.width = 50
+c.tabs.width = 40
 c.tabs.favicons.scale = 1.5
 c.tabs.indicator.width = 0
 c.content.images = True
 c.content.javascript.enabled = True
 c.content.javascript.clipboard = "access-paste"
 
-c.colors.webpage.preferred_color_scheme = "dark"
+if theme == "latte":
+    c.colors.webpage.preferred_color_scheme = "light"
+else:
+    c.colors.webpage.preferred_color_scheme = "dark"
 
 c.statusbar.padding = {
-    "top": 12,
-    "bottom": 12,
+    "top": 8,
+    "bottom": 8,
     "left": 4,
     "right": 4,
 }
@@ -46,9 +60,9 @@ c.statusbar.widgets = [
 ]
 
 c.tabs.padding = {
-    "top": 16,
-    "bottom": 16,
-    "left": 16,
+    "top": 12,
+    "bottom": 12,
+    "left": 9,
     "right": 6,
 }
 
@@ -86,13 +100,12 @@ c.fileselect.folder.command = [
     "{}"
 ]
 
-c.fonts.default_family = "JetBrains Mono"
+c.fonts.default_family = "Iosevka"
 c.fonts.default_size = "14px"
 
 c.bindings.commands = {
     "normal": {
-        "xt": "config-cycle tabs.show switching always",
-        "xs": "config-cycle statusbar.show in-mode always",
+        "xs": "config-cycle statusbar.show in-mode always;; config-cycle tabs.show switching always",
         ",m": "spawn mpv {url}",
         ",M": "hint links spawn mpv {hint-url}",
         ",o": "download-open",

@@ -1,8 +1,8 @@
-include catppuccin-mocha
+include catppuccin-latte
 
 # Startup options
 
-set font "JetBrains Mono 11"
+set font "Iosevka Aile 10"
 set recolor false
 set guioptions ""
 set selection-clipboard "clipboard"

@@ -1,16 +1,11 @@
-import os
-
-file = os.path.expanduser("~/.config/rofi/theme")
-with open(file, "r") as f:
-    theme = f.read().strip()
-
 styles = {
+    "lichess.css": ["*lichess.org*"],
     "github.css": ["*github.com/*"],
-    "whatsapp_mocha.css": ["*web.whatsapp.com/*"],
-    "reddit_mocha.css": ["*reddit.com/*"],
-    "youtube_mocha.css": ["*youtube.com/*"],
+    "whatsapp.css": ["*web.whatsapp.com/*"],
+    "reddit.css": ["*reddit.com/*"],
+    "youtube.css": ["*youtube.com/*"],
     "archwiki.css": ["*wiki.archlinux.org/*"],
-    "instagram_mocha.css": ["*instagram.com/*"],
+    "instagram.css": ["*instagram.com/*"],
     "ddg.css": ["*duckduckgo.com/*"],
-    "wikipedia_latte.css": ["*wikipedia.org/*"],
+    "wikipedia.css": ["*wikipedia.org/*"],
 }

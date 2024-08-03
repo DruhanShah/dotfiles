@@ -1,5 +1,8 @@
-function ranger
-    /usr/bin/ranger --choosedir=/tmp/rangerdir $argv
-    set -x LASTDIR (cat /tmp/rangerdir)
-    cd $LASTDIR
+function ranger-cd
+	set tmp (mktemp -t "ranger-cwd.XXXXXX")
+	ranger $argv --choosedir="$tmp"
+	if set cwd (cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
+		cd -- "$cwd"
+	end
+	rm -f -- "$tmp"
 end
