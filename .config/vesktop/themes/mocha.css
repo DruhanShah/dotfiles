@@ -46,8 +46,8 @@
   --chat-bubble-automod: #ed8796;
 
   /* [[ FONT CHANGE ]] */
-  --font-main: "Fira Sans";
-  --font-code: "JetBrains Mono";
+  --font-main: "Iosevka Slab";
+  --font-code: "Iosevka Light";
 
   /* [[ CLIENT LAYOUT ]] */
   --enable-client-border: 0; /* 1 to enable, 0 to disable */
