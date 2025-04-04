@@ -29,7 +29,7 @@
 
     font: "JetBrains Mono 11";
 
-    background:     @Mantle;
+    background:     @Base;
     background-alt: @Crust;
     foreground:     @Text;
     selected:       @Blue;

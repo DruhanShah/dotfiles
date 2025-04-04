@@ -1,11 +1,9 @@
 if status is-interactive
-    # Commands to run in interactive sessions can go here
 end
 
-function starship_transient_prompt_func
-    starship module character
+function fish_prompt
+	 # echo (string repeat -n $COLUMNS "┈")
+	 echo (set_color -o) (prompt_pwd --full-length-dirs 2) (set_color 40a02b)" "(set_color normal)
 end
 
-fish_vi_key_bindings
-starship init fish | source
-enable_transience
+fish_default_key_bindings

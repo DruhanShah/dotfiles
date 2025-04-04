@@ -4,7 +4,7 @@ latte="󰃠"
 mocha="󰃜"
 
 make_latte() {
-    echo "latte" > ~/.config/rofi/theme
+    echo "latte" > ~/.config/qtile/theme
     sed -i "s/mocha/latte/g" $HOME/.config/rofi/catppuccin.rasi
     sed -i "s/Mocha/Latte/g" $HOME/.config/kitty/kitty.conf
     sed -i "s/dark/light/g" $HOME/.config/nvim/init.lua
@@ -17,7 +17,7 @@ make_latte() {
 }
 
 make_mocha() {
-    echo "mocha" > ~/.config/rofi/theme
+    echo "mocha" > ~/.config/qtile/theme
     sed -i "s/latte/mocha/g" $HOME/.config/rofi/catppuccin.rasi
     sed -i "s/Latte/Mocha/g" $HOME/.config/kitty/kitty.conf
     sed -i "s/light/dark/g" $HOME/.config/nvim/init.lua

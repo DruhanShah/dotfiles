@@ -4,7 +4,7 @@ include catppuccin-latte
 # Startup options
 set font "Iosevka Aile 10"
 set recolor true
-set guioptions ""
+set guioptions "s"
 set selection-clipboard "clipboard"
 set synctex true
-set synctex-editor-command "nvim --headless -c \"VimtexInverseSearch % {line} '%{input}'\""
+set synctex-editor-command "emacsclient +%{line} %{input}"
