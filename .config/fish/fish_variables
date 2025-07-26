@@ -2,11 +2,13 @@
 # VERSION: 3.0
 SETUVAR --export EDITOR:
 SETUVAR --export GTK_THEME:Adwaita
+SETUVAR --export HYDRA_FULL_ERROR:0
 SETUVAR --export MANPAGER:less\x20\x2dR
 SETUVAR --export PAGER:nvim\x20\x2bMan\x21
 SETUVAR --export SSH_AGENT_PID:1849
 SETUVAR --export SSH_AUTH_SOCK:/tmp/ssh\x2dXXXXXXrSLBZL/agent\x2e1848
-SETUVAR --export VISUAL:emacsclient\x20\x2dc\x20\x2da\x20\x27emacs\x27
+SETUVAR --export VISUAL:emacsclient\x20\x2dc\x20\x2da\x20\x27\x27
+SETUVAR --export VPN:off
 SETUVAR __fish_initialized:3800
 SETUVAR fish_color_autosuggestion:brblack
 SETUVAR fish_color_cancel:\x2dr

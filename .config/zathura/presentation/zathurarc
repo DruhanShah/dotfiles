@@ -2,7 +2,7 @@ include catppuccin-latte
 
 # Startup options
 
-set font "Iosevka Aile 10"
+set font "Inter 10"
 set recolor false
 set guioptions ""
 set selection-clipboard "clipboard"
