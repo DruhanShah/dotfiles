@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: extract
+# key: ext
+# --
+atool -x ${1:./}

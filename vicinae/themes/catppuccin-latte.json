@@ -1,0 +1,18 @@
+{
+	"version": "1.0.0",
+	"appearance": "dark",
+	"name": "Catppuccin Latte",
+	"description": "Soothing pastel colors for light environments",
+	"palette": {
+	  "background": "#eff1f5",
+	  "foreground": "#4c4f69",
+	  "blue": "#1e66f5",
+	  "green": "#40a02b",
+	  "magenta": "#ea76cb",
+	  "orange": "#fe640b",
+	  "purple": "#8839ef",
+	  "red": "#d20f39",
+	  "yellow": "#df8e1d",
+	  "cyan": "#179299"
+	}
+}
