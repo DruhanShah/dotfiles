@@ -1,0 +1,20 @@
+#+title: Personal configurations
+#+author: Druhan Shah
+
+This branch is intended to be a hub for my different desktop configurations (Arch linux btw ;)). Each completed theme will be included below with screenshots.
+
+
+* Notebook
+
+This one aims at replicating a notebook-like feel with a light theme, minimal editor interfaces that are restricted to certain aspect ratios (through the WM layout) and horizontal scrolling-based organization of windows.
+
+[[./qtile/assets/screenshot.png]]
+
+[[./rofi/assets/screenshot.png]]
+
+
+* MacOS but Not Really™
+
+This is a work in progress intended to mimic MacOS in its comfortable UI, smooth animations and characteristic design choices.
+
+(No screenshots because WIP)
