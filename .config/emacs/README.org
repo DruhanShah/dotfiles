@@ -136,7 +136,7 @@ This section deals with simple default values that I would like to have set by d
                  '(undecorated-round . t) ;; emacs-plu@29 only
                  '(scroll-bar-mode . -1)
                  '(tool-bar-lines . 0)
-  	 '(tool-bar-position . left)
+  	       '(tool-bar-position . left)
                  '(menu-bar-lines . 0))))
 
   (setq tool-bar-style 'image)
