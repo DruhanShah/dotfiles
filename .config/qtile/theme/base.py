@@ -2,14 +2,9 @@ import os
 from catppuccin import PALETTE
 
 
-class Colors:
+class Colours:
 
-    flavor = ("latte"
-              if os.environ.get("THEME", "light") == "light"
-              else "macchiato")
-    palette = (PALETTE.latte.colors
-               if flavor == "latte"
-               else PALETTE.macchiato.colors)
+    palette = PALETTE.latte.colors
 
     base = palette.base.hex
     rosewater = palette.rosewater.hex
@@ -38,18 +33,23 @@ class Colors:
     base = palette.base.hex
     mantle = palette.mantle.hex
     crust = palette.crust.hex
-    transparent = base + "00"
-    translucent = base + "aa"
+
+    def transparent(color=base):
+        return color + "00"
+
+    def translucent(color=base):
+        return color + "aa"
 
 
 class Fonts:
 
     mono = "Iosevka"
     serif = "Literata"
-    sans = "Inter Variable"
+    sans = "Inter Text"
+    display = "Inter Display"
     symbol = "Symbols Nerd Font"
 
 
 class Wallpaper:
 
-    path = os.path.expanduser(f"~/Wallpapers/contour-{Colors.flavor}.png")
+    path = os.path.expanduser("~/Wallpapers/contour-latte.png")

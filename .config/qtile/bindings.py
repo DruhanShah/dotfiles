@@ -91,11 +91,19 @@ class Keys:
 
         return keys
 
-    def init_dropdown_keys(self, scratchpads, scratch_keys):
+    def init_dropdown_keys(self, scratchpads):
 
         return [
             EzKey(f"M-{key}", lazy.group["scratch"].dropdown_toggle(scratch))
-            for scratch, key in zip(scratchpads, scratch_keys)
+            for scratch, _, key in scratchpads
+        ]
+
+    def init_notification_keys(self, notifier):
+
+        return [
+            EzKey("M-<grave>", notifier.prev),
+            EzKey("M-S-<grave>", notifier.next),
+            EzKey("M-C-<grave>", notifier.close),
         ]
 
 

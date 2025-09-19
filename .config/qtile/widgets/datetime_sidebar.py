@@ -4,20 +4,14 @@ from libqtile.command.base import expose_command
 from qtile_extras.widget.mixins import ExtendedPopupMixin
 import datetime
 import calendar
-import asyncio
-from threading import Thread
 import os
 import re
-import time
 import subprocess
-import queue
 
-from dbus_fast import Message, Variant
-from dbus_fast.aio import MessageBus
 from dbus_fast.constants import MessageType
 from libqtile.utils import _send_dbus_message, add_signal_receiver, create_task
 
-from aesthetics import Colors
+from theme import Colours
 
 
 DEFAULT = os.path.expanduser("~/.config/qtile/utils/none.png")
@@ -36,7 +30,8 @@ def get_brightness():
         with open(f"{BRIGHT}/max_brightness", "r") as f:
             max_bright = int(f.read().strip())
         return int((current / max_bright) * 100)
-    except:
+    except Exception as e:
+        logger.error(e)
         pass
     return 100
 
@@ -51,7 +46,8 @@ def get_volume():
         volume_match = re.search(r"\[(\d+)%\]", result.stdout)
         volume = int(volume_match.group(1)) if volume_match else 0
         return volume
-    except:
+    except Exception as e:
+        logger.error(e)
         return 50
 
 
@@ -71,12 +67,12 @@ class CalMasterWidget(Clock, ExtendedPopupMixin):
     def __init__(self, **config):
         if "format" not in config:
             config["format"] = "%H\n%M\n%S"
-        
+
         Clock.__init__(self, **config)
         ExtendedPopupMixin.__init__(self, **config)
         self.add_defaults(ExtendedPopupMixin.defaults)
         self.add_callbacks({"button1": self.show_popup})
-        
+
         self._current_player = None
         self.player_names = {}
         self.bus = None
@@ -84,11 +80,11 @@ class CalMasterWidget(Clock, ExtendedPopupMixin):
         self.playback_status = "Stopped"
         self.separator = ", "
         self._mpris_initialized = False
-        
+
     def _setup(self, qtile, bar):
         Clock._setup(self, qtile, bar)
         ExtendedPopupMixin._setup(self, qtile, bar)
-        
+
         if not self._mpris_initialized:
             try:
                 create_task(self._config_async())
@@ -192,8 +188,8 @@ class CalMasterWidget(Clock, ExtendedPopupMixin):
         if not self.configured:
             return
 
-        if ("Metadata" not in changed_properties
-            and "PlaybackStatus" not in changed_properties):
+        if (("Metadata" not in changed_properties
+             and "PlaybackStatus" not in changed_properties)):
             return
 
         try:
@@ -216,7 +212,7 @@ class CalMasterWidget(Clock, ExtendedPopupMixin):
             )
             if playbackstatus:
                 self.playback_status = playbackstatus
-                
+
         except Exception as e:
             logger.warning(f"Error parsing MPRIS2 message: {e}")
 
@@ -260,7 +256,7 @@ class CalMasterWidget(Clock, ExtendedPopupMixin):
 
     def update_datetime(self):
         now = datetime.datetime.now()
-        
+
         return {
             "current_day": now.strftime("%A"),
             "current_date": now.strftime("%d %B"),
@@ -286,7 +282,7 @@ class CalMasterWidget(Clock, ExtendedPopupMixin):
                     label = str(day.day)
 
                 if day.day == now.day:
-                    label = f"<span foreground='{Colors.red}'>{label}</span>"
+                    label = f"<span foreground='{Colours.red}'>{label}</span>"
 
                 cal_dict[f"day_{i}_{ii}"] = label
 
@@ -299,11 +295,11 @@ class CalMasterWidget(Clock, ExtendedPopupMixin):
                 "music_title": "No music",
                 "music_artist": "Not playing",
             }
-        
+
         try:
             title = self.metadata.get('xesam:title', 'Unknown Title')
             artist = self.metadata.get('xesam:artist', 'Unknown Artist')
-            
+
             artUrl = self.metadata.get('mpris:artUrl', DEFAULT)
             if artUrl and artUrl.startswith('file://'):
                 artUrl = artUrl[7:]
@@ -311,13 +307,13 @@ class CalMasterWidget(Clock, ExtendedPopupMixin):
                 or not (artUrl.startswith('http')
                         or os.path.exists(artUrl))):
                 artUrl = DEFAULT
-            
+
             return {
                 "music_cover": artUrl,
                 "music_title": title,
                 "music_artist": artist,
             }
-            
+
         except Exception as e:
             logger.warning(f"Error getting music info: {e}")
             return {
@@ -325,7 +321,7 @@ class CalMasterWidget(Clock, ExtendedPopupMixin):
                 "music_title": "Error",
                 "music_artist": "Failed to get info",
             }
-    
+
     def update_vol_bright(self):
         brightness = get_brightness()
         volume = get_volume()
@@ -346,14 +342,16 @@ class CalMasterWidget(Clock, ExtendedPopupMixin):
             target = int((value / 100) * max_bright)
             with open(f"{BRIGHT}/brightness", "w") as f:
                 f.write(str(target))
-        except:
+        except Exception as e:
+            logger.error(e)
             pass
 
     @expose_command
     def set_volume_value(self, value):
         try:
             subprocess.run(['amixer', 'set', 'Master', f'{value}%'])
-        except:
+        except Exception as e:
+            logger.error(e)
             pass
 
     @expose_command

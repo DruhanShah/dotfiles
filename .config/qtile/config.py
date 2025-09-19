@@ -1,36 +1,36 @@
 from screens import Screens
-from widgets import WidgetAesthetics
 from layouts import Layouts
 from groups import Groups
 from bindings import Keys, Mouses
+from theme import Theme
 from hooks import autostart
-
-widget_defaults = WidgetAesthetics.widget_defaults
-extension_defaults = WidgetAesthetics.extension_defaults
 
 key_obj = Keys()
 mouse_obj = Mouses()
 screen_obj = Screens()
 groups_obj = Groups()
 
-scratch_names = ["Browser"]
-scratch_commands = ["zen-browser"]
-scratch_keys = ["b"]
+scratchpads = [("Browser", "zen-browser", "b")]
 
 
-screens = screen_obj.init_single_screen_left()
+screens = screen_obj.screen_list(1)
+notifications = screen_obj.notifications()
 
 layouts = [Layouts.scrolling]
 floating_layout = Layouts.floating
 
 groups = groups_obj.init_groups(10)
-scratchpad = groups_obj.init_scratchpads(scratch_names, scratch_commands)
+scratchpad = groups_obj.init_scratchpads(scratchpads)
 groups.append(scratchpad)
 
 mouse = mouse_obj.init_mouses()
 keys = key_obj.init_keys()
 keys += key_obj.init_group_keys(groups)
-keys += key_obj.init_dropdown_keys(scratch_names, scratch_keys)
+keys += key_obj.init_dropdown_keys(scratchpads)
+keys += key_obj.init_notification_keys(notifications)
+
+widget_defaults = Theme.wgt_defaults
+extension_defaults = Theme.wgt_defaults
 
 
 auto_fullscreen = True

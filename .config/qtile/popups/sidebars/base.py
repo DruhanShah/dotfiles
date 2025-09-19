@@ -1,12 +1,12 @@
 from qtile_extras.popup import toolkit as popup
 
-from aesthetics import Colors
+from theme import Colours
 
 
 def block(x, y, w, h):
     return popup.PopupText(
-        background=Colors.surface0,
-        foreground=Colors.surface0,
+        background=Colours.surface0,
+        foreground=Colours.surface0,
         pos_x=x,
         pos_y=y,
         width=w,
@@ -23,8 +23,8 @@ class Sidebar():
     def create_blocks(self, coords):
         for x, y, w, h in coords:
             self.blocks.append(popup.PopupText(
-                background=Colors.surface0,
-                foreground=Colors.surface0,
+                background=Colours.surface0,
+                foreground=Colours.surface0,
                 pos_x=x,
                 pos_y=y,
                 width=w,
@@ -41,9 +41,9 @@ class Sidebar():
         return popup.PopupAbsoluteLayout(
             width=480,
             height=1080,
-            border=Colors.mantle,
+            border=Colours.mantle,
             border_width=2,
-            background=Colors.mantle,
+            background=Colours.mantle,
             close_on_click=False,
             hide_on_timeout=0,
             controls=self.blocks+self.controls,
