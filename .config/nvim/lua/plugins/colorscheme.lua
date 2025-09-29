@@ -1,8 +1,8 @@
 return {
-    "rose-pine/nvim",
-    name = "rose-pine",
+    "catppuccin/nvim",
+    name = "catppuccin",
     priority = 1000,
     config = function ()
-	require("config.rose-pine").setup()
+	require("config.catppuccin").setup()
     end,
 }

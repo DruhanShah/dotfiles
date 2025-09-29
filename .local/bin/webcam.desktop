@@ -1,7 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Version=1.0
-Type=Application
-Exec=/home/druhan/.local/bin/webcam
-Name=MPV Webcam
-Icon=/usr/share/icons/hicolor/16x16/apps/mpv.png
