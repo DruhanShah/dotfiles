@@ -1,5 +1,5 @@
 # Setting colorscheme
-include catppuccin-latte
+include rose-pine-dawn
 
 # Startup options
 set font "Inter 11"
@@ -8,3 +8,6 @@ set guioptions "s"
 set selection-clipboard "clipboard"
 set synctex true
 set synctex-editor-command "emacsclient +%{line} %{input}"
+
+# Bindings
+map ` toggle_statusbar

@@ -2,13 +2,13 @@
 # FONT STUFF                 #
 ##############################
 font_family      Iosevka
-bold_font        Iosevka Bold
+bold_font        Iosevka ExtraBold
 italic_font      Iosevka Italic
-bold_italic_font Iosevka Bold Italic
+bold_italic_font Iosevka ExtraBold Italic
 
-font_size 11
-modify_font cell_height 115%
-modify_font cell_width 110%
+font_size 12
+modify_font cell_height 120%
+modify_font cell_width 100%
 
 modify_font underline_position 2
 modify_font strikethrough_position 1
@@ -68,6 +68,6 @@ listen_on unix:@mykitty
 background_opacity 1.0
 
 # BEGIN_KITTY_THEME
-# Catppuccin-Macchiato
+# Catppuccin-Latte
 include current-theme.conf
 # END_KITTY_THEME

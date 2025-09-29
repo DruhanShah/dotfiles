@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cd "${0%/*}"
+mpv /dev/video0 --profile=low-latency --untimed --no-osc

@@ -1,5 +1,4 @@
 local M = {}
-local colors = require("catppuccin.palettes").get_palette("latte")
 
 function M.mode_component()
     local mode = vim.api.nvim_get_mode().mode:sub(1, 1)
@@ -76,7 +75,7 @@ function M.filetype_component()
             icon, icon_hl = devicons.get_icon_color_by_filetype(ft, { default = true })
         end
     end
-    vim.api.nvim_set_hl(0, "HeaderIcon", { bg = colors.crust, fg = icon_hl })
+    vim.api.nvim_set_hl(0, "HeaderIcon", { bg = NONE, fg = icon_hl })
 
     local modified = vim.bo.modified and " " or ""
 

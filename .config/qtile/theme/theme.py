@@ -17,30 +17,30 @@ class Theme:
     }
 
     lyt_scrolling = {
-        "border_width": 0,
-        "border_focus": Colours.base,
-        "border_normal": Colours.base,
+        "border_width": 6,
+        "border_focus": Colours.highlight1,
+        "border_normal": Colours.highlight1,
         "default_width": 70,
         "grow_amount": 5,
         "margin": [36, 36, 36, 0],
         "snap": True,
         "width_rules": {
             Match(wm_class="scrcpy"): 30,
-            Match(wm_class="emacs"): 45,
-            Match(wm_class="kitty"): 45,
-            Match(wm_class="ghostty"): 45,
-            Match(wm_class="Zathura"): 45,
-            Match(wm_class="Zotero"): 55,
-            Match(wm_class="openscad"): 55,
+            Match(wm_class="emacs"): 50,
+            Match(wm_class="kitty"): 50,
+            Match(wm_class="ghostty"): 50,
+            Match(wm_class="Zathura"): 50,
+            Match(wm_class="Zotero"): 75,
+            Match(wm_class="openscad"): 60,
             Match(wm_class="brave-browser"): 100,
             Match(wm_class="zen"): 100,
         },
     }
 
     lyt_floating = {
-        "border_width": 0,
-        "border_focus": Colours.base,
-        "border_normal": Colours.base,
+        "border_width": 6,
+        "border_focus": Colours.highlight1,
+        "border_normal": Colours.highlight1,
         "float_rules": [
             *Floating.default_float_rules,
             Match(wm_class="confirmreset"),
@@ -60,13 +60,13 @@ class Theme:
         "y": 24,
         "width": 240,
         "height": 72,
-        "foreground": (Colours.maroon,
+        "foreground": (Colours.love,
                        Colours.text,
-                       Colours.subtext0),
-        "background": (Colours.crust,
-                       Colours.crust,
-                       Colours.crust),
-        "border_width": 0,
+                       Colours.muted),
+        "background": (Colours.overlay,
+                       Colours.overlay,
+                       Colours.overlay),
+        "border_width": 2,
         "timeout": (10000, 3000, 3000),
         "corner_radius": 12,
         "font": Fonts.sans,
@@ -91,18 +91,18 @@ class Theme:
         "fontsize": 20,
         "padding": 5,
         "foreground": Colours.text,
-        "background": Colours.crust,
+        "background": Colours.surface,
         "rotate": False,
 
         # Selection Menu
         "menu_width": 300,
         "menu_offset_x": 24,
         "menu_offset_y": 24,
-        "highlight_colour": Colours.blue,
+        "highlight_colour": Colours.pine,
         "highlight_radius": 0,
-        "menu_background": Colours.crust,
+        "menu_background": Colours.overlay,
         "menu_foreground": Colours.text,
-        "menu_foreground_disabled": Colours.overlay0,
+        "menu_foreground_disabled": Colours.muted,
         "menu_foreground_highlighted": Colours.base,
         "menu_font": Fonts.sans,
         "menu_fontsize": 13,
@@ -110,9 +110,9 @@ class Theme:
 
     wgt_groupbox = {
         "background": Colours.base,
-        "active": Colours.mauve,
-        "inactive": Colours.surface0,
-        "occupied": Colours.subtext0,
+        "active": Colours.iris,
+        "inactive": Colours.highlight2,
+        "occupied": Colours.subtle,
         "radius": 10,
         "shrink": 0.85,
         "size": 40,
@@ -142,7 +142,7 @@ class Theme:
 
     wgt_diagnostics = {
         "text": "",
-        "foreground": Colours.blue,
+        "foreground": Colours.pine,
         "padding": 10,
         "decorations": [RectDecoration(
             use_widget_background=True,
@@ -153,11 +153,11 @@ class Theme:
     }
 
     wgt_networks = {
-        "active": Colours.green,
-        "inactive": Colours.surface0,
+        "active": Colours.foam,
+        "inactive": Colours.muted,
         "padding": 10,
         "text": "󰤨",
-        "foreground": Colours.green,
+        "foreground": Colours.foam,
         "wifi_arc": 75,
         "wifi_rectangle_width": 5,
         "wifi_shape": "arc",

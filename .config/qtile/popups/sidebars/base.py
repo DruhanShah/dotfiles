@@ -5,8 +5,8 @@ from theme import Colours
 
 def block(x, y, w, h):
     return popup.PopupText(
-        background=Colours.surface0,
-        foreground=Colours.surface0,
+        background=Colours.surface,
+        foreground=Colours.surface,
         pos_x=x,
         pos_y=y,
         width=w,
@@ -23,8 +23,8 @@ class Sidebar():
     def create_blocks(self, coords):
         for x, y, w, h in coords:
             self.blocks.append(popup.PopupText(
-                background=Colours.surface0,
-                foreground=Colours.surface0,
+                background=Colours.surface,
+                foreground=Colours.surface,
                 pos_x=x,
                 pos_y=y,
                 width=w,
@@ -41,9 +41,9 @@ class Sidebar():
         return popup.PopupAbsoluteLayout(
             width=480,
             height=1080,
-            border=Colours.mantle,
+            border=Colours.base,
             border_width=2,
-            background=Colours.mantle,
+            background=Colours.base,
             close_on_click=False,
             hide_on_timeout=0,
             controls=self.blocks+self.controls,
