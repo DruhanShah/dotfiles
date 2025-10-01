@@ -5,9 +5,10 @@ from popups import PopupLayout
 from .groupbox import GroupBoxWidget
 from .audio import AudioWidget
 from .brightness import BrightWidget
-from .diagnostics_sidebar import DiagMasterWidget
-from .datetime_sidebar import CalMasterWidget
-from .network_sidebar import NetMasterWidget
+from .diagnostics import DiagnosticsWidget
+from .datetime import CalendarWidget
+from .network import NetworkWidget
+from .powermenu import PowerWidget
 
 from theme import Theme
 
@@ -19,9 +20,6 @@ class Widgets:
 
     def space():
         return Spacer(background=None)
-
-    def blankpad():
-        return TextBox(background=None)
 
     brightwidget = BrightWidget(
         **PopupLayout.brightness_layout,
@@ -37,17 +35,22 @@ class Widgets:
         **Theme.wgt_groupbox,
     )
     datetimewidget = modify(
-        CalMasterWidget,
+        CalendarWidget,
         **PopupLayout.datetime_layout,
         **Theme.wgt_clock,
     )
     diagnosticwidget = modify(
-        DiagMasterWidget,
+        DiagnosticsWidget,
         **PopupLayout.system_layout,
         **Theme.wgt_diagnostics,
     )
     networkwidget = modify(
-        NetMasterWidget,
+        NetworkWidget,
         **PopupLayout.network_layout,
         **Theme.wgt_networks,
+    )
+    powerwidget = modify(
+        PowerWidget,
+        **PopupLayout.powermenu_layout,
+        **Theme.wgt_powermenu,
     )

@@ -13,15 +13,17 @@ class Screens:
             widgets=[
                 Widgets.brightwidget,
                 Widgets.audiowidget,
-                Widgets.pad(0),
+                Widgets.pad(5),
                 Widgets.diagnosticwidget,
-                Widgets.pad(0),
+                Widgets.pad(2),
                 Widgets.networkwidget,
                 Widgets.space(),
                 Widgets.groupboxwidget,
                 Widgets.space(),
                 Widgets.datetimewidget,
-                Widgets.pad(0),
+                Widgets.pad(2),
+                Widgets.powerwidget,
+                Widgets.pad(5),
             ],
             **Theme.bar
         )

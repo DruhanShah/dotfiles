@@ -3,17 +3,6 @@ from qtile_extras.popup import toolkit as popup
 from theme import Colours
 
 
-def block(x, y, w, h):
-    return popup.PopupText(
-        background=Colours.surface0,
-        foreground=Colours.surface0,
-        pos_x=x,
-        pos_y=y,
-        width=w,
-        height=h,
-    )
-
-
 class Sidebar():
 
     def __init__(self):

@@ -26,12 +26,12 @@ class Theme:
         "snap": True,
         "width_rules": {
             Match(wm_class="scrcpy"): 30,
-            Match(wm_class="emacs"): 45,
-            Match(wm_class="kitty"): 45,
-            Match(wm_class="ghostty"): 45,
-            Match(wm_class="Zathura"): 45,
-            Match(wm_class="Zotero"): 55,
-            Match(wm_class="openscad"): 55,
+            Match(wm_class="emacs"): 50,
+            Match(wm_class="kitty"): 50,
+            Match(wm_class="ghostty"): 50,
+            Match(wm_class="Zathura"): 50,
+            Match(wm_class="Zotero"): 60,
+            Match(wm_class="openscad"): 60,
             Match(wm_class="brave-browser"): 100,
             Match(wm_class="zen"): 100,
         },
@@ -89,9 +89,9 @@ class Theme:
         # Widgets
         "font": Fonts.symbol,
         "fontsize": 20,
-        "padding": 5,
+        "padding": 0,
         "foreground": Colours.text,
-        "background": Colours.crust,
+        "background": Colours.base,
         "rotate": False,
 
         # Selection Menu
@@ -113,9 +113,8 @@ class Theme:
         "active": Colours.mauve,
         "inactive": Colours.surface0,
         "occupied": Colours.subtext0,
-        "radius": 10,
-        "shrink": 0.85,
-        "size": 40,
+        "radius": 8,
+        "size": 36,
         "mode": "pills",
         "vertical": True,
         "decorations": [RectDecoration(
@@ -142,8 +141,8 @@ class Theme:
 
     wgt_diagnostics = {
         "text": "",
-        "foreground": Colours.blue,
-        "padding": 10,
+        "foreground": Colours.green,
+        "padding": 2,
         "decorations": [RectDecoration(
             use_widget_background=True,
             filled=True,
@@ -155,12 +154,24 @@ class Theme:
     wgt_networks = {
         "active": Colours.green,
         "inactive": Colours.surface0,
-        "padding": 10,
+        "padding": 2,
         "text": "󰤨",
-        "foreground": Colours.green,
+        "foreground": Colours.blue,
         "wifi_arc": 75,
         "wifi_rectangle_width": 5,
         "wifi_shape": "arc",
+        "decorations": [RectDecoration(
+            use_widget_background=True,
+            filled=True,
+            radius=0,
+            padding_x=8,
+        )]
+    }
+
+    wgt_powermenu = {
+        "text": "",
+        "foreground": Colours.red,
+        "padding": 2,
         "decorations": [RectDecoration(
             use_widget_background=True,
             filled=True,

@@ -1,3 +1,13 @@
+(use-package shell-maker
+  :ensure t)
+(use-package acp
+  :ensure (:host github :repo "xenodium/acp.el"))
+
+(use-package agent-shell
+  :ensure (:host github :repo "xenodium/agent-shell")
+  :config
+  (setq agent-shell-google-key gemini-api-key))
+
 ;; Spellchecking not set up yet.
 
 (use-package dyalog-mode

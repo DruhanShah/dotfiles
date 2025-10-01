@@ -23,7 +23,7 @@ def get_battery_icon(value):
     return "󰂑"
 
 
-class DiagMasterWidget(TextBox, ExtendedPopupMixin):
+class DiagnosticsWidget(TextBox, ExtendedPopupMixin):
 
     def __init__(self, **config):
         TextBox.__init__(self, **config)

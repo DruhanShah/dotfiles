@@ -5,7 +5,7 @@ import subprocess
 import re
 
 
-class NetMasterWidget(TextBox, ExtendedPopupMixin):
+class NetworkWidget(TextBox, ExtendedPopupMixin):
 
     defaults = [
         ("interface_wifi", "wlan0", "WiFi interface name"),
@@ -17,16 +17,10 @@ class NetMasterWidget(TextBox, ExtendedPopupMixin):
     def __init__(self, **config):
         TextBox.__init__(self, **config)
 
-        # self.add_defaults(GraphicalWifiMixin.defaults)
-        self.add_defaults(NetMasterWidget.defaults)
-        # GraphicalWifiMixin.__init__(self)
+        self.add_defaults(NetworkWidget.defaults)
         ExtendedPopupMixin.__init__(self, **config)
 
         self.add_callbacks({"Button1": self.show_popup})
-
-    def _configure(self, qtile, bar):
-        TextBox._configure(self, qtile, bar)
-        # self.set_wifi_sizes()
 
     def poll(self):
         status = self._get_network_summary()
@@ -102,48 +96,6 @@ class NetMasterWidget(TextBox, ExtendedPopupMixin):
                 "frequency": None,
                 "rate": None,
                 "security": None,
-                "ip_address": None
-            }
-
-    def _get_ethernet_info(self):
-        try:
-            result = subprocess.run(
-                ["cat", f"/sys/class/net/{self.interface_ethernet}/operstate"],
-                capture_output=True, text=True
-            )
-
-            ethernet_info = {
-                "connected": False,
-                "interface": self.interface_ethernet,
-                "speed": None,
-                "duplex": None,
-                "ip_address": None
-            }
-
-            if result.returncode == 0 and result.stdout.strip() == "up":
-                ethernet_info["connected"] = True
-                ethernet_info["ip_address"] = self._get_interface_ip(self.interface_ethernet)
-
-                try:
-                    speed_result = subprocess.run(
-                        ["cat", f"/sys/class/net/{self.interface_ethernet}/speed"],
-                        capture_output=True, text=True
-                    )
-                    if speed_result.returncode == 0:
-                        ethernet_info["speed"] = f"{speed_result.stdout.strip()}Mbps"
-                except Exception as e:
-                    logger.error(e)
-                    pass
-
-            return ethernet_info
-
-        except Exception as e:
-            logger.exception(f"Error getting Ethernet info: {e}")
-            return {
-                "connected": False,
-                "interface": self.interface_ethernet,
-                "speed": None,
-                "duplex": None,
                 "ip_address": None
             }
 
@@ -240,20 +192,6 @@ class NetMasterWidget(TextBox, ExtendedPopupMixin):
             "wifi_ip": "N/A"
         }
 
-    def _get_ethernet_popup_data(self):
-        ethernet_info = self._get_ethernet_info()
-        connected = ethernet_info["connected"]
-
-        default_eth = "Unknown Speed" if connected else "N/A"
-        default_ip = "No IP" if connected else "N/A"
-
-        return {
-            "ethernet_status": "Connected" if connected else "Disconnected",
-            "ethernet_speed": ethernet_info["speed"] or default_eth,
-            "ethernet_ip": ethernet_info["ip_address"] or default_ip,
-            "ethernet_interface": ethernet_info["interface"]
-        }
-
     def _get_internet_popup_data(self):
         internet_info = self._get_internet_info()
 
@@ -292,30 +230,11 @@ class NetMasterWidget(TextBox, ExtendedPopupMixin):
 
         return popup_data
 
-    def _get_available_wifi_popup_data(self):
-        available_networks = self._get_available_wifi_networks()
-        popup_data = {}
-
-        for i in range(6):
-            if i < len(available_networks):
-                network = available_networks[i]
-                popup_data[f"wnet_{i}_ssid"] = network["ssid"]
-                popup_data[f"wnet_{i}_signal"] = f"{network["signal"]}%"
-                popup_data[f"wnet_{i}_security"] = network["security"]
-            else:
-                popup_data[f"wnet_{i}_ssid"] = ""
-                popup_data[f"wnet_{i}_signal"] = ""
-                popup_data[f"wnet_{i}_security"] = ""
-
-        return popup_data
-
     def update_popup(self):
         self.extended_popup.update_controls(
             **self._get_wifi_popup_data(),
-            **self._get_ethernet_popup_data(),
             **self._get_internet_popup_data(),
             **self._get_bluetooth_popup_data(),
-            # **self._get_available_wifi_popup_data()
         )
 
     def _get_internet_info(self):
@@ -374,44 +293,3 @@ class NetMasterWidget(TextBox, ExtendedPopupMixin):
                 "public_ip": None,
                 "dns_servers": []
             }
-
-    def _get_available_wifi_networks(self):
-        try:
-            result = subprocess.run(
-                "nmcli -t -f SSID,SIGNAL,SECURITY dev wifi list --rescan yes".split(),
-                capture_output=True, text=True, timeout=10
-            )
-
-            networks = []
-            if result.returncode == 0:
-                seen_ssids = set()
-                for line in result.stdout.strip().split("\n"):
-                    if line and ":" in line:
-                        parts = line.split(":")
-                        if len(parts) >= 3:
-                            ssid = parts[0].strip()
-                            signal = parts[1].strip()
-                            security = parts[2].strip() if parts[2] else "Open"
-
-                            if ssid and ssid not in seen_ssids:
-                                seen_ssids.add(ssid)
-                                networks.append({
-                                    "ssid": ssid,
-                                    "signal": int(signal) if signal.isdigit() else 0,
-                                    "security": security or "Open"
-                                })
-
-                networks.sort(key=lambda x: x["signal"], reverse=True)
-
-            return networks[:10]
-
-        except Exception as e:
-            logger.exception(f"Error getting available WiFi networks: {e}")
-            return []
-
-    # def draw(self):
-    #     self.draw_wifi(
-    #         percentage=0.5,
-    #         foreground=self.active,
-    #         background=self.inactive
-    #     )

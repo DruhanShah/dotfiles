@@ -3,6 +3,9 @@ from libqtile.lazy import lazy
 from utils import Function
 from wacky_ideas import launcher
 
+ROFI_CLIP = "rofi -modi 'clipboard:greenclip print' -show clipboard -run-command '{cmd}'"
+ROFI_CALC = "rofi -show calc -modi calc -no-show-match -no-sort"
+
 
 class Keys:
 
@@ -56,16 +59,23 @@ class Keys:
             EzKey("M-e", lazy.spawn("emacsclient -nca ''")),
             EzKey("M-<Semicolon>", lazy.spawn("rofi -show drun")),
 
+            # Rofi plugins
+            EzKeyChord("M-r", [
+                EzKey("q", lazy.spawn(ROFI_CALC)),
+                EzKey("c", lazy.spawn(ROFI_CLIP)),
+            ]),
+
             # Bar and widgets
             EzKeyChord("M-w", [
-                EzKey("1", lazy.widget["diagmasterwidget"].show_popup()),
-                EzKey("2", lazy.widget["netmasterwidget"].show_popup()),
-                EzKey("9", lazy.widget["calmasterwidget"].show_popup()),
+                EzKey("1", lazy.widget["diagnosticswidget"].show_popup()),
+                EzKey("2", lazy.widget["networkwidget"].show_popup()),
+                EzKey("9", lazy.widget["calendarwidget"].show_popup()),
+                EzKey("0", lazy.widget["powerwidget"].show_popup()),
                 EzKey("b", lazy.hide_show_bar()),
             ]),
 
             # Others
-            EzKey("M-r", lazy.function(launcher.toggle_popup)),
+            EzKey("M-S-r", lazy.function(launcher.toggle_popup)),
 
             # Important system utilities
             EzKey("M-<F9>", Function.toggle_trackpad),

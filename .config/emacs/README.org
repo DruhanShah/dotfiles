@@ -130,7 +130,7 @@ This section deals with simple default values that I would like to have set by d
   (setq default-frame-alist
         (append (list
                  '(vertical-scroll-bars . nil)
-                 '(internal-border-width . 24)
+                 '(internal-border-width . 20)
                  '(left-fringe . 16)
                  '(right-fringe . 0)
                  '(undecorated-round . t) ;; emacs-plu@29 only
@@ -141,7 +141,7 @@ This section deals with simple default values that I would like to have set by d
 
   (setq tool-bar-style 'image)
 
-  (setq window-divider-default-right-width 24)
+  (setq window-divider-default-right-width 20)
   (setq window-divider-default-places 'right-only)
   (window-divider-mode 1)
 
@@ -153,6 +153,20 @@ This section deals with simple default values that I would like to have set by d
   (set-display-table-slot standard-display-table
                           'wrap
   			(make-glyph-code ?- 'font-lock-comment-face))
+#+end_src
+
+** Nice-to-haves
+
+The first of likely many is smooth scrolling which I think would make me a lot happier coding in Emacs.
+
+#+begin_src emacs-lisp
+  (use-package ultra-scroll
+    :ensure t
+    :init
+    (setq scroll-conservatively 3
+  	scroll-margin 0)
+    :config
+    (ultra-scroll-mode 1))
 #+end_src
 
 
@@ -316,7 +330,6 @@ Nerd fonts tend to have some hiccups (lots of them), this block here should solv
     :config
     (global-colorful-mode))
 
-  (setq underline-minimum-offset 100)
   (elpaca-wait)
 #+end_src
 
@@ -366,25 +379,24 @@ Note that there is a ~elpaca-wait~ call at the end because some customizations I
 #+end_src
 
 
-* Copilot and other GitHub stuff
+* GitHub, Copilot and other AI stuff
 
-This sets up three major plugins: Magit (all hail), Copilot, and Copilot-chat. Transient is in there to avoid some inexplicable errors with Elpaca.
+This sets up three major plugins: Magit (all hail), Copilot, and GPTel. Elpaca throws some weird errors if I don't include the transient =use-package= call.
 
 #+begin_src emacs-lisp
   (use-package transient
     :ensure t)
-
   (use-package magit
     :ensure t)
 #+end_src
 
-This is a bunch of stuff that causes bugs so I need to fix it rq.
+Here, I set up the AI-based stuff like copilot (for completions) and GPTel (for other LLM and agent capabilities). I still need to get a handle on what GPTel can do for my particular use case.
 
 #+begin_src emacs-lisp
   (use-package copilot
     :vc (:url "https://github.com/copilot-emacs/copilot.el"
-         :rev :newest
-         :branch "main")
+  	    :rev :newest
+  	    :branch "main")
     :ensure t
     :hook (prog-mode . (lambda ()
   		       (unless (file-remote-p default-directory)
@@ -392,12 +404,32 @@ This is a bunch of stuff that causes bugs so I need to fix it rq.
     :config
     (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion))
 
-  (use-package copilot-chat
-    :vc (:url "https://github.com/chep/copilot-chat.el"
-         :rev :newest
-         :branch "main")
+  (setq gemini-api-key (with-temp-buffer
+  		       (insert-file-contents ".config/emacs/.gemini")
+  		       (buffer-string)))
+
+  (use-package gptel
     :ensure t
-    :after (request org markdown-mode))
+    :config
+    (setq gptel-backend
+  	(gptel-make-gemini "Gemini"
+  			   :key gemini-api-key
+  			   :stream t)
+  	gptel-default-mode 'org-mode))
+#+end_src
+
+Xenodium has come out with the =agent-shell= package, which I'd like to try out with Gemini CLI. For now, it doesn't seem very stable, so I'll be keeping an eye out on the repo for updates.
+
+#+begin_src emacs-lisp :tangle not-init.el
+  (use-package shell-maker
+    :ensure t)
+  (use-package acp
+    :ensure (:host github :repo "xenodium/acp.el"))
+
+  (use-package agent-shell
+    :ensure (:host github :repo "xenodium/agent-shell")
+    :config
+    (setq agent-shell-google-key gemini-api-key))
 #+end_src
 
 
@@ -432,6 +464,16 @@ This has some nice features that I would like when using the builtin Dired. The 
     "c" 'dired-create-directory
     "t" 'dired-create-empty-file)
   #+end_src
+
+Previews are nice to have, and Prot has a package for this.
+
+#+begin_src emacs-lisp
+  (use-package dired-preview
+    :ensure t
+    :config
+    (setq dired-preview-delay 0.1)
+    (dired-preview-global-mode 1))
+#+end_src
 
 
 * IBuffer
@@ -510,6 +552,28 @@ The next snippet is all about making the IBuffer buffer that much prettier. This
   (advice-add 'ibuffer-update-title-and-summary :after #'ibuffer-advice)
   (add-hook 'ibuffer-mode-hook #'ibuffer-setup)
   (define-key global-map (kbd "C-x C-b") 'ibuffer)
+#+end_src
+
+
+* Calc
+
+A dedicated LaTeX mode wasn't enough, now we actually have to do math. The horror!
+Jokes aside, I've seen the power of Emacs' built in calculator and I'm sold. I'm also looking forward to the release of Karthink's work on using latex in calc first class.
+
+*NB:* I was going to add casual to this, but I'm considering abandoning it for the built-in [[Which-Key]]
+
+#+begin_src emacs-lisp
+#+end_src
+
+
+* Which-Key
+
+It occurs to me that I am not an Emacs dictionary. Who'd have thunk?
+
+#+begin_src emacs-lisp
+  (which-key-mode 1)
+  (which-key-setup-side-window-bottom)
+  (which-key-enable-god-mode-support)
 #+end_src
 
 
@@ -599,6 +663,8 @@ Some eshell niceties are to be expected :P
 * Org Mode and $\LaTeX$
 
 All hail the OrgMode system! Lots of very helpful modules have been used here, and several more can be added once I start getting more comfortable with them.
+
+** Actual Org and LaTeX
 
 First, since we're using ~org-cdlatex-mode~, we need to also install auctex, which might cause some issues.
 
@@ -717,11 +783,59 @@ This also includes an Export module to export an org file as a Jupyter notebook
     :hook (org-mode . org-auto-tangle-mode))
 #+end_src
 
-** Google Calendar
+** Citation management
 
-I would like to be able to sync my Org agenda and other task and schedule management with Google Calendar (unless I find a way to use the Agenda on mobile :P)
+Zotero is a gem, but it's a little messy to integrate into my Org-LaTeX documents, but I've heard of Citar which seems to make it /schmooth/.
 
-Never mind, I'm discarding this module since it causes security issues, and has several bugs that I'd rather not have in my daily drive system. I'll still be working on making it usable for me.
+#+begin_src emacs-lisp
+  (use-package citar
+    :ensure t
+    :custom
+    (org-cite-global-bibliography '("~/Research/Bibliography/NLP-Stuff.bib"
+  				  "~/Research/Bibliography/Math-Stuff.bib"
+  				  "~/Research/Bibliography/Other-Fun-Stuff.bib"))
+    (org-cite-insert-processor 'citar)
+    (org-cite-follow-processor 'citar)
+    (org-cite-activate-processor 'citar)
+    (citar-bibliography org-cite-global-bibliography)
+    :bind
+    (:map org-mode-map :package org ("C-c i" . #'org-cite-insert))
+    :config
+    (defvar citar-indicator-notes-icons
+      (citar-indicator-create
+       :symbol (nerd-icons-mdicon
+  	      "nf-md-notebook"
+  	      :face 'nerd-icons-blue
+  	      :v-adjust -0.3)
+       :function #'citar-has-notes
+       :padding "  "
+       :tag "has:notes"))
+
+    (defvar citar-indicator-links-icons
+      (citar-indicator-create
+       :symbol (nerd-icons-octicon
+                "nf-oct-link"
+                :face 'nerd-icons-orange
+                :v-adjust -0.1)
+       :function #'citar-has-links
+       :padding "  "
+       :tag "has:links"))
+
+    (defvar citar-indicator-files-icons
+      (citar-indicator-create
+       :symbol (nerd-icons-faicon
+                "nf-fa-file"
+                :face 'nerd-icons-green
+                :v-adjust -0.1)
+       :function #'citar-has-files
+       :padding "  "
+       :tag "has:files"))
+    (setq citar-indicators
+  	(list citar-indicator-files-icons
+  	      citar-indicator-notes-icons
+  	      citar-indicator-links-icons)))
+
+#+end_src
 
 ** UI Stuff
 
@@ -737,6 +851,27 @@ These are some nice-to-haves that make Org files look good in Emacs.
     :ensure t
     :after org
     :hook (org-mode . mixed-pitch-mode))
+#+end_src
+
+*** Markdown
+
+Markdown is surprisingly similar to Org notation, but the rendering isn't nearly as good. I'll be fixing that here (as much as I can). Some changes are in the [[Face Overrides]] subsection of the themes section.
+
+There's also a neat little toggle for the plaintext vs rendered text mode.
+
+#+begin_src emacs-lisp
+  (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
+  (add-hook 'markdown-view-mode-hook #'mixed-pitch-mode)
+
+  (defun drs/toggle-view ()
+    "Toggle markdown view mode."
+    (interactive)
+    (if (eq major-mode 'markdown-mode)
+        (markdown-view-mode)
+      (markdown-mode)))
+  (add-hook 'markdown-mode-hook (lambda ()
+  				(define-key markdown-mode-map (kbd "C-c m")
+  					    'drs/toggle-view)))
 #+end_src
 
 

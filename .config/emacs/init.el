@@ -83,7 +83,7 @@
 (setq default-frame-alist
       (append (list
                '(vertical-scroll-bars . nil)
-               '(internal-border-width . 24)
+               '(internal-border-width . 20)
                '(left-fringe . 16)
                '(right-fringe . 0)
                '(undecorated-round . t) ;; emacs-plu@29 only
@@ -94,7 +94,7 @@
 
 (setq tool-bar-style 'image)
 
-(setq window-divider-default-right-width 24)
+(setq window-divider-default-right-width 20)
 (setq window-divider-default-places 'right-only)
 (window-divider-mode 1)
 
@@ -106,6 +106,14 @@
 (set-display-table-slot standard-display-table
                         'wrap
 			(make-glyph-code ?- 'font-lock-comment-face))
+
+(use-package ultra-scroll
+  :ensure t
+  :init
+  (setq scroll-conservatively 3
+	scroll-margin 0)
+  :config
+  (ultra-scroll-mode 1))
 
 (defun drs/catppuccin-override ()
   "Override Catppuccin theme for specific faces."
@@ -237,7 +245,6 @@
   :config
   (global-colorful-mode))
 
-(setq underline-minimum-offset 100)
 (elpaca-wait)
 
 (use-package evil :ensure t
@@ -278,14 +285,13 @@
 
 (use-package transient
   :ensure t)
-
 (use-package magit
   :ensure t)
 
 (use-package copilot
   :vc (:url "https://github.com/copilot-emacs/copilot.el"
-       :rev :newest
-       :branch "main")
+	    :rev :newest
+	    :branch "main")
   :ensure t
   :hook (prog-mode . (lambda ()
 		       (unless (file-remote-p default-directory)
@@ -293,12 +299,18 @@
   :config
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion))
 
-(use-package copilot-chat
-  :vc (:url "https://github.com/chep/copilot-chat.el"
-       :rev :newest
-       :branch "main")
+(setq gemini-api-key (with-temp-buffer
+		       (insert-file-contents ".config/emacs/.gemini")
+		       (buffer-string)))
+
+(use-package gptel
   :ensure t
-  :after (request org markdown-mode))
+  :config
+  (setq gptel-backend
+	(gptel-make-gemini "Gemini"
+			   :key gemini-api-key
+			   :stream t)
+	gptel-default-mode 'org-mode))
 
 (require 'dired)
 (require 'dired-x)
@@ -325,6 +337,12 @@
   "u" 'dired-unmark
   "c" 'dired-create-directory
   "t" 'dired-create-empty-file)
+
+(use-package dired-preview
+  :ensure t
+  :config
+  (setq dired-preview-delay 0.1)
+  (dired-preview-global-mode 1))
 
 (eval-after-load 'ibuffer
   '(progn
@@ -393,6 +411,12 @@
 (advice-add 'ibuffer-update-title-and-summary :after #'ibuffer-advice)
 (add-hook 'ibuffer-mode-hook #'ibuffer-setup)
 (define-key global-map (kbd "C-x C-b") 'ibuffer)
+
+
+
+(which-key-mode 1)
+(which-key-setup-side-window-bottom)
+(which-key-enable-god-mode-support)
 
 (use-package pdf-tools
   :ensure t
@@ -523,6 +547,53 @@
   :after org
   :hook (org-mode . org-auto-tangle-mode))
 
+(use-package citar
+  :ensure t
+  :custom
+  (org-cite-global-bibliography '("~/Research/Bibliography/NLP-Stuff.bib"
+				  "~/Research/Bibliography/Math-Stuff.bib"
+				  "~/Research/Bibliography/Other-Fun-Stuff.bib"))
+  (org-cite-insert-processor 'citar)
+  (org-cite-follow-processor 'citar)
+  (org-cite-activate-processor 'citar)
+  (citar-bibliography org-cite-global-bibliography)
+  :bind
+  (:map org-mode-map :package org ("C-c i" . #'org-cite-insert))
+  :config
+  (defvar citar-indicator-notes-icons
+    (citar-indicator-create
+     :symbol (nerd-icons-mdicon
+	      "nf-md-notebook"
+	      :face 'nerd-icons-blue
+	      :v-adjust -0.3)
+     :function #'citar-has-notes
+     :padding "  "
+     :tag "has:notes"))
+
+  (defvar citar-indicator-links-icons
+    (citar-indicator-create
+     :symbol (nerd-icons-octicon
+              "nf-oct-link"
+              :face 'nerd-icons-orange
+              :v-adjust -0.1)
+     :function #'citar-has-links
+     :padding "  "
+     :tag "has:links"))
+
+  (defvar citar-indicator-files-icons
+    (citar-indicator-create
+     :symbol (nerd-icons-faicon
+              "nf-fa-file"
+              :face 'nerd-icons-green
+              :v-adjust -0.1)
+     :function #'citar-has-files
+     :padding "  "
+     :tag "has:files"))
+  (setq citar-indicators
+	(list citar-indicator-files-icons
+	      citar-indicator-notes-icons
+	      citar-indicator-links-icons)))
+
 (use-package org-autolist
   :ensure t
   :after org
@@ -532,6 +603,19 @@
   :ensure t
   :after org
   :hook (org-mode . mixed-pitch-mode))
+
+(add-hook 'markdown-mode-hook #'mixed-pitch-mode)
+(add-hook 'markdown-view-mode-hook #'mixed-pitch-mode)
+
+(defun drs/toggle-view ()
+  "Toggle markdown view mode."
+  (interactive)
+  (if (eq major-mode 'markdown-mode)
+      (markdown-view-mode)
+    (markdown-mode)))
+(add-hook 'markdown-mode-hook (lambda ()
+				(define-key markdown-mode-map (kbd "C-c m")
+					    'drs/toggle-view)))
 
 (use-package treesit-auto
   :ensure t
