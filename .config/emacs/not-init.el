@@ -8,7 +8,15 @@
   :config
   (setq agent-shell-google-key gemini-api-key))
 
-;; Spellchecking not set up yet.
+(use-package eglot-ltex-plus
+  :ensure (:host github :repo "emacs-langtool/eglot-ltex-plus")
+  :hook
+  ((text-mode markdown-mode org-mode) . (lambda ()
+					  (require 'eglot-ltex-plus)
+					  (eglot-ensure)))
+  :init
+  (setq eglot-ltex-server-path "~/.config/emacs/ltex/ltex-ls-plus-18.5.1"
+	eglot-ltex-communication-channel 'stdio))
 
 (use-package dyalog-mode
   :ensure t

@@ -577,6 +577,16 @@ It occurs to me that I am not an Emacs dictionary. Who'd have thunk?
 #+end_src
 
 
+* Regex builder
+
+I'm starting to find too many insanely cool builtin features in Emacs. The Interactive Regex Builder is another in that huge list.
+
+#+begin_src emacs-lisp
+  (require 're-builder)
+  (setq reb-re-syntax 'string)
+#+end_src
+
+
 * PDF Tools and ePub reading
 
 This section was originally about LaTeX and its rendering. Now, it's purely for packages that allow reading PDFs and ePubs in Emacs.
@@ -610,10 +620,18 @@ I'm (not really) using Corfu at the moment. Haven't tried out other completion f
 
 ** Spell checking
 
-For spellchecking, I did try out jinx, but never ended up actually using it. I'll consider a retry eventually.
+For spellchecking, I did try out jinx, but never ended up actually using it. Apparently Grammarly's Language Server borked itself, so now I'm switching to the OSS variant called LanguageTool (a maintained fork called LTeX+). Let's see how that goes. For now it's bugged out of its tiny little mind.
 
 #+begin_src emacs-lisp :tangle not-init.el
-  ;; Spellchecking not set up yet.
+  (use-package eglot-ltex-plus
+    :ensure (:host github :repo "emacs-langtool/eglot-ltex-plus")
+    :hook
+    ((text-mode markdown-mode org-mode) . (lambda ()
+  					  (require 'eglot-ltex-plus)
+  					  (eglot-ensure)))
+    :init
+    (setq eglot-ltex-server-path "~/.config/emacs/ltex/ltex-ls-plus-18.5.1"
+  	eglot-ltex-communication-channel 'stdio))
 #+end_src
 
 ** Syntax checking and diagnostics
@@ -926,7 +944,7 @@ I'm using good old =yasnippet= for this.
 
 This customizes the way the Minibuffer works in Emacs.
 
-Best Case Scenario: I'd like to make the =:= binding in Evil-mode behave like =M-x= in the sense that it automatically uses the minibuffer for completion (makes it a lot cleaner).
+Dream feature (which is honestly impossible): I'd like Evil to mimic the use of native features in completion, in the sense that =:= ends up behaving like =M-x= in the way it pops up vertico with completions. Similarly with =/= and =consult-line= and so on.
 
 #+begin_src emacs-lisp
   (use-package vertico

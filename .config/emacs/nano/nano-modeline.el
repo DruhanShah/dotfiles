@@ -276,7 +276,7 @@ symbols that do not align perfectly."
   :type '(color)
   :group 'nano-modeline)
 
-(defcustom nano-modeline-alignment '(margin . margin)
+(defcustom nano-modeline-alignment '(window . window)
   "Left and right alignment of the mode-line (or header-line)."
   :type '(cons (choice :tag "Left"
                        (const window)

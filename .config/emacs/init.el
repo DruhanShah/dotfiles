@@ -418,6 +418,9 @@
 (which-key-setup-side-window-bottom)
 (which-key-enable-god-mode-support)
 
+(require 're-builder)
+(setq reb-re-syntax 'string)
+
 (use-package pdf-tools
   :ensure t
   :init
