@@ -8,6 +8,12 @@
   :config
   (setq agent-shell-google-key gemini-api-key))
 
+(use-package dirvish
+  :ensure t
+  :config
+  (dirvish-peek-mode)
+  (setq dirvish-attributes '(nerd-icons file-size)))
+
 (use-package eglot-ltex-plus
   :ensure (:host github :repo "emacs-langtool/eglot-ltex-plus")
   :hook

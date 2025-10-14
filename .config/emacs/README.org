@@ -442,7 +442,7 @@ This has some nice features that I would like when using the builtin Dired. The 
   (require 'dired-x)
   (setq dired-listing-switches
         "-l --almost-all --human-readable --group-directories-first"
-  	dired-omit-files
+        dired-omit-files
         (concat dired-omit-files "\\|^\\..+$\\|^__pycache__$"))
   (put 'dired-find-alternate-file 'disabled nil)
   (add-hook 'dired-mode-hook 'dired-hide-details-mode)
@@ -454,7 +454,7 @@ This has some nice features that I would like when using the builtin Dired. The 
     "h" (lambda () (interactive) (find-file ".."))
     "l" 'dired-find-file
     "L" (lambda () (interactive)
-	  (start-process "xdg" nil "xdg-open" (dired-get-file-for-visit)))
+  	(start-process "xdg" nil "xdg-open" (dired-get-file-for-visit)))
     "n" 'evil-search-next
     "N" 'evil-search-previous
     "o" 'dired-sort-toggle-or-edit
@@ -471,9 +471,33 @@ Previews are nice to have, and Prot has a package for this.
   (use-package dired-preview
     :ensure t
     :config
-    (setq dired-preview-delay 0.1)
+    (setq dired-preview-delay 0.1
+          dired-preview-max-size (expt 2 23)
+          dired-preview-ignored-extensions-regexp
+  	(concat "\\."
+  		"\\(gz\\|"
+  		"zst\\|"
+  		"tar\\|"
+  		"xz\\|"
+  		"rar\\|"
+  		"zip\\|"
+  		"iso\\|"
+  		"epub\\|"
+  		"mp4\\|"
+  		"flac\\|"
+  		"\\)"))
     (dired-preview-global-mode 1))
 #+end_src
+
+Dired stuff is still a work in progress.
+
+#+begin_src emacs-lisp :tangle not-init.el
+  (use-package dirvish
+    :ensure t
+    :config
+    (dirvish-peek-mode)
+    (setq dirvish-attributes '(nerd-icons file-size)))
+     #+end_src
 
 
 * IBuffer
@@ -950,10 +974,11 @@ Dream feature (which is honestly impossible): I'd like Evil to mimic the use of 
   (use-package vertico
     :ensure t
     :config
-    (setq vertico-preselect 'first
-	  vertico-count 10)
+    (vertico-buffer-mode)
     (vertico-mode 1)
-    (vertico-buffer-mode))
+    (setq vertico-preselect 'first
+  	vertico-count 10
+  	vertico-resize nil))
 
   (use-package marginalia
     :ensure t

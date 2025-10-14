@@ -1,6 +1,6 @@
 {
 	"version": "1.0.0",
-	"appearance": "dark",
+	"appearance": "light",
 	"name": "Catppuccin Latte",
 	"description": "Soothing pastel colors for light environments",
 	"palette": {

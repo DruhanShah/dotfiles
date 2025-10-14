@@ -316,7 +316,7 @@
 (require 'dired-x)
 (setq dired-listing-switches
       "-l --almost-all --human-readable --group-directories-first"
-	dired-omit-files
+      dired-omit-files
       (concat dired-omit-files "\\|^\\..+$\\|^__pycache__$"))
 (put 'dired-find-alternate-file 'disabled nil)
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
@@ -328,7 +328,7 @@
   "h" (lambda () (interactive) (find-file ".."))
   "l" 'dired-find-file
   "L" (lambda () (interactive)
-	  (start-process "xdg" nil "xdg-open" (dired-get-file-for-visit)))
+	(start-process "xdg" nil "xdg-open" (dired-get-file-for-visit)))
   "n" 'evil-search-next
   "N" 'evil-search-previous
   "o" 'dired-sort-toggle-or-edit
@@ -341,7 +341,21 @@
 (use-package dired-preview
   :ensure t
   :config
-  (setq dired-preview-delay 0.1)
+  (setq dired-preview-delay 0.1
+        dired-preview-max-size (expt 2 23)
+        dired-preview-ignored-extensions-regexp
+	(concat "\\."
+		"\\(gz\\|"
+		"zst\\|"
+		"tar\\|"
+		"xz\\|"
+		"rar\\|"
+		"zip\\|"
+		"iso\\|"
+		"epub\\|"
+		"mp4\\|"
+		"flac\\|"
+		"\\)"))
   (dired-preview-global-mode 1))
 
 (eval-after-load 'ibuffer
@@ -651,10 +665,11 @@
 (use-package vertico
   :ensure t
   :config
-  (setq vertico-preselect 'first
-	  vertico-count 10)
+  (vertico-buffer-mode)
   (vertico-mode 1)
-  (vertico-buffer-mode))
+  (setq vertico-preselect 'first
+	vertico-count 10
+	vertico-resize nil))
 
 (use-package marginalia
   :ensure t

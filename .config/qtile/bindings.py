@@ -1,10 +1,10 @@
+import os
 from libqtile.config import EzClick, EzDrag, EzKey, EzKeyChord
 from libqtile.lazy import lazy
 from utils import Function
 from wacky_ideas import launcher
 
-ROFI_CLIP = "rofi -modi 'clipboard:greenclip print' -show clipboard -run-command '{cmd}'"
-ROFI_CALC = "rofi -show calc -modi calc -no-show-match -no-sort"
+ROFI_MASTER = f"{os.environ["HOME"]}/.config/rofi/scripts/master.sh"
 
 
 class Keys:
@@ -57,13 +57,7 @@ class Keys:
             # Applications and launchers
             EzKey("M-<Return>", lazy.spawn("kitty")),
             EzKey("M-e", lazy.spawn("emacsclient -nca ''")),
-            EzKey("M-<Semicolon>", lazy.spawn("rofi -show drun")),
-
-            # Rofi plugins
-            EzKeyChord("M-r", [
-                EzKey("q", lazy.spawn(ROFI_CALC)),
-                EzKey("c", lazy.spawn(ROFI_CLIP)),
-            ]),
+            EzKey("M-<Semicolon>", lazy.spawn(ROFI_MASTER)),
 
             # Bar and widgets
             EzKeyChord("M-w", [
