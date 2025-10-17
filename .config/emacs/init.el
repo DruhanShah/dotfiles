@@ -56,6 +56,7 @@
 (setq gc-cons-threshold 63000000
       gc-cons-percentage 0.6)
 (add-to-list 'load-path "~/.config/emacs/nano")
+(global-auto-revert-mode)
 
 (setq inhibit-startup-screen t)
 (setq inhibit-startup-message t)
@@ -322,7 +323,7 @@
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 (add-hook 'dired-mode-hook 'dired-omit-mode)
 
-(define-key global-map (kbd "C-x C-d") (lambda () (interactive) (dired ".")))
+(define-key global-map (kbd "C-x C-d") 'dired-jump)
 (evil-define-key 'normal dired-mode-map
   "g." 'dired-omit-mode
   "h" (lambda () (interactive) (find-file ".."))
@@ -355,8 +356,7 @@
 		"epub\\|"
 		"mp4\\|"
 		"flac\\|"
-		"\\)"))
-  (dired-preview-global-mode 1))
+		"\\)")))
 
 (eval-after-load 'ibuffer
   '(progn
@@ -530,6 +530,12 @@
      (latex . t)
      (python . t)))
   (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file))
+
+(use-package org-contrib
+  :ensure t
+  :config
+  (require 'ox-extra)
+  (ox-extras-activate '(latex-header-blocks ignore-headlines)))
 
 (use-package org-roam
   :ensure t

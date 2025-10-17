@@ -92,11 +92,13 @@ This is a bunch of other niceties that I would like to have, since that would ma
 
 - Garbage collector reduction for faster startup
 - Add all files in the =nano/= directory into the loading path
+- Auto-revert mode to automatically reload files changed on disk (might slow things down a /tiny/ bit)
 
 #+begin_src emacs-lisp
   (setq gc-cons-threshold 63000000
         gc-cons-percentage 0.6)
   (add-to-list 'load-path "~/.config/emacs/nano")
+  (global-auto-revert-mode)
 #+end_src
 
 ** "Sane defaults"
@@ -448,7 +450,7 @@ This has some nice features that I would like when using the builtin Dired. The 
   (add-hook 'dired-mode-hook 'dired-hide-details-mode)
   (add-hook 'dired-mode-hook 'dired-omit-mode)
 
-  (define-key global-map (kbd "C-x C-d") (lambda () (interactive) (dired ".")))
+  (define-key global-map (kbd "C-x C-d") 'dired-jump)
   (evil-define-key 'normal dired-mode-map
     "g." 'dired-omit-mode
     "h" (lambda () (interactive) (find-file ".."))
@@ -485,8 +487,7 @@ Previews are nice to have, and Prot has a package for this.
   		"epub\\|"
   		"mp4\\|"
   		"flac\\|"
-  		"\\)"))
-    (dired-preview-global-mode 1))
+  		"\\)")))
 #+end_src
 
 Dired stuff is still a work in progress.
@@ -726,50 +727,56 @@ First, since we're using ~org-cdlatex-mode~, we need to also install auctex, whi
 Now we can get back to org.
 
 #+begin_src emacs-lisp
-    (cl-pushnew 'org elpaca-ignored-dependencies)
+  (cl-pushnew 'org elpaca-ignored-dependencies)
 
-    (use-package org
-      :ensure nil
-      :hook (org-mode . visual-line-mode)
-      :hook (org-mode . mixed-pitch-mode)
-      :hook (org-mode . org-display-inline-images)
-      :hook (org-mode . turn-on-org-cdlatex)
-      :config
-      (setq org-ellipsis "..."
-    	org-fontify-quote-and-verse-blocks t
-            org-hide-emphasis-markers t
-            org-hide-leading-stars nil
-    	org-cycle-separator-lines 2
-            org-pretty-entities t
-            org-use-sub-superscripts t
-            org-format-latex-options (plist-put org-format-latex-options :scale 1.25)
-            org-latex-src-block-backend 'listings
-    	org-latex-packages-alist '(("" "amsmath" t)
-    				   ("" "amssymb" t)
-    				   ("" "mathtools" t)
-    				   ("" "braket" t)
-    				   ("" "physics" t)
-    				   ("" "xcolor" t)
-    				   ("" "tikz" t)
-    				   ("" "tikz-cd" t))
-    	org-todo-keywords '((sequence "TODO" "DOING" "|" "DONE")
-    			    (sequence "HOLD" "|" "NOPE"))
-    	org-priority-highest 0
-            org-priority-lowest 9
-    	org-priority-default 5
-    	org-agenda-files '("~/Notes/agenda.org")
-    	org-hidden-keywords '(title author date)
-    	org-src-window-setup 'current-window
-            org-capture-templates
-            '(("t" "Todo" entry
-       	   (file+headline "~/Notes/Productivity/refile.org" "Tasks to refile")
-               "* TODO %?\n  %i\n  %a")))
-      (org-babel-do-load-languages
-       'org-babel-load-languages
-       '((emacs-lisp . t)
-         (latex . t)
-         (python . t)))
-      (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file))
+  (use-package org
+    :ensure nil
+    :hook (org-mode . visual-line-mode)
+    :hook (org-mode . mixed-pitch-mode)
+    :hook (org-mode . org-display-inline-images)
+    :hook (org-mode . turn-on-org-cdlatex)
+    :config
+    (setq org-ellipsis "..."
+  	org-fontify-quote-and-verse-blocks t
+          org-hide-emphasis-markers t
+          org-hide-leading-stars nil
+  	org-cycle-separator-lines 2
+          org-pretty-entities t
+          org-use-sub-superscripts t
+          org-format-latex-options (plist-put org-format-latex-options :scale 1.25)
+          org-latex-src-block-backend 'listings
+  	org-latex-packages-alist '(("" "amsmath" t)
+  				   ("" "amssymb" t)
+  				   ("" "mathtools" t)
+  				   ("" "braket" t)
+  				   ("" "physics" t)
+  				   ("" "xcolor" t)
+  				   ("" "tikz" t)
+  				   ("" "tikz-cd" t))
+  	org-todo-keywords '((sequence "TODO" "DOING" "|" "DONE")
+  			    (sequence "HOLD" "|" "NOPE"))
+  	org-priority-highest 0
+          org-priority-lowest 9
+  	org-priority-default 5
+  	org-agenda-files '("~/Notes/agenda.org")
+  	org-hidden-keywords '(title author date)
+  	org-src-window-setup 'current-window
+          org-capture-templates
+          '(("t" "Todo" entry
+     	   (file+headline "~/Notes/Productivity/refile.org" "Tasks to refile")
+             "* TODO %?\n  %i\n  %a")))
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((emacs-lisp . t)
+       (latex . t)
+       (python . t)))
+    (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file))
+
+  (use-package org-contrib
+    :ensure t
+    :config
+    (require 'ox-extra)
+    (ox-extras-activate '(latex-header-blocks ignore-headlines)))
 #+end_src
 
 ** Org-Roam

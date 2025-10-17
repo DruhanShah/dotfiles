@@ -111,11 +111,11 @@ element selected.normal {
     text-color:                  @foreground;
 }
 element selected.urgent {
-    background-color:            @urgent;
+    background-color:            @selected;
     text-color:                  @foreground;
 }
 element selected.active {
-    background-color:            @urgent;
+    background-color:            @selected;
     text-color:                  @foreground;
 }
 element-icon {

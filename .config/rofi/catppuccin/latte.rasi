@@ -34,8 +34,8 @@
     foreground:     @Text;
     foreground-alt: @Subtext0;
     selected:       #04a5e544;
-    active:         @Green;
-    urgent:         @Red;
+    active:         #40a02b44;
+    urgent:         #d20f3944;
 }
 
 /* vim:ft=rasi
