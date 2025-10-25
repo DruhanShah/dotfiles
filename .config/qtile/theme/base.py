@@ -44,8 +44,8 @@ class Colours:
 class Fonts:
 
     mono = "Iosevka"
-    serif = "Literata"
-    sans = "Inter Text"
+    serif = "Inter"
+    sans = "Inter"
     display = "Inter Display"
     symbol = "Symbols Nerd Font"
 

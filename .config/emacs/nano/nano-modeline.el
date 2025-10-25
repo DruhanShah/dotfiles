@@ -404,9 +404,7 @@ The unit is fraction of character height"
 
 
 (defcustom nano-modeline-format-default
-  (cons '(nano-modeline-element-evil-mode
-	  nano-modeline-element-space
-	  nano-modeline-element-buffer-mode
+  (cons '(nano-modeline-element-buffer-mode
           nano-modeline-element-buffer-name
 	  nano-modeline-element-space
 	  nano-modeline-element-buffer-modified)
@@ -420,9 +418,7 @@ The unit is fraction of character height"
     :group 'nano-modeline-modes)
 
 (defcustom nano-modeline-format-terminal
-  (cons '(nano-modeline-element-evil-mode
-	  nano-modeline-element-space
-	  nano-modeline-element-terminal-status
+  (cons '(nano-modeline-element-terminal-status
           nano-modeline-element-space
           nano-modeline-element-terminal-directory)
         '(nano-modeline-element-terminal-name
@@ -1493,12 +1489,12 @@ If DEFAULT is true, this is made the default mode/header line."
                  :overline nil
                  :underline nil
 		 :foreground ,(catppuccin-color 'text)
-                 :background ,(catppuccin-color 'mantle)))
+                 :background ,(catppuccin-color 'crust)))
          (face-relative `(:box (:color ,color :line-width (0 . 1))
                           :overline nil
                           :underline nil
 			  :foreground ,(catppuccin-color 'text)
-			  :background ,(catppuccin-color 'mantle))))
+			  :background ,(catppuccin-color 'crust))))
 
     (face-remap-reset-base 'header-line)
     (face-remap-reset-base 'mode-line)

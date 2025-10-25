@@ -26,10 +26,10 @@ class Theme:
         "snap": True,
         "width_rules": {
             Match(wm_class="scrcpy"): 30,
-            Match(wm_class="emacs"): 50,
-            Match(wm_class="kitty"): 50,
-            Match(wm_class="ghostty"): 50,
-            Match(wm_class="Zathura"): 50,
+            Match(wm_class="emacs"): 45,
+            Match(wm_class="kitty"): 45,
+            Match(wm_class="ghostty"): 45,
+            Match(wm_class="Zathura"): 45,
             Match(wm_class="Zotero"): 60,
             Match(wm_class="openscad"): 60,
             Match(wm_class="brave-browser"): 100,
@@ -80,7 +80,7 @@ class Theme:
 
     bar = {
         "size": 52,
-        "margin": [0, 36, 0, 0],
+        "margin": [18, 36, 18, 18],
         "border_width": 0,
         "background": Colours.base,
     }
