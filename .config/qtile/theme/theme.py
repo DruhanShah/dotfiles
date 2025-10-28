@@ -1,6 +1,5 @@
 from libqtile.config import Match
 from libqtile.layout import Floating
-from qtile_extras.widget.decorations import RectDecoration
 
 from .base import Colours, Fonts
 
@@ -18,8 +17,8 @@ class Theme:
 
     lyt_scrolling = {
         "border_width": 0,
-        "border_focus": Colours.base,
-        "border_normal": Colours.base,
+        "border_focus": Colours.bg1,
+        "border_normal": Colours.bg1,
         "default_width": 70,
         "grow_amount": 5,
         "margin": [36, 36, 36, 0],
@@ -39,8 +38,8 @@ class Theme:
 
     lyt_floating = {
         "border_width": 0,
-        "border_focus": Colours.base,
-        "border_normal": Colours.base,
+        "border_focus": Colours.bg1,
+        "border_normal": Colours.bg1,
         "float_rules": [
             *Floating.default_float_rules,
             Match(wm_class="confirmreset"),
@@ -60,12 +59,12 @@ class Theme:
         "y": 24,
         "width": 240,
         "height": 72,
-        "foreground": (Colours.maroon,
-                       Colours.text,
-                       Colours.subtext0),
-        "background": (Colours.crust,
-                       Colours.crust,
-                       Colours.crust),
+        "foreground": (Colours.red,
+                       Colours.tx1,
+                       Colours.tx2),
+        "background": (Colours.bg2,
+                       Colours.bg2,
+                       Colours.bg2),
         "border_width": 0,
         "timeout": (10000, 3000, 3000),
         "corner_radius": 12,
@@ -82,7 +81,7 @@ class Theme:
         "size": 52,
         "margin": [18, 36, 18, 18],
         "border_width": 0,
-        "background": Colours.base,
+        "background": Colours.bg1,
     }
 
     wgt_defaults = {
@@ -90,8 +89,8 @@ class Theme:
         "font": Fonts.symbol,
         "fontsize": 20,
         "padding": 0,
-        "foreground": Colours.text,
-        "background": Colours.base,
+        "foreground": Colours.tx1,
+        "background": Colours.bg1,
         "rotate": False,
 
         # Selection Menu
@@ -100,82 +99,52 @@ class Theme:
         "menu_offset_y": 24,
         "highlight_colour": Colours.blue,
         "highlight_radius": 0,
-        "menu_background": Colours.crust,
-        "menu_foreground": Colours.text,
-        "menu_foreground_disabled": Colours.overlay0,
-        "menu_foreground_highlighted": Colours.base,
+        "menu_background": Colours.bg2,
+        "menu_foreground": Colours.tx1,
+        "menu_foreground_disabled": Colours.tx3,
+        "menu_foreground_highlighted": Colours.bg1,
         "menu_font": Fonts.sans,
         "menu_fontsize": 13,
     }
 
     wgt_groupbox = {
-        "background": Colours.base,
-        "active": Colours.mauve,
-        "inactive": Colours.surface0,
-        "occupied": Colours.subtext0,
+        "background": Colours.bg1,
+        "active": Colours.purple,
+        "inactive": Colours.ui2,
+        "occupied": Colours.tx2,
         "radius": 8,
         "size": 36,
         "mode": "pills",
         "vertical": True,
-        "decorations": [RectDecoration(
-            use_widget_background=True,
-            filled=True,
-            radius=0,
-            padding_x=4,
-        )]
     }
 
     wgt_clock = {
         "format": "%H\n%M\n%S",
-        "foreground": Colours.text,
+        "foreground": Colours.tx1,
         "font": Fonts.mono + " Medium",
         "fontsize": 20,
         "padding": 10,
-        "decorations": [RectDecoration(
-            use_widget_background=True,
-            filled=True,
-            radius=0,
-            padding_x=8,
-        )]
     }
 
     wgt_diagnostics = {
         "text": "",
         "foreground": Colours.green,
         "padding": 2,
-        "decorations": [RectDecoration(
-            use_widget_background=True,
-            filled=True,
-            radius=0,
-            padding_x=8,
-        )]
     }
 
     wgt_networks = {
         "active": Colours.green,
-        "inactive": Colours.surface0,
+        "inactive": Colours.ui2,
         "padding": 2,
         "text": "󰤨",
         "foreground": Colours.blue,
         "wifi_arc": 75,
         "wifi_rectangle_width": 5,
         "wifi_shape": "arc",
-        "decorations": [RectDecoration(
-            use_widget_background=True,
-            filled=True,
-            radius=0,
-            padding_x=8,
-        )]
     }
 
     wgt_powermenu = {
         "text": "",
         "foreground": Colours.red,
         "padding": 2,
-        "decorations": [RectDecoration(
-            use_widget_background=True,
-            filled=True,
-            radius=0,
-            padding_x=8,
-        )]
     }

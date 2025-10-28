@@ -1,5 +1,5 @@
 # Setting colorscheme
-include catppuccin-latte
+include flexoki-light
 
 # Startup options
 set font "Inter 11"

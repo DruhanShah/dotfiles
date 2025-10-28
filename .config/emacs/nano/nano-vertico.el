@@ -43,7 +43,7 @@
 ;; - First release
 ;;
 ;;; Code:
-(require 'catppuccin-theme)
+(require 'flexoki-themes)
 
 (defcustom nano-vertico-header-padding '(0.20 . 0.25)
   "Top and bottom padding for the header line."
@@ -59,8 +59,8 @@ It can be nil (regular prompt), t (minibuffer depth) or an arbitrary prompt stri
   :group 'nano-vertico)
 
 (defface nano-vertico-header-face
-  `((t :foreground ,(catppuccin-color 'text)
-       :background ,(catppuccin-color 'base)
+  `((t :foreground ,(face-foreground 'default)
+       :background ,(face-background 'default)
        :height 1.0
        :box (:line-width 1 :color ,(face-foreground 'default) :style nil)))
   "Face for header line."

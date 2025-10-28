@@ -33,37 +33,37 @@
 ;;; Code:
 (require 'hl-line)
 (require 'treesit)
-(require 'catppuccin-theme)
+(require 'flexoki-themes)
 
 (defface hl-block-header-face
-  `((t :background ,(catppuccin-color 'mantle)
-       :overline ,(catppuccin-color 'mantle)
+  `((t :background ,(face-foreground 'flexoki-themes-lowlight)
+       :overline ,(face-foreground 'flexoki-themes-lowlight)
        :extend t))
   "Face for header (first line).")
 
 (defface hl-block-body-face
-  `((t :background ,(catppuccin-color 'mantle)
+  `((t :background ,(face-foreground 'flexoki-themes-lowlight)
        :extend t))
   "Face for body.")
 
 (defface hl-block-symbol-face
   `((t :inherit bold
-       :background ,(catppuccin-color 'mauve)
-       :foreground ,(catppuccin-color 'mantle)
+       :background ,(face-foreground 'flexoki-themes-purple)
+       :foreground ,(face-foreground 'flexoki-themes-lowlight)
        :extend t))
   "Face for symbol (top right).")
 
 (defface hl-block-footer-face
-  `((t :background ,(catppuccin-color 'mantle)
-       :underline ,(catppuccin-color 'mantle)
+  `((t :background ,(face-foreground 'flexoki-themes-lowlight)
+       :underline ,(face-foreground 'flexoki-themes-lowlight)
        :extend t))
   "Face for footer (last line).")
 
 (defvar hl-block-types '(("function_definition" . "F")
-                                  ("class_definition"    . "C")
-                                  ("if_statement"        . "T")
-                                  ("for_statement"       . "L")
-                                  ("while_statement"     . "L"))
+			 ("class_definition"    . "C")
+			 ("if_statement"        . "T")
+			 ("for_statement"       . "L")
+			 ("while_statement"     . "L"))
   "List of node types to be highlighted.")
 
 (defvar-local hl-block--overlays nil

@@ -57,24 +57,24 @@
 ;;   - initial release
 
 ;;; Code:
-(require 'catppuccin-theme)
+(require 'flexoki-themes)
 
 (defface nano-read-face
   `((t :inherit widget-field))
   "Face for entry.")
 
 (defface nano-read-prompt-default-face
-  `((t :foreground ,(catppuccin-color 'base)
-       :background ,(catppuccin-color 'mauve)
+  `((t :foreground ,(face-background 'default)
+       :background ,(face-foreground 'flexoki-themes-purple)
        :weight ,(face-attribute 'bold :weight)
        :box ,(face-foreground 'default)))
   "Face for default prompt.")
 
 (defface nano-read-prompt-warning-face
-  `((t :foreground ,(catppuccin-color 'base)
-       :background ,(catppuccin-color 'red)
+  `((t :foreground ,(face-background 'default)
+       :background ,(face-foreground 'flexoki-themes-red)
        :weight ,(face-attribute 'bold :weight)
-       :box ,(catppuccin-color 'red)))
+       :box ,(face-foreground 'flexoki-themes-red)))
   "Face for warning prompt.")
 
 (defvar nano-read-prompt-face 'nano-read-prompt-default-face

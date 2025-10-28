@@ -44,7 +44,7 @@
 (require 's)
 (require 'holidays)
 (require 'org-agenda)
-(require 'catppuccin-theme)
+(require 'flexoki-themes)
 
 (defgroup nano-calendar nil
   "Settings for nano calendar"
@@ -59,7 +59,7 @@
   :group 'nano-calendar)
 
 (defface nano-calendar-header-month-face
-  `((t :background ,(catppuccin-color 'mantle)
+  `((t :background ,(face-foreground 'flexoki-themes-highlight)
        :inherit bold))
   "Face for header month"
   :group 'nano-calendar-faces)
@@ -96,14 +96,14 @@
   :group 'nano-calendar-faces)
 
 (defface nano-calendar-marked-face
-  `((t :foreground ,(catppuccin-color 'base)
-       :background ,(catppuccin-color 'text)))
+  `((t :foreground ,(face-background 'default)
+       :background ,(face-foreground 'default)))
   "Face for marked days."
   :group 'nano-calendar-faces)
 
 (defface nano-calendar-current-face
-  `((t :foreground ,(catppuccin-color 'base)
-       :background ,(catppuccin-color 'blue)))
+  `((t :foreground ,(face-background 'default)
+       :background ,(face-foreground 'flexoki-themes-blue)))
   "Face for current selection."
   :group 'nano-calendar-faces)
 

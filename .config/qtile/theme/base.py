@@ -1,43 +1,28 @@
 import os
-from catppuccin import PALETTE
-
-
 class Colours:
 
-    palette = PALETTE.latte.colors
+    bg1 = "#FFFCF0"
+    bg2 = "#F2F0E5"
+    ui1 = "#E6E4D9"
+    ui2 = "#DAD8CE"
+    ui3 = "#CECDC3"
+    tx3 = "#B7B5AC"
+    tx2 = "#6F6E69"
+    tx1 = "#100F0F"
 
-    base = palette.base.hex
-    rosewater = palette.rosewater.hex
-    flamingo = palette.flamingo.hex
-    pink = palette.pink.hex
-    mauve = palette.mauve.hex
-    red = palette.red.hex
-    maroon = palette.maroon.hex
-    peach = palette.peach.hex
-    yellow = palette.yellow.hex
-    green = palette.green.hex
-    teal = palette.teal.hex
-    sky = palette.sky.hex
-    sapphire = palette.sapphire.hex
-    blue = palette.blue.hex
-    lavender = palette.lavender.hex
-    text = palette.text.hex
-    subtext1 = palette.subtext1.hex
-    subtext0 = palette.subtext0.hex
-    overlay2 = palette.overlay2.hex
-    overlay1 = palette.overlay1.hex
-    overlay0 = palette.overlay0.hex
-    surface2 = palette.surface2.hex
-    surface1 = palette.surface1.hex
-    surface0 = palette.surface0.hex
-    base = palette.base.hex
-    mantle = palette.mantle.hex
-    crust = palette.crust.hex
+    red = "#AF3029"
+    orange = "#BC5215"
+    yellow = "#AD8301"
+    green = "#66800B"
+    cyan = "#24837B"
+    blue = "#205EA6"
+    purple = "#5E409D"
+    magenta = "#A02F6F"
 
-    def transparent(color=base):
+    def transparent(color=bg1):
         return color + "00"
 
-    def translucent(color=base):
+    def translucent(color=bg1):
         return color + "aa"
 
 
@@ -52,4 +37,4 @@ class Fonts:
 
 class Wallpaper:
 
-    path = os.path.expanduser("~/Wallpapers/contour-latte.png")
+    path = os.path.expanduser("~/Wallpapers/contour-flexoki.png")

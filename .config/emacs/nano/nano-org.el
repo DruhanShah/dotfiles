@@ -28,7 +28,7 @@
 (require 'compat)
 (require 'org)
 (require 'nerd-icons)
-(require 'catppuccin-theme)
+(require 'flexoki-themes)
 (eval-when-compile
   (require 'cl-lib)
   (require 'subr-x))
@@ -143,26 +143,31 @@ replacement expression, e.g., a string."
 Set to nil to disable.")
 
 (defcustom nano-org-todo-faces
-  `(("TODO" . (:foreground ,(catppuccin-color 'red)
-	       :box (:line-width (1 . 2) :color ,(catppuccin-color 'red))
-	       :overline ,(catppuccin-color 'base)))
-    ("DOING" . (:foreground ,(catppuccin-color 'yellow)
-	       :box (:line-width (1 . 2) :color ,(catppuccin-color 'yellow))
-	       :overline ,(catppuccin-color 'base)))
-    ("DONE" . (:foreground ,(catppuccin-color 'green)
-	       :box (:line-width (1 . 2) :color ,(catppuccin-color 'green))
-	       :overline ,(catppuccin-color 'base)))
-    ("HOLD" . (:foreground ,(catppuccin-color 'rosewater)
-	       :box (:line-width (1 . 2) :color ,(catppuccin-color 'rosewater))
-	       :overline ,(catppuccin-color 'base)))
-    ("NOPE" . (:foreground ,(catppuccin-color 'subtext0)
-	       :box (:line-width (1 . 2) :color ,(catppuccin-color 'subtext0))
-	       :overline ,(catppuccin-color 'base))))
+  `(("TODO" . (:foreground ,(face-foreground 'flexoki-themes-red)
+	       :box (:line-width (1 . 2)
+		     :color ,(face-foreground 'flexoki-themes-red))
+	       :overline ,(face-background 'default)))
+    ("DOING" . (:foreground ,(face-foreground 'flexoki-themes-yellow)
+		:box (:line-width (1 . 2)
+		      :color ,(face-foreground 'flexoki-themes-yellow))
+	       :overline ,(face-background 'default)))
+    ("DONE" . (:foreground ,(face-foreground 'flexoki-themes-green)
+	       :box (:line-width (1 . 2)
+		     :color ,(face-foreground 'flexoki-themes-green))
+	       :overline ,(face-background 'default)))
+    ("HOLD" . (:foreground ,(face-foreground 'flexoki-themes-highlight)
+	       :box (:line-width (1 . 2)
+		     :color ,(face-foreground 'flexoki-themes-highlight))
+	       :overline ,(face-background 'default)))
+    ("NOPE" . (:foreground ,(face-foreground 'flexoki-themes-lowlight)
+	       :box (:line-width (1 . 2)
+		     :color ,(face-foreground 'flexoki-themes-lowlight))
+	       :overline ,(face-background 'default))))
   "Faces for todo keywords.
 This is an alist, with todo keywords in the car and faces in the
 cdr."
   :type '(repeat
-          (cons (choice
+	  (cons (choice
                   (string :tag "Keyword")
                   (const :tag "Default" t))
                 (sexp :tag "Face   "))))
@@ -296,26 +301,26 @@ the font.")
   "Face used for block keywords.")
 
 (defface nano-org-progress-complete
-  `((t :background ,(catppuccin-color 'overlay0)
-       :foreground ,(catppuccin-color 'base)
-       :box (:color ,(catppuccin-color 'overlay0) :line-width (1 . 2))
-       :overline ,(catppuccin-color 'base)))
+  `((t :background ,(face-foreground 'flexoki-themes-highlight)
+       :foreground ,(face-background 'default)
+       :box (:color ,(face-foreground 'flexoki-themes-highlight) :line-width (1 . 2))
+       :overline ,(face-background 'default)))
   "Face used for completed section of progress bars (colors only).")
 
 (defface nano-org-progress-incomplete
-  `((t :background ,(catppuccin-color 'mantle)
-       :foreground ,(catppuccin-color 'text)
-       :box (:color ,(catppuccin-color 'overlay0) :line-width (1 . 2))
-       :overline ,(catppuccin-color 'base)))
+  `((t :background ,(face-foreground 'flexoki-themes-lowlight)
+       :foreground ,(face-foreground 'default)
+       :box (:color ,(face-foreground 'flexoki-themes-highlight) :line-width (1 . 2))
+       :overline ,(face-background 'default)))
   "Face used for incomplete section of progress bars (colors only).")
 
 (defface nano-org-tag
   `((t :inherit (nano-org-label)
-       :foreground ,(catppuccin-color 'text)
-       :background ,(catppuccin-color 'surface0)
-       :box (:line-width (1 . 2) :color ,(catppuccin-color 'overlay1))
-       :overline ,(catppuccin-color 'base)
-       :foreground ,(catppuccin-color 'text)))
+       :foreground ,(face-foreground 'default)
+       :background ,(face-foreground 'flexoki-themes-highlight)
+       :box (:line-width (1 . 2) :color ,(face-foreground 'flexoki-themes-highlight))
+       :overline ,(face-background 'default)
+       :foreground ,(face-foreground 'default)))
   "Face used for tag labels.")
 
 (defface nano-org-internal-target
@@ -342,41 +347,41 @@ the font.")
 (defface nano-org-date-active
   `((t :inherit (nano-org-label)
        :height 100
-       :foreground ,(catppuccin-color 'base)
-       :background ,(catppuccin-color 'blue)
-       :overline ,(catppuccin-color 'base)
-       :box (:color ,(catppuccin-color 'blue) :line-width (1 . 2))))
+       :foreground ,(face-background 'default)
+       :background ,(face-foreground 'flexoki-themes-blue)
+       :overline ,(face-background 'default)
+       :box (:color ,(face-foreground 'flexoki-themes-blue) :line-width (1 . 2))))
   "Face used for active date labels.")
 
 (defface nano-org-time-active
   `((t :inherit (nano-org-label)
        :height 100
-       :foreground ,(catppuccin-color 'blue)
-       :background ,(catppuccin-color 'base)
-       :overline ,(catppuccin-color 'base)
+       :foreground ,(face-foreground 'flexoki-themes-blue)
+       :background ,(face-background 'default)
+       :overline ,(face-background 'default)
        :box (:line-width (1 . 2))))
   "Face used for active time labels.")
 
 (defface nano-org-date-inactive
   `((t :inherit (nano-org-label)
        :height 100
-       :foreground ,(catppuccin-color 'base)
-       :background ,(catppuccin-color 'overlay0)
-       :overline ,(catppuccin-color 'base)
-       :box (:color ,(catppuccin-color 'overlay0) :line-width (1 . 2))))
+       :foreground ,(face-background 'default)
+       :background ,(face-foreground 'flexoki-themes-highlight)
+       :overline ,(face-background 'default)
+       :box (:color ,(face-foreground 'flexoki-themes-highlight) :line-width (1 . 2))))
   "Face used for inactive date labels.")
 
 (defface nano-org-time-inactive
   `((t :inherit (nano-org-label)
        :height 100
-       :foreground ,(catppuccin-color 'overlay0)
-       :background ,(catppuccin-color 'base)
-       :overline ,(catppuccin-color 'base)
+       :foreground ,(face-foreground 'flexoki-themes-highlight)
+       :background ,(face-background 'default)
+       :overline ,(face-background 'default)
        :box (:line-width (1 . 2))))
   "Face used for inactive time labels.")
 
 (defface nano-org-horizontal-rule
-  `((t :strike-through ,(catppuccin-color 'crust)))
+  `((t :strike-through ,(face-foreground 'flexoki-themes-lowlight)))
   "Face used for horizontal ruler.")
 
 (defvar-local nano-org--font-lock-keywords nil)

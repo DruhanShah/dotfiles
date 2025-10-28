@@ -119,7 +119,7 @@
 ;;
 
 ;;; Code:
-(require 'catppuccin-theme)
+(require 'flexoki-themes)
 
 (defgroup nano nil
   "N Λ N O."
@@ -271,7 +271,7 @@ symbols that do not align perfectly."
                  (boolean :tag "Right"))
   :group 'nano-modeline)
 
-(defcustom nano-modeline-border-color (catppuccin-color 'base)
+(defcustom nano-modeline-border-color (face-background 'default)
   "Border color."
   :type '(color)
   :group 'nano-modeline)
@@ -298,106 +298,87 @@ The unit is fraction of character height"
                (float :tag "Bottom spacing"))
   :group 'nano-modeline)
 
-(defcustom nano-modeline-bar-width 6
-  "Width of the evil state bar."
-  :type '(integer :tag "Width in pixels")
-  :group 'nano-modeline)
-
-(defcustom nano-modeline-evil-state-faces
-  `((normal . (:background ,(catppuccin-color 'blue)))
-    (insert . (:background ,(catppuccin-color 'green)))
-    (visual . (:background ,(catppuccin-color 'mauve)))
-    (replace . (:background ,(catppuccin-color 'red)))
-    (emacs . (:background ,(catppuccin-color 'teal)))
-    (motion . (:background ,(catppuccin-color 'text)))
-    (operator . (:background ,(catppuccin-color 'yellow)))
-    (god . (:background ,(catppuccin-color 'peach))))
-  "Alist of faces for evil states."
-  :type '(alist :key-type symbol
-		:value-type 'face)
-  :group 'nano-modeline)
-
 (defface nano-modeline-face-buffer-read-only
-  `((t (:foreground ,(catppuccin-color 'base)
-        :background ,(catppuccin-color 'text)
+  `((t (:foreground ,(face-background 'default)
+        :background ,(face-foreground 'default)
         :weight ,(face-attribute 'default :weight))))
   "Face for read only buffer."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-buffer-read-write
-  `((t (:foreground ,(catppuccin-color 'base)
-        :background ,(catppuccin-color 'overlay1)
+  `((t (:foreground ,(face-background 'default)
+        :background ,(face-background 'flexoki-themes-ultralight)
         :weight ,(face-attribute 'bold :weight))))
   "Face for read-write buffer."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-buffer-modified
-  `((t (:foreground ,(catppuccin-color 'base)
-        :background ,(catppuccin-color 'maroon)
+  `((t (:foreground ,(face-background 'default)
+        :background ,(face-foreground 'flexoki-themes-red)
         :weight ,(face-attribute 'bold :weight))))
   "Face for modified buffer."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-buffer-marked
-  `((t (:foreground ,(catppuccin-color 'base)
-        :background ,(catppuccin-color 'mauve)
+  `((t (:foreground ,(face-background 'default)
+        :background ,(face-foreground 'flexoki-themes-purple)
         :weight ,(face-attribute 'bold :weight))))
   "Face for marked buffer."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-tag
-  `((t ( :foreground ,(catppuccin-color 'base)
-         :background ,(catppuccin-color 'blue)
+  `((t ( :foreground ,(face-background 'default)
+         :background ,(face-foreground 'flexoki-themes-blue)
          :weight ,(face-attribute 'bold :weight))))
   "Face for tags."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-default
-  `((t (:foreground ,(catppuccin-color 'text))))
+  `((t (:foreground ,(face-foreground 'default))))
   "Default face for modeline."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-primary
-  `((t (:foreground ,(catppuccin-color 'text)
+  `((t (:foreground ,(face-foreground 'default)
         :weight ,(face-attribute 'bold :weight))))
   "Face for primary information."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-secondary
-  `((t (:foreground ,(catppuccin-color 'subtext0))))
+  `((t (:foreground ,(face-background 'flexoki-themes-ultralight))))
   "Face for secondary information."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-button-active
-  `((t (:foreground ,(catppuccin-color 'base)
-        :background ,(catppuccin-color 'lavender)
+  `((t (:foreground ,(face-background 'default)
+        :background ,(face-foreground 'flexoki-themes-magenta)
         :weight ,(face-attribute 'bold :weight))))
   "Active button face."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-button-progress
-  `((t (:foreground ,(catppuccin-color 'base)
-        :background ,(catppuccin-color 'peach)
+  `((t (:foreground ,(face-background 'default)
+        :background ,(face-foreground 'flexoki-themes-orange)
         :weight ,(face-attribute 'bold :weight))))
   "Progress button face."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-button-dangerous
-  `((t (:foreground ,(catppuccin-color 'base)
-        :background ,(catppuccin-color 'red)
+  `((t (:foreground ,(face-background 'default)
+        :background ,(face-foreground 'flexoki-themes-red)
         :weight ,(face-attribute 'bold :weight))))
   "Dangerous button face."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-button-inactive
-  `((t (:foreground ,(catppuccin-color 'overlay0)
-        :background ,(catppuccin-color 'base))))
+  `((t (:foreground ,(face-foreground 'flexoki-themes-highlight)
+        :background ,(face-background 'default))))
   "Inactive button face."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-button-highlight
-  `((t (:foreground ,(catppuccin-color 'base)
-        :background ,(catppuccin-color 'blue)
+  `((t (:foreground ,(face-background 'default)
+        :background ,(face-foreground 'flexoki-themes-blue)
         :weight ,(face-attribute 'bold :weight))))
   "Highlight button face."
   :group 'nano-modeline-faces)
@@ -677,7 +658,7 @@ modeline."
                          (t 0))))
 
          ;; Truncate left member (first) if necessary, minimum size is 4
-         ;; -> 7 corresponds to the size of border + evil state + 1
+         ;; -> 7 corresponds to the size of border + 1
          (right-width (floor (/ (string-pixel-width right) (frame-char-width))))
          (max-width (max (- width right-width) 4))
          (left (truncate-string-to-width left max-width nil nil "…"))
@@ -698,17 +679,6 @@ modeline."
 (defun nano-modeline-symbol (name)
   "Retrieve symbol for NAME from the nano-modeline-symbols list."
   (or (alist-get name nano-modeline-symbol-list) "??"))
-
-(defun nano-modeline-element-evil-mode ()
-  "Return a block coloured based on the evil state."
-
-  (when (and (boundp 'evil-state) evil-state)
-    (let ((state (symbol-name evil-state)))
-      (propertize " "
-		  'display `(space :width (,nano-modeline-bar-width))
-		  'face (or (alist-get evil-state nano-modeline-evil-state-faces)
-			    'nano-modeline-face-primary)
-		  'help-echo (format "Evil state: %s" state)))))
 
 (defun nano-modeline-element-buffer-mode (&optional symbol face raise)
   "Return a prefix indicating if buffer is read-only, read-write or modified.
@@ -732,7 +702,7 @@ If SYMBOL is provided, it will be used instead of the default with FACE and RAIS
   (when (buffer-modified-p)
 	(propertize (nano-modeline-symbol 'buffer-modified)
 		    'face `(:inherit nano-modeline-face-primary
-			    :foreground ,(catppuccin-color 'maroon)))))
+			    :foreground ,(face-foreground 'flexoki-themes-red)))))
 
 (defun nano-modeline-element-buffer-name ()
   "Return a string with the buffer name."
@@ -774,7 +744,7 @@ TYPE is usually keyword `:error', `:warning' or `:note'."
   "Return a string with the flymake diagnostics."
   (let ((errors (nano-modeline-element-diagnostics-unit :error " " 'error))
 	(warnings (nano-modeline-element-diagnostics-unit :warning " " 'warning))
-	(notes (nano-modeline-element-diagnostics-unit :note " " 'link)))
+	(notes (nano-modeline-element-diagnostics-unit :note " " 'citar)))
     (concat errors warnings notes " ")))
 
 (defun nano-modeline-element-buffer-position ()
@@ -865,9 +835,8 @@ TYPE is usually keyword `:error', `:warning' or `:note'."
                         (propertize label 'display `((raise 0.1)))
                         (propertize " "   'display `((raise 0.1) (space :width (,(cdr padding))))))
                 'face `( :inherit ,face
-                         ;; :weight regular
                          :height 0.75
-                         :overline ,color ;; ,(face-foreground 'header-line nil 'default)
+                         :overline ,color
                          :underline ,(if (bound-and-true-p nano-box-state)
                                          (face-background 'default)
                                        color)
@@ -1481,20 +1450,20 @@ If DEFAULT is true, this is made the default mode/header line."
 				'(mode-line-active mode-line-inactive)
 			      '(mode-line)))
 	 (sep `(:overline nil
-		:underline (:color ,(catppuccin-color 'surface2))
+		:underline (:color ,(face-foreground 'flexoki-themes-lowlight))
 		:height 0.1
-		:background ,(catppuccin-color 'base)
-		:foreground ,(catppuccin-color 'base)))
-         (face `(:box (:color ,color :line-width (1 . 2))
+		:background ,(face-background 'default)
+		:foreground ,(face-background 'default)))
+	 (face `(:box (:color ,color :line-width (1 . 2))
                  :overline nil
                  :underline nil
-		 :foreground ,(catppuccin-color 'text)
-                 :background ,(catppuccin-color 'crust)))
+		 :foreground ,(face-foreground 'default)
+                 :background "#e6e4d9"))
          (face-relative `(:box (:color ,color :line-width (0 . 1))
                           :overline nil
                           :underline nil
-			  :foreground ,(catppuccin-color 'text)
-			  :background ,(catppuccin-color 'crust))))
+			  :foreground ,(face-foreground 'default)
+			  :background "#e6e4d9")))
 
     (face-remap-reset-base 'header-line)
     (face-remap-reset-base 'mode-line)

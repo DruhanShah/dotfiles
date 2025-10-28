@@ -116,48 +116,48 @@
   :config
   (ultra-scroll-mode 1))
 
-(defun drs/catppuccin-override ()
-  "Override Catppuccin theme for specific faces."
+(use-package flexoki-themes
+  :ensure t
+  :config
+  (setq flexoki-themes-use-bold-keywords t
+	flexoki-themes-use-bold-builtins t
+	flexoki-themes-use-italic-comments nil)
+  (load-theme 'flexoki-themes-light t))
+
+(elpaca-wait)
+
+(defun drs/flexoki-overrides ()
+  "Override Flexoki Theme faces with custom ones."
   (interactive)
   (set-face-attribute 'org-document-title nil
-		      :foreground (catppuccin-color 'text)
+		      :foreground (face-foreground 'default)
 		      :weight 'bold
 		      :height 1.6)
   (set-face-attribute 'org-level-1 nil
-		      :foreground (catppuccin-color 'text)
+		      :foreground (face-foreground 'default)
 		      :weight 'bold
 		      :height 1.4)
   (set-face-attribute 'org-level-2 nil
-		      :foreground (catppuccin-color 'text)
+		      :foreground (face-foreground 'default)
 		      :weight 'bold
 		      :height 1.2)
   (set-face-attribute 'org-level-3 nil
-		      :foreground (catppuccin-color 'text)
+		      :foreground (face-foreground 'default)
 		      :weight 'bold
 		      :height 1.1)
   (set-face-attribute 'org-level-4 nil
-		      :foreground (catppuccin-color 'text)
+		      :foreground (face-foreground 'default)
 		      :weight 'bold)
-  (set-face-attribute 'org-block-begin-line nil
-		      :box `(:line-width 8
-		      :color ,(catppuccin-color 'mantle)))
   (set-face-attribute 'vertical-border nil
-		      :foreground (catppuccin-color 'base))
+		      :foreground (face-background 'default))
   (set-face-attribute 'window-divider nil
-		      :foreground (catppuccin-color 'base))
+		      :foreground (face-background 'default))
   (set-face-attribute 'window-divider-first-pixel nil
-		      :foreground (catppuccin-color 'base))
+		      :foreground (face-background 'default))
   (set-face-attribute 'window-divider-last-pixel nil
-		      :foreground (catppuccin-color 'base))
-  (catppuccin-reload))
+		      :foreground (face-background 'default)))
 
-(add-hook 'elpaca-after-init-hook #'drs/catppuccin-override)
-
-(use-package catppuccin-theme
-  :ensure t
-  :config
-  (setq catppuccin-flavor 'latte)
-  (load-theme 'catppuccin t))
+(add-hook 'elpaca-after-init-hook #'drs/flexoki-overrides)
 
 (use-package fontaine
   :ensure t
@@ -172,7 +172,7 @@
 	   :header-line-family "Inter"
 
 	   :default-weight regular
-	   :bold-weight bold
+	   :bold-weight semi-bold
 	   :italic-slant italic
 
 	   :default-height 120
@@ -339,25 +339,6 @@
   "c" 'dired-create-directory
   "t" 'dired-create-empty-file)
 
-(use-package dired-preview
-  :ensure t
-  :config
-  (setq dired-preview-delay 0.1
-        dired-preview-max-size (expt 2 23)
-        dired-preview-ignored-extensions-regexp
-	(concat "\\."
-		"\\(gz\\|"
-		"zst\\|"
-		"tar\\|"
-		"xz\\|"
-		"rar\\|"
-		"zip\\|"
-		"iso\\|"
-		"epub\\|"
-		"mp4\\|"
-		"flac\\|"
-		"\\)")))
-
 (eval-after-load 'ibuffer
   '(progn
      (evil-set-initial-state 'ibuffer-mode 'normal)
@@ -506,15 +487,17 @@ surrounded by word boundaries."
 (setq eshell-prompt-function
 	  (lambda ()
 	    (concat
-	     (propertize "\n" 'face `(:foreground ,(catppuccin-color 'text)
+	     (propertize "\n" 'face `(:foreground ,(face-background 'default)
 				      :extend t
-				      :underline ,(catppuccin-color 'subtext0)))
-	     (propertize " " 'face `(:foreground ,(catppuccin-color 'text)
+				      :underline ,(face-foreground
+						   'flexoki-themes-highlight)))
+	     (propertize " " 'face `(:foreground ,(face-foreground 'default)
 				     :height 1.6
 				     :weight 'bold))
-	     (propertize "" 'face `(:foreground ,(catppuccin-color 'mauve)
+	     (propertize "" 'face `(:foreground ,(face-foreground
+						   'flexoki-themes-purple)
 				     :weight 'bold))
-	     (propertize " " 'face `(:foreground ,(catppuccin-color 'text)
+	     (propertize " " 'face `(:foreground ,(face-foreground 'default)
 				     :extend t)))))
 
 (define-key global-map (kbd "C-x C-s") 'eshell)
@@ -732,11 +715,6 @@ surrounded by word boundaries."
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
-(use-package consult
-  :ensure t
-  :config
-  (setq completion-in-region-function 'consult-completion-in-region))
-
 (use-package stripes :ensure t)
 (use-package elfeed :ensure t)
 (use-package elfeed-org :ensure t :after elfeed :config (elfeed-org))
@@ -754,10 +732,10 @@ surrounded by word boundaries."
               (require 'nano-agenda)
 
               (require 'nano-read)
-	      (require 'nano-sidebar)
 
               (require 'nano-org)
 
               ;; (require 'nano-elfeed)
               (require 'nano-kill)
-              (require 'nano-block))))
+              (require 'nano-block)
+	      )))

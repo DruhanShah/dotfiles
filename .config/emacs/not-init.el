@@ -11,7 +11,6 @@
 (use-package dirvish
   :ensure t
   :config
-  (dirvish-peek-mode)
   (setq dirvish-attributes '(nerd-icons file-size)))
 
 (use-package eglot-ltex-plus

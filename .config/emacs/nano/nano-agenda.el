@@ -73,7 +73,7 @@
 (require 'holidays)
 (require 'org-agenda)
 (require 'hl-line)
-(require 'catppuccin-theme)
+(require 'flexoki-themes)
 
 (defgroup nano-agenda nil
   "N Λ N O Agenda"
@@ -156,14 +156,14 @@
   :group 'nano-agenda-faces)
 
 (defface nano-agenda-calendar-selected
-  `((t :background ,(catppuccin-color 'mauve)
-       :foreground ,(catppuccin-color 'base)
+  `((t :background ,(face-foreground 'flexoki-themes-purple)
+       :foreground ,(face-background 'default)
        :inherit bold))
   "Face for the selected day"
   :group 'nano-agenda-faces)
 
 (defface nano-agenda-calendar-offday
-  `((t :foreground ,(catppuccin-color 'crust)))
+  `((t :foreground ,(face-foreground 'flexoki-themes-lowlight)))
   "Face for days outside curent month."
   :group 'nano-agenda-faces)
 
