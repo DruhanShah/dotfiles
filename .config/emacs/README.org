@@ -5,9 +5,12 @@
 #+property: header-args :tangle init.el
 #+auto_tangle: t
 
-This configuration is heavily based off of [[https://github.com/rougier][Nicolas Rougier]]'s emacs packages and ideas. All the packages taken more or less verbatim from Mr. Rougier's repositories are in the =nano/= directory and any other configuration files are in the =not-nano/= directory.
+This configuration started off heavily based off of [[https://github.com/rougier][Nicolas Rougier]]'s Emacs packages and ideas. I still have a dedicated =nano/= directory for configurations more or less entirely mooched off his excellent packages. It has now grown into a monstrosity beyond attribution (shameless self praise), having incorporated ideas and packages by other giants in the Emacs world such as Karthink, Prot, and Xenodium, and will continue to grow as I understand Emacs and my own working style better. The hope is that by the end it will have condensed into a semblance of order. This file is somewhat structured after all!
 
 This is a literate configuration, which means all the code blocks in this Org file will be exported using Org-Babel's tangle feature into their corresponding config files on save. As a result, all the configuration necessary will be in this file as far as possible. Sometime in the future, a Table of Contents will be implemented to make navigating this document easier.
+
+Here's a screenshot of what this configuration looks like in action (this may or may not be slightly outdated):
+[[./assets/2025-10-29.png]]
 
 * Preambles 
 
@@ -453,7 +456,7 @@ This has some nice features that I would like when using the builtin Dired. The 
   (define-key global-map (kbd "C-x C-d") 'dired-jump)
   (evil-define-key 'normal dired-mode-map
     "g." 'dired-omit-mode
-    "h" (lambda () (interactive) (find-file ".."))
+    "h" 'dired-jump
     "l" 'dired-find-file
     "L" (lambda () (interactive)
   	(start-process "xdg" nil "xdg-open" (dired-get-file-for-visit)))
@@ -686,8 +689,9 @@ I'm using custom fringe bitmaps to indicate the locations of errors, warnings an
 
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook #'flymake-mode)
-  (evil-define-key 'normal flymake-mode-map "]d" 'flymake-goto-next-error)
-  (evil-define-key 'normal flymake-mode-map "[d" 'flymake-goto-prev-error)
+  (evil-define-key 'normal flymake-mode-map
+    "]d" 'flymake-goto-next-error
+    "[d" 'flymake-goto-prev-error)
   (setq flymake-start-on-flymake-mode t
         flymake-indicator-type 'fringes)
 #+end_src
@@ -1022,7 +1026,22 @@ Dream feature (which is honestly impossible): I'd like Evil to mimic the use of 
 #+end_src
 
 
-* RSS Feeds
+
+* Music and Media
+
+** Music player
+
+I'm really picking from all the greats here, and Xenodium (Álvaro) has a fantastic-looking package called Ready-Player which I'll be using to play my music locally.
+
+#+begin_src emacs-lisp
+  (use-package ready-player
+    :ensure t
+    :config
+    (setq ready-player-my-media-collection-location "~/Music")
+    (ready-player-mode +1))
+#+end_src
+
+** RSS Feeds
 
 I'll be using Elfeed as my RSS reader for news and tech updates.
 
@@ -1082,14 +1101,7 @@ For now, I'll be keeping all the Elisp in separate files in the =nano/= director
                 (require 'nano-calendar)
                 (require 'nano-agenda)
 
-                (require 'nano-read)
-
-                (require 'nano-org)
-
-                ;; (require 'nano-elfeed)
-                (require 'nano-kill)
-                (require 'nano-block)
-  	      )))
+                (require 'nano-org))))
 #+end_src
   
                 

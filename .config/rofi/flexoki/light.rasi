@@ -1,0 +1,14 @@
+* {
+    /* Flexoki theme colour palette */
+    font: "Inter 12";
+
+    background:     #FFFCF0;
+    background-alt: #F2F0E5;
+    foreground:     #100F0F;
+    foreground-alt: #6F6E69;
+    selected:       #205EA644;
+    active:         #66800B44;
+    urgent:         #AF302944;
+}
+
+/* vim:ft=rasi

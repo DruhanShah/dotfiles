@@ -326,7 +326,7 @@
 (define-key global-map (kbd "C-x C-d") 'dired-jump)
 (evil-define-key 'normal dired-mode-map
   "g." 'dired-omit-mode
-  "h" (lambda () (interactive) (find-file ".."))
+  "h" 'dired-jump
   "l" 'dired-find-file
   "L" (lambda () (interactive)
 	(start-process "xdg" nil "xdg-open" (dired-get-file-for-visit)))
@@ -476,8 +476,9 @@ surrounded by word boundaries."
   (global-corfu-mode))
 
 (add-hook 'prog-mode-hook #'flymake-mode)
-(evil-define-key 'normal flymake-mode-map "]d" 'flymake-goto-next-error)
-(evil-define-key 'normal flymake-mode-map "[d" 'flymake-goto-prev-error)
+(evil-define-key 'normal flymake-mode-map
+  "]d" 'flymake-goto-next-error
+  "[d" 'flymake-goto-prev-error)
 (setq flymake-start-on-flymake-mode t
       flymake-indicator-type 'fringes)
 
@@ -715,6 +716,12 @@ surrounded by word boundaries."
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
+(use-package ready-player
+  :ensure t
+  :config
+  (setq ready-player-my-media-collection-location "~/Music")
+  (ready-player-mode +1))
+
 (use-package stripes :ensure t)
 (use-package elfeed :ensure t)
 (use-package elfeed-org :ensure t :after elfeed :config (elfeed-org))
@@ -731,11 +738,4 @@ surrounded by word boundaries."
               (require 'nano-calendar)
               (require 'nano-agenda)
 
-              (require 'nano-read)
-
-              (require 'nano-org)
-
-              ;; (require 'nano-elfeed)
-              (require 'nano-kill)
-              (require 'nano-block)
-	      )))
+              (require 'nano-org))))

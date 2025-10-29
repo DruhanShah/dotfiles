@@ -152,26 +152,6 @@
                                           (integer :tag "Width (pixels)")))
                   (choice :tag "→ Calendar"
                      (const :tag "Selected date"  nano-modeline-element-calendar-date))
-                  (choice :tag "→ Mu4e"
-                    (choice :tag "→ Compose"
-                        (const :tag "Context (button)" nano-modeline-button-mu4e-compose-context)
-                        (const :tag "Subject (live)" nano-modeline-element-mu4e-compose-subject)
-                        (const :tag "Attach (button)" nano-modeline-button-mu4e-attach)
-                        (const :tag "Sign (button)" nano-modeline-button-mu4e-sign)
-                        (const :tag "Encrypt (button)" nano-modeline-button-mu4e-encrypt)
-                        (const :tag "Send (button)" nano-modeline-button-mu4e-send))
-                     (choice :tag "→ Message"
-                        (const :tag "From" nano-modeline-element-mu4e-message-from)
-                        (const :tag "To"   nano-modeline-element-mu4e-message-to)
-                        (const :tag "Date" nano-modeline-element-mu4e-message-date)
-                        (const :tag "Tags" nano-modeline-element-mu4e-message-tags))
-                     (choice :tag "→ Headers"
-                        (const :tag "Query" nano-modeline-element-mu4e-last-query)
-                        (const :tag "Context (button)" nano-modeline-button-mu4e-context)
-                        (const :tag "Folding (button)" nano-modeline-button-mu4e-folding)
-                        (const :tag "Threads (button)" nano-modeline-button-mu4e-threads)
-                        (const :tag "related (button)" nano-modeline-button-mu4e-related)
-                        (const :tag "Update (button)"  nano-modeline-button-mu4e-update)))
                   (choice :tag "→ Buffer"
                      (const :tag "Name" nano-modeline-element-buffer-name)
                      (const :tag "Mode" nano-modeline-element-buffer-mode)
@@ -188,17 +168,6 @@
                      (const :tag "Save (button)" nano-modeline-button-org-capture-save)
                      (const :tag "Kill (button)" nano-modeline-button-org-capture-kill)
                      (const :tag "Refile (button)" nano-modeline-button-org-capture-refile))
-                  (choice :tag "→ Elpher"
-                     (const :tag "Protocol" nano-modeline-element-elpher-protocol)
-                     (const :tag "Page title" nano-modeline-element-elpher-title)
-                     (const :tag "Go back (button)" nano-modeline-button-elpher-back))
-                  (choice :tag "→ NANO Agenda"
-                     (const :tag "Date" nano-modeline-element-nano-agenda-date)
-                     (const :tag "Go to previous month (button)" nano-modeline-button-nano-agenda-prev-month)
-                     (const :tag "Go to previous day (button)" nano-modeline-button-nano-agenda-prev-day)
-                     (const :tag "Go to today (button)" nano-modeline-button-nano-agenda-today)
-                     (const :tag "Go to next day (button)" nano-modeline-button-nano-agenda-next-day)
-                     (const :tag "Go to next month (button)" nano-modeline-button-nano-agenda-next-month))
                   (choice :tag "→ Elfeed"
                      (const :tag "Update (button)" nano-modeline-button-elfeed-update)
                      (const :tag "Search filter" nano-modeline-element-elfeed-search-filter)
@@ -232,31 +201,20 @@
     (buffer-terminal   . "")
     (buffer-clone      . "")
     (buffer-narrow     . "")
+    (mode-magit . "")
+    (mode-dired . "")
+    (mode-music . "")
     (window-close . "")
     (window-active . "●")
     (window-inactive . "")
     (window-dedicated . "󰐃")
     (vc-branch  . "󰘬")
-    (vc-hash  . "#")
-    (mail-html . (" " . (4 . 0)))
-    (mail-tag . (" " . (4 . 0)))
-    (mail-attach . (" " . (4 . 0)))
-    (mail-encrypt . (" " . (4 . 0)))
-    (mail-sign . (" " . (4 . 0)))
-    (mail-send  . ("󰒊 " . (4 . 0)))
-    (mail-update . (" " . (4 . 0)))
-    (mail-fold . (" " . (4 . 0)))
-    (mail-unfold . (" " . (4 . 0))))
+    (vc-hash  . "#"))
   "Various symbols used in the modeline.
 It is possible to add padding to left and right for
 symbols that do not align perfectly."
   :type '(alist :key-type symbol
-                :value-type (choice (string :tag "Label")
-                                    (cons  :tag "Label with padding"
-                                          (string :tag "Label")
-                                          (cons :tag "Padding in pixels"
-                                                (integer :tag "Left")
-                                                (integer :tag "Right")))))
+                :value-type (string :tag "Label"))
   :group 'nano-modeline)
 
 (defcustom nano-modeline-position 'header
@@ -289,7 +247,6 @@ symbols that do not align perfectly."
                        (const fringe)
                        (const text)))
   :group 'nano-modeline)
-
 
 (defcustom nano-modeline-padding '(0.40 . 0.45)
   "Default vertical space adjustment for the buffer status element.
@@ -398,6 +355,25 @@ The unit is fraction of character height"
     :type 'nano-modeline-type
     :group 'nano-modeline-modes)
 
+(defcustom nano-modeline-format-magit
+  (cons '(nano-modeline-element-buffer-mode
+	  nano-modeline-element-space
+          nano-modeline-element-magit-repository)
+        '(nano-modeline-element-buffer-vc-mode
+	  nano-modeline-element-space))
+    "Default format."
+    :type 'nano-modeline-type
+    :group 'nano-modeline-modes)
+
+(defcustom nano-modeline-format-dired
+  (cons '(nano-modeline-element-buffer-mode
+	  nano-modeline-element-space
+          nano-modeline-element-dired-buffer-name)
+        '())
+    "Default format."
+    :type 'nano-modeline-type
+    :group 'nano-modeline-modes)
+
 (defcustom nano-modeline-format-terminal
   (cons '(nano-modeline-element-terminal-status
           nano-modeline-element-space
@@ -449,17 +425,6 @@ The unit is fraction of character height"
   :type 'nano-modeline-type
   :group 'nano-modeline-modes)
 
-(defcustom nano-modeline-format-elpher
-  (cons '(nano-modeline-element-elpher-protocol
-          nano-modeline-element-space
-          nano-modeline-element-elpher-title)
-        '(nano-modeline-button-elpher-back
-          nano-modeline-element-window-status
-          nano-modeline-element-half-space))
-    "Elpher format."
-    :type 'nano-modeline-type
-    :group 'nano-modeline-modes)
-
 (defcustom nano-modeline-format-nano-agenda
   (cons '(nano-modeline-element-buffer-mode
           nano-modeline-element-space
@@ -500,56 +465,6 @@ The unit is fraction of character height"
           nano-modeline-element-window-status
           nano-modeline-element-space))
   "Modeline format for elfeed search."
-  :type 'nano-modeline-type
-  :group 'nano-modeline-modes)
-
-(defcustom nano-modeline-format-mu4e-headers
-  (cons '(nano-modeline-element-buffer-mode
-          nano-modeline-element-space
-          nano-modeline-element-mu4e-last-query)
-        '(nano-modeline-button-mu4e-context
-          nano-modeline-element-half-space
-          nano-modeline-button-mu4e-folding
-          nano-modeline-element-half-space
-          nano-modeline-button-mu4e-threads
-          nano-modeline-element-half-space
-          nano-modeline-button-mu4e-related
-          nano-modeline-element-half-space
-          nano-modeline-button-mu4e-update
-          nano-modeline-element-half-space))
-  "Modeline for mu4e headers mode."
-  :type 'nano-modeline-type
-  :group 'nano-modeline-modes)
-
-(defcustom nano-modeline-format-mu4e-message
-  (cons '(;; nano-modeline-element-buffer-mode
-          nano-modeline-element-mu4e-message-status
-          nano-modeline-element-space
-          nano-modeline-element-mu4e-message-from
-          " to "
-          nano-modeline-element-mu4e-message-to)
-        '(nano-modeline-element-mu4e-message-tags
-          nano-modeline-element-half-space))
-  "Modeline for mu4e message mode."
-  :type 'nano-modeline-type
-  :group 'nano-modeline-modes)
-
-
-(defcustom nano-modeline-format-mu4e-compose
-  (cons '(nano-modeline-element-buffer-mode
-          nano-modeline-element-space
-          nano-modeline-element-mu4e-compose-subject)
-        '(nano-modeline-button-mu4e-compose-context
-          nano-modeline-element-half-space
-          nano-modeline-button-mu4e-attach
-          nano-modeline-element-half-space
-          nano-modeline-button-mu4e-encrypt
-          nano-modeline-element-half-space
-          nano-modeline-button-mu4e-sign
-          nano-modeline-element-half-space
-          nano-modeline-button-mu4e-send
-          nano-modeline-element-half-space))
-  "Modeline for mu4e compose mode."
   :type 'nano-modeline-type
   :group 'nano-modeline-modes)
 
@@ -680,16 +595,34 @@ modeline."
   "Retrieve symbol for NAME from the nano-modeline-symbols list."
   (or (alist-get name nano-modeline-symbol-list) "??"))
 
+(defun nano-modeline-element-magit-repository ()
+  "Return the name of the working repository for Magit buffers."
+  (propertize (concat
+	       " "
+	       (replace-regexp-in-string "magit: " "" (buffer-name))
+	       " ")
+	      'face 'nano-modeline-face-primary))
+
+(defun nano-modeline-element-dired-buffer-name ()
+  "Return the cleaned-up name of the directory for Dired buffers."
+  (propertize (concat
+	       " "
+	       (replace-regexp-in-string "<[^>]+>" "" (buffer-name))
+	       " ")
+	      'face 'nano-modeline-face-primary))
+
 (defun nano-modeline-element-buffer-mode (&optional symbol face raise)
   "Return a prefix indicating if buffer is read-only, read-write or modified.
 If SYMBOL is provided, it will be used instead of the default with FACE and RAISE."
 
   (let* ((raise (or raise nano-modeline-padding))
-         (face  (or face (cond (buffer-read-only    'nano-modeline-face-buffer-read-only)
-                               ((buffer-modified-p) 'nano-modeline-face-buffer-modified)
-                               (t                   'nano-modeline-face-buffer-read-write))))
+         (face  (or face 'nano-modeline-face-buffer-read-write))
+	 (is-magit (or (eq major-mode 'magit-status-mode) (eq major-mode 'magit-diff-mode)))
+	 (is-dired (eq major-mode 'dired-mode))
 	 (symbol (or symbol (cond ((buffer-narrowed-p)  (nano-modeline-symbol 'buffer-narrow))
                                   ((buffer-base-buffer) (nano-modeline-symbol 'buffer-clone))
+				  (is-magit             (nano-modeline-symbol 'mode-magit))
+				  (is-dired             (nano-modeline-symbol 'mode-dired))
                                   (buffer-read-only     (nano-modeline-symbol 'buffer-read-only))
                                   (t                    (nerd-icons-icon-for-mode major-mode))))))
     (propertize (concat
@@ -712,7 +645,7 @@ If SYMBOL is provided, it will be used instead of the default with FACE and RAIS
    'face 'nano-modeline-face-primary))
 
 (defun nano-modeline-element-buffer-vc-mode ()
-  "VC information as (branch, file status)."
+  "VC information as (branch)."
 
   (when vc-mode
       (when-let* ((file (buffer-file-name))
@@ -983,34 +916,6 @@ A HELP text can be provided as a tootlip."
                 'face 'nano-modeline-face-primary)))
 
 
-;; --- Elpher -----------------------------------------------------------------
-
-(defun nano-modeline-element-elpher-protocol ()
-  "Elpher protocol."
-
-  (let* ((protocol (elpher-address-protocol (elpher-page-address elpher-current-page)))
-         (symbol (cond ((equal protocol "gemini") "GEM")
-                       ((equal protocol "gopher") "/"))))
-    (nano-modeline-element-buffer-mode symbol)))
-
-(defun nano-modeline-element-elpher-title ()
-  "Elpher page title."
-
-  (propertize
-   (elpher-page-display-string elpher-current-page)
-   'face 'nano-modeline-face-primary))
-
-(defun nano-modeline-button-elpher-back ()
-  "Go to previous site."
-
-  (if elpher-history
-      (nano-modeline-button "BACK"
-                            #'elpher-back
-                            'active
-                            "Go to previous site")
-    (nano-modeline-button "BACK" nil 'disabled "")))
-
-
 ;; --- Nano Agenda -----------------------------------------------------------
 
 (defun nano-modeline-element-nano-agenda-date (&optional format)
@@ -1139,300 +1044,6 @@ A HELP text can be provided as a tootlip."
    'face 'nano-modeline-face-secondary))
 
 
-;; --- Mu4e -------------------------------------------------------------------
-(defun nano-modeline-element-mu4e-message-status ()
-  "Return a status for the message at point."
-
-  (let* ((msg (mu4e-message-at-point))
-         (docid (mu4e-message-field msg :docid))
-         (mark (when docid
-                 (with-current-buffer "*mu4e-headers*"
-                   (gethash docid mu4e--mark-map)))))
-    (nano-modeline-element-buffer-mode nil
-                 (when mark 'nano-modeline-face-buffer-marked))))
-
-(defun nano-modeline-element-mu4e-message-tags ()
-  "Return a status for the message at point."
-
-  (let* ((msg (mu4e-message-at-point))
-         (tags (mu4e-message-field msg :tags)))
-    (when tags
-      (mapconcat (lambda (tag)
-                   (nano-modeline-button tag
-                                         `(lambda () (mu4e-search ,(format "tag:%s" tag)))
-                                         'active))
-                 tags
-               (nano-modeline-element-half-space)))))
-
-
-(defun nano-modeline-action-mu4e-update ()
-  "To be implemented."
-  (message "The default mu4e update function does nothing. You need to re-write this function or replace the default action."))
-
-(defun nano-modeline-action-mu4e-xwidget-view ()
-  "Use xwidget to view the message at point."
-  (interactive)
-  (with-current-buffer "*mu4e-headers*"
-    (mu4e-action-view-in-xwidget (mu4e-message-at-point))))
-
-(defun nano-modeline-action-mu4e-next-context ()
-  "Switch to next mu4e context."
-
-  (let* ((current (mu4e-context-name (mu4e-context-current)))
-         (contexts (mapcar (lambda (context)
-                             (mu4e-context-name context))
-                           mu4e-contexts))
-         (index (mod (1+ (cl-position current contexts))
-                     (length contexts)))
-         (current (nth index contexts)))
-    (mu4e-context-switch t current)))
-
-(defun nano-modeline-action-mu4e-compose-next-context ()
-  "Switch to next mu4e context."
-
-  (let* ((current (mu4e-context-name (mu4e-context-current)))
-         (contexts (mapcar (lambda (context)
-                             (mu4e-context-name context))
-                           mu4e-contexts))
-         (index (mod (1+ (cl-position current contexts))
-                     (length contexts)))
-         (current (nth index contexts)))
-    (mu4e-context-switch t current)
-    (mu4e-compose-context-switch t current)))
-
-(defun nano-modeline-action-mu4e-toggle-related ()
-  "Toggle inclusion of related emails."
-
-  (setq mu4e-search-include-related
-        (not mu4e-search-include-related))
-  (mu4e-search-rerun))
-
-(defun nano-modeline-action-mu4e-toggle-threads ()
-  "Toggle thread grouping mode."
-
-  (setq mu4e-search-threads
-        (not mu4e-search-threads))
-  (mu4e-search-rerun))
-
-(defun nano-modeline-action-mu4e-toggle-folding ()
-  "Toggle thread folding mode (global)."
-
- (mu4e-thread-fold-toggle-all))
-
-(defun nano-modeline-action-mu4e-sign ()
-  "Sign email."
-  (require 'mml)
-  (mml-secure-message-sign))
-
-(defun nano-modeline-action-mu4e-encrypt ()
-  "Encrypt email."
-  (require 'mml)
-  (mml-secure-message-encrypt))
-
-(defun nano-modeline-action-mu4e-attach ()
-  "Attach file."
-  (require 'mml)
-  (mml-attach-file (mml-minibuffer-read-file "Attach file: ")))
-
-(defun nano-modeline-action-mu4e-send ()
-  "Send email and exit."
-  (message-send-and-exit))
-
-(defun nano-modeline-element-mu4e-last-query ()
-  "Last search query."
-    (propertize (mu4e-last-query) 'face 'nano-modeline-face-primary))
-
-(defun nano-modeline-element-mu4e-message-to ()
-  "Recipients of a message, separating me from others."
-
-  (if (not (get-buffer "*mu4e-headers*"))
-      "…"
-    (with-current-buffer "*mu4e-headers*"
-      (let* ((msg (mu4e-message-at-point))
-             (list (memq 'list (plist-get msg :flags)))
-             (cc (mapcar (lambda (item)
-                           (downcase (plist-get item :email)))
-                         (plist-get msg :cc)))
-             (to (mapcar (lambda (item)
-                           (downcase (plist-get item :email)))
-                         (plist-get msg :to)))
-             (to-names (mapcar (lambda (item)
-                                 (if (stringp (plist-get item :name))
-                                     (capitalize (downcase (plist-get item :name)))
-                                   (plist-get item :email)))
-                               (plist-get msg :to)))
-             (all (cl-union to cc))
-             (me (mapcar #'downcase (mu4e-personal-addresses)))
-             (me (cl-intersection all me :test #'string-equal))
-             (others (cl-set-difference all me :test #'string-equal)))
-        (cond (list
-               (concat "" (car to-names)))
-              ((= (length others) 0)
-               "me")
-              ((and (> (length others) 0) (< (length others) (length all)))
-               (format "me (+%d recipients)" (length others)))
-              ((and (= (length others) 1))
-               (format "%s" (car to-names)))
-              (t
-               (format "%s (+%d recipients)" (car to-names) (1- (length others)))))))))
-
-(defun nano-modeline-element-mu4e-message-from ()
-  "Message sender."
-
-  (if (not (get-buffer "*mu4e-headers*"))
-      "Message"
-    (with-current-buffer "*mu4e-headers*"
-      (let* ((msg (mu4e-message-at-point))
-             (me (mapcar #'downcase (mu4e-personal-addresses)))
-             (from (mu4e-message-field msg :from))
-             (from-name (plist-get (car from) :name))
-             (from-email (plist-get (car from) :email)))
-        (propertize
-         (cond ((member from-email me) "Me")
-               ((stringp from-name)    (capitalize (downcase from-name)))
-               (t                      from-email))
-         'face 'nano-modeline-face-primary)))))
-
-(defun nano-modeline-element-mu4e-message-subject ()
-  "Message subject."
-
-  (if (not (get-buffer "*mu4e-headers*"))
-      "(none)"
-    (with-current-buffer "*mu4e-headers*"
-      (let* ((msg (mu4e-message-at-point))
-             (subject (mu4e-message-field msg :subject)))
-        (propertize (format "%s" subject)
-                    'face 'nano-modeline-face-default)))))
-
-(defun nano-modeline-element-mu4e-compose-subject ()
-  "Compose subject (live)."
-
-  (if (not (derived-mode-p '(mu4e-compose-mode)))
-      ""
-      (save-excursion
-        (message-position-on-field "Subject")
-        (message-beginning-of-line)
-        (if (eq (point) (line-beginning-position))
-            (propertize "(no subject)"
-                        'face 'nano-modeline-face-default)
-          (propertize (buffer-substring (point) (line-end-position))
-                      'face 'nano-modeline-face-primary)))))
-
-(defun nano-modeline-element-mu4e-message-date ()
-  "Message date."
-
-  (if (not (get-buffer "*mu4e-headers*"))
-      (propertize "No message available" 'face 'nano-modeline-face-secondary)
-    (with-current-buffer "*mu4e-headers*"
-      (let* ((msg (mu4e-message-at-point))
-             (date (mu4e-message-field msg :date)))
-        (propertize (format-time-string "%d %b %Y at %H:%M" date)
-                    'face 'nano-modeline-face-secondary)))))
-
-
-(defun nano-modeline-button-mu4e-context ()
-  "Switch to next context."
-
-  (let* ((context (mu4e-context-current))
-         (name (if context (upcase (mu4e-context-name context))
-                 "NONE")))
-    (nano-modeline-button name
-                          #'nano-modeline-action-mu4e-next-context
-                          'active
-                          "Click for next context")))
-
-(defun nano-modeline-button-mu4e-compose-context ()
-  "Switch to next context."
-
-  (let* ((context (mu4e-context-current))
-         (name (if context (upcase (mu4e-context-name context))
-                 "NONE")))
-    (nano-modeline-button name
-                                #'nano-modeline-action-mu4e-compose-next-context
-                                'active
-                                "Click for next context")))
-
-(defun nano-modeline-button-mu4e-xwidget ()
-  "Show mai using xwidget."
-  (nano-modeline-button (nano-modeline-symbol 'mail-html)
-                                #'nano-modeline-action-mu4e-xwidget-view
-                                'active))
-
-(defun nano-modeline-button-mu4e-related ()
-  "Toggle related mails."
-  (nano-modeline-button "R"
-                                #'nano-modeline-action-mu4e-toggle-related
-                                (if mu4e-search-include-related
-                                    'active 'inactive)))
-
-(defun nano-modeline-button-mu4e-threads ()
-  "Toggle threads view."
-  (nano-modeline-button "T"
-                                #'nano-modeline-action-mu4e-toggle-threads
-                                (if mu4e-search-threads
-                                    'active 'inactive)))
-
-(defun nano-modeline-button-mu4e-folding ()
-  "Toggle folding."
-  (if mu4e-thread--fold-status
-      (nano-modeline-button (nano-modeline-symbol 'mail-unfold)
-                                    #'nano-modeline-action-mu4e-toggle-folding
-                                    'active)
-    (nano-modeline-button (nano-modeline-symbol 'mail-fold)
-                                  #'nano-modeline-action-mu4e-toggle-folding
-                                  'inactive)))
-
-(defun nano-modeline-button-mu4e-update ()
-  "Button to start an update (independently of the method).
-If a local variable 'nano-modeline-mu4e-update-progress is defined,
-it will be
-displayed in the button label.
-
-User is responsible to define the overwrite the function
-nano-modeline-action-mu4e-update that will be triggered when button is
-pressed."
-
-  (if (and (boundp 'nano-modeline-mu4e-update-progress)
-           (stringp nano-modeline-mu4e-update-progress)
-           (> (length nano-modeline-mu4e-update-progress) 0))
-
-      (nano-modeline-button
-       (cons (concat (car (nano-modeline-symbol 'mail-update))
-                     nano-modeline-mu4e-update-progress)
-             '(4 . 4))
-       nil 'progress)
-    (nano-modeline-button (nano-modeline-symbol 'mail-update)
-                                  #'nano-modeline-action-mu4e-update
-                                  'active)))
-
-(defun nano-modeline-button-mu4e-attach ()
-  "Attach files."
-  (nano-modeline-button (nano-modeline-symbol 'mail-attach)
-                                #'nano-modeline-action-mu4e-attach
-                                'active
-                                "Attach some files"))
-
-(defun nano-modeline-button-mu4e-encrypt ()
-  "Encrypt email."
-  (nano-modeline-button (nano-modeline-symbol 'mail-encrypt)
-                                #'nano-modeline-action-mu4e-encrypt
-                                'active
-                                "Encrypt email"))
-
-(defun nano-modeline-button-mu4e-sign ()
-  "Sign email."
-  (nano-modeline-button (nano-modeline-symbol 'mail-sign)
-                                #'nano-modeline-action-mu4e-sign
-                                'active
-                                "Sign email"))
-
-(defun nano-modeline-button-mu4e-send ()
-  "Send email."
-  (nano-modeline-button (nano-modeline-symbol 'mail-send)
-                                #'nano-modeline-action-mu4e-send
-                                'active
-                                "Send email"))
-
 (defun nano-modeline (&optional format position default)
   "Install a modeline described by FORMAT at the given POSITION.
 If DEFAULT is true, this is made the default mode/header line."
@@ -1508,6 +1119,12 @@ If DEFAULT is true, this is made the default mode/header line."
 	  (lambda () (nano-modeline nano-modeline-format-default)))
 (add-hook 'prog-mode-hook
 	  (lambda () (nano-modeline nano-modeline-format-default)))
+(add-hook 'dired-mode-hook
+	  (lambda () (nano-modeline nano-modeline-format-dired)))
+(add-hook 'magit-status-mode-hook
+	  (lambda () (nano-modeline nano-modeline-format-magit)))
+(add-hook 'magit-diff-mode-hook
+	  (lambda () (nano-modeline nano-modeline-format-magit)))
 (add-hook 'eshell-mode-hook
 	  (lambda () (nano-modeline nano-modeline-format-terminal)))
 (add-hook 'term-mode-hook
@@ -1518,8 +1135,6 @@ If DEFAULT is true, this is made the default mode/header line."
 	  (lambda () (nano-modeline nano-modeline-format-calendar)))
 (add-hook 'org-capture-mode-hook
 	  (lambda () (nano-modeline nano-modeline-format-org-capture)))
-(add-hook 'elpher-mode-hook
-	  (lambda () (nano-modeline nano-modeline-format-elpher)))
 (add-hook 'nano-agenda-mode-hook
 	  (lambda () (nano-modeline nano-modeline-format-nano-agenda)))
 (add-hook 'elfeed-search-mode-hook

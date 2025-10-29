@@ -81,7 +81,7 @@ class Theme:
         "size": 52,
         "margin": [18, 36, 18, 18],
         "border_width": 0,
-        "background": Colours.bg1,
+        "background": Colours.bg2,
     }
 
     wgt_defaults = {
@@ -90,7 +90,7 @@ class Theme:
         "fontsize": 20,
         "padding": 0,
         "foreground": Colours.tx1,
-        "background": Colours.bg1,
+        "background": Colours.bg2,
         "rotate": False,
 
         # Selection Menu
@@ -108,7 +108,7 @@ class Theme:
     }
 
     wgt_groupbox = {
-        "background": Colours.bg1,
+        "background": Colours.bg2,
         "active": Colours.purple,
         "inactive": Colours.ui2,
         "occupied": Colours.tx2,

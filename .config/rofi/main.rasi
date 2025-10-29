@@ -6,7 +6,7 @@ configuration {
     window-format:              "{w} · {c} · {t}";
 }
 
-@import "catppuccin.rasi"
+@import "flexoki/light.rasi"
 
 /*****----- Main Window -----*****/
 window {
