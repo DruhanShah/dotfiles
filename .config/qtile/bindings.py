@@ -55,6 +55,7 @@ class Keys:
             EzKey("M-f", lazy.window.toggle_fullscreen()),
 
             # Applications and launchers
+            EzKey("M-b", lazy.spawn("zen-browser")),
             EzKey("M-<Return>", lazy.spawn("kitty")),
             EzKey("M-e", lazy.spawn("emacsclient -nca ''")),
             EzKey("M-<Semicolon>", lazy.spawn(ROFI_MASTER)),

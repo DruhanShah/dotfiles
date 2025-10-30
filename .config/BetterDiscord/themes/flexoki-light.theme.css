@@ -1,3 +1,12 @@
+/**
+ * @name Recolor (flexoki light)
+ * @description a light, readable theme inspired by paper and ink
+ * @author Stephen Ango
+ * @version 1.0.0
+ * @website https://github.com/kepano/flexoki
+ * @source https://github.com/kepano/flexoki/blob/main/discord/flexoki-light.css
+*/
+
 @import url('https://mwittrien.github.io/BetterDiscordAddons/Themes/DiscordRecolor/DiscordRecolor.css');
 
 :root {
@@ -11,7 +20,7 @@
 	--textdark: 111, 110, 105;	/* tx-2 */
 	--textdarker: 135, 133, 128;
 	--textdarkest: 183, 181, 172;	/* tx-3 */
-	--font: gg sans;
+	--font: Inter;
 	--backgroundaccent: 206, 205, 195;	/* ui-3 */
 	--backgroundprimary: 255, 252, 240;	/* bg */
 	--backgroundsecondary: 242, 240, 229;	/* bg-2 */

@@ -1,0 +1,93 @@
+@import "https://userstyles.catppuccin.com/lib/lib.less";
+
+// Custom flavour added
+@catppuccin: {
+    @@latte: @catppuccin[@latte];
+    @@frappe: @catppuccin[@frappe];
+    @@macchiato: @catppuccin[@macchiato];
+    @@mocha: @catppuccin[@mocha];
+    
+    @flexoki: {
+	@rosewater: #A02F6F;  // magenta-600 (warm pink-ish)
+	@flamingo: #D14D41;   // red-400 (lighter red)
+	@pink: #CE5D97;       // magenta-400
+	@mauve: #8B7EC8;      // purple-400
+	@red: #AF3029;        // red-600
+	@maroon: #942822;     // red-700 (darker red)
+	@peach: #DA702C;      // orange-400
+	@yellow: #AD8301;     // yellow-600
+	@green: #66800B;      // green-600
+	@teal: #24837B;       // cyan-600
+	@sky: #3AA99F;        // cyan-400
+	@sapphire: #4385BE;   // blue-400
+	@blue: #205EA6;       // blue-600
+	@lavender: #5E409D;   // purple-600
+	
+	@text: #100F0F;       // black (main text)
+	@subtext1: #282726;   // base-900
+	@subtext0: #403E3C;   // base-800
+	@overlay2: #575653;   // base-700
+	@overlay1: #6F6E69;   // base-600
+	@overlay0: #878580;   // base-500
+	@surface2: #9F9D96;   // base-400
+	@surface1: #B7B5AC;   // base-300
+	@surface0: #CECDC3;   // base-200
+	@base: #FFFCF0;       // paper (main background)
+	@mantle: #F2F0E5;     // base-50
+	@crust: #E6E4D9;      // base-100
+    };
+};
+
+@catppuccin-filters: {
+    @@latte: @catppuccin-filters[@latte];
+    @@frappe: @catppuccin-filters[@frappe];
+    @@macchiato: @catppuccin-filters[@macchiato];
+    @@mocha: @catppuccin-filters[@mocha];
+    
+    @flexoki: {
+	@rosewater: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@flamingo: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@pink: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@mauve: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@red: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@maroon: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@peach: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@yellow: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@green: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@teal: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@sky: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@sapphire: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@blue: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@lavender: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@text: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@subtext1: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@subtext0: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@overlay2: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@overlay1: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@overlay0: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@surface2: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@surface1: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@surface0: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@base: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@mantle: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@crust: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+    };
+};
+
+// Override defaults for light theme
+#lib {
+    .defaults() {
+	color-scheme: if((@flavor = latte) or (@flavor = flexoki), light, dark);
+
+	::selection {
+	    background-color: fade(@accent, 30%);
+	}
+
+	input,
+	textarea {
+	    &::placeholder {
+		color: @subtext0 !important;
+	    }
+	}
+    }
+}
