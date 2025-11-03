@@ -85,7 +85,7 @@
       (append (list
                '(vertical-scroll-bars . nil)
                '(internal-border-width . 20)
-               '(left-fringe . 16)
+               '(left-fringe . 0)
                '(right-fringe . 0)
                '(undecorated-round . t) ;; emacs-plu@29 only
                '(scroll-bar-mode . -1)
@@ -240,6 +240,12 @@
   :after nerd-icons
   :after corfu
   :config (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
+(use-package nerd-icons-completion
+  :ensure t
+  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
+  :config
+  (nerd-icons-completion-mode))
 
 (use-package colorful-mode
   :ensure t
@@ -699,7 +705,6 @@ surrounded by word boundaries."
 (use-package vertico
   :ensure t
   :config
-  (vertico-buffer-mode)
   (vertico-mode 1)
   (setq vertico-preselect 'first
 	vertico-count 10
@@ -716,6 +721,9 @@ surrounded by word boundaries."
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
+(use-package consult
+  :ensure t)
+
 (use-package ready-player
   :ensure t
   :config
@@ -731,8 +739,6 @@ surrounded by word boundaries."
             (progn
               (require 'nano-modeline)
               (nano-modeline nil nil t)
-              (require 'nano-vertico)
-              (nano-vertico-mode)
 
               (require 'nano-splash)
               (require 'nano-calendar)

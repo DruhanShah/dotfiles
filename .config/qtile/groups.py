@@ -19,7 +19,7 @@ class Groups:
             Group(str(n-i), label=" ", matches=[
                 Match(**match)
                 for match in matchlist
-            ], exclusive=True)
+            ])
             for i, matchlist in enumerate(matches)
         ]
 

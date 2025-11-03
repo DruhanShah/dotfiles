@@ -229,7 +229,7 @@ the cdr."
   :type '(alist :key-type (string :tag "Block Name")
 		:value-type (string :tag "Major Mode Name")))
 
-(defcustom nano-org-block-fringe 12
+(defcustom nano-org-block-fringe nil
   "Add a border to the blocks in the fringe.
 This variable can also be set to an integer between 0 and 16, which
 specifies the offset of the block border from the edge of the
