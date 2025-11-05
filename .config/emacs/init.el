@@ -307,7 +307,7 @@
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion))
 
 (setq gemini-api-key (with-temp-buffer
-		       (insert-file-contents ".config/emacs/.gemini")
+		       (insert-file-contents "~/.config/emacs/.gemini")
 		       (buffer-string)))
 
 (use-package gptel
@@ -728,6 +728,13 @@ surrounded by word boundaries."
   :ensure t
   :config
   (setq ready-player-my-media-collection-location "~/Music")
+  (setq ready-player-open-externally-icon ""
+	ready-player-open-my-media-collection-icon ""
+	ready-player-autoplay-icon "󱖑"
+	ready-player-search-icon ""
+	ready-player-help-icon "󰋖"
+	ready-player-previous-icon "󰒮"
+	ready-player-next-icon "󰒭")
   (ready-player-mode +1))
 
 (use-package stripes :ensure t)
