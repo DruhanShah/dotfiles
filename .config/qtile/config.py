@@ -14,7 +14,7 @@ scratchpads = [
     # ("Browser", "zen-browser", "b"),
 ]
 special_groups = [
-    [{"wm_class": "zen"}],  # Browser
+    # [{"wm_class": "zen"}],  # Browser
 ]
 
 screens = screen_obj.screen_list(1)

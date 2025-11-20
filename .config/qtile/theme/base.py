@@ -37,4 +37,4 @@ class Fonts:
 
 class Wallpaper:
 
-    path = os.path.expanduser("~/Wallpapers/rocks.jpg")
+    path = os.path.expanduser("~/Wallpapers/athens.png")

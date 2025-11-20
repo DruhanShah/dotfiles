@@ -136,11 +136,11 @@
   (set-face-attribute 'org-level-1 nil
 		      :foreground (face-foreground 'default)
 		      :weight 'bold
-		      :height 1.4)
+		      :height 1.5)
   (set-face-attribute 'org-level-2 nil
 		      :foreground (face-foreground 'default)
 		      :weight 'bold
-		      :height 1.2)
+		      :height 1.25)
   (set-face-attribute 'org-level-3 nil
 		      :foreground (face-foreground 'default)
 		      :weight 'bold
@@ -529,14 +529,14 @@ surrounded by word boundaries."
   :hook (org-mode . org-display-inline-images)
   :hook (org-mode . turn-on-org-cdlatex)
   :config
-  (setq org-ellipsis "..."
+  (setq org-ellipsis " "
 	org-fontify-quote-and-verse-blocks t
         org-hide-emphasis-markers t
         org-hide-leading-stars nil
 	org-cycle-separator-lines 2
         org-pretty-entities t
         org-use-sub-superscripts t
-        org-format-latex-options (plist-put org-format-latex-options :scale 1.25)
+        org-format-latex-options (plist-put org-format-latex-options :scale 1.4)
         org-latex-src-block-backend 'listings
 	org-latex-packages-alist '(("" "amsmath" t)
 				   ("" "amssymb" t)
@@ -552,12 +552,8 @@ surrounded by word boundaries."
         org-priority-lowest 9
 	org-priority-default 5
 	org-agenda-files '("~/Notes/agenda.org")
-	org-hidden-keywords '(title author date)
-	org-src-window-setup 'current-window
-        org-capture-templates
-        '(("t" "Todo" entry
-   	   (file+headline "~/Notes/Productivity/refile.org" "Tasks to refile")
-           "* TODO %?\n  %i\n  %a")))
+	org-hidden-keywords '(title subtitle author date)
+	org-src-window-setup 'current-window)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
@@ -661,6 +657,70 @@ surrounded by word boundaries."
   :after org
   :hook (org-mode . mixed-pitch-mode))
 
+(use-package org-modern
+  :ensure t
+  :custom
+  (org-modern-star nil)
+  (org-modern-hide-stars t)
+  (org-modern-timestamp '(" %^b %d " . " %H%M "))
+  (org-modern-todo-faces 
+   `(("TODO" . (:foreground ,(face-foreground 'flexoki-themes-red)
+		:box (:line-width (1 . 2)
+		      :color ,(face-foreground 'flexoki-themes-red))
+		:overline ,(face-background 'default)))
+     ("DOING" . (:foreground ,(face-foreground 'flexoki-themes-yellow)
+		 :box (:line-width (1 . 2)
+		       :color ,(face-foreground 'flexoki-themes-yellow))
+		 :overline ,(face-background 'default)))
+     ("DONE" . (:foreground ,(face-foreground 'flexoki-themes-green)
+		:box (:line-width (1 . 2)
+		      :color ,(face-foreground 'flexoki-themes-green))
+		:overline ,(face-background 'default)))
+     ("HOLD" . (:foreground ,(face-foreground 'flexoki-themes-highlight)
+		:box (:line-width (1 . 2)
+		      :color ,(face-foreground 'flexoki-themes-highlight))
+		:overline ,(face-background 'default)))
+     ("NOPE" . (:foreground ,(face-foreground 'flexoki-themes-lowlight)
+		:box (:line-width (1 . 2)
+		      :color ,(face-foreground 'flexoki-themes-lowlight))
+		:overline ,(face-background 'default)))))
+  :custom-face
+  (org-modern-date-active
+   ((t :inherit (nano-org-label)
+       :height 100
+       :foreground ,(face-background 'default)
+       :background ,(face-foreground 'flexoki-themes-blue)
+       :overline ,(face-background 'default)
+       :box (:color ,(face-foreground 'flexoki-themes-blue)
+	     :line-width (1 . 2)))))
+  (org-modern-time-active
+   ((t :inherit (nano-org-label)
+       :height 100
+       :foreground ,(face-foreground 'flexoki-themes-blue)
+       :background ,(face-background 'default)
+       :overline ,(face-background 'default)
+       :box (:line-width (1 . 2)))))
+  (org-modern-date-inactive
+   ((t :inherit (nano-org-label)
+       :height 100
+       :foreground ,(face-background 'default)
+       :background ,(face-foreground 'flexoki-themes-highlight)
+       :overline ,(face-background 'default)
+       :box (:color ,(face-foreground 'flexoki-themes-highlight)
+	     :line-width (1 . 2)))))
+  (org-modern-time-inactive
+   ((t :inherit (nano-org-label)
+       :height 100
+       :foreground ,(face-foreground 'flexoki-themes-highlight)
+       :background ,(face-background 'default)
+       :overline ,(face-background 'default)
+       :box (:line-width (1 . 2)))))
+  :config
+  (global-org-modern-mode))
+
+(use-package markdown-mode
+  :ensure t)
+
 (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
 (add-hook 'markdown-view-mode-hook #'mixed-pitch-mode)
 
@@ -726,6 +786,9 @@ surrounded by word boundaries."
 
 (use-package ready-player
   :ensure t
+  :custom-face
+  (info-title-1 ((t (:inherit 'variable-pitch :weight bold :height 1.25))))
+  (info-title-2 ((t (:inherit 'variable-pitch :weight bold :height 1.4))))
   :config
   (setq ready-player-my-media-collection-location "~/Music")
   (setq ready-player-open-externally-icon ""
@@ -735,11 +798,38 @@ surrounded by word boundaries."
 	ready-player-help-icon "󰋖"
 	ready-player-previous-icon "󰒮"
 	ready-player-next-icon "󰒭")
+  ;; Redefining a function cos the message exceeds the echo area
+  (defun ready-player--make-time-progress-bar (progress total)
+    "Make a progress bar with PROGRESS out of TOTAL, aligned with frame width.
+For example:
+00:00 ------ 00:30 ------ 01:00"
+    (setq progress (round progress))
+    (setq total (round total))
+    (let* ((start-label "00:00")
+           (label (ready-player--format-time progress))
+           (total-label (ready-player--format-time total))
+           (reserved-width (+ (length start-label) 1   ; "00:00 " start
+                              1 (length label) 1       ; " 00:30 " current
+                              1 (length total-label) 1)) ; " 01:00" end
+           (bar-width (- (frame-width) reserved-width))
+           (percentage (/ (* progress 1.0) total))
+           (left-bars (round (* percentage bar-width)))
+           (right-bars (- bar-width left-bars)))
+      (concat start-label " "
+              (make-string left-bars ?┄)
+              " " label " "
+              (make-string right-bars ?┄)
+              " " total-label)))
   (ready-player-mode +1))
 
 (use-package stripes :ensure t)
 (use-package elfeed :ensure t)
 (use-package elfeed-org :ensure t :after elfeed :config (elfeed-org))
+
+(use-package atomic-chrome
+  :ensure t
+  :config
+  (atomic-chrome-start-server))
 
 (add-hook 'elpaca-after-init-hook
           (lambda ()
@@ -749,6 +839,4 @@ surrounded by word boundaries."
 
               (require 'nano-splash)
               (require 'nano-calendar)
-              (require 'nano-agenda)
-
-              (require 'nano-org))))
+              (require 'nano-agenda))))
