@@ -17,8 +17,8 @@ class Theme:
 
     lyt_scrolling = {
         "border_width": 0,
-        "border_focus": Colours.bg1,
-        "border_normal": Colours.bg1,
+        "border_focus": Colours.bg0,
+        "border_normal": Colours.bg0,
         "default_width": 70,
         "grow_amount": 5,
         "margin": [36, 36, 36, 0],
@@ -38,8 +38,8 @@ class Theme:
 
     lyt_floating = {
         "border_width": 0,
-        "border_focus": Colours.bg1,
-        "border_normal": Colours.bg1,
+        "border_focus": Colours.bg0,
+        "border_normal": Colours.bg0,
         "float_rules": [
             *Floating.default_float_rules,
             Match(wm_class="confirmreset"),
@@ -59,12 +59,12 @@ class Theme:
         "y": 24,
         "width": 240,
         "height": 72,
-        "foreground": (Colours.red,
-                       Colours.tx1,
-                       Colours.tx2),
-        "background": (Colours.bg2,
-                       Colours.bg2,
-                       Colours.bg2),
+        "foreground": (Colours.fg,
+                       Colours.fg,
+                       Colours.grey2),
+        "background": (Colours.bg_dim,
+                       Colours.bg_dim,
+                       Colours.bg_dim),
         "border_width": 0,
         "timeout": (10000, 3000, 3000),
         "corner_radius": 12,
@@ -81,7 +81,7 @@ class Theme:
         "size": 52,
         "margin": [18, 36, 18, 18],
         "border_width": 0,
-        "background": Colours.bg2,
+        "background": Colours.bg_dim,
     }
 
     wgt_defaults = {
@@ -89,29 +89,29 @@ class Theme:
         "font": Fonts.symbol,
         "fontsize": 20,
         "padding": 0,
-        "foreground": Colours.tx1,
-        "background": Colours.bg2,
+        "foreground": Colours.fg,
+        "background": Colours.bg_dim,
         "rotate": False,
 
         # Selection Menu
         "menu_width": 300,
         "menu_offset_x": 24,
         "menu_offset_y": 24,
-        "highlight_colour": Colours.blue,
+        "highlight_colour": Colours.bg_blue,
         "highlight_radius": 0,
-        "menu_background": Colours.bg2,
-        "menu_foreground": Colours.tx1,
-        "menu_foreground_disabled": Colours.tx3,
-        "menu_foreground_highlighted": Colours.bg1,
+        "menu_background": Colours.bg3,
+        "menu_foreground": Colours.fg,
+        "menu_foreground_disabled": Colours.grey2,
+        "menu_foreground_highlighted": Colours.fg,
         "menu_font": Fonts.sans,
         "menu_fontsize": 13,
     }
 
     wgt_groupbox = {
-        "background": Colours.bg2,
+        "background": Colours.bg_dim,
         "active": Colours.purple,
-        "inactive": Colours.ui2,
-        "occupied": Colours.tx2,
+        "inactive": Colours.bg4,
+        "occupied": Colours.grey2,
         "radius": 8,
         "size": 36,
         "mode": "pills",
@@ -120,7 +120,7 @@ class Theme:
 
     wgt_clock = {
         "format": "%H\n%M\n%S",
-        "foreground": Colours.tx1,
+        "foreground": Colours.fg,
         "font": Fonts.mono + " Medium",
         "fontsize": 20,
         "padding": 10,
@@ -134,7 +134,7 @@ class Theme:
 
     wgt_networks = {
         "active": Colours.green,
-        "inactive": Colours.ui2,
+        "inactive": Colours.bg5,
         "padding": 2,
         "text": "󰤨",
         "foreground": Colours.blue,

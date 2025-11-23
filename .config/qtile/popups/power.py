@@ -10,8 +10,8 @@ from theme import Colours, Fonts
 
 def block(x, y, w, h):
     return PopupText(
-        background=Colours.ui1,
-        foreground=Colours.ui1,
+        background=Colours.bg_dim,
+        foreground=Colours.bg_dim,
         highlight_radius=12,
         pos_x=x,
         pos_y=y,
@@ -28,8 +28,8 @@ def powermenu_controls():
             width=380,
             height=40,
             h_align="center",
-            foreground=Colours.tx1,
-            background=Colours.ui1,
+            foreground=Colours.fg,
+            background=Colours.bg_dim,
             fontsize=24,
             font=Fonts.sans + " Bold",
             can_focus=False,
@@ -41,8 +41,8 @@ def powermenu_controls():
             width=380,
             height=40,
             h_align="center",
-            foreground=Colours.tx1,
-            background=Colours.ui1,
+            foreground=Colours.fg,
+            background=Colours.bg_dim,
             fontsize=16,
             font=Fonts.sans,
             can_focus=False,
@@ -54,11 +54,11 @@ def powermenu_controls():
             width=180,
             height=90,
             h_align="center",
-            foreground=Colours.ui2,
-            background=Colours.tx2,
+            foreground=Colours.fg,
+            background=Colours.bg1,
             fontsize=32,
             font=Fonts.symbol,
-            highlight=Colours.blue,
+            highlight=Colours.grey0,
             mouse_callbacks={
                 "Button1": lazy.spawn(expanduser("~/.local/bin/lock"))
             },
@@ -70,11 +70,11 @@ def powermenu_controls():
             width=180,
             height=90,
             h_align="center",
-            foreground=Colours.ui2,
-            background=Colours.tx2,
+            foreground=Colours.fg,
+            background=Colours.bg1,
             fontsize=33,
             font=Fonts.symbol,
-            highlight=Colours.blue,
+            highlight=Colours.grey0,
             mouse_callbacks={
                 "Button1": lazy.shutdown()
             },
@@ -86,11 +86,11 @@ def powermenu_controls():
             width=180,
             height=90,
             h_align="center",
-            foreground=Colours.ui2,
-            background=Colours.tx2,
+            foreground=Colours.fg,
+            background=Colours.bg1,
             fontsize=34,
             font=Fonts.symbol,
-            highlight=Colours.blue,
+            highlight=Colours.grey0,
             mouse_callbacks={
                 "Button1": lazy.spawn("reboot")
             },
@@ -102,11 +102,11 @@ def powermenu_controls():
             width=180,
             height=90,
             h_align="center",
-            foreground=Colours.ui2,
-            background=Colours.tx2,
+            foreground=Colours.fg,
+            background=Colours.bg1,
             fontsize=38,
             font=Fonts.symbol,
-            highlight=Colours.blue,
+            highlight=Colours.grey0,
             mouse_callbacks={
                 "Button1": lazy.spawn("shutdown now")
             },
@@ -125,8 +125,7 @@ def powermenu_popup():
     return PopupAbsoluteLayout(
         width=460,
         height=420,
-        background=Colours.bg2,
-        border=Colours.bg2,
+        background=Colours.bg1,
         border_width=0,
         controls=[*blocks(), *powermenu_controls()],
         hide_on_timeout=0,

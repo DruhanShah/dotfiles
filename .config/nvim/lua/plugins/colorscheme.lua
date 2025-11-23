@@ -1,8 +1,8 @@
 return {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    "sainnhe/everforest",
+    lazy = false,
     priority = 1000,
     config = function ()
-	require("config.catppuccin").setup()
+	require("config.everforest").setup()
     end,
 }

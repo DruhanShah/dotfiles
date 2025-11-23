@@ -1,23 +1,38 @@
 import os
 class Colours:
 
-    bg1 = "#FFFCF0"
-    bg2 = "#F2F0E5"
-    ui1 = "#E6E4D9"
-    ui2 = "#DAD8CE"
-    ui3 = "#CECDC3"
-    tx3 = "#B7B5AC"
-    tx2 = "#6F6E69"
-    tx1 = "#100F0F"
+    bg_dim = "#EFEBD4"
+    bg0 = "#FDF6E3"
+    bg1 = "#F4F0D9"
+    bg2 = "#EFEBD4"
+    bg3 = "#E6E2CC"
+    bg4 = "#E0DCC7"
+    bg5 = "#BDC3AF"
 
-    red = "#AF3029"
-    orange = "#BC5215"
-    yellow = "#AD8301"
-    green = "#66800B"
-    cyan = "#24837B"
-    blue = "#205EA6"
-    purple = "#5E409D"
-    magenta = "#A02F6F"
+    bg_visual = "#EAEDC8"
+    bg_red = "#FDE3DA"
+    bg_yellow = "#FAEDCD"
+    bg_green = "#F0F1D2"
+    bg_blue = "#E9F0E9"
+    bg_purple = "#FAE8E2"
+
+    fg = "#5C6A72"
+
+    red = "#F85552"
+    orange = "#F57D26"
+    yellow = "#DFA000"
+    green = "#8DA101"
+    aqua = "#35A77C"
+    blue = "#3A94C5"
+    purple = "#DF69BA"
+
+    grey0 = "#A6B0A0"
+    grey1 = "#939F91"
+    grey2 = "#829181"
+
+    sl_green = "#93B259"
+    sl_grey = "#708089"
+    sl_red = "#E66868"
 
     def transparent(color=bg1):
         return color + "00"
@@ -37,4 +52,4 @@ class Fonts:
 
 class Wallpaper:
 
-    path = os.path.expanduser("~/Wallpapers/athens.png")
+    path = os.path.expanduser("~/Wallpapers/forest-trail.jpg")

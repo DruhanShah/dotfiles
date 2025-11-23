@@ -1,5 +1,5 @@
 # Setting colorscheme
-include flexoki-light
+include everforest-light
 
 # Startup options
 set font "Inter 11"

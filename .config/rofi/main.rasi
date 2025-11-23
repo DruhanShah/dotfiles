@@ -6,7 +6,7 @@ configuration {
     window-format:              "{w} · {c} · {t}";
 }
 
-@import "flexoki/light.rasi"
+@import "everforest/light-medium.rasi"
 
 /*****----- Main Window -----*****/
 window {

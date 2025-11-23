@@ -1,11 +1,11 @@
 #+title: Rofi configuration
 #+author: Druhan Shah
 
-This is not a literate config like in the emacs directory, but just a description.
+This is not a literate config like in the emacs directory, just a description.
 
 This configuration of Rofi attempts to mimic the UI of launchers like Raycast and Alfred while still using standard Rofi scripts.
 
 I have bound a keybind in my WM config that launches a "master-script" which essentially chooses the rofi function to perform. I could have bound them to individual keybinds, but I prefer it this way, YMMV.
 
-This is what the application launcher looks like (floating window in the middle), and the other scripts effectively look the same:
+This is what the application launcher looks like with the Flexoki theme (floating window in the middle), and the other scripts effectively look the same:
 [[./assets/2025-10-29.png]]

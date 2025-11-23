@@ -177,7 +177,7 @@ The first of likely many is smooth scrolling which I think would make me a lot h
 
 * Themes and colours
 
-While I do greatly enjoy Rougier's =nano-theme= and Prot's =modus-= and =ef-themes=, I would like something more tailored to my taste while still attempting to retain ideas from their themes. I'm currently choosing Steph Ango's =flexoki= theme with some modifications.
+While I do greatly enjoy Rougier's =nano-theme= and Prot's =modus-= and =ef-themes=, I would like something more tailored to my taste while still attempting to retain ideas from their themes. I'm currently choosing Sainnhe Park's =everforest= theme.
 
 ** Applying the theme
 
