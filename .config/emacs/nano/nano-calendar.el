@@ -44,7 +44,7 @@
 (require 's)
 (require 'holidays)
 (require 'org-agenda)
-(require 'flexoki-themes)
+(require 'modus-themes)
 
 (defgroup nano-calendar nil
   "Settings for nano calendar"
@@ -59,7 +59,7 @@
   :group 'nano-calendar)
 
 (defface nano-calendar-header-month-face
-  `((t :background ,(face-foreground 'flexoki-themes-highlight)
+  `((t :background ,(modus-themes-get-color-value 'bg-inactive :overrides)
        :inherit bold))
   "Face for header month"
   :group 'nano-calendar-faces)
@@ -103,7 +103,7 @@
 
 (defface nano-calendar-current-face
   `((t :foreground ,(face-background 'default)
-       :background ,(face-foreground 'flexoki-themes-blue)))
+       :background ,(modus-themes-get-color-value 'blue :overrides)))
   "Face for current selection."
   :group 'nano-calendar-faces)
 

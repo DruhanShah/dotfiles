@@ -73,14 +73,14 @@
 (require 'holidays)
 (require 'org-agenda)
 (require 'hl-line)
-(require 'flexoki-themes)
+(require 'modus-themes)
 
 (defgroup nano-agenda nil
-  "N Λ N O Agenda"
+  "N Λ N O Agenda."
   :group 'nano)
 
 (defgroup nano-agenda-faces nil
-  "N Λ N O Agenda"
+  "N Λ N O Agenda."
   :group 'nano-agenda)
 
 (defcustom nano-agenda-sort-predicate #'nano-agenda--entry-sort
@@ -94,87 +94,87 @@
   :type 'function)
 
 (defcustom nano-agenda-conflict-predicate #'nano-agenda--entry-conflict
-  "Predicate function to check if two entries conflict (e.g. time overlap)"
+  "Predicate function to check if two entries conflict (e.g. time overlap)."
   :group 'nano-agenda
   :type 'function)
 
 (defcustom nano-agenda-occupancy-predicate #'nano-agenda--entry-occupancy
-  "Predicate function to measure entry occupancy"
+  "Predicate function to measure entry occupancy."
   :group 'nano-agenda
   :type 'function)
 
 (defcustom nano-agenda-view-mode 'week
-  "Agenda view mode (day or week)"
+  "Agenda view mode (day or week)."
   :group 'nano-agenda
   :type '(choice (const day) (const week)))
 
 (defcustom nano-agenda-header-show nil
-  "Temporary debug variable"
+  "Temporary debug variable."
   :group 'nano-agenda
   :type 'boolean)
 
 (defcustom nano-agenda-tags-align t
-  "Whether to align tags on the right"
+  "Whether to align tags on the right."
 
   :group 'nano-agenda
   :type 'boolean)
 
 (defface nano-agenda-default
   '((t :inherit default))
-  "Default face (for casual day)"
+  "Default face (for casual day)."
   :group 'nano-agenda-faces)
 
 (defface nano-agenda-header-title
   '((t :inherit bold))
-  "Agenda header (title)"
+  "Agenda header (title)."
   :group 'nano-agenda-faces)
 
 (defface nano-agenda-header-subtitle
   '((t :inherit font-lock-comment-face))
-  "Agenda header (subtitle)"
+  "Agenda header (subtitle)."
   :group 'nano-agenda-faces)
 
 (defface nano-agenda-calendar-header-month
   '((t :inherit (bold header-line)))
-  "Day name face (on second line)"
+  "Day name face (on second line)."
   :group 'nano-agenda-faces)
 
 (defface nano-agenda-calendar-header-days
   '((t :inherit bold))
-  "Month name face (on first line)"
+  "Month name face (on first line)."
   :group 'nano-agenda-faces)
 
 (defface nano-agenda-calendar-default
   '((t :inherit default))
-  "Current day face"
+  "Current day face."
   :group 'nano-agenda-faces)
 
 (defface nano-agenda-calendar-today
   '((t :box (:line-width (-1 . -1) :style nil)
        :inherit bold))
-  "Current day face"
+  "Current day face."
   :group 'nano-agenda-faces)
 
 (defface nano-agenda-calendar-selected
-  `((t :background ,(face-foreground 'flexoki-themes-purple)
+  `((t :background ,(modus-themes-get-color-value 'magenta :overrides)
        :foreground ,(face-background 'default)
        :inherit bold))
-  "Face for the selected day"
+  "Face for the selected day."
   :group 'nano-agenda-faces)
 
 (defface nano-agenda-calendar-offday
-  `((t :foreground ,(face-foreground 'flexoki-themes-lowlight)))
+  `((t :foreground ,(modus-themes-get-color-value 'fg-dim :overrides)))
   "Face for days outside curent month."
   :group 'nano-agenda-faces)
 
 (defface nano-agenda-calendar-weekend
   '((t :inherit font-lock-comment-face))
-  "Weekend face"
+  "Weekend face."
   :group 'nano-agenda-faces)
 
 (defface nano-agenda-calendar-holidays
   '((t :inherit font-lock-comment-face))
-  "Holidays face"
+  "Holidays face."
   :group 'nano-agenda-faces)
 
 ;; See https://material.io/design/color/the-color-system.html
@@ -233,9 +233,9 @@ Return a value between 0 and 1."
          (blue (/ (caddr values) 256.0)))
     (/ (+ (* .2126 red) (* .7152 green) (* .0722 blue)) 255)))
 
-(defcustom nano-agenda-palette 'blue-grey
+(defcustom nano-agenda-palette 'viridis
   (concat
-   "Background colors to use to highlight a day in calendar view according to occupancy.\n\n"
+   "Background colors to use to highlight a day in calendar view according to occupancy.\n\n."
    (mapconcat (lambda (palette)
                 (let* ((name (symbol-name (car palette)))
                        (colors (cdr palette))
@@ -491,7 +491,7 @@ Finally, entry are sorted using `nano-agenda-sort-predicate'."
                        " "))
          (header (concat (propertize header 'face header-face)))
          (prefix (cond (daterange
-                        (propertize (format " %d/%d "
+                        (propertize (format " %d/%d ."
                                             (car daterange) (cdr daterange)
                                             'face time-face)))
                        (is-deadline
@@ -505,7 +505,7 @@ Finally, entry are sorted using `nano-agenda-sort-predicate'."
                        (t (propertize  "—————" 'face time-face)))))
 
     (setq nano-agenda--entry-is-now (or nano-agenda--entry-is-now is-now))
-    (concat " "
+    (concat " ."
             prefix
             (propertize " │ " 'face 'nano-subtle-i)
             header
@@ -550,6 +550,7 @@ Force updates if FORCE-UPDATE is non-nil.  Occupancies are cached for efficiency
          (eq (nth 5 date-1) (nth 5 date-2)))))
 
 (defun nano-agenda-calendar--day (date displayed-month &optional force-update palette)
+  "Return the day string for DATE in DISPLAYED-MONTH.  Also decide whether to FORCE-UPDATE this, and use a custom PALETTE."
   (let* ((is-today (nano-agenda-date-equal date (current-time)))
          (is-selected (nano-agenda-date-equal date nano-agenda-date))
          (day (nth 3 (decode-time date)))
@@ -568,7 +569,7 @@ Force updates if FORCE-UPDATE is non-nil.  Occupancies are cached for efficiency
          (is-weekend (memq week-day '(5 6)))
          (background-color (nth (- occupancy 1) palette))
          (foreground-color (if (< (nano-agenda-color-luminance background-color) 0.5)
-                               "white"
+                               "white."
                                "black"))
          (face (cond (is-offday     'nano-agenda-calendar-offday)
                      (is-selected   'nano-agenda-calendar-selected)
@@ -582,7 +583,7 @@ Force updates if FORCE-UPDATE is non-nil.  Occupancies are cached for efficiency
     (insert (propertize (format-time-string "%e " date) 'face face))))
 
 (defun nano-agenda--insert-calendar (date &optional force-update palette)
-
+  "Insert the calendar corresponding to DATE.  Also decide whether to FORCE-UPDATE or use a custom PALETTE."
   (let* ((date (decode-time date))
          (day (nth 3 date))
          (month (nth 4 date))
@@ -622,7 +623,7 @@ Force updates if FORCE-UPDATE is non-nil.  Occupancies are cached for efficiency
 
 
 (defun nano-agenda--insert-agenda (date)
-  "Insert agenda entries for DATE"
+  "Insert agenda entries for DATE."
 
   (let* ((day (nth 3 (decode-time date)))
          (month (nth 4 (decode-time date)))
@@ -682,7 +683,7 @@ Force updates if FORCE-UPDATE is non-nil.  Occupancies are cached for efficiency
         (insert (nano-agenda--entry-format entry))))))
 
 (defun nano-agenda--date (date days months years)
-   "Get date + DAYS day & MONTH months & YEARS years"
+   "Get DATE + DAYS day & MONTHS months & YEARS years."
 
    (let* ((date (decode-time date))
           (day (nth 3 date))
@@ -691,7 +692,7 @@ Force updates if FORCE-UPDATE is non-nil.  Occupancies are cached for efficiency
      (encode-time 0 0 0 (+ day days) (+ month months) (+ year years))))
 
 (defun nano-agenda-goto-date (days months years)
-   "Go to current date + DAYS day & MONTH months & YEARS years"
+   "Go to current date + DAYS day & MONTHS months & YEARS years."
 
    (let* ((date (nano-agenda--date nano-agenda-date days months years)))
      (setq nano-agenda-date date)
@@ -700,7 +701,7 @@ Force updates if FORCE-UPDATE is non-nil.  Occupancies are cached for efficiency
      (nano-agenda-update)))
 
 (defun nano-agenda-hide-entry ()
-  "Hide current entry (if any)"
+  "Hide current entry (if any)."
 
   (interactive)
   (when nano-agenda--entry-window
@@ -708,7 +709,7 @@ Force updates if FORCE-UPDATE is non-nil.  Occupancies are cached for efficiency
   (setq nano-agenda--entry-window nil))
 
 (defun nano-agenda-view-entry ()
-  "Edit current entry (if any)"
+  "Edit current entry (if any)."
 
   (interactive)
   (when nano-agenda--entry-marker
@@ -720,7 +721,7 @@ Force updates if FORCE-UPDATE is non-nil.  Occupancies are cached for efficiency
       (goto-char (point-min)))))
 
 (defun nano-agenda-edit-entry ()
-  "Edit current entry (if any)"
+  "Edit current entry (if any)."
 
   (interactive)
   (when-let* ((marker nano-agenda--entry-marker)
@@ -751,14 +752,14 @@ Force updates if FORCE-UPDATE is non-nil.  Occupancies are cached for efficiency
       (nano-box-on))))
 
 (defun nano-agenda-goto-today ()
-   "Go to previous day"
+   "Go to previous day."
 
    (interactive)
    (setq nano-agenda-date (current-time))
    (nano-agenda-goto-date 0 0 0))
 
 (defun nano-agenda-goto-next-entry ()
-   "Go to next day"
+   "Go to next day."
 
    (interactive)
    (when (numberp nano-agenda--entry-index)
@@ -767,7 +768,7 @@ Force updates if FORCE-UPDATE is non-nil.  Occupancies are cached for efficiency
      (nano-agenda-update)))
 
 (defun nano-agenda-goto-prev-entry ()
-   "Go to next day"
+   "Go to next day."
 
    (interactive)
    (when (numberp nano-agenda--entry-index )
@@ -776,43 +777,43 @@ Force updates if FORCE-UPDATE is non-nil.  Occupancies are cached for efficiency
      (nano-agenda-update)))
 
 (defun nano-agenda-goto-prev-day ()
-   "Go to previous day"
+   "Go to previous day."
 
    (interactive)
    (nano-agenda-goto-date -1 0 0))
 
  (defun nano-agenda-goto-next-day ()
-   "Go to next day"
+   "Go to next day."
 
    (interactive)
    (nano-agenda-goto-date +1 0 0))
 
 (defun nano-agenda-goto-prev-week ()
-   "Go to previous week"
+   "Go to previous week."
 
    (interactive)
    (nano-agenda-goto-date -7 0 0))
 
  (defun nano-agenda-goto-next-week ()
-   "Go to next week"
+   "Go to next week."
 
    (interactive)
    (nano-agenda-goto-date +7 0 0))
 
 (defun nano-agenda-goto-prev-month ()
-   "Go to previous month"
+   "Go to previous month."
 
    (interactive)
    (nano-agenda-goto-date 0 -1 0))
 
  (defun nano-agenda-goto-next-month ()
-   "Go to next month"
+   "Go to next month."
 
    (interactive)
    (nano-agenda-goto-date 0 +1 0))
 
 (defun nano-agenda-view-mode-day ()
-  "Set agenda view mode to day"
+  "Set agenda view mode to day."
 
   (interactive)
   (setq nano-agenda-view-mode 'day)
@@ -821,7 +822,7 @@ Force updates if FORCE-UPDATE is non-nil.  Occupancies are cached for efficiency
   (window-resize nil 1))
 
 (defun nano-agenda-view-mode-week ()
-  "Set agenda view mode to week"
+  "Set agenda view mode to week."
 
   (interactive)
   (setq nano-agenda-view-mode 'week)
@@ -830,7 +831,7 @@ Force updates if FORCE-UPDATE is non-nil.  Occupancies are cached for efficiency
   (window-resize nil 1))
 
 (defun nano-agenda-update ()
-  "Update agenda"
+  "Update agenda."
 
   (interactive)
   (with-current-buffer (get-buffer-create nano-agenda-buffer-name)
@@ -873,7 +874,7 @@ Force updates if FORCE-UPDATE is non-nil.  Occupancies are cached for efficiency
       (run-hooks 'nano-agenda-update-hook))))
 
 (defun nano-agenda-force-update ()
-  "Update agenda"
+  "Update agenda."
 
   (interactive)
   (setq nano-agenda--date-occupancies nil)
@@ -883,8 +884,7 @@ Force updates if FORCE-UPDATE is non-nil.  Occupancies are cached for efficiency
   (nano-agenda-update))
 
 (defun nano-agenda ()
-  "Insert an agenda in the agenda buffer and install a time for
-regular update."
+  "Insert an agenda in the agenda buffer and install a time for regular update."
 
   (interactive)
   (switch-to-buffer (get-buffer-create nano-agenda-buffer-name))
@@ -896,7 +896,7 @@ regular update."
   nano-agenda-buffer-name)
 
 (define-minor-mode nano-agenda-mode
-  "Minor mode for nano-agenda day view."
+  "Minor mode for `nano-agenda' day view."
   :init nil
   :keymap `((,(kbd "n")         . nano-agenda-goto-next-entry)
             (,(kbd "<tab>")     . nano-agenda-goto-next-entry)

@@ -52,4 +52,4 @@ class Fonts:
 
 class Wallpaper:
 
-    path = os.path.expanduser("~/Wallpapers/forest-trail.jpg")
+    path = os.path.expanduser("~/Wallpapers/contour-everforest.png")

@@ -116,48 +116,156 @@
   :config
   (ultra-scroll-mode 1))
 
-(use-package flexoki-themes
+(setq everforest-palette
+      '((bg-main     "#fdf6e3")
+	(bg-dim      "#efebd4")
+	(fg-main     "#5c6a72")
+	(fg-dim      "#829181")
+	(fg-alt      "#708089")
+	(bg-active   "#efebd4")
+	(bg-inactive "#e6e2cc")
+	(border      "#bdc3af")
+	(red             "#f85552")
+	(red-warmer      "#f57d26")
+	(red-cooler      "#e66868")
+	(red-faint       "#e66868")
+	(red-intense     "#f85552")
+	(green           "#8da101")
+	(green-warmer    "#8da101")
+	(green-cooler    "#35a77c")
+	(green-faint     "#35a77c")
+	(green-intense   "#8da101")
+	(yellow          "#dfa000")
+	(yellow-warmer   "#f57d26")
+	(yellow-cooler   "#dfa000")
+	(yellow-faint    "#dfa000")
+	(yellow-intense  "#dfa000")
+	(blue            "#3a94c5")
+	(blue-warmer     "#3a94c5")
+	(blue-cooler     "#708089")
+	(blue-faint      "#708089")
+	(blue-intense    "#3a94c5")
+	(magenta         "#df69ba")
+	(magenta-warmer  "#df69ba")
+	(magenta-cooler  "#df69ba")
+	(magenta-faint   "#d3869b")
+	(magenta-intense "#df69ba")
+	(cyan            "#35a77c")
+	(cyan-warmer     "#3a94c5")
+	(cyan-cooler     "#35a77c")
+	(cyan-faint      "#35a77c")
+	(cyan-intense    "#35a77c")
+	(rust    "#f57d26")
+	(gold    "#dfa000")
+	(olive   "#8da101")
+	(slate   "#708089")
+	(indigo  "#df69ba")
+	(maroon  "#f85552")
+	(pink    "#df69ba")
+	(bg-red-intense     "#fde3da")
+	(bg-green-intense   "#f0f1d2")
+	(bg-yellow-intense  "#faedcd")
+	(bg-blue-intense    "#e9f0e9")
+	(bg-magenta-intense "#fae8e2")
+	(bg-cyan-intense    "#e9f0e9")
+	(bg-red-subtle      "#fde3da")
+	(bg-green-subtle    "#f0f1d2")
+	(bg-yellow-subtle   "#faedcd")
+	(bg-blue-subtle     "#e9f0e9")
+	(bg-magenta-subtle  "#fae8e2")
+	(bg-cyan-subtle     "#e9f0e9")
+	(bg-red-nuanced     "#fde3da")
+	(bg-green-nuanced   "#f0f1d2")
+	(bg-yellow-nuanced  "#faedcd")
+	(bg-blue-nuanced    "#e9f0e9")
+	(bg-magenta-nuanced "#fae8e2")
+	(bg-cyan-nuanced    "#e9f0e9")
+	(bg-clay      "#e0dcc7")
+	(fg-clay      "#5c6a72")
+	(bg-ochre     "#faedcd")
+	(fg-ochre     "#dfa000")
+	(bg-lavender  "#fae8e2")
+	(fg-lavender  "#df69ba")
+	(bg-sage      "#f0f1d2")
+	(fg-sage      "#8da101")
+	(bg-graph-red-0     "#fde3da")
+	(bg-graph-red-1     "#f85552")
+	(bg-graph-green-0   "#f0f1d2")
+	(bg-graph-green-1   "#8da101")
+	(bg-graph-yellow-0  "#faedcd")
+	(bg-graph-yellow-1  "#dfa000")
+	(bg-graph-blue-0    "#e9f0e9")
+	(bg-graph-blue-1    "#3a94c5")
+	(bg-graph-magenta-0 "#fae8e2")
+	(bg-graph-magenta-1 "#df69ba")
+	(bg-graph-cyan-0    "#e9f0e9")
+	(bg-graph-cyan-1    "#35a77c")
+	(bg-completion      "#e9f0e9")
+	(bg-hover           "#eaedc8")
+	(bg-hover-secondary "#faedcd")
+	(bg-hl-line         "#efebd4")
+	(bg-region          "#eaedc8")
+	(fg-region          "#5c6a72")
+	(modeline-err     "#f85552")
+	(modeline-warning "#dfa000")
+	(modeline-info    "#3a94c5")
+	(bg-tab-bar     "#e6e2cc")
+	(bg-tab-current "#fdf6e3")
+	(bg-tab-other   "#e0dcc7")
+	(bg-added           "#f0f1d2")
+	(bg-added-faint     "#f0f1d2")
+	(bg-added-refine    "#e0dcc7")
+	(bg-added-fringe    "#8da101")
+	(fg-added           "#8da101")
+	(fg-added-intense   "#8da101")
+	(bg-changed         "#faedcd")
+	(bg-changed-faint   "#faedcd")
+	(bg-changed-refine  "#e0dcc7")
+	(bg-changed-fringe  "#dfa000")
+	(fg-changed         "#dfa000")
+	(fg-changed-intense "#dfa000")
+	(bg-removed         "#fde3da")
+	(bg-removed-faint   "#fde3da")
+	(bg-removed-refine  "#e0dcc7")
+	(bg-removed-fringe  "#f85552")
+	(fg-removed         "#f85552")
+	(fg-removed-intense "#f85552")
+	(bg-diff-context    "#efebd4")
+	(bg-paren-match      "#eaedc8")
+	(bg-paren-expression "#e6e2cc")
+	(fg-heading-0 fg-main)
+	(fg-heading-1 fg-main)
+	(fg-heading-2 fg-main)
+	(fg-heading-3 fg-main)
+	(fg-heading-4 fg-main)
+	(fg-heading-5 fg-main)
+	(fg-heading-6 fg-main)
+	(fg-heading-7 fg-main)
+	(fg-heading-8 fg-main)
+	(fg-mode-line-active fg-main)
+	(bg-mode-line-active bg-active)
+	(border-mode-line-active bg-active)
+	(fg-mode-line-inactive fg-dim)
+	(bg-mode-line-inactive bg-inactive)
+	(border-mode-line-inactive bg-inactive)))
+
+(setq everforest-heights
+      '((0 . (bold 1.5))
+	(1 . (bold 1.4))
+	(2 . (bold 1.25))
+	(agenda-date . (bold 1.2))
+	(t . (bold 1.1))))
+
+(use-package modus-themes
   :ensure t
   :config
-  (setq flexoki-themes-use-bold-keywords t
-	flexoki-themes-use-bold-builtins t
-	flexoki-themes-use-italic-comments nil)
-  (load-theme 'flexoki-themes-light t))
+  (setq modus-themes-mixed-fonts t
+	modus-themes-prompts '(bold)
+	modus-themes-common-palette-overrides everforest-palette
+	modus-themes-headings everforest-heights)
+  (modus-themes-select 'modus-operandi))
 
 (elpaca-wait)
-
-(defun drs/flexoki-overrides ()
-  "Override Flexoki Theme faces with custom ones."
-  (interactive)
-  (set-face-attribute 'org-document-title nil
-		      :foreground (face-foreground 'default)
-		      :weight 'bold
-		      :height 1.6)
-  (set-face-attribute 'org-level-1 nil
-		      :foreground (face-foreground 'default)
-		      :weight 'bold
-		      :height 1.5)
-  (set-face-attribute 'org-level-2 nil
-		      :foreground (face-foreground 'default)
-		      :weight 'bold
-		      :height 1.25)
-  (set-face-attribute 'org-level-3 nil
-		      :foreground (face-foreground 'default)
-		      :weight 'bold
-		      :height 1.1)
-  (set-face-attribute 'org-level-4 nil
-		      :foreground (face-foreground 'default)
-		      :weight 'bold)
-  (set-face-attribute 'vertical-border nil
-		      :foreground (face-background 'default))
-  (set-face-attribute 'window-divider nil
-		      :foreground (face-background 'default))
-  (set-face-attribute 'window-divider-first-pixel nil
-		      :foreground (face-background 'default))
-  (set-face-attribute 'window-divider-last-pixel nil
-		      :foreground (face-background 'default)))
-
-(add-hook 'elpaca-after-init-hook #'drs/flexoki-overrides)
 
 (use-package fontaine
   :ensure t
@@ -211,7 +319,6 @@
 		"==" "!=" "===" "!==" ":=" ":-" ":+" "<*" "<*>" "*>" "<|" "<|>" "|>"
 		"+:" "-:" "=:" "<******>" "++" "+++"))
   (global-ligature-mode t))
-
 
 (use-package nerd-icons
   :ensure t
@@ -297,8 +404,8 @@
 
 (use-package copilot
   :vc (:url "https://github.com/copilot-emacs/copilot.el"
-	    :rev :newest
-	    :branch "main")
+       :rev :newest
+       :branch "main")
   :ensure t
   :hook (prog-mode . (lambda ()
 		       (unless (file-remote-p default-directory)
@@ -466,14 +573,10 @@ surrounded by word boundaries."
 (define-key reb-lisp-mode-map (kbd "RET") #'reb-replace-regexp)
 (define-key global-map (kbd "C-s") #'re-builder)
 
-(use-package pdf-tools
-  :ensure t
-  :init
-  (pdf-tools-install)
-  :hook (pdf-view-mode . (lambda () (pdf-view-themed-minor-mode 1))))
-
-(use-package nov
-  :ensure t)
+(use-package reader
+  :ensure (:type git :host codeberg :repo "divyaranjan/emacs-reader"
+	   :files ("*.el", "render-core.so")
+	   :pre-build ("make" "all")))
 
 (use-package corfu
   :ensure t
@@ -496,13 +599,11 @@ surrounded by word boundaries."
 	    (concat
 	     (propertize "\n" 'face `(:foreground ,(face-background 'default)
 				      :extend t
-				      :underline ,(face-foreground
-						   'flexoki-themes-highlight)))
-	     (propertize " " 'face `(:foreground ,(face-foreground 'default)
-				     :height 1.6
+				      :underline ,(face-foreground 'default)))
+	     (propertize " " 'face `(:height 1.6
 				     :weight 'bold))
-	     (propertize "" 'face `(:foreground ,(face-foreground
-						   'flexoki-themes-purple)
+	     (propertize "" 'face `(:foreground ,(modus-themes-get-color-value
+						   'green :overrides)
 				     :weight 'bold))
 	     (propertize " " 'face `(:foreground ,(face-foreground 'default)
 				     :extend t)))))
@@ -511,11 +612,14 @@ surrounded by word boundaries."
 
 (use-package auctex
   :ensure (:repo "https://git.savannah.gnu.org/git/auctex.git"
-           :branch "main"
+	   :branch "main"
 	   :pre-build (("make" "elpa"))
 	   :build (:not elpaca--compile-info)
 	   :files ("*.el" "doc/*.info*" "etc" "images" "latex" "style")
-           :version (lambda (_) (require 'auctex) AUCTeX-version)))
+	   :version (lambda (_) (require 'auctex) AUCTeX-version))
+  :config
+  (setq TeX-view-program-selection
+	'((output-dvi "xdvi") (output-pdf "Zathura") (output-html "xdg-open"))))
 
 (use-package cdlatex
   :ensure t)
@@ -657,82 +761,77 @@ surrounded by word boundaries."
   :after org
   :hook (org-mode . mixed-pitch-mode))
 
+(defun drs/org-modern-overrides ()
+  "Overrides for Org Modern faces based on the Modus Themes."
+  (interactive)
+  (setq org-modern-todo-faces
+	`(("TODO" . (:foreground ,(modus-themes-get-color-value 'red :overrides)
+		     :height 95
+		     :box (1 . 2)
+		     :overline ,(face-background 'default)))
+	  ("DOING" . (:foreground ,(modus-themes-get-color-value 'yellow :overrides)
+		      :height 95
+		      :box (1 . 2)
+		      :overline ,(face-background 'default)))
+	  ("DONE" . (:foreground ,(modus-themes-get-color-value 'green :overrides)
+		     :height 95
+		     :box (1 . 2)
+		     :overline ,(face-background 'default)))
+	  ("HOLD" . (:foreground ,(modus-themes-get-color-value 'fg-alt :overrides)
+		     :height 95
+		     :box (1 . 2)
+		     :overline ,(face-background 'default)))
+	  ("NOPE" . (:foreground ,(modus-themes-get-color-value 'border :overrides)
+		     :height 95
+		     :box (1 . 2)
+		     :overline ,(face-background 'default)))))
+  (custom-set-faces
+   `(org-modern-label
+     ((t :family ,(face-attribute 'default :family)
+	 :height 95)))
+   `(org-modern-date-active
+    ((t :inherit (org-modern-label)
+	:foreground ,(face-background 'default)
+	:background ,(modus-themes-get-color-value 'blue :overrides)
+	:overline ,(face-background 'default)
+	:box (:color ,(modus-themes-get-color-value 'blue :overrides)
+	      :line-width (1 . 2)))))
+   `(org-modern-time-active
+    ((t :inherit (org-modern-label)
+	:foreground ,(modus-themes-get-color-value 'blue :overrides)
+	:background ,(face-background 'default)
+	:overline ,(face-background 'default)
+	:box (:line-width (1 . 2)))))
+   `(org-modern-date-inactive
+    ((t :inherit (org-modern-label)
+	:foreground ,(face-background 'default)
+	:background ,(modus-themes-get-color-value 'slate :overrides)
+	:overline ,(face-background 'default)
+	:box (:color ,(modus-themes-get-color-value 'slate :overrides)
+	      :line-width (1 . 2)))))
+   `(org-modern-time-inactive
+    ((t :inherit (org-modern-label)
+	:foreground ,(modus-themes-get-color-value 'slate :overrides)
+	:background ,(face-background 'default)
+	:overline ,(face-background 'default)
+	:box (:line-width (1 . 2)))))))
+
 (use-package org-modern
   :ensure t
+  :after org
   :custom
   (org-modern-star nil)
   (org-modern-hide-stars t)
   (org-modern-timestamp '(" %^b %d " . " %H%M "))
-  (org-modern-todo-faces 
-   `(("TODO" . (:foreground ,(face-foreground 'flexoki-themes-red)
-		:box (:line-width (1 . 2)
-		      :color ,(face-foreground 'flexoki-themes-red))
-		:overline ,(face-background 'default)))
-     ("DOING" . (:foreground ,(face-foreground 'flexoki-themes-yellow)
-		 :box (:line-width (1 . 2)
-		       :color ,(face-foreground 'flexoki-themes-yellow))
-		 :overline ,(face-background 'default)))
-     ("DONE" . (:foreground ,(face-foreground 'flexoki-themes-green)
-		:box (:line-width (1 . 2)
-		      :color ,(face-foreground 'flexoki-themes-green))
-		:overline ,(face-background 'default)))
-     ("HOLD" . (:foreground ,(face-foreground 'flexoki-themes-highlight)
-		:box (:line-width (1 . 2)
-		      :color ,(face-foreground 'flexoki-themes-highlight))
-		:overline ,(face-background 'default)))
-     ("NOPE" . (:foreground ,(face-foreground 'flexoki-themes-lowlight)
-		:box (:line-width (1 . 2)
-		      :color ,(face-foreground 'flexoki-themes-lowlight))
-		:overline ,(face-background 'default)))))
-  :custom-face
-  (org-modern-date-active
-   ((t :inherit (nano-org-label)
-       :height 100
-       :foreground ,(face-background 'default)
-       :background ,(face-foreground 'flexoki-themes-blue)
-       :overline ,(face-background 'default)
-       :box (:color ,(face-foreground 'flexoki-themes-blue)
-	     :line-width (1 . 2)))))
-  (org-modern-time-active
-   ((t :inherit (nano-org-label)
-       :height 100
-       :foreground ,(face-foreground 'flexoki-themes-blue)
-       :background ,(face-background 'default)
-       :overline ,(face-background 'default)
-       :box (:line-width (1 . 2)))))
-  (org-modern-date-inactive
-   ((t :inherit (nano-org-label)
-       :height 100
-       :foreground ,(face-background 'default)
-       :background ,(face-foreground 'flexoki-themes-highlight)
-       :overline ,(face-background 'default)
-       :box (:color ,(face-foreground 'flexoki-themes-highlight)
-	     :line-width (1 . 2)))))
-  (org-modern-time-inactive
-   ((t :inherit (nano-org-label)
-       :height 100
-       :foreground ,(face-foreground 'flexoki-themes-highlight)
-       :background ,(face-background 'default)
-       :overline ,(face-background 'default)
-       :box (:line-width (1 . 2)))))
   :config
   (global-org-modern-mode))
+(add-hook 'modus-themes-after-load-theme-hook #'drs/org-modern-overrides)
 
 (use-package markdown-mode
   :ensure t)
 
 (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
 (add-hook 'markdown-view-mode-hook #'mixed-pitch-mode)
-
-(defun drs/toggle-view ()
-  "Toggle markdown view mode."
-  (interactive)
-  (if (eq major-mode 'markdown-mode)
-      (markdown-view-mode)
-    (markdown-mode)))
-(add-hook 'markdown-mode-hook (lambda ()
-				(define-key markdown-mode-map (kbd "C-c m")
-					    'drs/toggle-view)))
 
 (use-package treesit-auto
   :ensure t
@@ -821,15 +920,6 @@ For example:
               (make-string right-bars ?┄)
               " " total-label)))
   (ready-player-mode +1))
-
-(use-package stripes :ensure t)
-(use-package elfeed :ensure t)
-(use-package elfeed-org :ensure t :after elfeed :config (elfeed-org))
-
-(use-package atomic-chrome
-  :ensure t
-  :config
-  (atomic-chrome-start-server))
 
 (add-hook 'elpaca-after-init-hook
           (lambda ()

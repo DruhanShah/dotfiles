@@ -1,0 +1,35 @@
+/**
+ * @name Recolor (Everforest light medium)
+ * @description A warm and soft, Green-based colourscheme
+ * @author Sainnhe Park
+ * @version 1.0.0
+ * @website https://github.com/sainnhe/everforest
+ * @source https://github.com/kepano/flexoki/blob/main/discord/flexoki-light.css
+*/
+
+@import url('https://mwittrien.github.io/BetterDiscordAddons/Themes/DiscordRecolor/DiscordRecolor.css');
+
+:root {
+    --accentcolor: 141, 161, 1;
+    --accentcolor2: 223, 105, 186;
+    --linkcolor: 53, 167, 124;
+    --mentioncolor: 223, 160, 0;
+    --textbrightest: 92, 106, 114;
+    --textbrighter: 108, 122, 130;
+    --textbright: 112, 128, 137;
+    --textdark: 130, 145, 129;
+    --textdarker: 147, 159, 145;
+    --textdarkest: 166, 176, 160;
+    --font: Inter;
+    --font-code: Iosevka;
+    --backgroundaccent: 234, 237, 200;
+    --backgroundprimary: 253, 246, 227;
+    --backgroundsecondary: 239, 235, 212;
+    --backgroundsecondaryalt: 239, 235, 212;
+    --backgroundtertiary: 253, 246, 227;
+    --backgroundfloating: 239, 235, 212;
+    --backgroundcode: 224, 220, 199;
+    --settingsicons: 0;
+}
+
+/* Any custom CSS below here */
