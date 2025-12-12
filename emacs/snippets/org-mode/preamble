@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# name: preamble
-# key: <pre
-# --
-
-#+title: $1
-#+author: Druhan Shah
-
-$0

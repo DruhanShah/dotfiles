@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: __comp__
-# key: _comp
-# group: Special methods
-# --
-def __$1__(self, other):
-    return $0

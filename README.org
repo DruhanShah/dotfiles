@@ -6,15 +6,22 @@ This branch is intended to be a hub for my different desktop configurations (Arc
 
 * Notebook
 
-This one aims at replicating a notebook-like feel with a light theme, minimal editor interfaces that are restricted to certain aspect ratios (through the WM layout) and horizontal scrolling-based organization of windows.
+This one aims at replicating a notebook-like feel with a light theme, minimal editor interfaces that are restricted to certain aspect ratios (through the WM layout) and horizontal scrolling-based organization of windows (similar to Niri).
 
-[[./qtile/assets/screenshot.png]]
+[[./assets/layout.png]]
 
-[[./rofi/assets/screenshot.png]]
+[[./assets/rofi.png]]
 
 
-* MacOS but Not Really™
+* Abandoned themes
 
-This is a work in progress intended to mimic MacOS in its comfortable UI, smooth animations and characteristic design choices.
+These were previous branches that were later deleted because work on those rices had stopped. I might end up picking them up again later, but I make no commitments about them.
 
-(No screenshots because WIP)
+*** MacOS but not really™
+An attempt at mimicking the Liquid Glass effect that is the charateristic of MacOS Tahoe, and one particular GNOME Shell theme. Abandoned since it requires a well-implemented Overview and better popup management than I could implement.
+
+*** The worst rice ever
+This was intended to be my submission for a Worst UI Hackathon, with (in)conveniences like window margins that are all slightly off, a +jarringly+ beautiful bright-coloured theme, (ir)regularly scheduled WM reloads, and more. Abandoned because I couldn't finish the rice before the contest ended.
+
+*** Material You Linux
+This was supposed to use the principles of Google's new Material Design 3, but implemented entirely natively. Abandoned because it was a lot of work to even set up.

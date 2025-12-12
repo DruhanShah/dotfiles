@@ -1,6 +1,0 @@
-# name: __init__
-# key: _init
-# group: definitions
-# --
-def __init__(self${1:, args}):
-    $0

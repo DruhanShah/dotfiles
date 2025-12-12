@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: __all__
-# key: _all
-# expand-env: ((yas-indent-line 'fixed))
-# --
-__all__ = [
-    $0
-]

@@ -1,8 +1,0 @@
-include catppuccin-latte
-
-# Startup options
-
-set font "Inter 10"
-set recolor false
-set guioptions ""
-set selection-clipboard "clipboard"
