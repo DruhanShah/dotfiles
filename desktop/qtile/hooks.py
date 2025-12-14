@@ -1,7 +1,7 @@
 import subprocess
 from os.path import expanduser
 from libqtile import hook
-from libqtile.lazy import lazy
+from libqtile import qtile
 
 
 @hook.subscribe.startup_once
@@ -11,4 +11,4 @@ def autostart():
 
 @hook.subscribe.startup
 def bar_class():
-    lazy.bar["top"].window.window.set_property("QTILE_BAR", 1, "CARDINAL", 32)
+    qtile.current_screen.top.window.window.set_property("QTILE_BAR", 1, "CARDINAL", 32)

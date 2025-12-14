@@ -1,4 +1,4 @@
-from decman import File, Directory, Module
+from decman import File, Directory, Module, prg
 
 from config import CFG, USER, file, directory
 
@@ -11,7 +11,7 @@ class WM(Module):
         return {
             f"{CFG}/qtile": directory("desktop/qtile"),
         
-}
+        }
 
     def aur_packages(self) -> list[str]:
         return [
@@ -25,6 +25,9 @@ class WM(Module):
             "qtile",
             "python-dbus-fast",
         ]
+
+    def on_update(self):
+        prg("qtile cmd-obj -o cmd -f restart".split())
 
 
 class Compositor(Module):

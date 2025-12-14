@@ -207,6 +207,8 @@ class Scrolling(base.Layout):
 
     def add_client(self, client):
         c = self.add_column(self.get_width(client), self.current+1)
+        if self.maxwidth <= 100:
+            self.viewx = self.maxwidth//2 - 50
         c.add_client(client)
 
     def remove(self, client):
@@ -219,6 +221,8 @@ class Scrolling(base.Layout):
                 break
         if remove:
             self.remove_column(c)
+        if self.maxwidth <= 100:
+            self.viewx = self.maxwidth//2 - 50
         return self.cc.cw if self.current >= 0 else None
 
     def configure(self, client, screen_rect):

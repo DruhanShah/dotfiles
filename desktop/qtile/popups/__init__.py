@@ -32,10 +32,10 @@ class PopupLayout:
         "popup_layout": calendar_popup(),
         "popup_hide_timeout": 0,
         "popup_show_args": {
-            "relative_to": 7,
+            "relative_to": 3,
             "relative_to_bar": True,
-            "x": -12,
-            "y": -16,
+            "x": -16,
+            "y": 16,
         },
     }
     system_layout = {
@@ -44,7 +44,7 @@ class PopupLayout:
         "popup_show_args": {
             "relative_to": 1,
             "relative_to_bar": True,
-            "x": -12,
+            "x": 16,
             "y": 16,
         },
     }
@@ -54,7 +54,7 @@ class PopupLayout:
         "popup_show_args": {
             "relative_to": 1,
             "relative_to_bar": True,
-            "x": -12,
+            "x": 16,
             "y": 16,
         },
     }
@@ -63,9 +63,9 @@ class PopupLayout:
         "popup_layout": powermenu_popup(),
         "popup_hide_timeout": 0,
         "popup_show_args": {
-            "relative_to": 7,
+            "relative_to": 3,
             "relative_to_bar": True,
-            "x": -12,
-            "y": -16,
+            "x": -16,
+            "y": 16,
         },
     }
