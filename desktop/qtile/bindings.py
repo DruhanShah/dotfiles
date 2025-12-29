@@ -1,37 +1,27 @@
-import os
+from pathlib import Path
 from libqtile.config import EzClick, EzDrag, EzKey, EzKeyChord
 from libqtile.lazy import lazy
-from utils import Function
-from wacky_ideas import launcher
+# from utils import Function
+from utils import launcher
 
-ROFI_MASTER = f"{os.environ["HOME"]}/.config/rofi/scripts/master.sh"
+BROWSER = "zen-browser"
+EDITOR = "emacsclient -nca ''"
+TERMINAL = "kitty"
+ROFI = Path.home() / ".config/rofi/scripts/master.sh"
 
 
 class Keys:
 
-    mod = "mod4"
-    ctrl = "control"
-    shift = "shift"
-    alt = "mod1"
-
-    def init_keys(self):
-
+    def init_keys():
         return [
             # Media Keys
-            EzKey("<XF86MonBrightnessUp>",
-                  lazy.widget["brightwidget"].brightness_up()),
-            EzKey("<XF86MonBrightnessDown>",
-                  lazy.widget["brightwidget"].brightness_down()),
-            EzKey("<XF86AudioRaiseVolume>",
-                  lazy.widget["audiowidget"].volume_up()),
-            EzKey("<XF86AudioLowerVolume>",
-                  lazy.widget["audiowidget"].volume_down()),
-            EzKey("<XF86AudioMute>",
-                  lazy.widget["audiowidget"].toggle_mute()),
-            EzKey("<XF86AudioPlay>",
-                  lazy.widget["audiowidget"].play_pause()),
-            EzKey("<print>",
-                  lazy.spawn("flameshot gui")),
+            EzKey("<XF86MonBrightnessUp>", lazy.widget["brightwidget"].brightness_up()),
+            EzKey("<XF86MonBrightnessDown>", lazy.widget["brightwidget"].brightness_down()),
+            EzKey("<XF86AudioRaiseVolume>", lazy.widget["audiowidget"].volume_up()),
+            EzKey("<XF86AudioLowerVolume>", lazy.widget["audiowidget"].volume_down()),
+            EzKey("<XF86AudioMute>", lazy.widget["audiowidget"].toggle_mute()),
+            EzKey("<XF86AudioPlay>", lazy.widget["audiowidget"].play_pause()),
+            EzKey("<print>", lazy.spawn("flameshot gui")),
 
             # Window Management
             EzKey("M-<space>", lazy.layout.next()),
@@ -55,10 +45,10 @@ class Keys:
             EzKey("M-f", lazy.window.toggle_fullscreen()),
 
             # Applications and launchers
-            EzKey("M-b", lazy.spawn("zen-browser")),
-            EzKey("M-<Return>", lazy.spawn("kitty")),
-            EzKey("M-e", lazy.spawn("emacsclient -nca ''")),
-            EzKey("M-<Semicolon>", lazy.spawn(ROFI_MASTER)),
+            EzKey("M-b", lazy.spawn(BROWSER)),
+            EzKey("M-<Return>", lazy.spawn(TERMINAL)),
+            EzKey("M-e", lazy.spawn(EDITOR)),
+            EzKey("M-<Semicolon>", lazy.spawn(str(ROFI))),
 
             # Bar and widgets
             EzKeyChord("M-w", [
@@ -73,14 +63,12 @@ class Keys:
             EzKey("M-S-r", lazy.function(launcher.toggle_popup)),
 
             # Important system utilities
-            EzKey("M-<F9>", Function.toggle_trackpad),
             EzKey("C-S-w", lazy.window.kill()),
             EzKey("M-C-r", lazy.reload_config()),
             EzKey("M-C-q", lazy.shutdown()),
         ]
 
-    def init_group_keys(self, groups):
-
+    def init_group_keys(groups):
         group_keys = "1234567890"
         keys = [
             EzKey("M-<equal>", lazy.screen.next_group()),
@@ -90,20 +78,19 @@ class Keys:
             name = group.name
             keys.extend([
                 EzKey(f"M-{key}", lazy.group[name].toscreen(0, toggle=True)),
-                EzKey(f"M-A-{key}", lazy.group[name].toscreen(1, toggle=True)),
+                # EzKey(f"M-A-{key}", lazy.group[name].toscreen(1, toggle=True)),
                 EzKey(f"M-S-{key}", lazy.window.togroup(name)),
             ])
 
         return keys
 
-    def init_dropdown_keys(self, scratchpads):
-
+    def init_dropdown_keys(scratchpads):
         return [
             EzKey(f"M-{key}", lazy.group["scratch"].dropdown_toggle(scratch))
             for scratch, _, key in scratchpads
         ]
 
-    def init_notification_keys(self, notifier):
+    def init_notification_keys(notifier):
 
         return [
             EzKey("M-<grave>", notifier.prev),
@@ -114,13 +101,7 @@ class Keys:
 
 class Mouses:
 
-    mod = "mod4"
-    ctrl = "control"
-    shift = "shift"
-    alt = "mod1"
-
-    def init_mouses(self):
-
+    def init_mouses():
         return [
             EzDrag("M-<Button1>", lazy.window.set_position_floating(),
                    start=lazy.window.get_position()),

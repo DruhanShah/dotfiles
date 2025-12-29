@@ -1,6 +1,7 @@
 import decman
 import decman.config
 
+from pacman import Pacman
 from av import AudioServer, AVDrivers
 from desktop import WM, Compositor, DesktopUtils
 from devel import Devel, C, Python, Rust, LaTeX
@@ -17,8 +18,8 @@ from wallpapers import Wallpapers
 from web import Web
 
 
-decman.config.debug_output = False
-decman.config.quiet_output = True
+decman.config.debug_output = True
+decman.config.quiet_output = False
 decman.config.enable_flatpak = False
 
 decman.packages += [
@@ -34,6 +35,7 @@ decman.aur_packages += ["decman"]
 decman.flatpak_packages += []
 decman.enabled_systemd_units += []
 decman.modules += [
+    Pacman(),
     AVDrivers(),
     AudioServer(),
     Bluetooth(),

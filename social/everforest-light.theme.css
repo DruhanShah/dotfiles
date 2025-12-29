@@ -1,35 +1,67 @@
 /**
- * @name Recolor (Everforest light medium)
- * @description A warm and soft, Green-based colourscheme
- * @author Sainnhe Park
+ * @name DiscordRecolor (Everforest Light)
+ * @description Allows you to customize Discord's native Color Scheme
+ * @author DruhanShah
  * @version 1.0.0
- * @website https://github.com/sainnhe/everforest
- * @source https://github.com/kepano/flexoki/blob/main/discord/flexoki-light.css
-*/
+ * @website https://mwittrien.github.io/
+ * @source https://github.com/mwittrien/BetterDiscordAddons/tree/master/Themes/DiscordRecolor/
+ * @updateUrl https://mwittrien.github.io/BetterDiscordAddons/Themes/DiscordRecolor/DiscordRecolor.theme.css
+ *
+ * @var checkbox            settingsicons_s            "User Settings Icons"                    1
+ * @var text                font_s                "General Font"                        "gg sans", "Noto Sans"
+ * @var text                accentcolor_s            "Blurple Color: [default] = 88, 101, 242"        88, 101, 242
+ * @var text                accentcolor2_s            "Boost Pink Color: [default] = 255, 115, 250"        255, 115, 250
+ * @var text                linkcolor_s            "Link Color: [default] = 0, 176, 244"            0, 176, 244
+ * @var text                mentioncolor_s            "Mentioned Color: [default] = 250, 166, 26"        250, 166, 26
+ * @var text                successcolor_s            "Success Color: [default] = 59, 165, 92"        59, 165, 92
+ * @var text                warningcolor_s            "Warning Color: [default] = 250, 166, 26"        250, 166, 26
+ * @var text                dangercolor_s            "Danger Color: [default] = 237, 66, 69"            237, 66, 69
+ * @var text                textbrightest_s            "Text Color 1: [default] = 255, 255, 255"        255, 255, 255
+ * @var text                textbrighter_s            "Text Color 2: [default] = 220, 221, 222"        222, 222, 222
+ * @var text                textbright_s            "Text Color 3: [default] = 185, 187, 190"        185, 185, 185
+ * @var text                textdark_s            "Text Color 4: [default] = 142, 146, 151"        140, 140, 140
+ * @var text                textdarker_s            "Text Color 5: [default] = 114, 118, 125"        115, 115, 115
+ * @var text                textdarkest_s            "Text Color 6: [default] = 79, 84, 92"            80, 80, 80
+ * @var text                backgroundcode_s        "Background Code: [default] = 60, 62, 79"        50, 50, 50
+ * @var text                backgroundaccent_s        "Background Accent: [default] = 64, 68, 75"        50, 50, 50
+ * @var text                backgroundprimary_s        "Background 1: [default] = 54, 57, 63"            30, 30, 30
+ * @var text                backgroundsecondary_s        "Background 2: [default] = 47, 49, 54"            20, 20, 20
+ * @var text                backgroundsecondaryalt_s    "Background 3: [default] = 41, 43, 47"            15, 15, 15
+ * @var text                backgroundtertiary_s        "Background 4: [default] = 32, 34, 37"            10, 10, 10
+ * @var text                backgroundfloating_s        "Background Elevated: [default] = 24, 25, 28"        0, 0, 0
+ */
 
-@import url('https://mwittrien.github.io/BetterDiscordAddons/Themes/DiscordRecolor/DiscordRecolor.css');
+/* To change the colors, change the variables inside the root {}, do NOT change the @import url() */
+
+@import url(https://mwittrien.github.io/BetterDiscordAddons/Themes/DiscordRecolor/DiscordRecolor.css);
 
 :root {
-    --accentcolor: 141, 161, 1;
-    --accentcolor2: 223, 105, 186;
-    --linkcolor: 53, 167, 124;
-    --mentioncolor: 223, 160, 0;
-    --textbrightest: 92, 106, 114;
-    --textbrighter: 108, 122, 130;
-    --textbright: 112, 128, 137;
-    --textdark: 130, 145, 129;
-    --textdarker: 147, 159, 145;
-    --textdarkest: 166, 176, 160;
-    --font: Inter;
-    --font-code: Iosevka;
-    --backgroundaccent: 234, 237, 200;
-    --backgroundprimary: 253, 246, 227;
-    --backgroundsecondary: 239, 235, 212;
-    --backgroundsecondaryalt: 239, 235, 212;
-    --backgroundtertiary: 253, 246, 227;
-    --backgroundfloating: 239, 235, 212;
-    --backgroundcode: 224, 220, 199;
-    --settingsicons: 0;
-}
+    --settingsicons: 1;
+    --font: "Inter";
+    --font-code: "Iosevka";
+    
+    --accentcolor: 58,148,197;
+    --accentcolor2: 223,105,186;
+    --linkcolor: 53,167,124;
+    --mentioncolor: 223,160,0;
+    --successcolor: 141,161,1;
+    --warningcolor: 245,120,38;
+    --dangercolor: 248,85,82;
 
-/* Any custom CSS below here */
+    --framecolor: 166,176,160,0.121;
+
+    --textbrightest: 92,106,114;
+    --textbrighter: 108,122,130;
+    --textbright: 112,128,137;
+    --textdark: 130,145,129;
+    --textdarker: 147,159,145;
+    --textdarkest: 166,176,160;
+
+    --backgroundcode: 224,220,199;
+    --backgroundaccent: 234,237,200;
+    --backgroundprimary: 253,246,227;
+    --backgroundsecondary: 239,235,212;
+    --backgroundsecondaryalt: 239,235,212;
+    --backgroundtertiary: 253,246,227;
+    --backgroundfloating: 239,235,212;
+}

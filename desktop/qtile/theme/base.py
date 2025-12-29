@@ -34,10 +34,10 @@ class Colours:
     sl_grey = "#708089"
     sl_red = "#E66868"
 
-    def transparent(color=bg1):
+    def transparent(color=bg0):
         return color + "00"
 
-    def translucent(color=bg1):
+    def translucent(color=bg0):
         return color + "aa"
 
 

@@ -5,16 +5,11 @@ from theme import Theme
 
 class Groups:
 
-    def __init__(self):
-        self.layouts = Theme.grp_layouts
-
-    def init_groups(self, n=10, matches=[]):
-
+    def init_groups(n=10, matches=[]):
         groups = [
             Group(str(i+1), label=" ")
             for i in range(n-len(matches))
         ]
-
         groups += [
             Group(str(n-i), label=" ", matches=[
                 Match(**match)
@@ -25,9 +20,10 @@ class Groups:
 
         return groups
 
-    def init_scratchpads(self, scratchpads):
+    def init_scratchpads(scratchpads):
+        layouts = Theme.grp_layouts
 
         return ScratchPad("scratch", [
-            DropDown(name, command, **self.layouts[name])
+            DropDown(name, command, **layouts[name])
             for name, command, _ in scratchpads
         ])

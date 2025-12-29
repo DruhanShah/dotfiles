@@ -22,8 +22,3 @@
   :init
   (setq eglot-ltex-server-path "~/.config/emacs/ltex/ltex-ls-plus-18.5.1"
 	eglot-ltex-communication-channel 'stdio))
-
-(use-package nael
-  :vc (:lisp-dir "nael"
-       :url "https://codeberg.org/mekeor/nael.git")
-  :ensure t)

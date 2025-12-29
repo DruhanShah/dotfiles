@@ -407,9 +407,7 @@
        :rev :newest
        :branch "main")
   :ensure t
-  :hook (prog-mode . (lambda ()
-		       (unless (file-remote-p default-directory)
-			 copilot-mode)))
+  :hook (prog-mode . copilot-mode)
   :config
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion))
 
@@ -602,8 +600,7 @@ surrounded by word boundaries."
 				      :underline ,(face-foreground 'default)))
 	     (propertize " " 'face `(:height 1.6
 				     :weight 'bold))
-	     (propertize "" 'face `(:foreground ,(modus-themes-get-color-value
-						   'green :overrides)
+	     (propertize "" 'face `(:foreground "green"
 				     :weight 'bold))
 	     (propertize " " 'face `(:foreground ,(face-foreground 'default)
 				     :extend t)))))
@@ -640,7 +637,7 @@ surrounded by word boundaries."
 	org-cycle-separator-lines 2
         org-pretty-entities t
         org-use-sub-superscripts t
-        org-format-latex-options (plist-put org-format-latex-options :scale 1.4)
+        org-format-latex-options (plist-put org-format-latex-options :scale 1.5)
         org-latex-src-block-backend 'listings
 	org-latex-packages-alist '(("" "amsmath" t)
 				   ("" "amssymb" t)
@@ -673,6 +670,9 @@ surrounded by word boundaries."
   :config
   (require 'ox-extra)
   (ox-extras-activate '(latex-header-blocks ignore-headlines)))
+
+(use-package org-make-toc
+  :ensure t)
 
 (use-package org-roam
   :ensure t
@@ -764,61 +764,6 @@ surrounded by word boundaries."
   :after org
   :hook (org-mode . mixed-pitch-mode))
 
-(defun drs/org-modern-overrides ()
-  "Overrides for Org Modern faces based on the Modus Themes."
-  (interactive)
-  (setq org-modern-todo-faces
-	`(("TODO" . (:foreground ,(modus-themes-get-color-value 'red :overrides)
-		     :height 95
-		     :box (1 . 2)
-		     :overline ,(face-background 'default)))
-	  ("DOING" . (:foreground ,(modus-themes-get-color-value 'yellow :overrides)
-		      :height 95
-		      :box (1 . 2)
-		      :overline ,(face-background 'default)))
-	  ("DONE" . (:foreground ,(modus-themes-get-color-value 'green :overrides)
-		     :height 95
-		     :box (1 . 2)
-		     :overline ,(face-background 'default)))
-	  ("HOLD" . (:foreground ,(modus-themes-get-color-value 'fg-alt :overrides)
-		     :height 95
-		     :box (1 . 2)
-		     :overline ,(face-background 'default)))
-	  ("NOPE" . (:foreground ,(modus-themes-get-color-value 'border :overrides)
-		     :height 95
-		     :box (1 . 2)
-		     :overline ,(face-background 'default)))))
-  (custom-set-faces
-   `(org-modern-label
-     ((t :family ,(face-attribute 'default :family)
-	 :height 95)))
-   `(org-modern-date-active
-    ((t :inherit (org-modern-label)
-	:foreground ,(face-background 'default)
-	:background ,(modus-themes-get-color-value 'blue :overrides)
-	:overline ,(face-background 'default)
-	:box (:color ,(modus-themes-get-color-value 'blue :overrides)
-	      :line-width (1 . 2)))))
-   `(org-modern-time-active
-    ((t :inherit (org-modern-label)
-	:foreground ,(modus-themes-get-color-value 'blue :overrides)
-	:background ,(face-background 'default)
-	:overline ,(face-background 'default)
-	:box (:line-width (1 . 2)))))
-   `(org-modern-date-inactive
-    ((t :inherit (org-modern-label)
-	:foreground ,(face-background 'default)
-	:background ,(modus-themes-get-color-value 'slate :overrides)
-	:overline ,(face-background 'default)
-	:box (:color ,(modus-themes-get-color-value 'slate :overrides)
-	      :line-width (1 . 2)))))
-   `(org-modern-time-inactive
-    ((t :inherit (org-modern-label)
-	:foreground ,(modus-themes-get-color-value 'slate :overrides)
-	:background ,(face-background 'default)
-	:overline ,(face-background 'default)
-	:box (:line-width (1 . 2)))))))
-
 (use-package org-modern
   :ensure t
   :after org
@@ -826,9 +771,58 @@ surrounded by word boundaries."
   (org-modern-star nil)
   (org-modern-hide-stars t)
   (org-modern-timestamp '(" %^b %d " . " %H%M "))
+  (org-modern-todo-faces `(("TODO" . (:foreground "#f85552"
+				      :height 95
+				      :box (1 . 2)
+				      :overline "#fdf6e3"))
+			   ("DOING" . (:foreground "#dfa000"
+				       :height 95
+				       :box (1 . 2)
+				       :overline "#fdf6e3"))
+			   ("DONE" . (:foreground "#8da101"
+				      :height 95
+				      :box (1 . 2)
+				      :overline "#fdf6e3"))
+			   ("HOLD" . (:foreground "#708089"
+				      :height 95
+				      :box (1 . 2)
+				      :overline "#fdf6e3"))
+			   ("NOPE" . (:foreground "#a6b0a0"
+				      :height 95
+				      :box (1 . 2)
+				      :overline "#fdf6e3"))))
+  :custom-face
+  (org-modern-label
+   ((t (:family ,(face-attribute 'default :family)
+	:height 95))))
+  (org-modern-date-active
+   ((t (:inherit (org-modern-label)
+	:foreground "#fdf6e3"
+	:background "#3a94c5"
+	:overline "#fdf6e3"
+	:box (:color "#3a94c5"
+	      :line-width (1 . 2))))))
+  (org-modern-time-active
+   ((t (:inherit (org-modern-label)
+	:foreground "#3a94c5"
+	:background "#fdf6e3"
+	:overline "#fdf6e3"
+	:box (:line-width (1 . 2))))))
+  (org-modern-date-inactive
+   ((t (:inherit (org-modern-label)
+	:foreground "#fdf6e3"
+	:background "#708089"
+	:overline "#fdf6e3"
+	:box (:color "#708089"
+	      :line-width (1 . 2))))))
+  (org-modern-time-inactive
+   ((t (:inherit (org-modern-label)
+	:foreground "#708089"
+	:background "#fdf6e3"
+	:overline "#fdf6e3"
+	:box (:line-width (1 . 2))))))
   :config
   (global-org-modern-mode))
-(add-hook 'modus-themes-after-load-theme-hook #'drs/org-modern-overrides)
 
 (use-package markdown-mode
   :ensure t)
@@ -857,6 +851,15 @@ surrounded by word boundaries."
   (kbd "g C") 'eglot-code-actions)
 
 (add-hook 'prog-mode-hook #'electric-pair-mode)
+
+(use-package highlight-indent-guides
+  :ensure t
+  :hook (prog-mode . highlight-indent-guides-mode)
+  :config
+  (setq highlight-indent-guides-method 'character
+	highlight-indent-guides-auto-enabled t
+	highlight-indent-guides-responsive 'top
+	highlight-indent-guides-delay 0))
 
 (use-package yasnippet
   :ensure t

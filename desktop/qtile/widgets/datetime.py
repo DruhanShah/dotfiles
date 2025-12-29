@@ -1,5 +1,4 @@
 from libqtile.widget import Clock
-from libqtile.log_utils import logger
 from qtile_extras.widget.mixins import ExtendedPopupMixin
 import datetime
 import calendar
@@ -20,7 +19,6 @@ class CalendarWidget(Clock, ExtendedPopupMixin):
 
     def update_datetime(self):
         now = datetime.datetime.now()
-
         return {
             "current_day": now.strftime("%A"),
             "current_date": now.strftime("%d %B"),

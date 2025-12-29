@@ -45,5 +45,6 @@ class Networking(Module):
             "kdeconnect",
             "networkmanager",
             "openssh",
-            "openvpn"
+            "openvpn",
+            "networkmanager-openvpn",
         ]

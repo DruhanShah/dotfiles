@@ -35,15 +35,13 @@ class DiagnosticsWidget(TextBox, ExtendedPopupMixin):
         icon = ""
         percentage = "0%",
         value = 0
-        charging = "Charging"
 
         battery = psutil.sensors_battery()
         percentage = f"{round(battery.percent, 1)}%"
         value = battery.percent / 100
         if battery.power_plugged:
-            charging = "Charging" if battery.percent < 100 else "Charged"
             icon = "󰂄" if battery.percent < 100 else "󱟢"
-            time_string = ""
+            time_string = "Charging"
         else:
             icon = get_battery_icon(value)
             time_string = f"{get_timestr(battery.secsleft)} till empty"
@@ -58,31 +56,18 @@ class DiagnosticsWidget(TextBox, ExtendedPopupMixin):
 
     def update_ram(self):
         ram = psutil.virtual_memory()
-        processes = sorted(
-            psutil.process_iter(["name", "memory_percent"]),
-            key=lambda x: x.memory_percent()
-        )
-        proc_dict = {}
-        for i, proc in enumerate(processes[-9:]):
-            proc_dict[f"process_{9-i}_name"] = proc.name()
-            proc_dict[f"process_{9-i}_mem"] = proc.memory_percent()
-
         return {
             "ram_icon": "󰘚",
             "ram_value": ram.percent/100,
             "ram_percentage": str(ram.percent) + "%",
-            **proc_dict,
         }
 
     def update_cpu(self):
-        net = psutil.cpu_percent(percpu=False, interval=0.1)
-        pnet = psutil.cpu_percent(percpu=True, interval=0.1)
-        pnet = { f"cpu_core_{i+1}": v/100 for i, v in enumerate(pnet) }
+        net = psutil.cpu_percent(percpu=False, interval=0.05)
         return {
             "cpu_icon": "",
             "cpu_value": net/100,
             "cpu_percentage": str(net) + "%",
-            **pnet,
         }
 
     def update_disk(self):
@@ -95,15 +80,11 @@ class DiagnosticsWidget(TextBox, ExtendedPopupMixin):
 
     def update_fan(self):
         fan = psutil.sensors_fans()["dell_smm"][0]
-        return {
-            "fan_speed": f"{fan.current} RPM"
-        }
+        return {"fan_speed": f"{fan.current} RPM"}
 
     def update_temp(self):
         temp = psutil.sensors_temperatures()["dell_smm"][0]
-        return {
-            "temp_value": f"{temp.current}°C"
-        }
+        return {"temp_value": f"{temp.current}°C"}
 
     def update_popup(self):
         self.extended_popup.update_controls(
@@ -114,3 +95,4 @@ class DiagnosticsWidget(TextBox, ExtendedPopupMixin):
             **self.update_fan(),
             **self.update_temp(),
         )
+        self.timeout_add(1, self.update_popup)

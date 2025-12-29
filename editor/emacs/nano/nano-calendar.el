@@ -51,7 +51,7 @@
   :group 'applications)
 
 (defgroup nano-calendar-faces nil
-  "Faces "
+  "Faces"
   :group 'nano-calendar)
 
 (defgroup nano-calendar-layout nil

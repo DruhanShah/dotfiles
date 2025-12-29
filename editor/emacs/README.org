@@ -5,9 +5,9 @@
 #+property: header-args :tangle init.el
 #+auto_tangle: t
 
-This configuration started off heavily based off of [[https://github.com/rougier][Nicolas Rougier]]'s Emacs packages and ideas. I still have a dedicated =nano/= directory for configurations more or less entirely mooched off his excellent packages. This has now, however, grown into a monstrosity beyond singular attribution, having incorporated ideas and packages by other giants in the Emacs world such as Karthink, Minad, Prot, and Xenodium, and will continue to grow as I understand Emacs and my own working style better. The hope is that by the end it will have condensed into a semblance of order. This file is supposed to be somewhat sensibly structured after all!
+This configuration started off heavily based off of [[https://github.com/rougier][Nicolas Rougier]]'s Emacs packages and ideas. I still have a dedicated =nano/= directory for configurations more or less entirely mooched off his excellent packages. This has now, however, grown into a monstrosity beyond singular attribution, having incorporated ideas and packages by other giants in the Emacs world such as Karthink, Minad, Prot, and Xenodium, and will continue to grow as I understand Emacs and my own working style better. The hope is that by the end it will have condensed into a semblance of order. This file is supposed to be somewhat sensibly structured after all.
 
-This is a literate configuration, which means all the code blocks in this Org file will be exported using Org-Babel's tangle feature into their corresponding config files on save. As a result, all the configuration necessary will be in this file as far as possible. Sometime in the future, a Table of Contents will be implemented to make navigating this document easier.
+This file is a literate configuration, which means all the code blocks in this Org file will be exported using Org-Babel's tangle feature into their corresponding config files on save. As a result, all the configuration necessary will be in this file as far as possible. Sometime in the future, a Table of Contents will be implemented to make navigating this document easier.
 
 Here's a screenshot of what this configuration looks like in action (this may or may not be slightly outdated):
 
@@ -517,9 +517,7 @@ Here, I set up the AI-based stuff like copilot (for completions) and GPTel (for 
          :rev :newest
          :branch "main")
     :ensure t
-    :hook (prog-mode . (lambda ()
-  		       (unless (file-remote-p default-directory)
-  			 copilot-mode)))
+    :hook (prog-mode . copilot-mode)
     :config
     (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion))
 
@@ -808,7 +806,7 @@ I'm using custom fringe bitmaps to indicate the locations of errors, warnings an
 #+end_src
 
 
-* Terminal shenanigans
+* Eshell and Eat
 
 I'm pretty much set on using =emacs-eat= as a terminal with Eshell. I just need to figure out how to make it look nice, and how to personalize it to my usage. One superpower I read about on Reddit was the usage of snippets in the terminal with YASnippet.
 
@@ -828,8 +826,7 @@ Some eshell niceties are to be expected :P
   				      :underline ,(face-foreground 'default)))
   	     (propertize " " 'face `(:height 1.6
   				     :weight 'bold))
-  	     (propertize "" 'face `(:foreground ,(modus-themes-get-color-value
-  						   'green :overrides)
+  	     (propertize "" 'face `(:foreground "green"
   				     :weight 'bold))
   	     (propertize " " 'face `(:foreground ,(face-foreground 'default)
   				     :extend t)))))
@@ -881,7 +878,7 @@ Now we can get back to org.
   	org-cycle-separator-lines 2
           org-pretty-entities t
           org-use-sub-superscripts t
-          org-format-latex-options (plist-put org-format-latex-options :scale 1.4)
+          org-format-latex-options (plist-put org-format-latex-options :scale 1.5)
           org-latex-src-block-backend 'listings
   	org-latex-packages-alist '(("" "amsmath" t)
   				   ("" "amssymb" t)
@@ -908,12 +905,21 @@ Now we can get back to org.
        (latex . t)
        (python . t)))
     (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file))
+#+end_src
 
+*** Bonuses
+
+Org-contrib and the =org-make-toc= package by Alphapapa (Adam Porter) are godsends!
+
+#+begin_src emacs-lisp
   (use-package org-contrib
     :ensure t
     :config
     (require 'ox-extra)
     (ox-extras-activate '(latex-header-blocks ignore-headlines)))
+
+  (use-package org-make-toc
+    :ensure t)
 #+end_src
 
 ** Org-Roam
@@ -1039,64 +1045,9 @@ These are some nice-to-haves that make Org files look good in Emacs.
     :hook (org-mode . mixed-pitch-mode))
 #+end_src
 
-The next bit is all about minad (Daniel Mendler)'s package =org-modern=. I was earlier using the modified source code of the package as =nano-org= thinking I could nano-ify the whole thing, but in hindsight it was far more sensible to just customize some variables.
+The next bit is all about the =org-modern= package by minad (Daniel Mendler). I was earlier using the modified source code of the package as =nano-org= thinking I could nano-ify the whole thing, but in hindsight it was far more sensible to just customize some variables.
 
 #+begin_src emacs-lisp
-  (defun drs/org-modern-overrides ()
-    "Overrides for Org Modern faces based on the Modus Themes."
-    (interactive)
-    (setq org-modern-todo-faces
-  	`(("TODO" . (:foreground ,(modus-themes-get-color-value 'red :overrides)
-  		     :height 95
-  		     :box (1 . 2)
-  		     :overline ,(face-background 'default)))
-  	  ("DOING" . (:foreground ,(modus-themes-get-color-value 'yellow :overrides)
-  		      :height 95
-  		      :box (1 . 2)
-  		      :overline ,(face-background 'default)))
-  	  ("DONE" . (:foreground ,(modus-themes-get-color-value 'green :overrides)
-  		     :height 95
-  		     :box (1 . 2)
-  		     :overline ,(face-background 'default)))
-  	  ("HOLD" . (:foreground ,(modus-themes-get-color-value 'fg-alt :overrides)
-  		     :height 95
-  		     :box (1 . 2)
-  		     :overline ,(face-background 'default)))
-  	  ("NOPE" . (:foreground ,(modus-themes-get-color-value 'border :overrides)
-  		     :height 95
-  		     :box (1 . 2)
-  		     :overline ,(face-background 'default)))))
-    (custom-set-faces
-     `(org-modern-label
-       ((t :family ,(face-attribute 'default :family)
-  	 :height 95)))
-     `(org-modern-date-active
-      ((t :inherit (org-modern-label)
-  	:foreground ,(face-background 'default)
-  	:background ,(modus-themes-get-color-value 'blue :overrides)
-  	:overline ,(face-background 'default)
-  	:box (:color ,(modus-themes-get-color-value 'blue :overrides)
-  	      :line-width (1 . 2)))))
-     `(org-modern-time-active
-      ((t :inherit (org-modern-label)
-  	:foreground ,(modus-themes-get-color-value 'blue :overrides)
-  	:background ,(face-background 'default)
-  	:overline ,(face-background 'default)
-  	:box (:line-width (1 . 2)))))
-     `(org-modern-date-inactive
-      ((t :inherit (org-modern-label)
-  	:foreground ,(face-background 'default)
-  	:background ,(modus-themes-get-color-value 'slate :overrides)
-  	:overline ,(face-background 'default)
-  	:box (:color ,(modus-themes-get-color-value 'slate :overrides)
-  	      :line-width (1 . 2)))))
-     `(org-modern-time-inactive
-      ((t :inherit (org-modern-label)
-  	:foreground ,(modus-themes-get-color-value 'slate :overrides)
-  	:background ,(face-background 'default)
-  	:overline ,(face-background 'default)
-  	:box (:line-width (1 . 2)))))))
-
   (use-package org-modern
     :ensure t
     :after org
@@ -1104,9 +1055,58 @@ The next bit is all about minad (Daniel Mendler)'s package =org-modern=. I was e
     (org-modern-star nil)
     (org-modern-hide-stars t)
     (org-modern-timestamp '(" %^b %d " . " %H%M "))
+    (org-modern-todo-faces `(("TODO" . (:foreground "#f85552"
+  				      :height 95
+  				      :box (1 . 2)
+  				      :overline "#fdf6e3"))
+  			   ("DOING" . (:foreground "#dfa000"
+  				       :height 95
+  				       :box (1 . 2)
+  				       :overline "#fdf6e3"))
+  			   ("DONE" . (:foreground "#8da101"
+  				      :height 95
+  				      :box (1 . 2)
+  				      :overline "#fdf6e3"))
+  			   ("HOLD" . (:foreground "#708089"
+  				      :height 95
+  				      :box (1 . 2)
+  				      :overline "#fdf6e3"))
+  			   ("NOPE" . (:foreground "#a6b0a0"
+  				      :height 95
+  				      :box (1 . 2)
+  				      :overline "#fdf6e3"))))
+    :custom-face
+    (org-modern-label
+     ((t (:family ,(face-attribute 'default :family)
+  	:height 95))))
+    (org-modern-date-active
+     ((t (:inherit (org-modern-label)
+  	:foreground "#fdf6e3"
+  	:background "#3a94c5"
+  	:overline "#fdf6e3"
+  	:box (:color "#3a94c5"
+  	      :line-width (1 . 2))))))
+    (org-modern-time-active
+     ((t (:inherit (org-modern-label)
+  	:foreground "#3a94c5"
+  	:background "#fdf6e3"
+  	:overline "#fdf6e3"
+  	:box (:line-width (1 . 2))))))
+    (org-modern-date-inactive
+     ((t (:inherit (org-modern-label)
+  	:foreground "#fdf6e3"
+  	:background "#708089"
+  	:overline "#fdf6e3"
+  	:box (:color "#708089"
+  	      :line-width (1 . 2))))))
+    (org-modern-time-inactive
+     ((t (:inherit (org-modern-label)
+  	:foreground "#708089"
+  	:background "#fdf6e3"
+  	:overline "#fdf6e3"
+  	:box (:line-width (1 . 2))))))
     :config
     (global-org-modern-mode))
-  (add-hook 'modus-themes-after-load-theme-hook #'drs/org-modern-overrides)
 #+end_src
 
 *** Markdown
@@ -1150,11 +1150,20 @@ This feels more comfortable and simultaneously not. I need to get more comfortab
     (kbd "g C") 'eglot-code-actions)
 #+end_src
 
-Another programming nice-to-have :P
+Some more nice-to-haves :P
 
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook #'electric-pair-mode)
-#+end_src
+
+  (use-package highlight-indent-guides
+    :ensure t
+    :hook (prog-mode . highlight-indent-guides-mode)
+    :config
+    (setq highlight-indent-guides-method 'character
+  	highlight-indent-guides-auto-enabled t
+  	highlight-indent-guides-responsive 'top
+  	highlight-indent-guides-delay 0))
+    #+end_src
 
 
 * Snippets
@@ -1168,7 +1177,7 @@ I'm using good old =yasnippet= for this.
     :config
     (yas-global-mode 1)
     (setq yas-snippet-dirs '(".config/emacs/snippets")))
-    #+end_src
+#+end_src
 
 
 * Minibuffer (basically Vertico)
@@ -1261,12 +1270,7 @@ I had packages for Dyalog APL and GhostText here but I don't seem to use them at
 
 ** Lean4
 
-#+begin_src emacs-lisp :tangle not-init.el
-  (use-package nael
-    :vc (:lisp-dir "nael"
-         :url "https://codeberg.org/mekeor/nael.git")
-    :ensure t)
-#+end_src
+Also got the boot, but I'll reconsider once I have more time and once the official lean package is better maintained.
 
 
 * NΛNO Emacs modules

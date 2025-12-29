@@ -17,6 +17,7 @@ def block(x, y, w, h):
         height=h,
     )
 
+
 def diagnostic_controls():
     return [
         PopupText(

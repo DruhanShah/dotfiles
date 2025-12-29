@@ -16,8 +16,8 @@ class Theme:
     }
 
     lyt_scrolling = {
-        "border_width": 0,
-        "border_focus": Colours.bg0,
+        "border_width": 2,
+        "border_focus": Colours.bg5,
         "border_normal": Colours.bg0,
         "default_width": 70,
         "grow_amount": 5,

@@ -23,7 +23,7 @@ def calendar_controls():
         PopupText(
             name=f"weekday_{i}",
             foreground=Colours.fg,
-            background=Colours.bg_visual if i == 6 else Colours.bg3,
+            background=Colours.bg4 if i == 6 else Colours.bg3,
             fontsize=18,
             font=Fonts.sans + " Medium",
             markup=True,
@@ -40,7 +40,7 @@ def calendar_controls():
         PopupText(
             name=f"day_{i}_{ii}",
             foreground=Colours.fg,
-            background=Colours.bg_visual if ii == 6 else Colours.bg3,
+            background=Colours.bg4 if ii == 6 else Colours.bg3,
             fontsize=18,
             font=Fonts.sans + " Medium",
             markup=True,

@@ -8,8 +8,8 @@ from widgets import Widgets
 
 class Screens:
 
-    def __init__(self):
-        self.bar = Bar(
+    def init_bar():
+        return Bar(
             widgets=[
                 Widgets.brightwidget,
                 Widgets.audiowidget,
@@ -28,13 +28,13 @@ class Screens:
             **Theme.bar
         )
 
-    def screen_list(self, screens=1):
+    def init_screens(screens=1):
         return [
             Screen(wallpaper_mode="fill",
                    wallpaper=Wallpaper.path,
-                   top=self.bar)
+                   top=Screens.init_bar())
             for _ in range(screens)
         ]
 
-    def notifications(self):
+    def init_notifs():
         return Notifier(**Theme.notif_defaults)
