@@ -17,28 +17,40 @@ class Theme:
 
     lyt_scrolling = {
         "border_width": 2,
-        "border_focus": Colours.bg5,
+        "border_focus": Colours.fg,
         "border_normal": Colours.bg0,
-        "default_width": 70,
+        "default_width": 50,
         "grow_amount": 5,
-        "margin": [36, 36, 36, 36],
+        "margin": 36,
         "snap": True,
         "width_rules": {
             Match(wm_class="scrcpy"): 30,
-            Match(wm_class="emacs"): 45,
-            Match(wm_class="kitty"): 45,
-            Match(wm_class="ghostty"): 45,
-            Match(wm_class="Zathura"): 45,
-            Match(wm_class="Zotero"): 60,
-            Match(wm_class="openscad"): 60,
+            Match(wm_class="discord"): 100,
+            Match(wm_class="gimp"): 100,
             Match(wm_class="brave-browser"): 100,
             Match(wm_class="zen"): 100,
         },
     }
 
+    lyt_stacking = {
+        "border_width": 2,
+        "border_focus": Colours.fg,
+        "border_normal": Colours.bg0,
+        "margin": 36,
+        "num_stacks": 1,
+    }
+
+    lyt_bsp = {
+        "border_width": 2,
+        "border_focus": Colours.fg,
+        "border_normal": Colours.bg0,
+        "border_on_single": True,
+        "margin": 36,
+    }
+
     lyt_floating = {
-        "border_width": 0,
-        "border_focus": Colours.bg0,
+        "border_width": 2,
+        "border_focus": Colours.fg,
         "border_normal": Colours.bg0,
         "float_rules": [
             *Floating.default_float_rules,
@@ -77,11 +89,29 @@ class Theme:
         "gap": 8,
     }
 
+    lyt_floating = {
+        "border_width": 0,
+        "border_focus": Colours.bg0,
+        "border_normal": Colours.bg0,
+        "float_rules": [
+            *Floating.default_float_rules,
+            Match(wm_class="confirmreset"),
+            Match(wm_class="makebranch"),
+            Match(wm_class="maketag"),
+            Match(wm_class="ssh-askpass"),
+            Match(wm_class="pinentry"),
+            Match(wm_class="matplotlib"),
+            Match(wm_class="file-picker"),
+            Match(wm_class="mpv"),
+            Match(wm_class="vicinae"),
+        ],
+    }
+
     bar = {
         "size": 40,
         "margin": 0,
         "border_width": 0,
-        "background": Colours.bg1,
+        "background": Colours.transparent(),
     }
 
     wgt_defaults = {
@@ -90,7 +120,7 @@ class Theme:
         "fontsize": 14,
         "padding": 0,
         "foreground": Colours.fg,
-        "background": Colours.bg1,
+        "background": Colours.transparent(),
         "rotate": False,
 
         # Selection Menu
@@ -108,12 +138,12 @@ class Theme:
     }
 
     wgt_groupbox = {
-        "background": Colours.bg1,
-        "active": Colours.purple,
-        "inactive": Colours.bg5,
+        "background": Colours.transparent(),
+        "active": Colours.fg,
+        "inactive": Colours.bg_dim,
         "occupied": Colours.grey2,
-        "radius": 6,
-        "size": 36,
+        "radius": 5,
+        "size": 30,
         "mode": "pills",
         "vertical": False,
     }
@@ -127,8 +157,17 @@ class Theme:
     }
 
     wgt_diagnostics = {
-        "text": "",
-        "foreground": Colours.green,
+        "battery_height": 12,
+        "battery_width": 24,
+        "border_charge_colour": Colours.fg,
+        "border_colour": Colours.fg,
+        "border_critical_colour": Colours.red,
+        "fill_charge": Colours.green,
+        "fill_critical": Colours.red,
+        "fill_low": Colours.orange,
+        "fill_normal": Colours.fg,
+        "percentage_critical": 0.15,
+        "percentage_low": 0.30,
         "padding": 2,
     }
 
@@ -137,14 +176,21 @@ class Theme:
         "inactive": Colours.bg5,
         "padding": 2,
         "text": "󰤨",
-        "foreground": Colours.blue,
         "wifi_arc": 75,
         "wifi_rectangle_width": 5,
         "wifi_shape": "arc",
     }
 
+    wgt_layout = {
+        "background": None,
+        "custom_icon_paths": ["~/.config/qtile/assets/layout/"],
+        "scale": 0.4,
+        "mode": "icon",
+    }
+
     wgt_powermenu = {
-        "text": "",
-        "foreground": Colours.red,
-        "padding": 2,
+        "filename": "~/.config/qtile/assets/others/qtile-logo.svg",
+        "scale": False,
+        "margin_y": 8,
+        "margin_x": 4,
     }

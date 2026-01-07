@@ -37,8 +37,8 @@ class Colours:
     def transparent(color=bg0):
         return color + "00"
 
-    def translucent(color=bg0):
-        return color + "aa"
+    def translucent(color=bg0, alpha="aa"):
+        return color + alpha
 
 
 class Fonts:
@@ -52,4 +52,4 @@ class Fonts:
 
 class Wallpaper:
 
-    path = os.path.expanduser("~/Wallpapers/blank.png")
+    path = os.path.expanduser("~/Wallpapers/everforest-mountain.jpg")

@@ -1,4 +1,5 @@
 import subprocess
+import shlex
 from libqtile import hook
 from libqtile import qtile
 
@@ -6,14 +7,13 @@ from libqtile import qtile
 @hook.subscribe.startup_once
 def autostart():
     commands = [
-        "picom &",
-        "syncthing &",
+        "picom",
+        "syncthing",
         "setxkbmap -option compose:ralt,ctrl:nocaps",
         "xcape -e 'Control_L=Escape'",
     ]
     for command in commands:
-        command = command.split()
-        subprocess.Popen(command)
+        subprocess.Popen(shlex.split(command))
 
 
 @hook.subscribe.startup_complete

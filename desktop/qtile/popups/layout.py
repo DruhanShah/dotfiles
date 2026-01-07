@@ -132,7 +132,7 @@ def powermenu_popup():
     return PopupAbsoluteLayout(
         width=1920,
         height=1080,
-        background=Colours.translucent(alpha="aa"),
+        background=Colours.translucent(alpha="66"),
         border_width=0,
         controls=[*powermenu_controls()],
         hide_on_timeout=0,

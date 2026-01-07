@@ -1,4 +1,4 @@
-from libqtile.widget import TextBox
+from qtile_extras.widget import UPowerWidget
 from qtile_extras.widget.mixins import ExtendedPopupMixin
 import psutil
 
@@ -23,10 +23,10 @@ def get_battery_icon(value):
     return "󰂑"
 
 
-class DiagnosticsWidget(TextBox, ExtendedPopupMixin):
+class DiagnosticsWidget(UPowerWidget, ExtendedPopupMixin):
 
     def __init__(self, **config):
-        TextBox.__init__(self, **config)
+        UPowerWidget.__init__(self, **config)
         ExtendedPopupMixin.__init__(self, **config)
         self.add_defaults(ExtendedPopupMixin.defaults)
         self.add_callbacks({"Button1": self.show_popup})

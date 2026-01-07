@@ -1,5 +1,5 @@
 from uptime import uptime
-from libqtile.widget import TextBox
+from libqtile.widget import Image
 from qtile_extras.widget.mixins import ExtendedPopupMixin
 
 
@@ -19,15 +19,15 @@ def pretty_time(seconds):
     return " ".join(components)
 
 
-class PowerWidget(TextBox, ExtendedPopupMixin):
+class PowerWidget(Image, ExtendedPopupMixin):
 
     def __init__(self, **config):
-        TextBox.__init__(self, **config)
+        Image.__init__(self, **config)
         ExtendedPopupMixin.__init__(self, **config)
         self.add_defaults(ExtendedPopupMixin.defaults)
         self.add_callbacks({"Button1": self.show_popup})
 
     def update_popup(self):
         uptime_s = uptime()
-        uptime_str = pretty_time(uptime_s)
+        uptime_str = f"Uptime: {pretty_time(uptime_s)}"
         self.extended_popup.update_controls(uptime=uptime_str)

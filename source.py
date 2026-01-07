@@ -18,8 +18,8 @@ from wallpapers import Wallpapers
 from web import Web
 
 
-decman.config.debug_output = True
-decman.config.quiet_output = False
+decman.config.debug_output = False
+decman.config.quiet_output = True
 decman.config.enable_flatpak = False
 
 decman.packages += [

@@ -1,5 +1,4 @@
-from libqtile.widget import TextBox, Spacer
-from qtile_extras.widget import modify
+from libqtile.widget import TextBox, Spacer, CurrentLayout
 from popups import PopupLayout
 
 from .groupbox import GroupBoxWidget
@@ -23,34 +22,32 @@ class Widgets:
 
     brightwidget = BrightWidget(
         **PopupLayout.brightness_layout,
-        mode="popup",
-        step=4800,
+        mode="popup", step=4800,
     )
     audiowidget = AudioWidget(
         **PopupLayout.volume_layout,
-        mode="popup",
-        step=5,
+        mode="popup", step=5,
     )
     groupboxwidget = GroupBoxWidget(
         **Theme.wgt_groupbox,
     )
-    datetimewidget = modify(
-        CalendarWidget,
+    datetimewidget = CalendarWidget(
         **PopupLayout.datetime_layout,
         **Theme.wgt_clock,
     )
-    diagnosticwidget = modify(
-        DiagnosticsWidget,
+    diagnosticwidget = DiagnosticsWidget(
         **PopupLayout.system_layout,
         **Theme.wgt_diagnostics,
     )
-    networkwidget = modify(
-        NetworkWidget,
+    networkwidget = NetworkWidget(
         **PopupLayout.network_layout,
         **Theme.wgt_networks,
     )
-    powerwidget = modify(
-        PowerWidget,
+    powerwidget = PowerWidget(
         **PopupLayout.powermenu_layout,
         **Theme.wgt_powermenu,
+    )
+    layoutwidget = CurrentLayout(
+        # **PopupLayout.layout_layout,
+        **Theme.wgt_layout,
     )

@@ -58,7 +58,6 @@ class DesktopUtils(Module):
         utils = [
             "brightnessctl",
             "flameshot",
-            "lxappearance",
             "papirus-icon-theme",
             "qt5ct",
             "qt6ct",

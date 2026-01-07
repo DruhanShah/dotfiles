@@ -6,17 +6,13 @@ from theme import Theme
 from hooks import autostart, bar_class
 
 
-scratchpads = [
-    # ("Browser", "zen-browser", "b"),
-]
-special_groups = [
-    # [{"wm_class": "zen"}],  # Browser
-]
+scratchpads = []
+special_groups = []
 
 screens = Screens.init_screens(1)
 notifications = Screens.init_notifs()
 
-layouts = [Layouts.scrolling]
+layouts = [Layouts.scrolling, Layouts.bsp, Layouts.stacking]
 floating_layout = Layouts.floating
 
 groups = Groups.init_groups(10, special_groups)

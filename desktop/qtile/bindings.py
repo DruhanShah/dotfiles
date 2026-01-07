@@ -52,10 +52,10 @@ class Keys:
 
             # Bar and widgets
             EzKeyChord("M-w", [
-                EzKey("1", lazy.widget["diagnosticswidget"].show_popup()),
-                EzKey("2", lazy.widget["networkwidget"].show_popup()),
-                EzKey("9", lazy.widget["calendarwidget"].show_popup()),
-                EzKey("0", lazy.widget["powerwidget"].show_popup()),
+                EzKey("1", lazy.widget["powerwidget"].show_popup()),
+                EzKey("7", lazy.widget["diagnosticswidget"].show_popup()),
+                EzKey("8", lazy.widget["networkwidget"].show_popup()),
+                EzKey("0", lazy.widget["calendarwidget"].show_popup()),
                 EzKey("b", lazy.hide_show_bar()),
             ]),
 
@@ -74,11 +74,13 @@ class Keys:
             EzKey("M-<equal>", lazy.screen.next_group()),
             EzKey("M-<minus>", lazy.screen.prev_group()),
         ]
+
+        # This conveniently skips the scratchpad at the end
+        # but only if there are exactly 10 groups
         for key, group in zip(group_keys, groups):
             name = group.name
             keys.extend([
                 EzKey(f"M-{key}", lazy.group[name].toscreen(0, toggle=True)),
-                # EzKey(f"M-A-{key}", lazy.group[name].toscreen(1, toggle=True)),
                 EzKey(f"M-S-{key}", lazy.window.togroup(name)),
             ])
 
