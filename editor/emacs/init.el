@@ -641,6 +641,8 @@ surrounded by word boundaries."
         org-latex-src-block-backend 'listings
 	org-latex-packages-alist '(("" "amsmath" t)
 				   ("" "amssymb" t)
+				   ("" "amsfonts" t)
+				   ("" "amsthm" t)
 				   ("" "mathtools" t)
 				   ("" "braket" t)
 				   ("" "physics" t)
@@ -931,6 +933,7 @@ For example:
 (add-hook 'elpaca-after-init-hook
           (lambda ()
             (progn
+	      (require 'nano-theme)
               (require 'nano-modeline)
               (nano-modeline nil nil t)
 

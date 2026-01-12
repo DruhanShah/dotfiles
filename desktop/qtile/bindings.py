@@ -7,7 +7,7 @@ from utils import launcher
 BROWSER = "zen-browser"
 EDITOR = "emacsclient -nca ''"
 TERMINAL = "kitty"
-ROFI = Path.home() / ".config/rofi/scripts/master.sh"
+ROFI = Path.home() / ".local/bin/rofi_master"
 
 
 class Keys:
@@ -33,14 +33,11 @@ class Keys:
             EzKey("M-S-j", lazy.layout.shuffle_down()),
             EzKey("M-S-k", lazy.layout.shuffle_up()),
             EzKey("M-S-l", lazy.layout.shuffle_right()),
-            EzKey("M-C-S-h", lazy.layout.shrink_left()),
-            EzKey("M-C-S-j", lazy.layout.grow_down()),
-            EzKey("M-C-S-k", lazy.layout.shrink_up()),
-            EzKey("M-C-S-l", lazy.layout.grow_right()),
+            EzKey("M-C-h", lazy.layout.shrink_left()),
+            EzKey("M-C-j", lazy.layout.grow_down()),
+            EzKey("M-C-k", lazy.layout.shrink_up()),
+            EzKey("M-C-l", lazy.layout.grow_right()),
             EzKey("M-C-f", lazy.layout.maximize()),
-            EzKey("M-C-h", lazy.layout.scroll_left()),
-            EzKey("M-C-l", lazy.layout.scroll_right()),
-            EzKey("M-C-<equal>", lazy.layout.reset_scroll()),
             EzKey("M-S-<space>", lazy.window.toggle_floating()),
             EzKey("M-f", lazy.window.toggle_fullscreen()),
 
@@ -55,6 +52,7 @@ class Keys:
                 EzKey("1", lazy.widget["powerwidget"].show_popup()),
                 EzKey("7", lazy.widget["diagnosticswidget"].show_popup()),
                 EzKey("8", lazy.widget["networkwidget"].show_popup()),
+                EzKey("9", lazy.widget["layoutwidget"].show_popup()),
                 EzKey("0", lazy.widget["calendarwidget"].show_popup()),
                 EzKey("b", lazy.hide_show_bar()),
             ]),

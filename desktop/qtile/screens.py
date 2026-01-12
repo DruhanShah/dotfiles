@@ -12,7 +12,7 @@ class Screens:
         return Bar(
             widgets=[
                 Widgets.brightwidget,
-                Widgets.audiowidget,
+                # Widgets.audiowidget,
                 Widgets.pad(4),
                 Widgets.powerwidget,
                 Widgets.pad(6),
@@ -25,7 +25,6 @@ class Screens:
                 Widgets.layoutwidget,
                 Widgets.pad(6),
                 Widgets.datetimewidget,
-                Widgets.pad(6),
             ],
             **Theme.bar
         )

@@ -1,6 +1,6 @@
 from decman import File, Module
 
-from config import CFG, file
+from config import CFG
 
 
 class Web(Module):
@@ -9,8 +9,8 @@ class Web(Module):
 
     def files(self) -> dict[str, File]:
         return {
-            f"{CFG}/userstyles/monkeytype.txt": file("web/monkeytype.txt"),
-            f"{CFG}/userstyles/userstyle.less": file("web/userstyle.less"),
+            f"{CFG}/userstyles/monkeytype.txt": File("web/monkeytype.txt"),
+            f"{CFG}/userstyles/userstyle.less": File("web/userstyle.less"),
         }
 
     def aur_packages(self) -> list[str]:

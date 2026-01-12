@@ -1,6 +1,6 @@
 from decman import Directory, Module
 
-from config import USER, directory
+from config import USER
 
 
 class Wallpapers(Module):
@@ -9,7 +9,7 @@ class Wallpapers(Module):
 
     def directories(self) -> dict[str, Directory]:
         return {
-            f"/home/{USER}/Wallpapers": directory("wallpapers/Wallpapers"),
+            f"/home/{USER}/Wallpapers": Directory("wallpapers/Wallpapers"),
         }
 
     def aur_packages(self) -> list[str]:

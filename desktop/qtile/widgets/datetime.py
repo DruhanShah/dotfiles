@@ -15,7 +15,7 @@ class CalendarWidget(Clock, ExtendedPopupMixin):
         Clock.__init__(self, **config)
         ExtendedPopupMixin.__init__(self, **config)
         self.add_defaults(ExtendedPopupMixin.defaults)
-        self.add_callbacks({"button1": self.show_popup})
+        self.mouse_callbacks = {"button1": self.show_popup}
 
     def update_datetime(self):
         now = datetime.datetime.now()

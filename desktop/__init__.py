@@ -1,6 +1,6 @@
 from decman import File, Directory, Module, prg
 
-from config import CFG, USER, file, directory
+from config import CFG, USER
 
 
 class WM(Module):
@@ -9,7 +9,7 @@ class WM(Module):
 
     def directories(self) -> dict[str, Directory]:
         return {
-            f"{CFG}/qtile": directory("desktop/qtile"),
+            f"{CFG}/qtile": Directory("desktop/qtile"),
         
         }
 
@@ -36,7 +36,7 @@ class Compositor(Module):
 
     def directories(self) -> dict[str, Directory]:
         return {
-            f"{CFG}/picom": directory("desktop/picom"),
+            f"{CFG}/picom": Directory("desktop/picom"),
         }
 
     def pacman_packages(self) -> list[str]:
@@ -51,7 +51,7 @@ class DesktopUtils(Module):
 
     def files(self) -> dict[str, File]:
         return {
-            f"/home/{USER}/.Xresources": file("desktop/.Xresources"),
+            f"/home/{USER}/.Xresources": File("desktop/.Xresources"),
         }
 
     def pacman_packages(self) -> list[str]:

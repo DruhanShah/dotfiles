@@ -3,13 +3,14 @@ from libqtile.lazy import lazy
 from qtile_extras.popup.toolkit import (
     PopupAbsoluteLayout,
     PopupText,
+    PopupImage,
 )
 
 from theme import Colours, Fonts
 
 
 def button(
-        text, name, colour, mouse_callback,
+        path, name, colour, mouse_callback,
         pos_x, pos_y,
 ):
     return [
@@ -17,7 +18,7 @@ def button(
             pos_x=pos_x - 1,
             pos_y=pos_y - 1,
             width=162,
-            height=102,
+            height=152,
             h_align="center",
             background=Colours.bg5,
             can_focus=False,
@@ -27,7 +28,7 @@ def button(
             pos_x=pos_x,
             pos_y=pos_y,
             width=160,
-            height=100,
+            height=150,
             h_align="center",
             background=Colours.bg1,
             highlight_method="border",
@@ -38,23 +39,20 @@ def button(
                 "Button1": mouse_callback,
             },
         ),
-        PopupText(
-            text=text,
-            pos_x=pos_x + 10,
+        PopupImage(
+            filename=expanduser(path),
+            pos_x=pos_x + 15,
             pos_y=pos_y + 10,
-            width=140,
-            height=70,
+            width=130,
+            height=120,
             h_align="center",
-            foreground=Colours.fg,
             background=Colours.bg1,
-            fontsize=32,
-            font=Fonts.symbol,
             can_focus=False,
         ),
         PopupText(
             text=name,
             pos_x=pos_x + 10,
-            pos_y=pos_y + 70,
+            pos_y=pos_y + 120,
             width=140,
             height=20,
             h_align="center",
@@ -70,9 +68,9 @@ def button(
 def powermenu_controls():
     return [
         PopupText(
-            text="Power",
+            text="Layout",
             pos_x=860,
-            pos_y=420,
+            pos_y=400,
             width=200,
             height=40,
             h_align="center",
@@ -81,58 +79,46 @@ def powermenu_controls():
             font=Fonts.sans + " Bold",
             can_focus=False,
         ),
-        PopupText(
-            name="uptime",
-            pos_x=600,
-            pos_y=600,
-            width=720,
-            height=40,
-            h_align="center",
-            foreground=Colours.fg,
-            fontsize=16,
-            font=Fonts.sans,
-            can_focus=False,
-        ),
         *button(
-            text="",
-            name="Lock",
-            colour=Colours.aqua,
-            mouse_callback=lazy.spawn(expanduser("~/.local/bin/lock")),
+            path="~/.config/qtile/assets/layout/layout-scrolling.svg",
+            name="Scrolling",
+            colour=Colours.yellow,
+            mouse_callback=lazy.group.setlayout("scrolling"),
             pos_x=610,
-            pos_y=490,
+            pos_y=470,
         ),
         *button(
-            text="",
-            name="Exit Qtile",
+            path="~/.config/qtile/assets/layout/layout-bsp.svg",
+            name="BSP",
             colour=Colours.blue,
-            mouse_callback=lazy.shutdown(),
+            mouse_callback=lazy.group.setlayout("bsp"),
             pos_x=790,
-            pos_y=490,
+            pos_y=470,
         ),
         *button(
-            text="",
-            name="Reboot",
-            colour=Colours.orange,
-            mouse_callback=lazy.spawn("reboot"),
-            pos_x=970,
-            pos_y=490,
-        ),
-        *button(
-            text="",
-            name="Shutdown",
+            path="~/.config/qtile/assets/layout/layout-stack.svg",
+            name="Stacking",
             colour=Colours.red,
-            mouse_callback=lazy.spawn("shutdown now"),
+            mouse_callback=lazy.group.setlayout("stack"),
+            pos_x=970,
+            pos_y=470,
+        ),
+        *button(
+            path="~/.config/qtile/assets/layout/layout-monadtall.svg",
+            name="MonadTall",
+            colour=Colours.green,
+            mouse_callback=lazy.group.setlayout("monadtall"),
             pos_x=1150,
-            pos_y=490,
+            pos_y=470,
         ),
     ]
 
 
-def powermenu_popup():
+def layout_popup():
     return PopupAbsoluteLayout(
         width=1920,
         height=1080,
-        background=Colours.translucent(alpha="66"),
+        background=Colours.translucent(alpha="aa"),
         border_width=0,
         controls=[*powermenu_controls()],
         hide_on_timeout=0,

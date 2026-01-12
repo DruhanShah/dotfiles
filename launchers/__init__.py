@@ -1,6 +1,6 @@
 from decman import Directory, Module
 
-from config import CFG, directory
+from config import CFG
 
 
 class Launcher(Module):
@@ -9,8 +9,8 @@ class Launcher(Module):
 
     def directories(self) -> dict[str, Directory]:
         return {
-            f"{CFG}/rofi/": directory("launchers/rofi"),
-            # f"{CFG}/vicinae/": directory("launchers/vicinae"),
+            f"{CFG}/rofi/": Directory("launchers/rofi"),
+            # f"{CFG}/vicinae/": Directory("launchers/vicinae"),
         }
 
     def aur_packages(self) -> list[str]:

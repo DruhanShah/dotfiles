@@ -8,9 +8,11 @@ from libqtile import qtile
 def autostart():
     commands = [
         "picom",
+        "vicinae server",
+        "greenclip daemon"
         "syncthing",
         "setxkbmap -option compose:ralt,ctrl:nocaps",
-        "xcape -e 'Control_L=Escape'",
+        "xcape -e \'Control_L=Escape\'",
     ]
     for command in commands:
         subprocess.Popen(shlex.split(command))

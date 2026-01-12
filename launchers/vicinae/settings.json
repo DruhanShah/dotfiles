@@ -1,0 +1,128 @@
+{
+	"$schema": "https://vicinae.com/schemas/config.json",
+
+	// A list of paths pointed to separate configuration files to source during loading.
+	// Note that values defined in the main configuration file always take precedence over imported
+	// files.
+	// Relative paths are accepted, and are relative to the configuration directory in which the importing configuration file is located.
+	"imports": [],
+
+	"search_files_in_root": false,
+	"escape_key_behavior": "navigate_back",
+
+	"close_on_focus_loss": false,
+	"consider_preedit": false,
+	"pop_to_root_on_close": true,
+	"favicon_service": "twenty",
+
+	// EXPERIMENTAL!
+	// Enable specific editing motions in the main search bar and during navigation.
+	// This will probably be changed in future updates.
+	// Supports: 'default' | 'emacs'
+	"keybinding": "default",
+
+	"font": {
+		"normal": {
+			"family": "Inter",
+			"size": 10.5
+		}
+	},
+
+	"theme": {
+		"light": {
+			"name": "vicinae-light",
+			"icon_theme": "auto"
+		},
+		"dark": {
+			"name": "vicinae-dark",
+			"icon_theme": "auto"
+		}
+	},
+
+	"launcher_window": {
+		"opacity": 0.95,
+		"blur": {
+			"enabled": false,
+		},
+		"dim_around": true,
+		"client_side_decorations": {
+			"enabled": false,
+			"rounding": 10,
+			"border_width": 1
+		},
+
+		// WARNING: compact mode works best when vicinae is rendered as a layer surface (the default if available), as opposed to a regular floating window.
+		"compact_mode": {
+			"enabled": false
+		},
+
+		"size": {
+			"width": 770,
+			"height": 480
+		},
+
+		// EXPERIMENTAL - X11 ONLY!
+		"screen": "auto",
+
+		"layer_shell": {
+			"enabled": false,
+			"keyboard_interactivity": "exclusive", // 'exclusive' | 'on_demand'
+			// either 'overlay' or 'top'.
+			// Other layers are not supported as they are unsuitable for a launcher.
+			// 'top' is recommended as using 'overlay' will make the vicinae window appear on top of IME popovers in some scenarios.
+			"layer": "top" 
+		}
+	},
+
+	// Keybinds are serialized using a custom format.
+	// It is recommended to edit them through the settings GUI, which will write them to this file.
+	"keybinds": {
+		// common shortcuts
+		"open-search-filter": "control+P",
+		"open-settings": "control+,",
+		"toggle-action-panel": "control+B",
+
+		// used to assign shortcuts to generic actions
+		// if an extension provides a specific kind of action, it is encouraged to use shortcuts as defined here.
+		"action.copy": "control+shift+C",
+		"action.copy-name": "control+shift+.",
+		"action.copy-path": "control+shift+,",
+		"action.dangerous-remove": "control+shift+X",
+		"action.duplicate": "control+D",
+		"action.edit": "control+E",
+		"action.edit-secondary": "control+shift+E",
+		"action.move-down": "control+shift+ARROWDOWN",
+		"action.move-up": "control+shift+ARROWUP",
+		"action.new": "control+N",
+		"action.open": "control+O",
+		"action.pin": "control+shift+P",
+		"action.refresh": "control+R",
+		"action.remove": "control+X",
+		"action.save": "control+S"
+	},
+
+	// List of entrypoints that are tagged as "favorite".
+	// They show up on the very top of the root search when no search query is active.
+	// Each value is a serialized entrypoint ID.
+	"favorites": [
+		"clipboard:history"
+	],
+
+	// List of entrypoints to suggest as a fallback when no result matches the
+	// provided search query.
+	// Each value is a serialized entrypoint ID.
+	"fallbacks": [
+		"files:search"
+	],
+
+	// Every item that can be activated from the vicinae root search is referred as an entrypoint, or sometimes, in the case of extensions, as a "command".
+	// Entrypoints are always grouped under a provider.
+	// e,g applications entrypoints are all grouped under the "applications" provider
+	//
+	// The best way to interact with providers and entrypoints is through the graphical interface provided by the
+	// settings window ("extensions" tab). Every time a change is made through this GUI, the relevant values will be
+	// written to the "providers" object below (password preferences excluded).
+	//
+	// The exact list of available providers depends on what extensions have been installed.
+	"providers": {}
+}

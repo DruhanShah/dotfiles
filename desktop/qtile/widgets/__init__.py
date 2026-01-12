@@ -1,4 +1,4 @@
-from libqtile.widget import TextBox, Spacer, CurrentLayout
+from libqtile.widget import TextBox, Spacer
 from popups import PopupLayout
 
 from .groupbox import GroupBoxWidget
@@ -8,6 +8,7 @@ from .diagnostics import DiagnosticsWidget
 from .datetime import CalendarWidget
 from .network import NetworkWidget
 from .powermenu import PowerWidget
+from .layout import LayoutWidget
 
 from theme import Theme
 
@@ -47,7 +48,7 @@ class Widgets:
         **PopupLayout.powermenu_layout,
         **Theme.wgt_powermenu,
     )
-    layoutwidget = CurrentLayout(
-        # **PopupLayout.layout_layout,
+    layoutwidget = LayoutWidget(
+        **PopupLayout.layout_layout,
         **Theme.wgt_layout,
     )

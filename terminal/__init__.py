@@ -1,6 +1,6 @@
 from decman import Directory, Module
 
-from config import CFG, directory
+from config import CFG
 
 
 class Terminal(Module):
@@ -9,7 +9,7 @@ class Terminal(Module):
 
     def directories(self) -> dict[str, Directory]:
         return {
-            f"{CFG}/kitty": directory("terminal/kitty"),
+            f"{CFG}/kitty": Directory("terminal/kitty"),
         }
 
     def pacman_packages(self) -> list[str]:
@@ -24,8 +24,8 @@ class TerminalUtils(Module):
 
     def directories(self) -> dict[str, Directory]:
         return {
-            f"{CFG}/ranger": directory("terminal/ranger"),
-            f"{CFG}/btop": directory("terminal/btop"),
+            f"{CFG}/ranger": Directory("terminal/ranger"),
+            f"{CFG}/btop": Directory("terminal/btop"),
         }
 
     def pacman_packages(self) -> list[str]:

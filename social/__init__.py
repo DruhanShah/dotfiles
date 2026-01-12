@@ -1,6 +1,6 @@
 from decman import File, Module
 
-from config import CFG, file
+from config import CFG
 
 
 BD_THEME = f"{CFG}/BetterDiscord/themes"
@@ -12,7 +12,7 @@ class Discord(Module):
 
     def files(self) -> dict[str, File]:
         betterdiscord = {
-            f"{BD_THEME}/{theme}.theme.css": file(f"social/{theme}.theme.css")
+            f"{BD_THEME}/{theme}.theme.css": File(f"social/{theme}.theme.css")
             for theme in ["everforest-light", "flexoki-light", "midnight-latte"]
         }
         return betterdiscord

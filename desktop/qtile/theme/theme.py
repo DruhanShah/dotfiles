@@ -21,22 +21,23 @@ class Theme:
         "border_normal": Colours.bg0,
         "default_width": 50,
         "grow_amount": 5,
-        "margin": 36,
+        "margin": 30,
         "snap": True,
         "width_rules": {
             Match(wm_class="scrcpy"): 30,
             Match(wm_class="discord"): 100,
             Match(wm_class="gimp"): 100,
+            Match(wm_class="inkscape"): 100,
             Match(wm_class="brave-browser"): 100,
             Match(wm_class="zen"): 100,
         },
     }
 
-    lyt_stacking = {
+    lyt_stack = {
         "border_width": 2,
         "border_focus": Colours.fg,
         "border_normal": Colours.bg0,
-        "margin": 36,
+        "margin": 30,
         "num_stacks": 1,
     }
 
@@ -45,7 +46,18 @@ class Theme:
         "border_focus": Colours.fg,
         "border_normal": Colours.bg0,
         "border_on_single": True,
-        "margin": 36,
+        "margin": 30,
+    }
+
+    lyt_monadtall = {
+        "border_width": 2,
+        "single_border_width": 2,
+        "border_focus": Colours.fg,
+        "border_normal": Colours.bg0,
+        "margin": 30,
+        "margin_single": 30,
+        "ratio": 0.6,
+        "new_client_position": "bottom",
     }
 
     lyt_floating = {
@@ -108,7 +120,7 @@ class Theme:
     }
 
     bar = {
-        "size": 40,
+        "size": 42,
         "margin": 0,
         "border_width": 0,
         "background": Colours.transparent(),
@@ -154,6 +166,7 @@ class Theme:
         "font": Fonts.sans + " Medium",
         "fontsize": 14,
         "padding": 10,
+        "width": 200,
     }
 
     wgt_diagnostics = {
@@ -191,6 +204,6 @@ class Theme:
     wgt_powermenu = {
         "filename": "~/.config/qtile/assets/others/qtile-logo.svg",
         "scale": False,
-        "margin_y": 8,
+        "margin_y": 12,
         "margin_x": 4,
     }

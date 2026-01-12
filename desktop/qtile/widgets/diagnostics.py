@@ -29,7 +29,7 @@ class DiagnosticsWidget(UPowerWidget, ExtendedPopupMixin):
         UPowerWidget.__init__(self, **config)
         ExtendedPopupMixin.__init__(self, **config)
         self.add_defaults(ExtendedPopupMixin.defaults)
-        self.add_callbacks({"Button1": self.show_popup})
+        self.mouse_callbacks = {"Button1": self.show_popup}
 
     def update_battery(self):
         icon = ""

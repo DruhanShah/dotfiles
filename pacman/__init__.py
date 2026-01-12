@@ -1,7 +1,5 @@
 from decman import File, Module
 
-from config import file
-
 
 class Pacman(Module):
     def __init__(self):
@@ -9,5 +7,5 @@ class Pacman(Module):
 
     def files(self) -> dict[str, File]:
         return {
-            "/etc/pacman.conf": file("pacman/pacman.conf", perms=0o644),
+            "/etc/pacman.conf": File("pacman/pacman.conf", permissions=0o644),
         }

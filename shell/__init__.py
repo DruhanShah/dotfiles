@@ -1,6 +1,6 @@
 from decman import File, Directory, Module
 
-from config import CFG, LCL, file, directory
+from config import CFG, LCL
 
 
 class Shell(Module):
@@ -9,7 +9,7 @@ class Shell(Module):
 
     def directories(self) -> dict[str, Directory]:
         return {
-            f"{CFG}/fish/": directory("shell/fish"),
+            f"{CFG}/fish/": Directory("shell/fish"),
         }
 
     def pacman_packages(self) -> list[str]:
@@ -25,9 +25,10 @@ class ShellUtils(Module):
 
     def files(self) -> dict[str, File]:
         return {
-            f"{LCL}/bin/lock": file("shell/bin/lock", perms=0x777),
-            f"{LCL}/bin/nltk": file("shell/bin/nltk", perms=0x777),
-            f"{LCL}/bin/touchpad": file("shell/bin/touchpad", perms=0x777),
+            f"{LCL}/bin/lock": File("shell/bin/lock", permissions=0o777),
+            f"{LCL}/bin/nltk": File("shell/bin/nltk", permissions=0o777),
+            f"{LCL}/bin/touchpad": File("shell/bin/touchpad", permissions=0o777),
+            f"{LCL}/bin/rofi_master": File("shell/bin/rofi_master", permissions=0o777),
         }
 
     def pacman_packages(self) -> list[str]:

@@ -12,7 +12,7 @@ special_groups = []
 screens = Screens.init_screens(1)
 notifications = Screens.init_notifs()
 
-layouts = [Layouts.scrolling, Layouts.bsp, Layouts.stacking]
+layouts = [Layouts.scrolling, Layouts.bsp, Layouts.stack, Layouts.monadtall]
 floating_layout = Layouts.floating
 
 groups = Groups.init_groups(10, special_groups)

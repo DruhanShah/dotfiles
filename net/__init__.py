@@ -1,6 +1,6 @@
 from decman import File, Module
 
-from config import CFG, file
+from config import CFG
 
 
 class Bluetooth(Module):
@@ -31,7 +31,7 @@ class Networking(Module):
 
     def files(self) -> dict[str, File]:
         return {            
-            f"{CFG}/linux.ovpn": file("net/linux.ovpn"),
+            f"{CFG}/linux.ovpn": File("net/linux.ovpn"),
         }
 
     def aur_packages(self) -> list[str]:
