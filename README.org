@@ -1,27 +1,4 @@
-#+title: Personal configurations
+#+title: My dotfiles
 #+author: Druhan Shah
 
-This branch is intended to be a hub for my different desktop configurations (Arch linux btw ;)). Each completed theme will be included below with screenshots.
-
-
-* Notebook
-
-This one aims at replicating a notebook-like feel with a light theme, minimal editor interfaces that are restricted to certain aspect ratios (through the WM layout) and horizontal scrolling-based organization of windows (similar to Niri).
-
-[[./assets/layout.png]]
-
-[[./assets/rofi.png]]
-
-
-* Abandoned themes
-
-These were previous branches that were later deleted because work on those rices had stopped. I might end up picking them up again later, but I make no commitments about them.
-
-*** MacOS but not really™
-An attempt at mimicking the Liquid Glass effect that is the charateristic of MacOS Tahoe, and one particular GNOME Shell theme. Abandoned since it requires a well-implemented Overview and better popup management than I could implement.
-
-*** The worst rice ever
-This was intended to be my submission for a Worst UI Hackathon, with (in)conveniences like window margins that are all slightly off, a +jarringly+ beautiful bright-coloured theme, (ir)regularly scheduled WM reloads, and more. Abandoned because I couldn't finish the rice before the contest ended.
-
-*** Material You Linux
-This was supposed to use the principles of Google's new Material Design 3, but implemented entirely natively. Abandoned because it was a lot of work to even set up.
+ This is my currently WIP repository consisting of my NixOS configuration. This used to contain my Arch Linux configuration, but I've since moved OSes. Till I move completely, there will be a separate branch that will contain the older configs.
