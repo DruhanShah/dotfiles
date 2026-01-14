@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<opml version="1.0">
+  <head>
+    <title>Elfeed-Org Export</title>
+  </head>
+  <body>
+    <outline title="News">
+      <outline title="India | The Hindu" xmlUrl="https://www.thehindu.com/news/national/feeder/default.rss"/>
+      <outline title="World | The Hindu" xmlUrl="https://www.thehindu.com/news/international/feeder/default.rss"/>
+      <outline title="Science | The Hindu" xmlUrl="https://www.thehindu.com/sci-tech/science/feeder/default.rss"/>
+    </outline>
+    <outline title="Tech">
+      <outline title="Hacker News" xmlUrl="https://news.ycombinator.com/rss"/>
+      <outline title="Ars Technica" xmlUrl="http://feeds.arstechnica.com/arstechnica/index"/>
+    </outline>
+    <outline title="Research">
+      <outline title="ArXiV CL" xmlUrl="https://rss.arxiv.org/rss/cs.CL"/>
+      <outline title="ArXiV AI" xmlUrl="https://rss.arxiv.org/rss/cs.AI"/>
+      <outline title="ArXiV Math" xmlUrl="https://rss.arxiv.org/rss/math"/>
+      <outline title="Ahead of AI" xmlUrl="https://sebastianraschka.com/rss_feed.xml"/>
+    </outline>
+    <outline title="Science">
+      <outline title="NASA Breaking News" xmlUrl="https://www.nasa.gov/rss/dyn/breaking_news.rss"/>
+      <outline title="Space | The Guardian" xmlUrl="https://www.theguardian.com/science/space/rss"/>
+      <outline title="Science | BBC News" xmlUrl="http://feeds.bbci.co.uk/news/science_and_environment/rss.xml"/>
+      <outline title="Discovery" xmlUrl="https://podcasts.files.bbci.co.uk/p002w557.rss"/>
+      <outline title="Scientific American" xmlUrl="http://rss.sciam.com/ScientificAmerican-Global"/>
+    </outline>
+  </body>
+</opml>
