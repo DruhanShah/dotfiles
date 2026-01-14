@@ -2,7 +2,7 @@
 {
   options = {
     wallpapers.enable = lib.mkEnableOption "Enable Wallpaper collection";
-  }
+  };
 
   config = lib.mkIf config.wallpapers.enable {
     home.file =

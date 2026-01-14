@@ -1,13 +1,11 @@
 { pkgs, lib, config, ... }:
 {
-  options = {
-    fonts.enable = lib.mkEnableOption "Enable custom fonts";
-  };
+  options = {};
 
-  config = lib.mkIf config.fonts.enable {
-    environment.systemPackages = with pkgs; [
+  config = {
+    fonts.packages = with pkgs; [
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-color-emoji
       inter
       iosevka

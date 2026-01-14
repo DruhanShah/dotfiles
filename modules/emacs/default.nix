@@ -5,16 +5,19 @@
   };
 
   config = lib.mkIf config.emacs.enable {
-    programs.emacs.enable = true;
+    programs.emacs = {
+      enable = true;
+      package = pkgs.emacs-pgtk;
+    };
     services.emacs = {
       enable = true;
-      package = pkgs.emacs;
+      package = pkgs.emacs-pgtk;
       defaultEditor = true;
-      socketActivation = true;
+      socketActivation.enable = true;
       startWithUserSession = true;
       client = {
         enable = true;
-	arguments = "-nca ''";
+        arguments = ["-nca ''"];
       };
     };
 

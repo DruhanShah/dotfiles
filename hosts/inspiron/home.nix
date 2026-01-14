@@ -4,7 +4,7 @@
   imports = [
     ../../modules/zen.nix
     ../../modules/vicinae.nix
-    ../../modules/kitty
+    ../../modules/kitty.nix
     ../../modules/emacs
     ../../modules/qtile
     ../../modules/wallpapers

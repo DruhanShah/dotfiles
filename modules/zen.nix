@@ -29,17 +29,16 @@
           Fingerprinting = true;
         };
       };
-      profiles.* = {
+      profiles.default = {
         extensions.packages = with config.zen.addons; [
 	  bitwarden
-	  enhancer-for-youtube
 	  stylus
 	  to-google-translate
 	  ublock-origin
 	  zotero-connector
         ];
 	spacesForce = true;
-	spaces = {
+	spaces."Default Space" = {
 	  id = "0b1d689e-7896-4ecb-80d6-24e9df9e0188";
 	  position = 1000;
         };

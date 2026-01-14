@@ -49,9 +49,9 @@
 	  };
           colors = {
             core = {
-              background = "#efebd4";
+              background = "#fdf6e3";
               foreground = "#5c6a72";
-              secondary_background = "#e0dcc7";
+              secondary_background = "#efebd4";
               border = "#bdc3af";
               accent = "#8da101";
             };

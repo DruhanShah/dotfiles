@@ -402,28 +402,6 @@
 (use-package magit
   :ensure t)
 
-(use-package copilot
-  :vc (:url "https://github.com/copilot-emacs/copilot.el"
-       :rev :newest
-       :branch "main")
-  :ensure t
-  :hook (prog-mode . copilot-mode)
-  :config
-  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion))
-
-(setq gemini-api-key (with-temp-buffer
-		       (insert-file-contents "~/.config/emacs/.gemini")
-		       (buffer-string)))
-
-(use-package gptel
-  :ensure t
-  :config
-  (setq gptel-backend
-	(gptel-make-gemini "Gemini"
-			   :key gemini-api-key
-			   :stream t)
-	gptel-default-mode 'org-mode))
-
 (require 'dired)
 (require 'dired-x)
 (setq dired-listing-switches
@@ -654,10 +632,10 @@ surrounded by word boundaries."
 	org-priority-highest 0
         org-priority-lowest 9
 	org-priority-default 5
-	org-agenda-files '("~/Notes/habits.org"
-			   "~/Notes/leisure.org"
-			   "~/Notes/refile.org"
-			   "~/Notes/work.org")
+	org-agenda-files '("~/notes/habits.org"
+			   "~/notes/leisure.org"
+			   "~/notes/refile.org"
+			   "~/notes/work.org")
 	org-hidden-keywords '(title subtitle author date)
 	org-src-window-setup 'current-window)
   (org-babel-do-load-languages
@@ -679,26 +657,12 @@ surrounded by word boundaries."
 (use-package org-roam
   :ensure t
   :config
-  (setq org-roam-directory "~/Notes")
+  (setq org-roam-directory "~/notes")
   (org-roam-db-autosync-mode)
   :bind (("C-c n f" . 'org-roam-node-find)
 	 ("C-c n i" . 'org-roam-node-insert)
 	 ("C-c n g" . 'org-roam-graph)
 	   ("C-c n c" . 'org-roam-capture)))
-
-(use-package ob-ipython
-    :ensure t
-    :after org
-    :config
-    (add-to-list 'org-babel-load-languages '(ipython . t))
-    (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
-
-  (use-package jupyter
-    :ensure t
-    :after org
-    :config
-    (add-to-list 'org-babel-load-languages '(jupyter . t))
-    (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
 
 (use-package ox-ipynb
   :ensure (ox-ipynb :host github :repo "jkitchin/ox-ipynb")

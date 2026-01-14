@@ -29,7 +29,7 @@ class Theme:
             Match(wm_class="gimp"): 100,
             Match(wm_class="inkscape"): 100,
             Match(wm_class="brave-browser"): 100,
-            Match(wm_class="zen"): 100,
+            Match(wm_class="zen-beta"): 100,
         },
     }
 

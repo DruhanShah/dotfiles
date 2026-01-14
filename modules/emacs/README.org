@@ -511,7 +511,7 @@ This sets up three major plugins: Magit (all hail), Copilot, and GPTel. Elpaca t
 
 Here, I set up the AI-based stuff like copilot (for completions) and GPTel (for other LLM and agent capabilities). I still need to get a handle on what GPTel can do for my particular use case.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle not-init.el
   (use-package copilot
     :vc (:url "https://github.com/copilot-emacs/copilot.el"
          :rev :newest
@@ -895,10 +895,10 @@ Now we can get back to org.
   	org-priority-highest 0
           org-priority-lowest 9
   	org-priority-default 5
-  	org-agenda-files '("~/Notes/habits.org"
-  			   "~/Notes/leisure.org"
-  			   "~/Notes/refile.org"
-  			   "~/Notes/work.org")
+  	org-agenda-files '("~/notes/habits.org"
+  			   "~/notes/leisure.org"
+  			   "~/notes/refile.org"
+  			   "~/notes/work.org")
   	org-hidden-keywords '(title subtitle author date)
   	org-src-window-setup 'current-window)
     (org-babel-do-load-languages
@@ -932,7 +932,7 @@ I'll start using Zettelkasten for my notes, because otherwise I'll end up creati
   (use-package org-roam
     :ensure t
     :config
-    (setq org-roam-directory "~/Notes")
+    (setq org-roam-directory "~/notes")
     (org-roam-db-autosync-mode)
     :bind (("C-c n f" . 'org-roam-node-find)
   	 ("C-c n i" . 'org-roam-node-insert)
@@ -944,25 +944,11 @@ I'll start using Zettelkasten for my notes, because otherwise I'll end up creati
 
 Babel is a module of Org mode that deals with other programming languages and how they integrate with Org. These integrations include "tangling" (bundling all codeblocks in an org file into an actual code file), and running in the file itself.
 
-I use this module greatly for treating Jupyter notebooks and Org files like each other.
+I use this module greatly for treating Jupyter notebooks and Org files like each other. (WIP)
 
 This also includes an Export module to export an org file as a Jupyter notebook
 
 #+begin_src emacs-lisp
-  (use-package ob-ipython
-    :ensure t
-    :after org
-    :config
-    (add-to-list 'org-babel-load-languages '(ipython . t))
-    (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
-
-  (use-package jupyter
-    :ensure t
-    :after org
-    :config
-    (add-to-list 'org-babel-load-languages '(jupyter . t))
-    (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
-
 (use-package ox-ipynb
   :ensure (ox-ipynb :host github :repo "jkitchin/ox-ipynb")
   :after org)

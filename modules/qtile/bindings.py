@@ -4,10 +4,10 @@ from libqtile.lazy import lazy
 # from utils import Function
 from utils import launcher
 
-BROWSER = "zen-browser"
+BROWSER = "zen"
 EDITOR = "emacsclient -nca ''"
 TERMINAL = "kitty"
-ROFI = Path.home() / ".local/bin/rofi_master"
+LAUNCHER = "vicinae toggle"
 
 
 class Keys:
@@ -45,7 +45,7 @@ class Keys:
             EzKey("M-b", lazy.spawn(BROWSER)),
             EzKey("M-<Return>", lazy.spawn(TERMINAL)),
             EzKey("M-e", lazy.spawn(EDITOR)),
-            EzKey("M-<Semicolon>", lazy.spawn(str(ROFI))),
+            EzKey("M-<Semicolon>", lazy.spawn(LAUNCHER)),
 
             # Bar and widgets
             EzKeyChord("M-w", [

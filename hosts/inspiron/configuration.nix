@@ -68,6 +68,7 @@
 
   programs.firefox.enable = true;
   programs.light.enable = true;
+  programs.fish.enable = true;
 
   programs.nh = {
     enable = true;
@@ -83,8 +84,7 @@
     isNormalUser = true;
     description = "Druhan Shah";
     extraGroups = [ "networkmanager" "wheel" "video" ];
-    packages = with pkgs; [
-    ];
+    shell = pkgs.fish;
   };
 
   environment.systemPackages = with pkgs; [
@@ -103,7 +103,7 @@
       PasswordAuthentication = false;
     };
     openFirewall = true;
-};
+  };
 
   system.stateVersion = "25.11";
 

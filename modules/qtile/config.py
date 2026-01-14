@@ -3,7 +3,8 @@ from layouts import Layouts
 from groups import Groups
 from bindings import Keys, Mouses
 from theme import Theme
-from hooks import autostart, bar_class
+from hooks import autostart
+from wayland import wl_input_rules
 
 
 scratchpads = []
