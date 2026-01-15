@@ -24,14 +24,20 @@
       url = "github:vicinaehq/extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, ... }@inputs: {
     nixosConfigurations.inspiron = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
         ./hosts/inspiron/configuration.nix
-	home-manager.nixosModules.home-manager {
+	inputs.stylix.nixosModules.stylix
+	inputs.home-manager.nixosModules.home-manager {
 	  home-manager.useGlobalPkgs = true;
 	  home-manager.useUserPackages = true;
 	  home-manager.extraSpecialArgs = { inherit inputs; };

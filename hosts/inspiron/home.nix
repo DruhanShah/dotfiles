@@ -20,10 +20,7 @@
 
   programs.btop = {
     enable = true;
-    settings = {
-      color_theme = "everforest-light-medium";
-      vim_keys = true;
-    };
+    settings.vim_keys = true;
   };
 
   programs.fish = {
@@ -41,6 +38,7 @@
   vicinae.addons = inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system};
   zen.enable = true;
   zen.addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
+  stylix.targets.emacs.enable = false;
 
   home.username = "druhan";
   home.homeDirectory = "/home/druhan";

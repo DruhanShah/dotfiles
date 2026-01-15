@@ -7,13 +7,8 @@
   config = lib.mkIf config.kitty.enable {
     programs.kitty = {
       enable = true;
-      font = {
-        name = "Iosevka";
-	package = pkgs.iosevka;
-	size = 12;
-      };
+      font.size = 12;
       settings = {
-        background_opacity = 1.0;
 	window_padding_width = 20;
       };
       extraConfig = ''
