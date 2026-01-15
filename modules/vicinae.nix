@@ -24,6 +24,8 @@
       extensions = with config.vicinae.addons; [
          bluetooth
          nix
+	 wifi-commander
+	 pulseaudio
       ];
     };
   };

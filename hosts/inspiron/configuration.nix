@@ -52,7 +52,6 @@
   programs.gdk-pixbuf.modulePackages = [ pkgs.librsvg ];
 
   hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
 
   services.upower.enable = true;
 
@@ -98,6 +97,7 @@
     vim
     wget
     kitty
+    grim
   ];
   environment.variables.EDITOR = "vim";
 

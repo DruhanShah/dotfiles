@@ -7,6 +7,7 @@
     ../../modules/kitty.nix
     ../../modules/media.nix
     ../../modules/discord.nix
+    ../../modules/flameshot.nix
     ../../modules/emacs
     ../../modules/qtile
     ../../modules/wallpapers
@@ -38,12 +39,14 @@
   qtile.enable = true;
   wallpapers.enable = true;
   media.enable = true;
+  flameshot.enable = true;
   discord.enable = true;
   vicinae.enable = true;
   vicinae.addons = inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system};
   zen.enable = true;
   zen.addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
   stylix.targets.emacs.enable = false;
+  stylix.targets.zen-browser.profileNames = [ "default" ];
 
   home.username = "druhan";
   home.homeDirectory = "/home/druhan";
