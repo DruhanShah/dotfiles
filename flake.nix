@@ -25,6 +25,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixcord.url = "github:kaylorben/nixcord";
+
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";

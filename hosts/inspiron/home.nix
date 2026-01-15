@@ -5,11 +5,14 @@
     ../../modules/zen.nix
     ../../modules/vicinae.nix
     ../../modules/kitty.nix
+    ../../modules/media.nix
+    ../../modules/discord.nix
     ../../modules/emacs
     ../../modules/qtile
     ../../modules/wallpapers
     inputs.zen-browser.homeModules.beta
     inputs.vicinae.homeManagerModules.default
+    inputs.nixcord.homeModules.nixcord
   ];
 
   programs.git = {
@@ -34,6 +37,8 @@
   emacs.enable = true;
   qtile.enable = true;
   wallpapers.enable = true;
+  media.enable = true;
+  discord.enable = true;
   vicinae.enable = true;
   vicinae.addons = inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system};
   zen.enable = true;
