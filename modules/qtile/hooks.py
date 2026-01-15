@@ -9,7 +9,6 @@ def autostart():
     commands = [
         "vicinae server",
         # "syncthing",
-        "xcape -e \'Control_L=Escape\'",
     ]
     for command in commands:
         subprocess.Popen(shlex.split(command))

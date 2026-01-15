@@ -6,6 +6,7 @@
       ./hardware-configuration.nix
       ../../modules/fonts.nix
       ../../modules/stylix.nix
+      ../../modules/games.nix
     ];
 
   boot.loader.systemd-boot.enable = true;
@@ -48,6 +49,8 @@
     };
   };
 
+  programs.gdk-pixbuf.modulePackages = [ pkgs.librsvg ];
+
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
@@ -87,6 +90,8 @@
     extraGroups = [ "networkmanager" "wheel" "video" ];
     shell = pkgs.fish;
   };
+
+  games.enable = true;
 
   environment.systemPackages = with pkgs; [
     git

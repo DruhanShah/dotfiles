@@ -1,0 +1,10 @@
+# Setting colorscheme
+include everforest-light
+
+# Startup options
+set font "Inter 11"
+set recolor true
+set guioptions "s"
+set selection-clipboard "clipboard"
+set synctex true
+set synctex-editor-command "emacsclient +%{line} %{input}"

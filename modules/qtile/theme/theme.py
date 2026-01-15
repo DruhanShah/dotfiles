@@ -25,7 +25,7 @@ class Theme:
         "snap": True,
         "width_rules": {
             Match(wm_class="scrcpy"): 30,
-            Match(wm_class="discord"): 100,
+            Match(wm_class="equibop"): 100,
             Match(wm_class="gimp"): 100,
             Match(wm_class="inkscape"): 100,
             Match(wm_class="brave-browser"): 100,
@@ -203,7 +203,7 @@ class Theme:
 
     wgt_powermenu = {
         "filename": "~/.config/qtile/assets/others/qtile-logo.svg",
-        "scale": False,
+        "scale": True,
         "margin_y": 12,
         "margin_x": 4,
     }
