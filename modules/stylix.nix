@@ -5,7 +5,7 @@
   config = {
     stylix.enable = true;
     stylix.polarity = "light";
-    stylix.base16Scheme = ./themes/everforest-light-medium.yaml;
+    stylix.base16Scheme = ../dots/stylix/everforest-light-medium.yaml;
     stylix.cursor = {
       package = pkgs.bibata-cursors;
       name = "Bibata-Modern-Classic";

@@ -27,7 +27,7 @@
 
     home.file =
     let
-      dotDir = "${config.home.homeDirectory}/dotfiles/modules/emacs";
+      dotDir = "${config.home.homeDirectory}/dotfiles/dots/emacs";
       symlink = config.lib.file.mkOutOfStoreSymlink;
     in {
       ".config/emacs/init.el".source = symlink "${dotDir}/init.el";

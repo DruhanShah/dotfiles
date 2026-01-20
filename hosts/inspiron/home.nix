@@ -10,9 +10,9 @@
     ../../modules/discord.nix
     ../../modules/flameshot.nix
     ../../modules/syncthing.nix
-    ../../modules/emacs
-    ../../modules/qtile
-    ../../modules/wallpapers
+    ../../modules/emacs.nix
+    ../../modules/qtile.nix
+    ../../modules/wallpapers.nix
     inputs.zen-browser.homeModules.beta
     inputs.vicinae.homeManagerModules.default
     inputs.nixcord.homeModules.nixcord

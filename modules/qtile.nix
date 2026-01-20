@@ -7,7 +7,7 @@
   config = lib.mkIf config.qtile.enable {
     home.file =
     let
-      dotDir = "${config.home.homeDirectory}/dotfiles/modules/qtile";
+      dotDir = "${config.home.homeDirectory}/dotfiles/dots/qtile";
       symlink = config.lib.file.mkOutOfStoreSymlink;
     in {
       ".config/qtile/bindings.py".source = symlink "${dotDir}/bindings.py";

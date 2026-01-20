@@ -7,7 +7,7 @@
   config = lib.mkIf config.wallpapers.enable {
     home.file =
     let
-      dotDir = "${config.home.homeDirectory}/dotfiles/modules";
+      dotDir = "${config.home.homeDirectory}/dotfiles/dots";
       symlink = config.lib.file.mkOutOfStoreSymlink;
     in {
       "wallpapers" = {
