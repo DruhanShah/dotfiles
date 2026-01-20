@@ -7,9 +7,16 @@
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-color-emoji
+      nerd-fonts.symbols-only
+
       inter
       iosevka
-      nerd-fonts.symbols-only
+
+      roboto
+      roboto-slab
+      roboto-serif
+      roboto-mono
+      roboto-flex
     ];
   };
 }

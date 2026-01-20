@@ -3,7 +3,7 @@ from layouts import Layouts
 from groups import Groups
 from bindings import Keys, Mouses
 from theme import Theme
-from hooks import autostart
+from hooks import autostart, flameshot
 from wayland import wl_input_rules
 
 

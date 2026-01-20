@@ -615,7 +615,7 @@ surrounded by word boundaries."
 	org-cycle-separator-lines 2
         org-pretty-entities t
         org-use-sub-superscripts t
-        org-format-latex-options (plist-put org-format-latex-options :scale 1.5)
+        org-format-latex-options (plist-put org-format-latex-options :scale 1.0)
         org-latex-src-block-backend 'listings
 	org-latex-packages-alist '(("" "amsmath" t)
 				   ("" "amssymb" t)
@@ -759,7 +759,7 @@ surrounded by word boundaries."
 				      :overline "#fdf6e3"))))
   :custom-face
   (org-modern-label
-   ((t (:family ,(face-attribute 'default :family)
+   ((t (:family "Iosevka"
 	:height 95))))
   (org-modern-date-active
    ((t (:inherit (org-modern-label)
@@ -822,6 +822,7 @@ surrounded by word boundaries."
   :ensure t
   :hook (prog-mode . highlight-indent-guides-mode)
   :config
+  (highlight-indent-guides-auto-set-faces)
   (setq highlight-indent-guides-method 'character
 	highlight-indent-guides-auto-enabled t
 	highlight-indent-guides-responsive 'top

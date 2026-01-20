@@ -21,7 +21,7 @@
         DisableTelemetry = true;
         DontCheckDefaultBrowser = true;
         NoDefaultBookmarks = true;
-        OfferToSaveLogins = false;
+        OfferToSaveLogins = true;
         EnableTrackingProtection = {
           Value = true;
           Locked = true;

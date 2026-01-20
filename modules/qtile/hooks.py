@@ -12,3 +12,10 @@ def autostart():
     ]
     for command in commands:
         subprocess.Popen(shlex.split(command))
+
+# WHY do I have to do this
+@hook.subscribe.client_new
+def flameshot(client):
+    if client.name and "flameshot" in client.name.lower():
+        client.enable_floating()
+        client.center()

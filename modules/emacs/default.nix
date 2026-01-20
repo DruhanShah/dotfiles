@@ -8,16 +8,20 @@
     programs.emacs = {
       enable = true;
       package = pkgs.emacs-pgtk;
+      extraPackages = epkgs: with epkgs; [
+        tree-sitter
+        tree-sitter-langs
+      	treesit-grammars.with-all-grammars
+      ];
     };
     services.emacs = {
       enable = true;
-      package = pkgs.emacs-pgtk;
       defaultEditor = true;
       socketActivation.enable = true;
       startWithUserSession = true;
       client = {
         enable = true;
-        arguments = ["-nca ''"];
+	arguments = ["-nca ''"];
       };
     };
 

@@ -48,7 +48,10 @@
       ];
     };
   };
-
+  xdg.portal = {
+    enable = true;
+    config.common.default = [ "wlr" ];
+  };
   programs.gdk-pixbuf.modulePackages = [ pkgs.librsvg ];
 
   hardware.bluetooth.enable = true;
@@ -98,8 +101,19 @@
     wget
     kitty
     grim
+    uv
+    gcc
+    zlib
+    ffmpeg
+    linux-wifi-hotspot
   ];
   environment.variables.EDITOR = "vim";
+
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc.lib
+    zlib
+  ];
 
   services.openssh = {
     enable = true;

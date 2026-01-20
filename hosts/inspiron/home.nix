@@ -6,8 +6,10 @@
     ../../modules/vicinae.nix
     ../../modules/kitty.nix
     ../../modules/media.nix
+    ../../modules/editing.nix
     ../../modules/discord.nix
     ../../modules/flameshot.nix
+    ../../modules/syncthing.nix
     ../../modules/emacs
     ../../modules/qtile
     ../../modules/wallpapers
@@ -39,7 +41,9 @@
   qtile.enable = true;
   wallpapers.enable = true;
   media.enable = true;
+  editing.enable = true;
   flameshot.enable = true;
+  syncthing.enable = true;
   discord.enable = true;
   vicinae.enable = true;
   vicinae.addons = inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system};
@@ -61,6 +65,7 @@
     gzip
 
     trash-cli
+    texliveFull
   ];
 
 }

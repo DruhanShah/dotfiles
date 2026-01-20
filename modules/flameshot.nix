@@ -5,10 +5,12 @@
   };
 
   config = lib.mkIf config.flameshot.enable {
+    home.packages = with pkgs; [
+      wl-clipboard
+    ];
     services.flameshot = {
       enable = true;
       settings.General = {
-        savePath = "/home/druhan/documents/screenshots";
 	saveAsFileExtension = ".png";
 	showStartupLaunchMessage = false;
 	showDesktopNotification = true;

@@ -6,6 +6,11 @@
     stylix.enable = true;
     stylix.polarity = "light";
     stylix.base16Scheme = ./themes/everforest-light-medium.yaml;
+    stylix.cursor = {
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Classic";
+      size = 24;
+    };
     stylix.fonts = {
       serif = {
         name = "Inter";
