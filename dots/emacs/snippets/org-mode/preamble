@@ -2,8 +2,9 @@
 # name: preamble
 # key: <pre
 # --
-
 #+title: $1
 #+author: Druhan Shah
+
+#+options: toc:$2 num:$3
 
 $0

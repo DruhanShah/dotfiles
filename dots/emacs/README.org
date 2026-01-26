@@ -365,8 +365,8 @@ I'm using Prot's =fontaine= package to setup my default fonts, independent of Ro
   	   :bold-weight semi-bold
   	   :italic-slant italic
 
-  	   :default-height 120
-  	   :line-spacing 0.10)))
+  	   :default-height 108
+  	   :line-spacing 0.1)))
     (fontaine-set-preset 'default))
 #+end_src
 
@@ -511,7 +511,7 @@ This sets up three major plugins: Magit (all hail), Copilot, and GPTel. Elpaca t
 
 Here, I set up the AI-based stuff like copilot (for completions) and GPTel (for other LLM and agent capabilities). I still need to get a handle on what GPTel can do for my particular use case.
 
-#+begin_src emacs-lisp :tangle not-init.el
+#+begin_src emacs-lisp :tangle no
   (use-package copilot
     :vc (:url "https://github.com/copilot-emacs/copilot.el"
          :rev :newest
@@ -537,7 +537,7 @@ Here, I set up the AI-based stuff like copilot (for completions) and GPTel (for 
 
 Xenodium has come out with the =agent-shell= package, which I'd like to try out with Gemini CLI. For now, it doesn't seem very stable, so I'll be keeping an eye out on the repo for updates.
 
-#+begin_src emacs-lisp :tangle not-init.el
+#+begin_src emacs-lisp :tangle no
   (use-package shell-maker
     :ensure t)
   (use-package acp
@@ -584,7 +584,7 @@ This has some nice features that I would like when using the builtin Dired. The 
 
 Dirvish stuff is still a work in progress.
 
-#+begin_src emacs-lisp :tangle not-init.el
+#+begin_src emacs-lisp :tangle no
   (use-package dirvish
     :ensure t
     :config
@@ -751,12 +751,12 @@ I'm starting to find too many insanely cool builtin features in Emacs. The Inter
 
 This section initially used PDF-Tools and =nov.el= for document reading (despite the jank from =nov.el=), but I'm now considering switching to Divya Ranjan's package =emacs-reader= which relies on MuPDF which I prefer anyways. Looks quite promisnig!
 
-On first try it's beautiful! The only gripe I have is the lack of annotations and theming, both of which (especially in my case) are only minor nitpicks.
+On first try it's beautiful! The only gripe I have is the lack of annotations and theming, both of which (especially in my case) are only minor nitpicks. There's also another issue of not being able to find =render-core.so= which I've not been able to fix.
 
 #+begin_src emacs-lisp
   (use-package reader
     :ensure (:type git :host codeberg :repo "divyaranjan/emacs-reader"
-  	   :files ("*.el", "render-core.so")
+  	   :files ("*.el" "render-core.so")
   	   :pre-build ("make" "all")))
 #+end_src
 
@@ -779,7 +779,7 @@ I'm (not really) using Corfu at the moment. Haven't tried out other completion f
 
 For spellchecking, I did try out jinx, but never ended up actually using it. Apparently Grammarly's Language Server borked itself, so now I'm switching to the OSS variant called LanguageTool (a maintained fork called LTeX+). Let's see how that goes. For now it's bugged out of its tiny little mind.
 
-#+begin_src emacs-lisp :tangle not-init.el
+#+begin_src emacs-lisp :tangle no
   (use-package eglot-ltex-plus
     :ensure (:host github :repo "emacs-langtool/eglot-ltex-plus")
     :hook
@@ -877,6 +877,7 @@ Now we can get back to org.
           org-hide-leading-stars nil
   	org-cycle-separator-lines 2
           org-pretty-entities t
+          org-pretty-entities-include-sub-superscripts nil
           org-use-sub-superscripts t
           org-format-latex-options (plist-put org-format-latex-options :scale 1.0)
           org-latex-src-block-backend 'listings
@@ -1260,6 +1261,16 @@ I had packages for Dyalog APL and GhostText here but I don't seem to use them at
 ** Lean4
 
 Also got the boot, but I'll reconsider once I have more time and once the official lean package is better maintained.
+
+** Nix
+
+Now that I'm using NixOS, I'm editing a lot of =.nix= files, which need their own major mode and LSP.
+
+#+begin_src emacs-lisp
+  (use-package nix-mode
+    :ensure t
+    :mode "\\.nix\\'")
+#+end_src
 
 
 * NΛNO Emacs modules

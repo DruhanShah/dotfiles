@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: lemma
+# key: <lem
+# --
+#+name: lem:$1
+#+attr_latex: :options $2
+#+begin_lemma
+$0
+#+end_lemma

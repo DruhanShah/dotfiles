@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: setbuilder
+# key: set
+# --
+\left\{ $1 \:\mid\: $2 \right\}$0

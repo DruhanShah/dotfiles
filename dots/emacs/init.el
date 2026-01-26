@@ -283,8 +283,8 @@
 	   :bold-weight semi-bold
 	   :italic-slant italic
 
-	   :default-height 120
-	   :line-spacing 0.10)))
+	   :default-height 108
+	   :line-spacing 0.1)))
   (fontaine-set-preset 'default))
 
 (defun drs/nerd-fonts ()
@@ -551,7 +551,7 @@ surrounded by word boundaries."
 
 (use-package reader
   :ensure (:type git :host codeberg :repo "divyaranjan/emacs-reader"
-	   :files ("*.el", "render-core.so")
+	   :files ("*.el" "render-core.so")
 	   :pre-build ("make" "all")))
 
 (use-package corfu
@@ -614,6 +614,7 @@ surrounded by word boundaries."
         org-hide-leading-stars nil
 	org-cycle-separator-lines 2
         org-pretty-entities t
+        org-pretty-entities-include-sub-superscripts nil
         org-use-sub-superscripts t
         org-format-latex-options (plist-put org-format-latex-options :scale 1.0)
         org-latex-src-block-backend 'listings
@@ -894,6 +895,10 @@ For example:
               (make-string right-bars ?┄)
               " " total-label)))
   (ready-player-mode +1))
+
+(use-package nix-mode
+  :ensure t
+  :mode "\\.nix\\'")
 
 (add-hook 'elpaca-after-init-hook
           (lambda ()

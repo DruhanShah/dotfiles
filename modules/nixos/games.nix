@@ -1,10 +1,10 @@
 { pkgs, lib, config, ... }:
 {
   options = {
-    games.enable = lib.mkEnableOption "Enable Steam and other games";
+    modules.games.enable = lib.mkEnableOption "Enable Steam and other games";
   };
 
-  config = lib.mkIf config.games.enable {
+  config = lib.mkIf config.modules.games.enable {
     programs.steam.enable = true;
     environment.systemPackages = with pkgs; [
       zeroad

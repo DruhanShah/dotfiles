@@ -1,18 +1,7 @@
 { config, pkgs, inputs, ... }:
 {
-
   imports = [
-    ../../modules/zen.nix
-    ../../modules/vicinae.nix
-    ../../modules/kitty.nix
-    ../../modules/media.nix
-    ../../modules/editing.nix
-    ../../modules/discord.nix
-    ../../modules/flameshot.nix
-    ../../modules/syncthing.nix
-    ../../modules/emacs.nix
-    ../../modules/qtile.nix
-    ../../modules/wallpapers.nix
+    ../../modules/home
     inputs.zen-browser.homeModules.beta
     inputs.vicinae.homeManagerModules.default
     inputs.nixcord.homeModules.nixcord
@@ -29,26 +18,20 @@
     settings.vim_keys = true;
   };
 
-  programs.fish = {
-    enable = true;
-    interactiveShellInit = ''
-      set fish_greeting
-    '';
-  };
-
-  kitty.enable = true;
-  emacs.enable = true;
-  qtile.enable = true;
-  wallpapers.enable = true;
-  media.enable = true;
-  editing.enable = true;
-  flameshot.enable = true;
-  syncthing.enable = true;
-  discord.enable = true;
-  vicinae.enable = true;
-  vicinae.addons = inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system};
-  zen.enable = true;
-  zen.addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
+  modules.fish.enable = true;
+  modules.kitty.enable = true;
+  modules.emacs.enable = true;
+  modules.qtile.enable = true;
+  modules.wallpapers.enable = true;
+  modules.media.enable = true;
+  modules.editing.enable = true;
+  modules.flameshot.enable = true;
+  modules.syncthing.enable = true;
+  modules.discord.enable = true;
+  modules.vicinae.enable = true;
+  modules.vicinae.addons = inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system};
+  modules.zen.enable = true;
+  modules.zen.addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
   stylix.targets.emacs.enable = false;
   stylix.targets.zen-browser.profileNames = [ "default" ];
 

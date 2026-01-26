@@ -6,22 +6,15 @@ from .base import Colours, Fonts
 
 class Theme:
 
-    grp_layouts = {
-        "Browser": {
-            "x": 0.00,
-            "y": 0.0341,
-            "width": 0.98,
-            "height": 0.934,
-        },
-    }
+    grp_layouts = {}
 
     lyt_scrolling = {
         "border_width": 2,
         "border_focus": Colours.fg,
-        "border_normal": Colours.bg0,
+        "border_normal": Colours.transparent(),
         "default_width": 50,
         "grow_amount": 5,
-        "margin": 30,
+        "margin": 18,
         "snap": True,
         "width_rules": {
             Match(wm_class="scrcpy"): 30,
@@ -37,7 +30,7 @@ class Theme:
         "border_width": 2,
         "border_focus": Colours.fg,
         "border_normal": Colours.bg0,
-        "margin": 30,
+        "margin": 18,
         "num_stacks": 1,
     }
 
@@ -46,7 +39,7 @@ class Theme:
         "border_focus": Colours.fg,
         "border_normal": Colours.bg0,
         "border_on_single": True,
-        "margin": 30,
+        "margin": 18,
     }
 
     lyt_monadtall = {
@@ -54,8 +47,8 @@ class Theme:
         "single_border_width": 2,
         "border_focus": Colours.fg,
         "border_normal": Colours.bg0,
-        "margin": 30,
-        "margin_single": 30,
+        "margin": 18,
+        "margin_single": 18,
         "ratio": 0.6,
         "new_client_position": "bottom",
     }
@@ -166,7 +159,7 @@ class Theme:
         "font": Fonts.sans + " Medium",
         "fontsize": 14,
         "padding": 10,
-        "width": 200,
+        "width": 215,
     }
 
     wgt_diagnostics = {

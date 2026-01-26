@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: spacing
+# key: <spc
+# --
+#+latex_header: \usepackage[margin=2cm]{geometry}
+#+latex_header: \usepackage[skip=10pt, indent=0pt]{parskip}
+$0

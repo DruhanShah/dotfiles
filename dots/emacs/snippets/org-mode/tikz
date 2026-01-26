@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: tikz
+# key: <tikz
+# --
+#+name: fig:$1
+#+caption: $2
+#+attr_latex: :options [h!]
+#+begin_figure
+\centering
+#+attr_latex: :options $3
+#+begin_tikzpicture
+$0
+#+end_tikzpicture
+#+end_figure

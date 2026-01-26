@@ -1,12 +1,9 @@
 { config, pkgs, inputs, ... }:
-
 {
   imports =
     [
       ./hardware-configuration.nix
-      ../../modules/fonts.nix
-      ../../modules/stylix.nix
-      ../../modules/games.nix
+      ../../modules/nixos
     ];
 
   boot.loader.systemd-boot.enable = true;
@@ -43,8 +40,8 @@
       enable = true;
       extraPackages = p: with p; [
         qtile-extras
-	pulsectl-asyncio
-	uptime
+	      pulsectl-asyncio
+	      uptime
       ];
     };
   };
@@ -93,7 +90,10 @@
     shell = pkgs.fish;
   };
 
-  games.enable = true;
+  modules.devtools.enable = true;
+  modules.fonts.enable = true;
+  modules.games.enable = true;
+  modules.stylix.enable = true;
 
   environment.systemPackages = with pkgs; [
     git
@@ -101,18 +101,10 @@
     wget
     kitty
     grim
-    uv
-    gcc
-    zlib
+    mupdf
     ffmpeg
     linux-wifi-hotspot
-  ];
-  environment.variables.EDITOR = "vim";
-
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    stdenv.cc.cc.lib
-    zlib
+    haveged
   ];
 
   services.openssh = {

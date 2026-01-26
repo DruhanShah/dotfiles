@@ -1,10 +1,10 @@
 { pkgs, lib, config, ... }:
 {
   options = {
-    discord.enable = lib.mkEnableOption "Enables Equicord (from Nixcord)";
+    modules.discord.enable = lib.mkEnableOption "Enables Equicord (from Nixcord)";
   };
 
-  config = lib.mkIf config.discord.enable {
+  config = lib.mkIf config.modules.discord.enable {
     programs.nixcord = {
       enable = true;
       discord.vencord.enable = false;
