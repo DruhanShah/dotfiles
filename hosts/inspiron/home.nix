@@ -25,9 +25,8 @@
   modules.wallpapers.enable = true;
   modules.media.enable = true;
   modules.editing.enable = true;
-  modules.flameshot.enable = true;
   modules.syncthing.enable = true;
-  modules.discord.enable = true;
+  modules.social.enable = true;
   modules.vicinae.enable = true;
   modules.vicinae.addons = inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system};
   modules.zen.enable = true;
@@ -47,8 +46,10 @@
     xz
     gzip
 
+    wl-clipboard
     trash-cli
     texliveFull
+    zotero
   ];
 
 }

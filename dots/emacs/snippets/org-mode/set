@@ -2,4 +2,4 @@
 # name: setbuilder
 # key: set
 # --
-\left\{ $1 \:\mid\: $2 \right\}$0
+\left\\{ $1 \:\middle|\: $2 \right\\}$0

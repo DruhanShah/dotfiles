@@ -37,11 +37,11 @@ class Widgets:
         **Theme.wgt_clock,
     )
     diagnosticwidget = DiagnosticsWidget(
-        **PopupLayout.system_layout,
+        # **PopupLayout.system_layout,
         **Theme.wgt_diagnostics,
     )
     networkwidget = NetworkWidget(
-        **PopupLayout.network_layout,
+        # **PopupLayout.network_layout,
         **Theme.wgt_networks,
     )
     powerwidget = PowerWidget(

@@ -101,6 +101,7 @@
     wget
     kitty
     grim
+    slurp
     mupdf
     ffmpeg
     linux-wifi-hotspot

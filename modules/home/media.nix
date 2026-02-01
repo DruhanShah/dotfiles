@@ -12,6 +12,14 @@
     programs.calibre.enable = true;
     programs.mpv.enable = true;
 
+    xdg.mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "application/pdf" = ["org.pwmt.zathura-pdf-mupdf.desktop" "org.pwmt.zathura.desktop"];
+        "application/epub+zip" = ["org.pwmt.zathura-pdf-mupdf.desktop" "org.pwmt.zathura.desktop"];
+      };
+    };
+
     home.file =
       let
         dotDir = "${config.home.homeDirectory}/dotfiles/dots";

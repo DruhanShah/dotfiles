@@ -7,7 +7,9 @@ from hooks import autostart, flameshot
 from wayland import wl_input_rules
 
 
-scratchpads = []
+scratchpads = [
+    ("Browser", "zen", "b"),
+]
 special_groups = []
 
 screens = Screens.init_screens(1)

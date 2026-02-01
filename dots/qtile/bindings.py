@@ -8,6 +8,7 @@ BROWSER = "zen"
 EDITOR = "emacsclient -nca ''"
 TERMINAL = "kitty"
 LAUNCHER = "vicinae toggle"
+SCREENSHOT = "grim -g \"$(slurp)\" - | wl-copy"
 
 
 class Keys:
@@ -21,7 +22,7 @@ class Keys:
             EzKey("<XF86AudioLowerVolume>", lazy.widget["audiowidget"].volume_down()),
             EzKey("<XF86AudioMute>", lazy.widget["audiowidget"].toggle_mute()),
             EzKey("<XF86AudioPlay>", lazy.widget["audiowidget"].play_pause()),
-            EzKey("<print>", lazy.spawn("flameshot gui")),
+            EzKey("<print>", lazy.spawn(SCREENSHOT, shell=True)),
 
             # Window Management
             EzKey("M-<space>", lazy.layout.next()),
@@ -61,7 +62,7 @@ class Keys:
             EzKey("M-S-r", lazy.function(launcher.toggle_popup)),
 
             # Important system utilities
-            EzKey("C-S-w", lazy.window.kill()),
+            EzKey("M-q", lazy.window.kill()),
             EzKey("M-C-r", lazy.reload_config()),
             EzKey("M-C-q", lazy.shutdown()),
         ]

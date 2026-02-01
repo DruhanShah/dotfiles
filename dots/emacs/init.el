@@ -124,7 +124,7 @@
 	(fg-alt      "#708089")
 	(bg-active   "#efebd4")
 	(bg-inactive "#e6e2cc")
-	(border      "#bdc3af")
+	(border      "#fdf6e3")
 	(red             "#f85552")
 	(red-warmer      "#f57d26")
 	(red-cooler      "#e66868")
@@ -263,7 +263,11 @@
 	modus-themes-prompts '(bold)
 	modus-themes-common-palette-overrides everforest-palette
 	modus-themes-headings everforest-heights)
-  (modus-themes-select 'modus-operandi))
+  (modus-themes-select 'modus-operandi)
+  (set-face-attribute 'window-divider-first-pixel nil
+		      :foreground (face-foreground 'window-divider))
+  (set-face-attribute 'window-divider-last-pixel nil
+		      :foreground (face-foreground 'window-divider)))
 
 (elpaca-wait)
 
@@ -606,7 +610,7 @@ surrounded by word boundaries."
   :hook (org-mode . visual-line-mode)
   :hook (org-mode . mixed-pitch-mode)
   :hook (org-mode . org-display-inline-images)
-  :hook (org-mode . turn-on-org-cdlatex)
+  :hook (org-mode . org-cdlatex-mode)
   :config
   (setq org-ellipsis " "
 	org-fontify-quote-and-verse-blocks t
@@ -616,7 +620,7 @@ surrounded by word boundaries."
         org-pretty-entities t
         org-pretty-entities-include-sub-superscripts nil
         org-use-sub-superscripts t
-        org-format-latex-options (plist-put org-format-latex-options :scale 1.0)
+        org-format-latex-options (plist-put org-format-latex-options :scale 0.75)
         org-latex-src-block-backend 'listings
 	org-latex-packages-alist '(("" "amsmath" t)
 				   ("" "amssymb" t)
@@ -652,19 +656,6 @@ surrounded by word boundaries."
   (require 'ox-extra)
   (ox-extras-activate '(latex-header-blocks ignore-headlines)))
 
-(use-package org-make-toc
-  :ensure t)
-
-(use-package org-roam
-  :ensure t
-  :config
-  (setq org-roam-directory "~/notes")
-  (org-roam-db-autosync-mode)
-  :bind (("C-c n f" . 'org-roam-node-find)
-	 ("C-c n i" . 'org-roam-node-insert)
-	 ("C-c n g" . 'org-roam-graph)
-	   ("C-c n c" . 'org-roam-capture)))
-
 (use-package ox-ipynb
   :ensure (ox-ipynb :host github :repo "jkitchin/ox-ipynb")
   :after org)
@@ -676,10 +667,11 @@ surrounded by word boundaries."
 
 (use-package citar
   :ensure t
+  :after nerd-icons org
   :custom
-  (org-cite-global-bibliography '("~/Research/Bibliography/NLP-Stuff.bib"
-				  "~/Research/Bibliography/Math-Stuff.bib"
-				  "~/Research/Bibliography/Other-Fun-Stuff.bib"))
+  (org-cite-global-bibliography '("~/research/bibliography/NLP-Stuff.bib"
+				  "~/research/bibliography/Math-Stuff.bib"
+				  "~/research/bibliography/Other-Fun-Stuff.bib"))
   (org-cite-insert-processor 'citar)
   (org-cite-follow-processor 'citar)
   (org-cite-activate-processor 'citar)

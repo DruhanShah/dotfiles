@@ -2,7 +2,7 @@ from .function import Function
 from .notifications import Notifier
 from .launcher import Launcher
 # from .lockscreen import Lockscreen
-from .border import Border
+from .border import RoundedCorners
 
 from libqtile import qtile
 
@@ -14,5 +14,5 @@ __all__ = [
     "launcher",
     "Function",
     "Notifier",
-    "Border",
+    "RoundedCorners",
 ]

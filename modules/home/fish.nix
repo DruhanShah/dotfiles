@@ -14,6 +14,9 @@ set fish_greeting
         fish_prompt = ''
 echo (set_color -o) (prompt_pwd --full-length-dirs 2) (set_color 40a02b)" "(set_color normal)
 '';
+        vim = ''
+emacsclient -nw $args
+'';
       };
     };
   };

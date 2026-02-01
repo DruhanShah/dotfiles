@@ -916,7 +916,7 @@ If DEFAULT is true, this is made the default mode/header line."
 			      '(mode-line)))
 	 (sep `(:overline nil
 		:underline (:color ,(modus-themes-get-color-value
-				      'border :overrides))
+				      'bg-inactive :overrides))
 		:height 0.1
 		:box nil
 		:background ,(face-background 'default)

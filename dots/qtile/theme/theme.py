@@ -1,12 +1,26 @@
 from libqtile.config import Match
 from libqtile.layout import Floating
+from utils import RoundedCorners
 
 from .base import Colours, Fonts
 
 
+MARGIN = 18
+BAR = 36
+
+
 class Theme:
 
-    grp_layouts = {}
+    grp_layouts = {
+        "Browser": {
+            "x": MARGIN/1920,
+            "y": MARGIN/(1080-BAR),
+            "width": 1 - 2*MARGIN/1920,
+            "height": 1 - 2*MARGIN/(1080-BAR),
+            "opacity": 1.0,
+            "on_focus_lost_hide": False,
+        },
+    }
 
     lyt_scrolling = {
         "border_width": 2,
@@ -14,7 +28,7 @@ class Theme:
         "border_normal": Colours.transparent(),
         "default_width": 50,
         "grow_amount": 5,
-        "margin": 18,
+        "margin": MARGIN,
         "snap": True,
         "width_rules": {
             Match(wm_class="scrcpy"): 30,
@@ -30,7 +44,7 @@ class Theme:
         "border_width": 2,
         "border_focus": Colours.fg,
         "border_normal": Colours.bg0,
-        "margin": 18,
+        "margin": MARGIN,
         "num_stacks": 1,
     }
 
@@ -39,7 +53,7 @@ class Theme:
         "border_focus": Colours.fg,
         "border_normal": Colours.bg0,
         "border_on_single": True,
-        "margin": 18,
+        "margin": MARGIN,
     }
 
     lyt_monadtall = {
@@ -47,8 +61,8 @@ class Theme:
         "single_border_width": 2,
         "border_focus": Colours.fg,
         "border_normal": Colours.bg0,
-        "margin": 18,
-        "margin_single": 18,
+        "margin": MARGIN,
+        "margin_single": MARGIN,
         "ratio": 0.6,
         "new_client_position": "bottom",
     }
@@ -113,7 +127,7 @@ class Theme:
     }
 
     bar = {
-        "size": 42,
+        "size": BAR,
         "margin": 0,
         "border_width": 0,
         "background": Colours.transparent(),
@@ -122,7 +136,7 @@ class Theme:
     wgt_defaults = {
         # Widgets
         "font": Fonts.symbol,
-        "fontsize": 14,
+        "fontsize": 13,
         "padding": 0,
         "foreground": Colours.fg,
         "background": Colours.transparent(),
@@ -146,9 +160,9 @@ class Theme:
         "background": Colours.transparent(),
         "active": Colours.fg,
         "inactive": Colours.bg_dim,
-        "occupied": Colours.grey2,
-        "radius": 5,
-        "size": 30,
+        "occupied": Colours.grey1,
+        "radius": 4,
+        "size": 24,
         "mode": "pills",
         "vertical": False,
     }
@@ -157,9 +171,8 @@ class Theme:
         "format": "%A, %d %b   %H:%M:%S",
         "foreground": Colours.fg,
         "font": Fonts.sans + " Medium",
-        "fontsize": 14,
         "padding": 10,
-        "width": 215,
+        "width": 200,
     }
 
     wgt_diagnostics = {
@@ -183,7 +196,6 @@ class Theme:
         "padding": 2,
         "text": "󰤨",
         "wifi_arc": 75,
-        "wifi_rectangle_width": 5,
         "wifi_shape": "arc",
     }
 
@@ -197,6 +209,6 @@ class Theme:
     wgt_powermenu = {
         "filename": "~/.config/qtile/assets/others/qtile-logo.svg",
         "scale": True,
-        "margin_y": 12,
-        "margin_x": 4,
+        "margin_y": 8,
+        "margin_x": 2,
     }

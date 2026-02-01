@@ -1,10 +1,10 @@
 { pkgs, lib, config, ... }:
 {
   options = {
-    modules.discord.enable = lib.mkEnableOption "Enables Equicord (from Nixcord)";
+    modules.social.enable = lib.mkEnableOption "Enables Equicord and Signal";
   };
 
-  config = lib.mkIf config.modules.discord.enable {
+  config = lib.mkIf config.modules.social.enable {
     programs.nixcord = {
       enable = true;
       discord.vencord.enable = false;
@@ -14,5 +14,9 @@
         frameless = true;
       };
     };
+
+    home.packages = with pkgs; [
+      signal-desktop
+    ];
   };
 }

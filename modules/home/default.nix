@@ -6,10 +6,9 @@
     ./kitty.nix
     ./media.nix
     ./editing.nix
-    ./discord.nix
-    ./flameshot.nix
     ./syncthing.nix
     ./emacs.nix
+    ./social.nix
     ./qtile.nix
     ./wallpapers.nix
     ./fish.nix

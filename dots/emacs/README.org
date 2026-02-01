@@ -193,7 +193,7 @@ I did try defining a custom Modus-based theme in a separate directory, but I don
   	(fg-alt      "#708089")
   	(bg-active   "#efebd4")
   	(bg-inactive "#e6e2cc")
-  	(border      "#bdc3af")
+  	(border      "#fdf6e3")
   	(red             "#f85552")
   	(red-warmer      "#f57d26")
   	(red-cooler      "#e66868")
@@ -334,7 +334,11 @@ I did try defining a custom Modus-based theme in a separate directory, but I don
   	modus-themes-prompts '(bold)
   	modus-themes-common-palette-overrides everforest-palette
   	modus-themes-headings everforest-heights)
-    (modus-themes-select 'modus-operandi))
+    (modus-themes-select 'modus-operandi)
+    (set-face-attribute 'window-divider-first-pixel nil
+  		      :foreground (face-foreground 'window-divider))
+    (set-face-attribute 'window-divider-last-pixel nil
+  		      :foreground (face-foreground 'window-divider)))
 
   (elpaca-wait)
 #+end_src
@@ -835,11 +839,11 @@ Some eshell niceties are to be expected :P
 #+end_src
 
 
-* Org Mode and $\LaTeX$
+* Org Mode and LaTeX
 
-All hail the OrgMode system! Lots of very helpful modules have been used here, and several more can be added once I start getting more comfortable with them.
+All hail the OrgMode system! Lots of very helpful modules have been used here, and this is by far the largest section in my config.
 
-** Actual Org and LaTeX
+** Baseline stuff
 
 First, since we're using ~org-cdlatex-mode~, we need to also install auctex, which might cause some issues.
 
@@ -869,7 +873,7 @@ Now we can get back to org.
     :hook (org-mode . visual-line-mode)
     :hook (org-mode . mixed-pitch-mode)
     :hook (org-mode . org-display-inline-images)
-    :hook (org-mode . turn-on-org-cdlatex)
+    :hook (org-mode . org-cdlatex-mode)
     :config
     (setq org-ellipsis " "
   	org-fontify-quote-and-verse-blocks t
@@ -879,7 +883,7 @@ Now we can get back to org.
           org-pretty-entities t
           org-pretty-entities-include-sub-superscripts nil
           org-use-sub-superscripts t
-          org-format-latex-options (plist-put org-format-latex-options :scale 1.0)
+          org-format-latex-options (plist-put org-format-latex-options :scale 0.75)
           org-latex-src-block-backend 'listings
   	org-latex-packages-alist '(("" "amsmath" t)
   				   ("" "amssymb" t)
@@ -912,7 +916,7 @@ Now we can get back to org.
 
 *** Bonuses
 
-Org-contrib and the =org-make-toc= package by Alphapapa (Adam Porter) are godsends!
+Org-contrib is a godsend! I'm a little disappointed there's a lot of conflicting information about it (almost certainly a skill issue btw).
 
 #+begin_src emacs-lisp
   (use-package org-contrib
@@ -920,34 +924,19 @@ Org-contrib and the =org-make-toc= package by Alphapapa (Adam Porter) are godsen
     :config
     (require 'ox-extra)
     (ox-extras-activate '(latex-header-blocks ignore-headlines)))
-
-  (use-package org-make-toc
-    :ensure t)
 #+end_src
+
 
 ** Org-Roam
 
-I'll start using Zettelkasten for my notes, because otherwise I'll end up creating multiple unnecessarily redundant files with either too little or too much information.
-
-#+begin_src emacs-lisp
-  (use-package org-roam
-    :ensure t
-    :config
-    (setq org-roam-directory "~/notes")
-    (org-roam-db-autosync-mode)
-    :bind (("C-c n f" . 'org-roam-node-find)
-  	 ("C-c n i" . 'org-roam-node-insert)
-  	 ("C-c n g" . 'org-roam-graph)
-	   ("C-c n c" . 'org-roam-capture)))
-#+end_src
+I liked the idea behind Org-Roam. I like the project itself, I really do! Ultimately I think Zettelkasten isn't for me, and I'm better off just using interconnected notes in multiple subdirectories instead of having a zero-depth colossal notes directory.
 
 ** Jupyter and other Babel shenanigans
 
 Babel is a module of Org mode that deals with other programming languages and how they integrate with Org. These integrations include "tangling" (bundling all codeblocks in an org file into an actual code file), and running in the file itself.
 
 I use this module greatly for treating Jupyter notebooks and Org files like each other. (WIP)
-
-This also includes an Export module to export an org file as a Jupyter notebook
+This also includes an Export module to export an org file as a Jupyter notebook.
 
 #+begin_src emacs-lisp
 (use-package ox-ipynb
@@ -971,10 +960,11 @@ Zotero is a gem, but it's a little messy to integrate into my Org-LaTeX document
 #+begin_src emacs-lisp
   (use-package citar
     :ensure t
+    :after nerd-icons org
     :custom
-    (org-cite-global-bibliography '("~/Research/Bibliography/NLP-Stuff.bib"
-  				  "~/Research/Bibliography/Math-Stuff.bib"
-  				  "~/Research/Bibliography/Other-Fun-Stuff.bib"))
+    (org-cite-global-bibliography '("~/research/bibliography/NLP-Stuff.bib"
+  				  "~/research/bibliography/Math-Stuff.bib"
+  				  "~/research/bibliography/Other-Fun-Stuff.bib"))
     (org-cite-insert-processor 'citar)
     (org-cite-follow-processor 'citar)
     (org-cite-activate-processor 'citar)
@@ -1256,11 +1246,7 @@ I was using Elfeed as my RSS feed, but I don't use it very often so I'm consider
 
 * Other esoteric stuff
 
-I had packages for Dyalog APL and GhostText here but I don't seem to use them at all so they're getting the boot.
-
-** Lean4
-
-Also got the boot, but I'll reconsider once I have more time and once the official lean package is better maintained.
+I had packages for Dyalog APL, Lean4 and GhostText here but I don't seem to use them at all so they're getting the boot.
 
 ** Nix
 
@@ -1293,5 +1279,3 @@ After a lot of tinkering, I've decided to start implementing all of these featur
                 (require 'nano-calendar)
                 (require 'nano-agenda))))
 #+end_src
-  
-                

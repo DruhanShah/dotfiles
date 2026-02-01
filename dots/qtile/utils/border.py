@@ -1,44 +1,44 @@
-"""Screen borders somewhat like EWW or Quickshell"""
-from theme import Colours, Theme
-from qtile_extras.popup import (
-    PopupAbsoluteLayout,
-    PopupText,
-)
-from libqtile import qtile
+from qtile_extras.layout.decorations.borders import _BorderStyle
+import cairocffi
+import math
+from libqtile.utils import rgb
 
+class RoundedCorners(_BorderStyle):
+    """
+    A simple decoration to draw rounded corners.
 
-class Border():
-    def __init__(self, border: int = 0):
-        self.border = border
-        self.w = 1920
-        self.h = 1080 - Theme.bar["size"]
-        self.controls = [
-            PopupText(
-                text="",
-                width=self.w-2*self.border,
-                height=self.h-2*self.border,
-                pos_x=self.border,
-                pos_y=self.border,
-                background=Colours.transparent(),
-                highlight_radius=12,
-            )
-        ]
-        self.layout = PopupAbsoluteLayout(
-            qtile,
-            height=self.h,
-            width=self.w,
-            background=Colours.bg0,
-            border_width=0,
-            controls=self.controls,
-            close_on_click=False,
-            hide_on_timeout=0,
-        )
+    .. note::
 
-    def show_popup(self):
-        self.layout.show(
-            relative_to=8,
-            relative_to_bar=True,
-        )
+        This border will not render well on x11 backends as it does not implement transparency.
+        As a result, the border will display with black artefacts in the corners.
 
-    def hide_popup(self):
-        self.layout.hide()
+    """
+
+    needs_surface = True
+
+    defaults = [
+        ("colour", "00f", "Border colour"),
+        ("radius", 2, "Border radius"),
+    ]
+
+    def __init__(self, **config):
+        _BorderStyle.__init__(self, **config)
+        self.add_defaults(RoundedCorners.defaults)
+
+    def draw(self, surface, bw, x, y, width, height):
+        with cairocffi.Context(surface) as ctx:
+            ctx.translate(x, y)
+
+            radius = self.radius
+            degrees = math.pi / 180.0
+
+            ctx.new_sub_path()
+            ctx.arc(width - bw - radius, bw + radius, radius, -90 * degrees, 0 * degrees)
+            ctx.arc(width - bw - radius, height - bw - radius, radius, 0 * degrees, 90 * degrees)
+            ctx.arc(bw + radius, height - bw - radius, radius, 90 * degrees, 180 * degrees)
+            ctx.arc(bw + radius, bw + radius, radius, 180 * degrees, 270 * degrees)
+            ctx.close_path()
+
+            ctx.set_line_width(bw)
+            ctx.set_source_rgba(*rgb(self.colour))
+            ctx.stroke()
