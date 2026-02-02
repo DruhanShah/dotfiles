@@ -25,12 +25,12 @@
      inkscape:document-units="mm"
      inkscape:zoom="3.9743549"
      inkscape:cx="90.958158"
-     inkscape:cy="67.935553"
-     inkscape:window-width="1844"
-     inkscape:window-height="964"
-     inkscape:window-x="36"
-     inkscape:window-y="76"
-     inkscape:window-maximized="1"
+     inkscape:cy="67.809747"
+     inkscape:window-width="1880"
+     inkscape:window-height="1004"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
      inkscape:current-layer="layer1"
      showgrid="false" />
   <defs
@@ -41,7 +41,7 @@
      id="layer1"
      transform="translate(-55.129707,-63.700253)">
     <rect
-       style="fill:#5c6a72;fill-opacity:0.79818988;stroke:#5c6a72;stroke-width:0.950857;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+       style="fill:#444444;fill-opacity:0.80000001;stroke:#444444;stroke-width:0.950857;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
        id="rect1"
        width="13.060157"
        height="26.085178"
@@ -50,7 +50,7 @@
        transform="scale(1,-1)"
        ry="3.1396666" />
     <rect
-       style="fill:#dfa000;fill-opacity:0.80000001;stroke:#dfa000;stroke-width:0.950857;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+       style="fill:#ad8301;fill-opacity:0.80000001;stroke:#ad8301;stroke-width:0.950857;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
        id="rect1-9"
        width="13.060157"
        height="26.085178"
@@ -59,7 +59,7 @@
        transform="scale(1,-1)"
        ry="3.1396666" />
     <rect
-       style="fill:#5c6a72;fill-opacity:0.79819;stroke:#5c6a72;stroke-width:0.950857;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+       style="fill:#444444;fill-opacity:0.80000001;stroke:#444444;stroke-width:0.950857;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
        id="rect1-2"
        width="13.060157"
        height="26.085178"

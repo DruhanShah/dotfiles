@@ -8,7 +8,7 @@
    version="1.1"
    id="svg1"
    inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
-   sodipodi:docname="layout-tile.svg"
+   sodipodi:docname="layout-monadtall.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,13 +24,13 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="4.7200219"
-     inkscape:cx="81.249623"
-     inkscape:cy="68.855613"
-     inkscape:window-width="1856"
-     inkscape:window-height="974"
-     inkscape:window-x="30"
-     inkscape:window-y="72"
-     inkscape:window-maximized="1"
+     inkscape:cx="81.143691"
+     inkscape:cy="68.749681"
+     inkscape:window-width="1880"
+     inkscape:window-height="1004"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
      inkscape:current-layer="layer1"
      showgrid="false" />
   <defs
@@ -41,7 +41,7 @@
      id="layer1"
      transform="translate(-55.018439,-63.637933)">
     <rect
-       style="fill:#5c6a72;fill-opacity:0.8;stroke:#5c6a72;stroke-width:0.781614;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+       style="fill:#444444;fill-opacity:0.80000001;stroke:#444444;stroke-width:0.781614;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
        id="rect1-9"
        width="14.721257"
        height="11.339061"
@@ -50,7 +50,7 @@
        transform="scale(-1)"
        ry="3.399488" />
     <rect
-       style="fill:#8da101;fill-opacity:0.8;stroke:#8da101;stroke-width:1.14366;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+       style="fill:#66800b;fill-opacity:0.80000001;stroke:#66800b;stroke-width:1.14366;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
        id="rect1-9-6"
        width="29.199614"
        height="25.787582"
@@ -59,7 +59,7 @@
        transform="scale(-1)"
        ry="2.432245" />
     <rect
-       style="fill:#5c6a72;fill-opacity:0.8;stroke:#5c6a72;stroke-width:0.790293;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+       style="fill:#444444;fill-opacity:0.80000001;stroke:#444444;stroke-width:0.790293;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
        id="rect1-9-1"
        width="14.714187"
        height="11.597858"

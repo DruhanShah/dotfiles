@@ -168,6 +168,34 @@
 	@mantle: #efebd4;
 	@crust: #e0dcc7;
     };
+    @eink: {
+	@rosewater: #af3029;
+	@flamingo: #bc5215;
+	@pink: #a02f6f;
+	@mauve: #5e409d;
+	@red: #af3029;
+	@maroon: #af3029;
+	@peach: #bc5215;
+	@yellow: #ad8301;
+	@green: #66800b;
+	@teal: #24837b;
+	@sky: #205ea6;
+	@sapphire: #24837b;
+	@blue: #205ea6;
+	@lavender: #5e409d;
+	@text: #111111;
+	@subtext1: #303030;
+	@subtext0: #444444;
+	@overlay2: #909090;
+	@overlay1: #999999;
+	@overlay0: #a0a0a0;
+	@surface2: #aaaaaa;
+	@surface1: #b0b0b0;
+	@surface0: #bbbbbb;
+	@base: #cccccc;
+	@mantle: #c0c0c0;
+	@crust: #bbbbbb;
+    }
 };
 
 /* deno-fmt-ignore */
@@ -340,6 +368,34 @@
 	@mantle: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
 	@crust: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
     };
+    @eink: {
+	@rosewater: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@flamingo: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@pink: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@mauve: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@red: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@maroon: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@peach: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@yellow: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@green: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@teal: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@sky: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@sapphire: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@blue: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@lavender: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@text: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@subtext1: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@subtext0: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@overlay2: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@overlay1: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@overlay0: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@surface2: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@surface1: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@surface0: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@base: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@mantle: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+	@crust: brightness(1) saturate(100%) invert(0%) sepia(0%) hue-rotate(0deg);
+    };
 };
 
 /* Override defaults for light theme */
@@ -403,7 +459,11 @@
     }
 
     .defaults() {
-	color-scheme: if((@flavor = latte) or (@flavor = flexoki) or (@flavor = everforest), light, dark);
+	color-scheme: if((@flavor = latte)
+			 or (@flavor = flexoki)
+			 or (@flavor = everforest)
+			 or (@flavor = eink),
+			 light, dark);
 
 	::selection {
 	    background-color: fade(@accent, 30%);

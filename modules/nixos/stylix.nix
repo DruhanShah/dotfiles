@@ -7,7 +7,7 @@
   config = lib.mkIf config.modules.stylix.enable {
     stylix.enable = true;
     stylix.polarity = "light";
-    stylix.base16Scheme = ../../dots/stylix/everforest-light-medium.yaml;
+    stylix.base16Scheme = ../../dots/stylix/e-ink.yaml;
     stylix.cursor = {
       package = pkgs.bibata-cursors;
       name = "Bibata-Modern-Classic";
