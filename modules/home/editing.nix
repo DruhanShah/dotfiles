@@ -9,6 +9,7 @@
       gimp
       inkscape
       openscad
+      kicad
     ];
   };
 }

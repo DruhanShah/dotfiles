@@ -1,126 +1,5 @@
 ;;; nano-modeline.el --- N Λ N O modeline -*- lexical-binding: t -*-
-
-;; Copyright (C) 2021-2024 Free Software Foundation, Inc.
-
-;; Maintainer: Nicolas P. Rougier <Nicolas.Rougier@inria.fr>
-;; URL: https://github.com/rougier/nano-modeline
-;; Version: 2.0
-;; Package-Requires: ((emacs "27.1"))
-;; Keywords: convenience, mode-line, header-line
-
-;; This file is not part of GNU Emacs.
-
-;; This file is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 3, or (at your option)
-;; any later version.
-
-;; This file is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
-
-;; For a full copy of the GNU General Public License
-;; see <https://www.gnu.org/licenses/>.
-
-;;; Commentary:
-;;
-;; Nano modeline is a an alternative to the GNU/Emacs modeline.  It can
-;; be displayed at the bottom (mode-line) or at the top (header-line)
-;; depending on the nano-modeline-position custom setting.  There are
-;; several modelines that can be installed on a per-mode basis or as
-;; the default.
-;;
-;; Everything is configurable via the nano-modeline customization group.
-;;
-;; Usage example:
-;;
-;; Use default modeline for the current buffer
-;; (nano-modeline)
-;;
-;; Install the modeline for all prog buffers:
-;; (add-hook 'prog-mode-hook
-;;    (lambda () (nano-modeline nano-modeline-format-default)))
-;;
-;; Make the default modeline the default for all buffers:
-;; (nano-modeline nil t)
-;;
-;;; NEWS:
-;;
-;; Version  2.0
-;; - Full rewrite for simplification
-;; - Advanced customization interfaces
-;; - No more svg buttons (only text buttons)
-;; - No mode active/inactive faces (active indicator instead)
-;; - Pixel precise alignment of the mode-line/header-line
-;;
-;; Version  1.1.0
-;; - Minor bugfix with org-capture
-;; - Better mu4e message mode line
-;; - Fixed eat mode line
-;; - Better margin/fringe alignment
-;; - API change: button now take advantage of new svg-lib API
-;; - Fixed flat-button style
-;;
-;; Version 1.0.1
-;; - Minor bugfix
-;;
-;; Version 1.0.0
-;; - Complete rewrite to make it simpler & faster
-;; - API break: No longer a minor mode
-;; - Activatable buttons can be added and grouped
-;; - Modeline can be now be activated through modes hook
-;;
-;; Version 0.7.2
-;; - Fix a bug in info mode (breadcrumbs)
-;; - Fix mu header mode for version 1.8
-;; - Put back padding (for default style)
-;;
-;; Version 0.7.1
-;; - Fix a bug with mu4e-dashboard
-;; - Fix a bug in pdf view mode
-;; - Better org-capture mode
-;;
-;; Version 0.7
-;; - Prefix is now an option (none, status or icon)
-;; - Prefix can be replaced by icons
-;; - Better space computation
-;; - New imenu-list mode
-;; - Indirect buffers are now handled properly
-;; - Bugfix in org-clock-mode
-;;
-;; Version 0.6
-;; - Spaces have face that enforce active/inactive
-;; - Better marker for dedicated windows
-;; - Internal reordering of modes, most frequent first
-;;    (educated guess, might vary greatly with users)
-;;
-;; Version 0.5.1
-;; - Bug fix (make-obsolete-variable)
-;; - Added marker for dedicated window
-;;
-;; Version 0.5
-;; - Dynamic version that is now configurable thanks to the wonderful
-;;   contribution of Hans Donner (@hans-d)
-;;
-;; Version 0.4
-;; - Reverted to RO/RW/** default prefix
-;;
-;; Version 0.3
-;; - Usage of :align-to: properties for better alignment
-;; - Added elpher mode
-;; - Fix user mode
-;;
-;; Version 0.2
-;; - Implements modeline as minor mode
-;;
-;; Version 0.1
-;; - Submission to ELPA
-;;
-
 ;;; Code:
-(require 'modus-themes)
-
 (defgroup nano nil
   "N Λ N O."
   :group 'convenience)
@@ -245,64 +124,64 @@ The unit is fraction of character height"
 
 (defface nano-modeline-face-buffer-modified
   `((t (:foreground ,(face-background 'default)
-        :background ,(modus-themes-get-color-value 'red :overrides)
+        :background "#af3029"
         :weight ,(face-attribute 'bold :weight))))
   "Face for modified buffer."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-tag
   `((t ( :foreground ,(face-background 'default)
-         :background ,(modus-themes-get-color-value 'blue :overrides)
+         :background "#205ea6"
          :weight ,(face-attribute 'bold :weight))))
   "Face for tags."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-default
-  `((t (:foreground ,(face-foreground 'default))))
+  `((t (:foreground "#444444")))
   "Default face for modeline."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-primary
-  `((t (:foreground ,(face-foreground 'default)
+  `((t (:foreground "#444444"
         :weight ,(face-attribute 'bold :weight))))
   "Face for primary information."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-secondary
-  `((t (:foreground ,(modus-themes-get-color-value 'fg-dim :overrides))))
+  `((t (:foreground "#888888")))
   "Face for secondary information."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-button-active
   `((t (:foreground ,(face-background 'default)
-        :background ,(modus-themes-get-color-value 'green :overrides)
+        :background "#66800b"
         :weight ,(face-attribute 'bold :weight))))
   "Active button face."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-button-progress
   `((t (:foreground ,(face-background 'default)
-        :background ,(modus-themes-get-color-value 'yellow :overrides)
+        :background "#ad8301"
         :weight ,(face-attribute 'bold :weight))))
   "Progress button face."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-button-dangerous
   `((t (:foreground ,(face-background 'default)
-        :background ,(modus-themes-get-color-value 'red :overrides)
+        :background "#af3029"
         :weight ,(face-attribute 'bold :weight))))
   "Dangerous button face."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-button-inactive
-  `((t (:foreground ,(modus-themes-get-color-value 'bg-inactive :overrides)
+  `((t (:foreground "#aaaaaa"
         :background ,(face-background 'default))))
   "Inactive button face."
   :group 'nano-modeline-faces)
 
 (defface nano-modeline-face-button-highlight
   `((t (:foreground ,(face-background 'default)
-        :background ,(modus-themes-get-color-value 'blue :overrides)
+        :background "#5e409d"
         :weight ,(face-attribute 'bold :weight))))
   "Highlight button face."
   :group 'nano-modeline-faces)
@@ -390,25 +269,6 @@ The unit is fraction of character height"
   "Modeline format for org lookup."
   :type 'nano-modeline-type
   :group 'nano-modeline-modes)
-
-(defcustom nano-modeline-format-nano-agenda
-  (cons '(nano-modeline-element-buffer-mode
-          nano-modeline-element-space
-          nano-modeline-element-nano-agenda-date)
-        '(nano-modeline-button-nano-agenda-prev-month
-          nano-modeline-element-half-space
-          nano-modeline-button-nano-agenda-prev-day
-          nano-modeline-element-half-space
-          nano-modeline-button-nano-agenda-today
-          nano-modeline-element-half-space
-          nano-modeline-button-nano-agenda-next-day
-          nano-modeline-element-half-space
-          nano-modeline-button-nano-agenda-next-month
-          nano-modeline-element-half-space
-          ))
-    "NANO agenda format."
-    :type 'nano-modeline-type
-    :group 'nano-modeline-modes)
 
 
 (defun nano-modeline-align-to (direction what &optional char-size pixel-size)
@@ -576,8 +436,7 @@ If SYMBOL is provided, it will be used instead of the default with FACE and RAIS
   (when (buffer-modified-p)
 	(propertize (nano-modeline-symbol 'buffer-modified)
 		    'face `(:inherit nano-modeline-face-primary
-			    :foreground ,(modus-themes-get-color-value 'red
-								       :overrides)))))
+			    :foreground "#af3029"))))
 
 (defun nano-modeline-element-buffer-name ()
   "Return a string with the buffer name."
@@ -798,105 +657,6 @@ A HELP text can be provided as a tootlip."
     (when mode
       (propertize (format "(%s mode)" mode) 'face 'nano-modeline-face-secondary))))
 
-;; --- Org capture ------------------------------------------------------------
-
-(defun nano-modeline-element-org-capture-desc ()
-  "Org capture description."
-
-  (let* ((header (nth 4 (org-heading-components)))
-         (header (or header ""))
-         (header (org-link-display-format header))
-         (header (replace-regexp-in-string org-ts-regexp3 "" header))
-         (header (string-trim header))
-         (header (substring-no-properties header)))
-    (propertize (format "(%s)" header)
-                'face 'nano-modeline-face-secondary)))
-
-(defun nano-modeline-button-org-capture-save ()
-  "Finalize the capture process."
-
-    (nano-modeline-button "SAVE"
-                          #'org-capture-finalize
-                          'active
-                          "Finalize the capture process"))
-
-(defun nano-modeline-button-org-capture-kill ()
-  "Abort the current capture process."
-
-    (nano-modeline-button "KILL"
-                          #'org-capture-kill
-                          'active
-                          "Abort the current capture process"))
-
-(defun nano-modeline-button-org-capture-refile ()
-  "Abort the current capture process."
-
-    (nano-modeline-button "REFILE"
-                          #'org-capture-refile
-                          'active
-                          "Finalize the current capture and then refile the entry."))
-
-;; --- Calendar ---------------------------------------------------------------
-(defun nano-modeline-element-calendar-date (&optional format)
-  "Calendar date FORMAT."
-
-  (let* ((date (calendar-cursor-to-date))
-         (date (when date
-                 (encode-time 0 0 0 (nth 1 date) (nth 0 date) (nth 2 date))))
-         (format (or format "%d %B %Y")))
-    (propertize (format-time-string format date)
-                'face 'nano-modeline-face-primary)))
-
-
-;; --- Nano Agenda -----------------------------------------------------------
-
-(defun nano-modeline-element-nano-agenda-date (&optional format)
-  "Current date FORMAT."
-
-  (let ((format (or format "%A %d %B %Y")))
-    (propertize (format-time-string format nano-agenda-date)
-                'face 'nano-modeline-face-primary)))
-
-(defun nano-modeline-button-nano-agenda-prev-month ()
-  "Go to previous month."
-
-  (nano-modeline-button "<<"
-                        #' nano-agenda-goto-prev-month
-                        'active
-                        "Go to previous month"))
-
-(defun nano-modeline-button-nano-agenda-today ()
-  "Go to today."
-
-  (nano-modeline-button "TODAY"
-                        #' nano-agenda-goto-today
-                        'active
-                        "Go to today"))
-
-(defun nano-modeline-button-nano-agenda-prev-day ()
-  "Go to previous day."
-
-  (nano-modeline-button "<"
-                        #' nano-agenda-goto-prev-day
-                        'active
-                        "Go to previous day"))
-
-(defun nano-modeline-button-nano-agenda-next-day ()
-  "Go to next day."
-
-  (nano-modeline-button ">"
-                        #' nano-agenda-goto-next-day
-                        'active
-                        "Go to next day"))
-
-(defun nano-modeline-button-nano-agenda-next-month ()
-  "Go to next month."
-
-  (nano-modeline-button ">>"
-                        #' nano-agenda-goto-next-month
-                        'active
-                        "Go to next month"))
-
 
 
 (defun nano-modeline (&optional format position default)
@@ -915,28 +675,23 @@ If DEFAULT is true, this is made the default mode/header line."
 				'(mode-line-active mode-line-inactive)
 			      '(mode-line)))
 	 (sep `(:overline nil
-		:underline (:color ,(modus-themes-get-color-value
-				      'bg-inactive :overrides))
+		:underline (:color "#999999")
 		:height 0.1
 		:box nil
 		:background ,(face-background 'default)
 		:foreground ,(face-background 'default)))
-	 (face `(:box (:color ,(modus-themes-get-color-value
-				'bg-main :overrides)
+	 (face `(:box (:color "#cccccc"
 		       :line-width (1 . 2))
                  :overline nil
                  :underline nil
 		 :foreground ,(face-foreground 'default)
-                 :background ,(modus-themes-get-color-value
-			       'bg-active :overrides)))
-         (face-relative `(:box (:color ,(modus-themes-get-color-value
-					 'bg-main :overrides)
+                 :background "#bbbbbb"))
+         (face-relative `(:box (:color "#cccccc"
 				:line-width (0 . 1))
                           :overline nil
                           :underline nil
 			  :foreground ,(face-foreground 'default)
-			  :background ,(modus-themes-get-color-value
-					'bg-active :overrides))))
+			  :background "#bbbbbb")))
 
     (face-remap-reset-base 'header-line)
     (face-remap-reset-base 'mode-line)
@@ -967,14 +722,6 @@ If DEFAULT is true, this is made the default mode/header line."
 	  (lambda () (nano-modeline nano-modeline-format-terminal)))
 (add-hook 'term-mode-hook
 	  (lambda () (nano-modeline nano-modeline-format-terminal)))
-(add-hook 'calendar-mode-hook
-	  (lambda () (nano-modeline nano-modeline-format-calendar)))
-(add-hook 'nano-calendar-mode-hook
-	  (lambda () (nano-modeline nano-modeline-format-calendar)))
-(add-hook 'org-capture-mode-hook
-	  (lambda () (nano-modeline nano-modeline-format-org-capture)))
-(add-hook 'nano-agenda-mode-hook
-	  (lambda () (nano-modeline nano-modeline-format-nano-agenda)))
 
 (provide 'nano-modeline)
 ;;; nano-modeline.el ends here

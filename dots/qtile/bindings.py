@@ -43,7 +43,7 @@ class Keys:
             EzKey("M-f", lazy.window.toggle_fullscreen()),
 
             # Applications and launchers
-            EzKey("M-b", lazy.spawn(BROWSER)),
+            # EzKey("M-b", lazy.spawn(BROWSER)),
             EzKey("M-<Return>", lazy.spawn(TERMINAL)),
             EzKey("M-e", lazy.spawn(EDITOR)),
             EzKey("M-<Semicolon>", lazy.spawn(LAUNCHER)),

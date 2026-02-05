@@ -172,14 +172,14 @@
 
 (defcustom nano-theme-palette
   '((light
-     :foreground "#5c6a72"
-     :background "#fdf6e3"
-     :highlight  "#efebd4"
-     :subtle     "#e0dcc7"
-     :faded      "#829181"
-     :salient    "#8da101"
-     :popout     "#f57d26"
-     :critical   "#f85552"
+     :foreground "#000000"
+     :background "#cccccc"
+     :highlight  "#bbbbbb"
+     :subtle     "#aaaaaa"
+     :faded      "#888888"
+     :salient    "#205ea6"
+     :popout     "#bc5215"
+     :critical   "#af3029"
      :strong     nil)
     (gray
      :foreground "#000000"

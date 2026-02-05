@@ -7,7 +7,10 @@
   config = lib.mkIf config.modules.media.enable {
     programs.zathura = {
       enable = true;
-      options = { recolor = true; };
+      options = {
+        recolor = true;
+        selection-clipboard = "clipboard";
+      };
     };
     programs.calibre.enable = true;
     programs.mpv.enable = true;
@@ -34,7 +37,6 @@
 
         ".config/calibre/resources/images".source = symlink "${dotDir}/calibre/resources/images";
         ".config/calibre/resources/images".recursive = true;
-        ".config/calibre/everforest.calibre-palette".source = symlink "${dotDir}/calibre/everforest.calibre-palette";
       };
   };
 }

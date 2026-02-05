@@ -18,7 +18,7 @@ class Theme:
             "width": 1 - 2*MARGIN/1920,
             "height": 1 - 2*MARGIN/(1080-BAR),
             "opacity": 1.0,
-            "on_focus_lost_hide": False,
+            "on_focus_lost_hide": True,
         },
     }
 
@@ -158,7 +158,7 @@ class Theme:
 
     wgt_groupbox = {
         "background": Colours.transparent(),
-        "active": Colours.fg,
+        "active": Colours.grey2,
         "inactive": Colours.bg_dim,
         "occupied": Colours.grey1,
         "radius": 4,
@@ -178,13 +178,13 @@ class Theme:
     wgt_diagnostics = {
         "battery_height": 12,
         "battery_width": 24,
-        "border_charge_colour": Colours.fg,
-        "border_colour": Colours.fg,
+        "border_charge_colour": Colours.grey2,
+        "border_colour": Colours.grey2,
         "border_critical_colour": Colours.red,
         "fill_charge": Colours.green,
         "fill_critical": Colours.red,
         "fill_low": Colours.orange,
-        "fill_normal": Colours.fg,
+        "fill_normal": Colours.grey2,
         "percentage_critical": 0.15,
         "percentage_low": 0.30,
         "padding": 2,

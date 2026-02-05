@@ -73,7 +73,6 @@
 (require 'holidays)
 (require 'org-agenda)
 (require 'hl-line)
-(require 'modus-themes)
 
 (defgroup nano-agenda nil
   "N Λ N O Agenda."
@@ -156,14 +155,14 @@
   :group 'nano-agenda-faces)
 
 (defface nano-agenda-calendar-selected
-  `((t :background ,(modus-themes-get-color-value 'magenta :overrides)
+  `((t :background "#a02f6f"
        :foreground ,(face-background 'default)
        :inherit bold))
   "Face for the selected day."
   :group 'nano-agenda-faces)
 
 (defface nano-agenda-calendar-offday
-  `((t :foreground ,(modus-themes-get-color-value 'fg-dim :overrides)))
+  `((t :foreground "#444444"))
   "Face for days outside curent month."
   :group 'nano-agenda-faces)
 

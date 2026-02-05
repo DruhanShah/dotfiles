@@ -116,160 +116,33 @@
   :config
   (ultra-scroll-mode 1))
 
-(setq everforest-palette
-      '((bg-main     "#fdf6e3")
-	(bg-dim      "#efebd4")
-	(fg-main     "#5c6a72")
-	(fg-dim      "#829181")
-	(fg-alt      "#708089")
-	(bg-active   "#efebd4")
-	(bg-inactive "#e6e2cc")
-	(border      "#fdf6e3")
-	(red             "#f85552")
-	(red-warmer      "#f57d26")
-	(red-cooler      "#e66868")
-	(red-faint       "#e66868")
-	(red-intense     "#f85552")
-	(green           "#8da101")
-	(green-warmer    "#8da101")
-	(green-cooler    "#35a77c")
-	(green-faint     "#35a77c")
-	(green-intense   "#8da101")
-	(yellow          "#dfa000")
-	(yellow-warmer   "#f57d26")
-	(yellow-cooler   "#dfa000")
-	(yellow-faint    "#dfa000")
-	(yellow-intense  "#dfa000")
-	(blue            "#3a94c5")
-	(blue-warmer     "#3a94c5")
-	(blue-cooler     "#708089")
-	(blue-faint      "#708089")
-	(blue-intense    "#3a94c5")
-	(magenta         "#df69ba")
-	(magenta-warmer  "#df69ba")
-	(magenta-cooler  "#df69ba")
-	(magenta-faint   "#d3869b")
-	(magenta-intense "#df69ba")
-	(cyan            "#35a77c")
-	(cyan-warmer     "#3a94c5")
-	(cyan-cooler     "#35a77c")
-	(cyan-faint      "#35a77c")
-	(cyan-intense    "#35a77c")
-	(rust    "#f57d26")
-	(gold    "#dfa000")
-	(olive   "#8da101")
-	(slate   "#708089")
-	(indigo  "#df69ba")
-	(maroon  "#f85552")
-	(pink    "#df69ba")
-	(bg-red-intense     "#fde3da")
-	(bg-green-intense   "#f0f1d2")
-	(bg-yellow-intense  "#faedcd")
-	(bg-blue-intense    "#e9f0e9")
-	(bg-magenta-intense "#fae8e2")
-	(bg-cyan-intense    "#e9f0e9")
-	(bg-red-subtle      "#fde3da")
-	(bg-green-subtle    "#f0f1d2")
-	(bg-yellow-subtle   "#faedcd")
-	(bg-blue-subtle     "#e9f0e9")
-	(bg-magenta-subtle  "#fae8e2")
-	(bg-cyan-subtle     "#e9f0e9")
-	(bg-red-nuanced     "#fde3da")
-	(bg-green-nuanced   "#f0f1d2")
-	(bg-yellow-nuanced  "#faedcd")
-	(bg-blue-nuanced    "#e9f0e9")
-	(bg-magenta-nuanced "#fae8e2")
-	(bg-cyan-nuanced    "#e9f0e9")
-	(bg-clay      "#e0dcc7")
-	(fg-clay      "#5c6a72")
-	(bg-ochre     "#faedcd")
-	(fg-ochre     "#dfa000")
-	(bg-lavender  "#fae8e2")
-	(fg-lavender  "#df69ba")
-	(bg-sage      "#f0f1d2")
-	(fg-sage      "#8da101")
-	(bg-graph-red-0     "#fde3da")
-	(bg-graph-red-1     "#f85552")
-	(bg-graph-green-0   "#f0f1d2")
-	(bg-graph-green-1   "#8da101")
-	(bg-graph-yellow-0  "#faedcd")
-	(bg-graph-yellow-1  "#dfa000")
-	(bg-graph-blue-0    "#e9f0e9")
-	(bg-graph-blue-1    "#3a94c5")
-	(bg-graph-magenta-0 "#fae8e2")
-	(bg-graph-magenta-1 "#df69ba")
-	(bg-graph-cyan-0    "#e9f0e9")
-	(bg-graph-cyan-1    "#35a77c")
-	(bg-completion      "#e9f0e9")
-	(bg-hover           "#eaedc8")
-	(bg-hover-secondary "#faedcd")
-	(bg-hl-line         "#efebd4")
-	(bg-region          "#eaedc8")
-	(fg-region          "#5c6a72")
-	(modeline-err     "#f85552")
-	(modeline-warning "#dfa000")
-	(modeline-info    "#3a94c5")
-	(bg-tab-bar     "#e6e2cc")
-	(bg-tab-current "#fdf6e3")
-	(bg-tab-other   "#e0dcc7")
-	(bg-added           "#f0f1d2")
-	(bg-added-faint     "#f0f1d2")
-	(bg-added-refine    "#e0dcc7")
-	(bg-added-fringe    "#8da101")
-	(fg-added           "#8da101")
-	(fg-added-intense   "#8da101")
-	(bg-changed         "#faedcd")
-	(bg-changed-faint   "#faedcd")
-	(bg-changed-refine  "#e0dcc7")
-	(bg-changed-fringe  "#dfa000")
-	(fg-changed         "#dfa000")
-	(fg-changed-intense "#dfa000")
-	(bg-removed         "#fde3da")
-	(bg-removed-faint   "#fde3da")
-	(bg-removed-refine  "#e0dcc7")
-	(bg-removed-fringe  "#f85552")
-	(fg-removed         "#f85552")
-	(fg-removed-intense "#f85552")
-	(bg-diff-context    "#efebd4")
-	(bg-paren-match      "#eaedc8")
-	(bg-paren-expression "#e6e2cc")
-	(fg-heading-0 fg-main)
-	(fg-heading-1 fg-main)
-	(fg-heading-2 fg-main)
-	(fg-heading-3 fg-main)
-	(fg-heading-4 fg-main)
-	(fg-heading-5 fg-main)
-	(fg-heading-6 fg-main)
-	(fg-heading-7 fg-main)
-	(fg-heading-8 fg-main)
-	(fg-mode-line-active fg-main)
-	(bg-mode-line-active bg-active)
-	(border-mode-line-active bg-active)
-	(fg-mode-line-inactive fg-dim)
-	(bg-mode-line-inactive bg-inactive)
-	(border-mode-line-inactive bg-inactive)))
-
-(setq everforest-heights
-      '((0 . (bold 1.5))
-	(1 . (bold 1.4))
-	(2 . (bold 1.25))
-	(agenda-date . (bold 1.2))
-	(t . (bold 1.1))))
-
-(use-package modus-themes
-  :ensure t
-  :config
-  (setq modus-themes-mixed-fonts t
-	modus-themes-prompts '(bold)
-	modus-themes-common-palette-overrides everforest-palette
-	modus-themes-headings everforest-heights)
-  (modus-themes-select 'modus-operandi)
-  (set-face-attribute 'window-divider-first-pixel nil
-		      :foreground (face-foreground 'window-divider))
-  (set-face-attribute 'window-divider-last-pixel nil
-		      :foreground (face-foreground 'window-divider)))
-
-(elpaca-wait)
+(add-hook 'enable-theme-functions
+	  (lambda (theme)
+            (with-eval-after-load 'org-faces
+              (set-face-attribute 'org-document-title nil
+                                  :inherit 'bold
+				  :foreground "#444444"
+				  :height 1.6)
+	      (set-face-attribute 'org-level-1 nil
+				  :inherit 'bold
+				  :height 1.25)
+	      (set-face-attribute 'org-level-2 nil
+				  :inherit 'bold
+				  :height 1.25)
+	      (set-face-attribute 'org-level-3 nil
+				  :inherit 'bold
+				  :height 1.25)
+	      (set-face-attribute 'org-level-4 nil
+				  :inherit 'bold
+				  :height 1.25)
+	      (set-face-attribute 'vertical-border nil
+				  :foreground 'unspecified)
+	      (set-face-attribute 'window-divider nil
+				  :foreground 'unspecified)
+	      (set-face-attribute 'window-divider-last-pixel nil
+				  :foreground 'unspecified)
+	      (set-face-attribute 'window-divider-first-pixel nil
+				  :foreground 'unspecified))))
 
 (use-package fontaine
   :ensure t
@@ -611,6 +484,7 @@ surrounded by word boundaries."
   :hook (org-mode . mixed-pitch-mode)
   :hook (org-mode . org-display-inline-images)
   :hook (org-mode . org-cdlatex-mode)
+  :hook (org-mode . org-indent-mode)
   :config
   (setq org-ellipsis " "
 	org-fontify-quote-and-verse-blocks t
@@ -730,55 +604,55 @@ surrounded by word boundaries."
   (org-modern-star nil)
   (org-modern-hide-stars t)
   (org-modern-timestamp '(" %^b %d " . " %H%M "))
-  (org-modern-todo-faces `(("TODO" . (:foreground "#f85552"
+  (org-modern-todo-faces `(("TODO" . (:foreground "#af3029"
 				      :height 95
 				      :box (1 . 2)
-				      :overline "#fdf6e3"))
-			   ("DOING" . (:foreground "#dfa000"
+				      :overline "#cccccc"))
+			   ("DOING" . (:foreground "#ad8301"
 				       :height 95
 				       :box (1 . 2)
-				       :overline "#fdf6e3"))
-			   ("DONE" . (:foreground "#8da101"
+				       :overline "#cccccc"))
+			   ("DONE" . (:foreground "#66800b"
 				      :height 95
 				      :box (1 . 2)
-				      :overline "#fdf6e3"))
-			   ("HOLD" . (:foreground "#708089"
+				      :overline "#cccccc"))
+			   ("HOLD" . (:foreground "#888888"
 				      :height 95
 				      :box (1 . 2)
-				      :overline "#fdf6e3"))
-			   ("NOPE" . (:foreground "#a6b0a0"
+				      :overline "#cccccc"))
+			   ("NOPE" . (:foreground "#aaaaaa"
 				      :height 95
 				      :box (1 . 2)
-				      :overline "#fdf6e3"))))
+				      :overline "#cccccc"))))
   :custom-face
   (org-modern-label
    ((t (:family "Iosevka"
 	:height 95))))
   (org-modern-date-active
    ((t (:inherit (org-modern-label)
-	:foreground "#fdf6e3"
-	:background "#3a94c5"
-	:overline "#fdf6e3"
-	:box (:color "#3a94c5"
+	:foreground "#cccccc"
+	:background "#205ea6"
+	:overline "#cccccc"
+	:box (:color "#205ea6"
 	      :line-width (1 . 2))))))
   (org-modern-time-active
    ((t (:inherit (org-modern-label)
-	:foreground "#3a94c5"
-	:background "#fdf6e3"
-	:overline "#fdf6e3"
+	:foreground "#205ea6"
+	:background "#cccccc"
+	:overline "#cccccc"
 	:box (:line-width (1 . 2))))))
   (org-modern-date-inactive
    ((t (:inherit (org-modern-label)
-	:foreground "#fdf6e3"
-	:background "#708089"
-	:overline "#fdf6e3"
-	:box (:color "#708089"
+	:foreground "#cccccc"
+	:background "#888888"
+	:overline "#cccccc"
+	:box (:color "#888888"
 	      :line-width (1 . 2))))))
   (org-modern-time-inactive
    ((t (:inherit (org-modern-label)
-	:foreground "#708089"
-	:background "#fdf6e3"
-	:overline "#fdf6e3"
+	:foreground "#888888"
+	:background "#cccccc"
+	:overline "#cccccc"
 	:box (:line-width (1 . 2))))))
   :config
   (global-org-modern-mode))
@@ -895,7 +769,6 @@ For example:
 (add-hook 'elpaca-after-init-hook
           (lambda ()
             (progn
-	      (require 'nano-theme)
               (require 'nano-modeline)
               (nano-modeline nil nil t)
 

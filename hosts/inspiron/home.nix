@@ -31,12 +31,18 @@
   modules.vicinae.addons = inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system};
   modules.zen.enable = true;
   modules.zen.addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
-  stylix.targets.emacs.enable = false;
+  # stylix.targets.emacs.enable = false;
   stylix.targets.zen-browser.profileNames = [ "default" ];
 
   home.username = "druhan";
   home.homeDirectory = "/home/druhan";
   home.stateVersion = "25.11";
+
+  xdg.userDirs = {
+    enable = true;
+    download = "$HOME/downloads";
+    documents = "$HOME/documents";
+  };
 
   home.packages = with pkgs; [
     atool
