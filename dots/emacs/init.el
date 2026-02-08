@@ -1,11 +1,3 @@
-;; ---------------------------------------------
-;;              EMACS INIT FILE
-;; 
-;; This is where all of my configuration for
-;; GNU Emacs resides. Please read README.org for
-;; more detailed information about the config.
-;; ---------------------------------------------
-
 (defvar elpaca-installer-version 0.11)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
@@ -55,7 +47,6 @@
 
 (setq gc-cons-threshold 63000000
       gc-cons-percentage 0.6)
-(add-to-list 'load-path "~/.config/emacs/nano")
 (global-auto-revert-mode)
 
 (setq inhibit-startup-screen t)
@@ -84,20 +75,10 @@
 (setq default-frame-alist
       (append (list
                '(vertical-scroll-bars . nil)
-               '(internal-border-width . 20)
-               '(left-fringe . 0)
-               '(right-fringe . 0)
-               '(undecorated-round . t) ;; emacs-plu@29 only
                '(scroll-bar-mode . -1)
                '(tool-bar-lines . 0)
 	       '(tool-bar-position . left)
                '(menu-bar-lines . 0))))
-
-(setq tool-bar-style 'image)
-
-(setq window-divider-default-right-width 20)
-(setq window-divider-default-places 'right-only)
-(window-divider-mode 1)
 
 (setq make-backup-files nil)
 
@@ -107,14 +88,6 @@
 (set-display-table-slot standard-display-table
                         'wrap
 			(make-glyph-code ?- 'font-lock-comment-face))
-
-(use-package ultra-scroll
-  :ensure t
-  :init
-  (setq scroll-conservatively 3
-	scroll-margin 0)
-  :config
-  (ultra-scroll-mode 1))
 
 (add-hook 'enable-theme-functions
 	  (lambda (theme)
@@ -136,13 +109,34 @@
 				  :inherit 'bold
 				  :height 1.25)
 	      (set-face-attribute 'vertical-border nil
-				  :foreground 'unspecified)
+				  :foreground (face-background 'default))
 	      (set-face-attribute 'window-divider nil
-				  :foreground 'unspecified)
+				  :foreground (face-background 'default))
 	      (set-face-attribute 'window-divider-last-pixel nil
-				  :foreground 'unspecified)
+				  :foreground (face-background 'default))
 	      (set-face-attribute 'window-divider-first-pixel nil
-				  :foreground 'unspecified))))
+				  :foreground (face-background 'default)))))
+
+(use-package spacious-padding
+  :ensure t
+  :config
+  (setq spacious-padding-widths
+	'( :internal-border-width 20
+	   :header-line-width 6
+	   :mode-line-width 0
+	   :custom-button-width 3
+	   :right-divider-width 20
+	   :scroll-bar-width 0
+	   :fringe-width 0))
+  (spacious-padding-mode 1))
+
+(use-package ultra-scroll
+  :ensure t
+  :init
+  (setq scroll-conservatively 3
+	scroll-margin 0)
+  :config
+  (ultra-scroll-mode 1))
 
 (use-package fontaine
   :ensure t
@@ -163,28 +157,6 @@
 	   :default-height 108
 	   :line-spacing 0.1)))
   (fontaine-set-preset 'default))
-
-(defun drs/nerd-fonts ()
-  "Set up Nerd Fonts for specific codepoints."
-  (interactive)
-  (set-fontset-font t '(#x23fb . #x23fe) "Symbols Nerd Font")
-  (set-fontset-font t '(#x2500 . #x259f) "Symbols Nerd Font")
-  (set-fontset-font t '(#x276c . #x2771) "Symbols Nerd Font")
-  (set-fontset-font t '(#xe000 . #xe00a) "Symbols Nerd Font")
-  (set-fontset-font t '(#xe0a0 . #xe0a3) "Symbols Nerd Font")
-  (set-fontset-font t '(#xe0b0 . #xe0d7) "Symbols Nerd Font")
-  (set-fontset-font t '(#xe200 . #xe2a9) "Symbols Nerd Font")
-  (set-fontset-font t '(#xe300 . #xe3e3) "Symbols Nerd Font")
-  (set-fontset-font t '(#xe5fa . #xe6b7) "Symbols Nerd Font")
-  (set-fontset-font t '(#xe700 . #xe8ef) "Symbols Nerd Font")
-  (set-fontset-font t '(#xea60 . #xec1e) "Symbols Nerd Font")
-  (set-fontset-font t '(#xed00 . #xf2ff) "Symbols Nerd Font")
-  (set-fontset-font t '(#xee00 . #xee0b) "Symbols Nerd Font")
-  (set-fontset-font t '(#xf300 . #xf381) "Symbols Nerd Font")
-  (set-fontset-font t '(#xf400 . #xf533) "Symbols Nerd Font")
-  (set-fontset-font t '(#xf0001 . #xf1af0) "Symbols Nerd Font"))
-
-(add-hook 'server-after-make-frame-hook #'drs/nerd-fonts)
 
 (use-package ligature
   :ensure t
@@ -314,11 +286,9 @@
 
 (setq ibuffer-saved-filter-groups
       '(("custom"
-	 ("Emacs config" (filename . ".config/emacs"))
-	 ("QTile config" (filename . ".config/qtile"))
+	 ("Dotfiles" (filename . "dotfiles/"))
 	 ("Org files" (mode . org-mode))
 	 ("Code" (derived-mode . prog-mode))
-	 ("Shell scripts" (mode . sh-mode))
 	 ("Text files" (and (mode . text-mode)
 			    (not (starred-name))))
 	 ("Dired" (mode . dired-mode))
@@ -424,7 +394,7 @@ surrounded by word boundaries."
 
 (define-key reb-mode-map (kbd "RET") #'reb-replace-regexp)
 (define-key reb-lisp-mode-map (kbd "RET") #'reb-replace-regexp)
-(define-key global-map (kbd "C-s") #'re-builder)
+;; (define-key global-map (kbd "C-s") #'re-builder)
 
 (use-package reader
   :ensure (:type git :host codeberg :repo "divyaranjan/emacs-reader"
@@ -524,16 +494,6 @@ surrounded by word boundaries."
      (python . t)))
   (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file))
 
-(use-package org-contrib
-  :ensure t
-  :config
-  (require 'ox-extra)
-  (ox-extras-activate '(latex-header-blocks ignore-headlines)))
-
-(use-package ox-ipynb
-  :ensure (ox-ipynb :host github :repo "jkitchin/ox-ipynb")
-  :after org)
-
 (use-package org-auto-tangle
   :ensure t
   :after org
@@ -594,7 +554,6 @@ surrounded by word boundaries."
 
 (use-package mixed-pitch
   :ensure t
-  :after org
   :hook (org-mode . mixed-pitch-mode))
 
 (use-package org-modern
@@ -663,6 +622,12 @@ surrounded by word boundaries."
 (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
 (add-hook 'markdown-view-mode-hook #'mixed-pitch-mode)
 
+(use-package org-contrib
+  :ensure t
+  :config
+  (require 'ox-extra)
+  (ox-extras-activate '(latex-header-blocks ignore-headlines)))
+
 (use-package treesit-auto
   :ensure t
   :custom
@@ -724,6 +689,9 @@ surrounded by word boundaries."
   :ensure t
   :bind (("C-x b" . consult-buffer)))
 
+(setq-default header-line-format mode-line-format)
+(setq-default mode-line-format "")
+
 (use-package ready-player
   :ensure t
   :custom-face
@@ -765,13 +733,3 @@ For example:
 (use-package nix-mode
   :ensure t
   :mode "\\.nix\\'")
-
-(add-hook 'elpaca-after-init-hook
-          (lambda ()
-            (progn
-              (require 'nano-modeline)
-              (nano-modeline nil nil t)
-
-              (require 'nano-splash)
-              (require 'nano-calendar)
-              (require 'nano-agenda))))

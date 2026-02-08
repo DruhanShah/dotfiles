@@ -22,22 +22,12 @@ The Early-Init file is executed before =init.el=, and hence is where we disable 
   (setq package-enable-at-startup nil)
 #+end_src
 
-Now, we throw in a preamble comment in the Init file just in case someone reads it before this README :P
-
-#+begin_src emacs-lisp
-  ;; ---------------------------------------------
-  ;;              EMACS INIT FILE
-  ;; 
-  ;; This is where all of my configuration for
-  ;; GNU Emacs resides. Please read README.org for
-  ;; more detailed information about the config.
-  ;; ---------------------------------------------
-#+end_src
-
 
 * Package Manager (Elpaca)
 
 This codeblock is directly from the Elpaca repository's README. I have only added a final expression integrating Elpaca with ~use-package~.
+
+There's apparently something to be done with Elpaca is used with Emacs on NixOS, but I'm yet to implement that just yet.
 
 #+begin_src emacs-lisp
   (defvar elpaca-installer-version 0.11)
@@ -94,13 +84,12 @@ This codeblock is directly from the Elpaca repository's README. I have only adde
 This is a bunch of other niceties that I would like to have, since that would make configuration and usage a good bit easier.
 
 - Garbage collector reduction for faster startup
-- Add all files in the =nano/= directory into the loading path
+- +Add all files in the =nano/= directory into the loading path+
 - Auto-revert mode to automatically reload files changed on disk (might slow things down a /tiny/ bit)
 
 #+begin_src emacs-lisp
   (setq gc-cons-threshold 63000000
         gc-cons-percentage 0.6)
-  (add-to-list 'load-path "~/.config/emacs/nano")
   (global-auto-revert-mode)
 #+end_src
 
@@ -135,20 +124,10 @@ This section deals with simple default values that I would like to have set by d
   (setq default-frame-alist
         (append (list
                  '(vertical-scroll-bars . nil)
-                 '(internal-border-width . 20)
-                 '(left-fringe . 0)
-                 '(right-fringe . 0)
-                 '(undecorated-round . t) ;; emacs-plu@29 only
                  '(scroll-bar-mode . -1)
                  '(tool-bar-lines . 0)
   	       '(tool-bar-position . left)
                  '(menu-bar-lines . 0))))
-
-  (setq tool-bar-style 'image)
-
-  (setq window-divider-default-right-width 20)
-  (setq window-divider-default-places 'right-only)
-  (window-divider-mode 1)
 
   (setq make-backup-files nil)
 
@@ -160,22 +139,10 @@ This section deals with simple default values that I would like to have set by d
   			(make-glyph-code ?- 'font-lock-comment-face))
 #+end_src
 
-** Nice-to-haves
 
-The first of likely many is smooth scrolling which I think would make me a lot happier coding in Emacs.
+* UI and themes
 
-#+begin_src emacs-lisp
-  (use-package ultra-scroll
-    :ensure t
-    :init
-    (setq scroll-conservatively 3
-  	scroll-margin 0)
-    :config
-    (ultra-scroll-mode 1))
-#+end_src
-
-
-* Themes and colours
+** Colour Theme
 
 While I do greatly enjoy Rougier's =nano-theme= and Prot's =modus-= and =ef-themes=, I would like something more tailored to my taste while still attempting to retain ideas from their themes. I tried building on top of Prot's =modus-operandi= but it ended being a lot messier than I'd have liked (definitely a skill issue). I'm also tired of waiting for Rougier's =nano-theme= rewrite. I've currently given in to Nix and the whole Stylix thing. I'm still making some changes to the theme faces though.
 
@@ -200,13 +167,44 @@ While I do greatly enjoy Rougier's =nano-theme= and Prot's =modus-= and =ef-them
   				  :inherit 'bold
   				  :height 1.25)
   	      (set-face-attribute 'vertical-border nil
-  				  :foreground 'unspecified)
+  				  :foreground (face-background 'default))
   	      (set-face-attribute 'window-divider nil
-  				  :foreground 'unspecified)
+  				  :foreground (face-background 'default))
   	      (set-face-attribute 'window-divider-last-pixel nil
-  				  :foreground 'unspecified)
+  				  :foreground (face-background 'default))
   	      (set-face-attribute 'window-divider-first-pixel nil
-  				  :foreground 'unspecified))))
+  				  :foreground (face-background 'default)))))
+#+end_src
+
+** UI niceties
+
+Rougier's designs were instrumental in showing how important good spacing is. However, instead of going the barebones route and then having to fiddle with the window dividers, I'll be using Prot's =spacious-padding= package so that I can have a clear section in the code all for this.
+
+#+begin_src emacs-lisp
+  (use-package spacious-padding
+    :ensure t
+    :config
+    (setq spacious-padding-widths
+  	'( :internal-border-width 20
+  	   :header-line-width 6
+  	   :mode-line-width 0
+  	   :custom-button-width 3
+  	   :right-divider-width 20
+  	   :scroll-bar-width 0
+  	   :fringe-width 0))
+    (spacious-padding-mode 1))
+#+end_src
+
+There's also pixel-perfect scrolling which really makes the emacs experience feel more modern.
+
+#+begin_src emacs-lisp
+  (use-package ultra-scroll
+    :ensure t
+    :init
+    (setq scroll-conservatively 3
+  	scroll-margin 0)
+    :config
+    (ultra-scroll-mode 1))
 #+end_src
 
 
@@ -238,32 +236,6 @@ I'm using Prot's =fontaine= package to setup my default fonts, independent of Ro
   	   :default-height 108
   	   :line-spacing 0.1)))
     (fontaine-set-preset 'default))
-#+end_src
-
-Nerd fonts tend to have some hiccups (lots of them), this block here should solve things ideally.
-
-#+begin_src emacs-lisp
-  (defun drs/nerd-fonts ()
-    "Set up Nerd Fonts for specific codepoints."
-    (interactive)
-    (set-fontset-font t '(#x23fb . #x23fe) "Symbols Nerd Font")
-    (set-fontset-font t '(#x2500 . #x259f) "Symbols Nerd Font")
-    (set-fontset-font t '(#x276c . #x2771) "Symbols Nerd Font")
-    (set-fontset-font t '(#xe000 . #xe00a) "Symbols Nerd Font")
-    (set-fontset-font t '(#xe0a0 . #xe0a3) "Symbols Nerd Font")
-    (set-fontset-font t '(#xe0b0 . #xe0d7) "Symbols Nerd Font")
-    (set-fontset-font t '(#xe200 . #xe2a9) "Symbols Nerd Font")
-    (set-fontset-font t '(#xe300 . #xe3e3) "Symbols Nerd Font")
-    (set-fontset-font t '(#xe5fa . #xe6b7) "Symbols Nerd Font")
-    (set-fontset-font t '(#xe700 . #xe8ef) "Symbols Nerd Font")
-    (set-fontset-font t '(#xea60 . #xec1e) "Symbols Nerd Font")
-    (set-fontset-font t '(#xed00 . #xf2ff) "Symbols Nerd Font")
-    (set-fontset-font t '(#xee00 . #xee0b) "Symbols Nerd Font")
-    (set-fontset-font t '(#xf300 . #xf381) "Symbols Nerd Font")
-    (set-fontset-font t '(#xf400 . #xf533) "Symbols Nerd Font")
-    (set-fontset-font t '(#xf0001 . #xf1af0) "Symbols Nerd Font"))
-
-  (add-hook 'server-after-make-frame-hook #'drs/nerd-fonts)
 #+end_src
 
 ** Nice-to-haves
@@ -405,20 +377,6 @@ Here, I set up the AI-based stuff like copilot (for completions) and GPTel (for 
   	gptel-default-mode 'org-mode))
 #+end_src
 
-Xenodium has come out with the =agent-shell= package, which I'd like to try out with Gemini CLI. For now, it doesn't seem very stable, so I'll be keeping an eye out on the repo for updates.
-
-#+begin_src emacs-lisp :tangle no
-  (use-package shell-maker
-    :ensure t)
-  (use-package acp
-    :ensure (:host github :repo "xenodium/acp.el"))
-
-  (use-package agent-shell
-    :ensure (:host github :repo "xenodium/agent-shell")
-    :config
-    (setq agent-shell-google-key gemini-api-key))
-#+end_src
-
 
 * Dired
 
@@ -452,14 +410,7 @@ This has some nice features that I would like when using the builtin Dired. The 
     "t" 'dired-create-empty-file)
   #+end_src
 
-Dirvish stuff is still a work in progress.
-
-#+begin_src emacs-lisp :tangle no
-  (use-package dirvish
-    :ensure t
-    :config
-    (setq dirvish-attributes '(nerd-icons file-size)))
-     #+end_src
+I tried out =dirvish=, but I didn't like the jank without a custom setup, so I'm sticking to vanilla Dired.
 
 
 * IBuffer
@@ -476,11 +427,9 @@ As much as I need some good buffer management tools, I don't like how IBuffer be
 
   (setq ibuffer-saved-filter-groups
         '(("custom"
-  	 ("Emacs config" (filename . ".config/emacs"))
-  	 ("QTile config" (filename . ".config/qtile"))
+  	 ("Dotfiles" (filename . "dotfiles/"))
   	 ("Org files" (mode . org-mode))
   	 ("Code" (derived-mode . prog-mode))
-  	 ("Shell scripts" (mode . sh-mode))
   	 ("Text files" (and (mode . text-mode)
   			    (not (starred-name))))
   	 ("Dired" (mode . dired-mode))
@@ -613,15 +562,17 @@ I'm starting to find too many insanely cool builtin features in Emacs. The Inter
 
   (define-key reb-mode-map (kbd "RET") #'reb-replace-regexp)
   (define-key reb-lisp-mode-map (kbd "RET") #'reb-replace-regexp)
-  (define-key global-map (kbd "C-s") #'re-builder)
+  ;; (define-key global-map (kbd "C-s") #'re-builder)
 #+end_src
 
 
 * PDF Tools and ePub reading
 
-This section initially used PDF-Tools and =nov.el= for document reading (despite the jank from =nov.el=), but I'm now considering switching to Divya Ranjan's package =emacs-reader= which relies on MuPDF which I prefer anyways. Looks quite promisnig!
+This section initially used PDF-Tools and =nov.el= for document reading (despite the jank from =nov.el=), but I'm now considering switching to Divya Ranjan's package =emacs-reader= which relies on MuPDF which I'm a big fan of. Looks quite promisnig!
 
-On first try it's beautiful! The only gripe I have is the lack of annotations and theming, both of which (especially in my case) are only minor nitpicks. There's also another issue of not being able to find =render-core.so= which I've not been able to fix.
+On first try it's beautiful! The only gripe I have is the lack of annotations and theming, both of which (especially in my case) are only minor nitpicks. There's also another issue of not being able to find =render-core.so= which I broke my head over for too long, but it ended up being a NixOS issue since compiling the C libraries in =emacs-reader= required the MuPDF libraries which weren't globally visible.
+
+There's still some breakages, but I'll get around to fixing them eventually, since I have Zathura for documents at the moment.
 
 #+begin_src emacs-lisp
   (use-package reader
@@ -647,19 +598,7 @@ I'm (not really) using Corfu at the moment. Haven't tried out other completion f
 
 ** Spell checking
 
-For spellchecking, I did try out jinx, but never ended up actually using it. Apparently Grammarly's Language Server borked itself, so now I'm switching to the OSS variant called LanguageTool (a maintained fork called LTeX+). Let's see how that goes. For now it's bugged out of its tiny little mind.
-
-#+begin_src emacs-lisp :tangle no
-  (use-package eglot-ltex-plus
-    :ensure (:host github :repo "emacs-langtool/eglot-ltex-plus")
-    :hook
-    ((text-mode markdown-mode org-mode) . (lambda ()
-  					  (require 'eglot-ltex-plus)
-  					  (eglot-ensure)))
-    :init
-    (setq eglot-ltex-server-path "~/.config/emacs/ltex/ltex-ls-plus-18.5.1"
-  	eglot-ltex-communication-channel 'stdio))
-#+end_src
+For spellchecking, I did try out jinx, but never ended up actually using it. Apparently Grammarly's Language Server borked itself. Then I switched to the OSS variant called LanguageTool (a maintained fork called LTeX+), it was bugged out of its tiny little mind. I've no updates on this end so far, but I'm willing to try out jinx again.
 
 ** Syntax checking and diagnostics
 
@@ -781,18 +720,6 @@ Now we can get back to org.
     (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file))
 #+end_src
 
-*** Bonuses
-
-Org-contrib is a godsend! I'm a little disappointed there's a lot of conflicting information about it (almost certainly a skill issue btw).
-
-#+begin_src emacs-lisp
-  (use-package org-contrib
-    :ensure t
-    :config
-    (require 'ox-extra)
-    (ox-extras-activate '(latex-header-blocks ignore-headlines)))
-#+end_src
-
 ** Org-Roam
 
 I liked the idea behind Org-Roam. I like the project itself, I really do! Ultimately I think Zettelkasten isn't for me, and I'm better off just using interconnected notes in multiple subdirectories instead of having a zero-depth colossal notes directory.
@@ -801,14 +728,7 @@ I liked the idea behind Org-Roam. I like the project itself, I really do! Ultima
 
 Babel is a module of Org mode that deals with other programming languages and how they integrate with Org. These integrations include "tangling" (bundling all codeblocks in an org file into an actual code file), and running in the file itself.
 
-I use this module greatly for treating Jupyter notebooks and Org files like each other. (WIP)
-This also includes an Export module to export an org file as a Jupyter notebook.
-
-#+begin_src emacs-lisp
-(use-package ox-ipynb
-  :ensure (ox-ipynb :host github :repo "jkitchin/ox-ipynb")
-  :after org)
-#+end_src
+This section used to include stuff about exporting and editing Jupyter notebooks, but I've abandoned that now. I'll likely be switching to marimo whenever interactivity is a requirement.
 
 *** Auto tangling
 
@@ -886,7 +806,6 @@ These are some nice-to-haves that make Org files look good in Emacs.
 
   (use-package mixed-pitch
     :ensure t
-    :after org
     :hook (org-mode . mixed-pitch-mode))
 #+end_src
 
@@ -968,6 +887,18 @@ There was a neat little toggle for the plaintext vs rendered text mode, but I us
   (add-hook 'markdown-view-mode-hook #'mixed-pitch-mode)
 #+end_src
 
+** Bonuses
+
+Org-contrib is a godsend! I'm a little disappointed there's a lot of conflicting information about it (almost certainly a skill issue btw).
+
+#+begin_src emacs-lisp
+  (use-package org-contrib
+    :ensure t
+    :config
+    (require 'ox-extra)
+    (ox-extras-activate '(latex-header-blocks ignore-headlines)))
+#+end_src
+
 
 * Treesitter and LSP
 
@@ -1026,7 +957,7 @@ I'm using good old =yasnippet= for this.
 #+end_src
 
 
-* Minibuffer (basically Vertico)
+* Minibuffer
 
 This customizes the way the Minibuffer works in Emacs.
 
@@ -1057,6 +988,23 @@ Dream feature (which is honestly impossible): I'd like Evil to mimic the use of 
     :bind (("C-x b" . consult-buffer)))
 #+end_src
 
+
+* Mode Line
+
+I'm moving from Rougier's =nano-modeline= and skipping other modeline packages like =doom-modeline= and others to write my custom modeline inspired by =nano-modeline=, since Rougier's package contains so much that I don't use myself and doesn't customize some things I need. I still would prefer a headerline instead of a modeline like Rougier.
+
+** Setting the faces
+
+#+begin_src emacs-lisp
+
+#+end_src>
+
+** Enabling the modeline
+
+#+begin_src emacs-lisp
+  (setq-default header-line-format mode-line-format)
+  (setq-default mode-line-format "")
+#+end_src
 
 
 * Music and Media
@@ -1124,23 +1072,3 @@ Now that I'm using NixOS, I'm editing a lot of =.nix= files, which need their ow
     :mode "\\.nix\\'")
 #+end_src
 
-
-* NΛNO Emacs modules
-
-This is the bit that was (more or less) entirely copy-pasted from Nicolas Rougier's repositories. These are what make Emacs look so incredibly clean. After yoinking them from the repos, I've made major changes to them in order to make them more compatible with my editing style and colour scheme.
-
-For now, I'll be keeping all the Elisp in separate files in the =nano/= directory and ~require~-ing them here. Ideally I would like to include all Elisp in this file, but that might make this unreadable.
-
-After a lot of tinkering, I've decided to start implementing all of these features myself (with the exception of =nano-elfeed=, that one is cracked) so that it plays nicely with my theme and style choices. The modeline and agenda particularly would benefit from a custom implementation, which will hopefully lead to a better understanding of the actual Emacs functions. The main crux here is nano-modeline not working nicely with the theme faces.
-
-#+begin_src emacs-lisp
-  (add-hook 'elpaca-after-init-hook
-            (lambda ()
-              (progn
-                (require 'nano-modeline)
-                (nano-modeline nil nil t)
-
-                (require 'nano-splash)
-                (require 'nano-calendar)
-                (require 'nano-agenda))))
-#+end_src

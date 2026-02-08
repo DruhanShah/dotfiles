@@ -72,6 +72,7 @@
   programs.firefox.enable = true;
   programs.light.enable = true;
   programs.fish.enable = true;
+  programs.niri.enable = true;
 
   programs.nh = {
     enable = true;

@@ -1,5 +1,4 @@
-from .brightness import brightness_slider
-from .volume import volume_slider
+from .sliders import brightness_slider, volume_slider
 from .diagnostics import diagnostics_popup
 from .network import network_popup
 from .calendar import calendar_popup

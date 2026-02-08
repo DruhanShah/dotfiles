@@ -1,21 +1,10 @@
+from libqtile.lazy import lazy
 from qtile_extras.popup.toolkit import (
     PopupAbsoluteLayout,
     PopupText,
 )
 
 from theme import Colours, Fonts
-
-
-def block(x, y, w, h):
-    return PopupText(
-        background=Colours.bg_dim,
-        foreground=Colours.bg_dim,
-        highlight_radius=12,
-        pos_x=x,
-        pos_y=y,
-        width=w,
-        height=h,
-    )
 
 
 def calendar_controls():
@@ -77,11 +66,13 @@ def calendar_controls():
             background=Colours.bg1,
             pos_x=350,
             pos_y=20,
-            width=30,
+            width=25,
             height=30,
             h_align="center",
-            mouse_callbacks={"Button1": lambda x: None},
-            highlight=Colours.bg_dim,
+            mouse_callbacks={
+                "Button1": lazy.widget["calendarwidget"].next_month(),
+            },
+            highlight=Colours.bg3,
         ),
         PopupText(
             text="",
@@ -89,28 +80,27 @@ def calendar_controls():
             fontsize=20,
             foreground=Colours.fg,
             background=Colours.bg1,
-            pos_x=30,
+            pos_x=35,
             pos_y=20,
-            width=30,
+            width=25,
             height=30,
             h_align="center",
-            mouse_callbacks={"Button1": lambda x: None},
-            highlight=Colours.bg_dim,
+            mouse_callbacks={
+                "Button1": lazy.widget["calendarwidget"].prev_month(),
+            },
+            highlight=Colours.bg3,
         ),
     ]
 
 
-def blocks():
-    return []
-
-
 def calendar_popup():
+
     return PopupAbsoluteLayout(
-        width=420,
-        height=420,
+        width=410,
+        height=430,
         background=Colours.bg1,
         border=Colours.bg1,
-        controls=[*blocks(), *calendar_controls()],
+        controls=calendar_controls(),
         hide_on_timeout=0,
-        close_on_click=True,
+        close_on_click=False,
     )

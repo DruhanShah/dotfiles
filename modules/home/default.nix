@@ -1,8 +1,8 @@
 { pkgs, lib, ... }:
 {
   imports = [
+    ./niri.nix
     ./zen.nix
-    ./vicinae.nix
     ./kitty.nix
     ./media.nix
     ./editing.nix

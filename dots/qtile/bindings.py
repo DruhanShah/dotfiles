@@ -16,12 +16,12 @@ class Keys:
     def init_keys():
         return [
             # Media Keys
-            EzKey("<XF86MonBrightnessUp>", lazy.widget["brightwidget"].brightness_up()),
-            EzKey("<XF86MonBrightnessDown>", lazy.widget["brightwidget"].brightness_down()),
-            EzKey("<XF86AudioRaiseVolume>", lazy.widget["audiowidget"].volume_up()),
-            EzKey("<XF86AudioLowerVolume>", lazy.widget["audiowidget"].volume_down()),
-            EzKey("<XF86AudioMute>", lazy.widget["audiowidget"].toggle_mute()),
-            EzKey("<XF86AudioPlay>", lazy.widget["audiowidget"].play_pause()),
+            EzKey("<XF86MonBrightnessUp>", lazy.widget["brightnesscontrol"].brightness_up()),
+            EzKey("<XF86MonBrightnessDown>", lazy.widget["brightnesscontrol"].brightness_down()),
+            EzKey("<XF86AudioRaiseVolume>", lazy.widget["pulsevolumeextra"].volume_up()),
+            EzKey("<XF86AudioLowerVolume>", lazy.widget["pulsevolumeextra"].volume_down()),
+            EzKey("<XF86AudioMute>", lazy.widget["pulsevolumeextra"].toggle_mute()),
+            EzKey("<XF86AudioPlay>", lazy.widget["pulsevolumeextra"].play_pause()),
             EzKey("<print>", lazy.spawn(SCREENSHOT, shell=True)),
 
             # Window Management

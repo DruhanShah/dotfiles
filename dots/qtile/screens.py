@@ -18,6 +18,8 @@ class Screens:
                 Widgets.pad(6),
                 Widgets.groupboxwidget,
                 Widgets.space(),
+                Widgets.windowswidget,
+                Widgets.space(),
                 Widgets.diagnosticwidget,
                 Widgets.pad(6),
                 Widgets.networkwidget,

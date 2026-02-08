@@ -1,12 +1,16 @@
-from libqtile.widget import TextBox, Spacer
+from libqtile.widget import (
+    TextBox, Spacer,
+    TaskList,
+)
+from qtile_extras.widget import (
+    BrightnessControl, PulseVolumeExtra
+)
 from popups import PopupLayout
 
 from .groupbox import GroupBoxWidget
-from .audio import AudioWidget
-from .brightness import BrightWidget
 from .diagnostics import DiagnosticsWidget
 from .datetime import CalendarWidget
-from .network import NetworkWidget
+from .network import NetStatusIcon
 from .powermenu import PowerWidget
 from .layout import LayoutWidget
 
@@ -21,11 +25,11 @@ class Widgets:
     def space():
         return Spacer(background=None)
 
-    brightwidget = BrightWidget(
+    brightwidget = BrightnessControl(
         **PopupLayout.brightness_layout,
         mode="popup", step=4800,
     )
-    audiowidget = AudioWidget(
+    audiowidget = PulseVolumeExtra(
         **PopupLayout.volume_layout,
         mode="popup", step=5,
     )
@@ -37,11 +41,9 @@ class Widgets:
         **Theme.wgt_clock,
     )
     diagnosticwidget = DiagnosticsWidget(
-        # **PopupLayout.system_layout,
         **Theme.wgt_diagnostics,
     )
-    networkwidget = NetworkWidget(
-        # **PopupLayout.network_layout,
+    networkwidget = NetStatusIcon(
         **Theme.wgt_networks,
     )
     powerwidget = PowerWidget(
@@ -51,4 +53,7 @@ class Widgets:
     layoutwidget = LayoutWidget(
         **PopupLayout.layout_layout,
         **Theme.wgt_layout,
+    )
+    windowswidget = TaskList(
+        **Theme.wgt_windows,
     )

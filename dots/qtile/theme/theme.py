@@ -34,7 +34,7 @@ class Theme:
             Match(wm_class="scrcpy"): 30,
             Match(wm_class="equibop"): 100,
             Match(wm_class="gimp"): 100,
-            Match(wm_class="inkscape"): 100,
+            Match(wm_class="org.inkscape.Inkscape"): 100,
             Match(wm_class="brave-browser"): 100,
             Match(wm_class="zen-beta"): 100,
         },
@@ -156,6 +156,17 @@ class Theme:
         "menu_fontsize": 13,
     }
 
+    wgt_windows = {
+        "highlight_method": "block",
+        "theme_mode": "preferred",
+        "fontsize": 0,
+        "icon_size": 20,
+        "stretch": False,
+        "borderwidth": 3,
+        "border": Colours.blue,
+        "urgent_border": Colours.red,
+    }
+    
     wgt_groupbox = {
         "background": Colours.transparent(),
         "active": Colours.grey2,
@@ -191,12 +202,17 @@ class Theme:
     }
 
     wgt_networks = {
-        "active": Colours.green,
-        "inactive": Colours.bg5,
+        "active_colour": Colours.grey1,
+        "inactive_colour": Colours.bg_dim,
+        "disconnected_colour": Colours.bg0,
         "padding": 2,
-        "text": "󰤨",
+        "padding_y": 10,
         "wifi_arc": 75,
         "wifi_shape": "arc",
+        "show_ssid": False,
+        "eth_interface": "enp0s20f0u2u4",
+        "wifi_interface": "wlp0s20f3",
+        "interface": "wlp0s20f3",
     }
 
     wgt_layout = {
