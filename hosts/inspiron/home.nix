@@ -22,7 +22,7 @@
   modules.kitty.enable = true;
   modules.emacs.enable = true;
   modules.niri.enable = true;
-  modules.qtile.enable = true;
+  modules.qtile.enable = false;
   modules.wallpapers.enable = true;
   modules.media.enable = true;
   modules.editing.enable = true;
@@ -30,6 +30,7 @@
   modules.social.enable = true;
   modules.zen.enable = true;
   modules.zen.addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
+  stylix.targets.emacs.enable = false;
   stylix.targets.zen-browser.profileNames = [ "default" ];
 
   home.username = "druhan";

@@ -1,0 +1,31 @@
+# -*- mode: snippet -*-
+# name: flake
+# key: flake
+# --
+{
+  description = "$1";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs";
+  };
+
+  outputs = { self, nixpkgs, ... }: let
+    system = "x86-64_linux";
+  in {
+    devShells."\${system}".default = let
+      pkgs = import nixpkgs { inherit system; };
+    in pkgs.mkShell {
+
+      packages = with pkgs; [
+        fish
+
+        $0
+      ];
+
+      shellHook = ''
+        exec fish
+      '';
+
+    };
+  };
+}

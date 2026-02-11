@@ -35,15 +35,7 @@
   services.xserver = {
     enable = true;
     xkb.layout = "us";
-    xkb.options = "ctrl:nocaps, compose:ralt";
-    windowManager.qtile = {
-      enable = true;
-      extraPackages = p: with p; [
-        qtile-extras
-	      pulsectl-asyncio
-	      uptime
-      ];
-    };
+    xkb.options = "caps:escape, compose:ralt";
   };
   xdg.portal = {
     enable = true;
@@ -105,6 +97,8 @@
     slurp
     mupdf
     ffmpeg
+    xwayland-satellite
+    wev
     linux-wifi-hotspot
     haveged
   ];

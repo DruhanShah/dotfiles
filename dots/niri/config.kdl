@@ -46,14 +46,22 @@ layout {
     }
     shadow {
         on
+	softness 5
+	spread 1
+	offset x=0 y=4
+	color "#00000070"
 	draw-behind-window true
-	softness 10
     }
 }
 
 window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
+}
+
+window-rule {
+    match app-id="zen-beta"
+    default-column-width { proportion 1.0; }
 }
 
 layer-rule {
@@ -86,8 +94,8 @@ binds {
     XF86AudioPrev allow-when-locked=true { spawn-sh "playerctl previous"; }
     XF86AudioNext allow-when-locked=true { spawn-sh "playerctl next"; }
 
-    XF86MonBrightnessUp { spawn-sh "brightnessctl --class=backlight set +5%"; }
-    XF86MonBrightnessDown { spawn-sh "brightnessctl --class=backlight set 5%-"; }
+    XF86MonBrightnessUp { spawn-sh "light -A 5"; }
+    XF86MonBrightnessDown { spawn-sh "light -U 5"; }
 
     Mod+Q repeat=false { close-window; }
 
@@ -194,6 +202,7 @@ binds {
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
 
+    Mod+Escape { spawn-sh "noctalia-shell ipc call lockScreen lock"; }
     Mod+Ctrl+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
     Mod+Shift+Q { quit; }

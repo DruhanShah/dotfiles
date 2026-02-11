@@ -89,33 +89,34 @@
                         'wrap
 			(make-glyph-code ?- 'font-lock-comment-face))
 
+(use-package ef-themes
+  :ensure t
+  :init
+  (modus-themes-include-derivatives-mode)
+  :config
+  (setq modus-themes-mixed-fonts t
+	modus-themes-italic-constructs t
+	modus-themes-bold-constructs t
+	modus-themes-variable-pitch-ui t
+	modus-themes-prompts '(extrabold)
+	modus-themes-headings '((0 . (variable-pitch 1.5))
+				(1 . (variable-pitch 1.2))
+				(2 . (variable-pitch 1.2))
+				(agenda-date . (1.3))
+				(agenda-structure . (variable-pitch light 1.8))
+				(t . (variable-pitch 1.2))))
+  (modus-themes-load-theme 'ef-cyprus))
+
 (add-hook 'enable-theme-functions
 	  (lambda (theme)
-            (with-eval-after-load 'org-faces
-              (set-face-attribute 'org-document-title nil
-                                  :inherit 'bold
-				  :foreground "#444444"
-				  :height 1.6)
-	      (set-face-attribute 'org-level-1 nil
-				  :inherit 'bold
-				  :height 1.25)
-	      (set-face-attribute 'org-level-2 nil
-				  :inherit 'bold
-				  :height 1.25)
-	      (set-face-attribute 'org-level-3 nil
-				  :inherit 'bold
-				  :height 1.25)
-	      (set-face-attribute 'org-level-4 nil
-				  :inherit 'bold
-				  :height 1.25)
-	      (set-face-attribute 'vertical-border nil
-				  :foreground (face-background 'default))
-	      (set-face-attribute 'window-divider nil
-				  :foreground (face-background 'default))
-	      (set-face-attribute 'window-divider-last-pixel nil
-				  :foreground (face-background 'default))
-	      (set-face-attribute 'window-divider-first-pixel nil
-				  :foreground (face-background 'default)))))
+	    (set-face-attribute 'vertical-border nil
+				:foreground (face-background 'default))
+	    (set-face-attribute 'window-divider nil
+				:foreground (face-background 'default))
+	    (set-face-attribute 'window-divider-last-pixel nil
+				:foreground (face-background 'default))
+	    (set-face-attribute 'window-divider-first-pixel nil
+				:foreground (face-background 'default))))
 
 (use-package spacious-padding
   :ensure t
@@ -481,10 +482,10 @@ surrounded by word boundaries."
 	org-priority-highest 0
         org-priority-lowest 9
 	org-priority-default 5
-	org-agenda-files '("~/notes/habits.org"
-			   "~/notes/leisure.org"
-			   "~/notes/refile.org"
-			   "~/notes/work.org")
+	org-agenda-files '("~/notes/agenda/habits.org"
+			   "~/notes/agenda/leisure.org"
+			   "~/notes/agenda/refile.org"
+			   "~/notes/agenda/work.org")
 	org-hidden-keywords '(title subtitle author date)
 	org-src-window-setup 'current-window)
   (org-babel-do-load-languages
@@ -689,23 +690,64 @@ surrounded by word boundaries."
   :ensure t
   :bind (("C-x b" . consult-buffer)))
 
-(setq-default header-line-format mode-line-format)
-(setq-default mode-line-format "")
+(defun drs/mode-line-faces ()
+  "Apply custom modeline faces to THEME."
+  (custom-set-faces
+   `(header-line ((t ( :foreground ,(face-foreground 'default)
+		       :background ,(face-background 'mode-line)
+		       :inherit nil))))
+   `(mode-line ((t ( :foreground ,(face-background 'mode-line)
+		     :background ,(face-background 'default)
+		     :underline t
+		     :height 0.1))))
+   `(mode-line-active ((t (:inherit mode-line))))
+   `(mode-line-inactive ((t (:inherit mode-line))))))
+(add-hook 'modus-themes-after-load-theme-hook #'drs/mode-line-faces)
+
+(defun mode-line-component-nothing ()
+  "Return literally nothing but a separator-like line."
+  `(:eval (propertize "%-" 'face `( :foreground ,(face-background 'default)
+				   :background ,(face-background 'default)
+				   :height 0.1
+				   :box nil
+				   :underline ,(modus-themes-get-color-value 'border :overrides)))))
+
+
+(defun mode-line-component-title ()
+  "Return the title of the buffer."
+  `(:eval (propertize "%b" 'face '(:inherit bold))))
+
+(defun drs-mode-line-format-default ()
+  "Default modeline format for `prog-mode' and `text-mode'."
+  (list
+   " "
+   (mode-line-component-title)))
+
+(defun drs-mode-line-format-line ()
+  "Modeline format that just makes a line to separate the echo area."
+  (list
+   (mode-line-component-nothing)))
+
+(setq-default header-line-format (drs-mode-line-format-default))
+(setq-default mode-line-format (drs-mode-line-format-line))
 
 (use-package ready-player
   :ensure t
+  :after nerd-icons
   :custom-face
   (info-title-1 ((t (:inherit 'variable-pitch :weight bold :height 1.25))))
   (info-title-2 ((t (:inherit 'variable-pitch :weight bold :height 1.4))))
   :config
   (setq ready-player-my-media-collection-location "~/Music")
-  (setq ready-player-open-externally-icon ""
-	ready-player-open-my-media-collection-icon ""
-	ready-player-autoplay-icon "󱖑"
-	ready-player-search-icon ""
-	ready-player-help-icon "󰋖"
-	ready-player-previous-icon "󰒮"
-	ready-player-next-icon "󰒭")
+  (setq ready-player-open-externally-icon (nerd-icons-octicon "nf-oct-link_external")
+	ready-player-open-my-media-collection-icon (nerd-icons-mdicon "nf-md-home")
+	ready-player-shuffle-icon (nerd-icons-mdicon "nf-md-shuffle")
+	ready-player-repeat-icon (nerd-icons-mdicon "nf-md-repeat")
+	ready-player-autoplay-icon (nerd-icons-mdicon "nf-md-refresh_auto")
+	ready-player-search-icon (nerd-icons-octicon "nf-oct-search")
+	ready-player-help-icon (nerd-icons-mdicon "nf-md-help")
+	ready-player-previous-icon (nerd-icons-mdicon "nf-md-skip_previous")
+	ready-player-next-icon (nerd-icons-mdicon "nf-md-skip_next"))
   ;; Redefining a function cos the message exceeds the echo area
   (defun ready-player--make-time-progress-bar (progress total)
     "Make a progress bar with PROGRESS out of TOTAL, aligned with frame width.

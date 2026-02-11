@@ -10,7 +10,7 @@
       settings = lib.mkForce {
         settingsVersion = 49;
         bar = {
-          barType = "simple";
+          barType = "framed";
           position = "top";
           monitors = [];
           density = "comfortable";
@@ -19,7 +19,7 @@
           capsuleOpacity = 1;
           capsuleColorKey = "none";
           backgroundOpacity = 0;
-          useSeparateOpacity = true;
+          useSeparateOpacity = false;
           floating = false;
           marginVertical = 4;
           marginHorizontal = 4;
@@ -146,7 +146,7 @@
           fontFixedScale = 1;
           tooltipsEnabled = true;
           panelBackgroundOpacity = 1;
-          panelsAttachedToBar = true;
+          panelsAttachedToBar = false;
           settingsPanelMode = "centered";
           wifiDetailsViewMode = "grid";
           bluetoothDetailsViewMode = "grid";
@@ -191,7 +191,7 @@
           monitorDirectories = [];
           enableMultiMonitorDirectories = false;
           showHiddenFiles = false;
-          viewMode = "single";
+          viewMode = "recursive";
           setWallpaperOnAllMonitors = true;
           fillMode = "crop";
           fillColor = "#000000";
@@ -203,7 +203,7 @@
           transitionDuration = 1500;
           transitionType = "random";
           transitionEdgeSmoothness = 0.05;
-          panelPosition = "follow_bar";
+          panelPosition = "center";
           hideWallpaperFilenames = false;
           useWallhaven = false;
           wallhavenQuery = "";
@@ -234,7 +234,7 @@
           customLaunchPrefix = "";
           viewMode = "list";
           showCategories = false;
-          iconMode = "tabler";
+          iconMode = "native";
           showIconBackground = false;
           enableSettingsSearch = false;
           enableWindowsSearch = false;
@@ -249,11 +249,13 @@
               { id = "Network"; }
               { id = "Bluetooth"; }
               { id = "Notifications"; }
+              { id = "WallpaperSelector"; }
             ];
             right = [
               { id = "PowerProfile"; }
               { id = "KeepAwake"; }
               { id = "NightLight"; }
+              { id = "NoctaliaPerformance"; }
             ];
           };
           cards = [
@@ -270,7 +272,7 @@
               id = "audio-card";
             }
             {
-              enabled = false;
+              enabled = true;
               id = "brightness-card";
             }
             {
@@ -498,7 +500,7 @@
         ".config/niri".recursive = true;
         
         ".cache/noctalia/wallpapers.json".text = builtins.toJSON {
-          defaultWallpaper = "${dotDir}/wallpapers/eink-device.jpg";
+          defaultWallpaper = "${dotDir}/wallpapers/lake-art.jpg";
         };
       };
   };

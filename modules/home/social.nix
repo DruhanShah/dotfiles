@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }:
 {
   options = {
-    modules.social.enable = lib.mkEnableOption "Enables Equicord and Signal";
+    modules.social.enable = lib.mkEnableOption "Enables Equicord";
   };
 
   config = lib.mkIf config.modules.social.enable {
@@ -16,7 +16,7 @@
     };
 
     home.packages = with pkgs; [
-      signal-desktop
+      # signal-desktop
     ];
   };
 }
