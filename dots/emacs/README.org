@@ -27,7 +27,7 @@ The Early-Init file is executed before =init.el=, and hence is where we disable 
 
 This codeblock is directly from the Elpaca repository's README. I have only added a final expression integrating Elpaca with ~use-package~.
 
-There's apparently something to be done with Elpaca is used with Emacs on NixOS, but I'm yet to implement that just yet.
+There's apparently something to be done when Elpaca is used with Emacs on NixOS, but I'm yet to implement that just yet.
 
 #+begin_src emacs-lisp
   (defvar elpaca-installer-version 0.11)
@@ -163,14 +163,14 @@ While I do greatly enjoy Rougier's ~nano-theme~ and Prot's ~modus-~ and ~ef-them
   				(agenda-date . (1.3))
   				(agenda-structure . (variable-pitch light 1.8))
   				(t . (variable-pitch 1.2))))
-    (modus-themes-load-theme 'ef-cyprus))
+    (modus-themes-load-theme 'ef-eagle))
 #+end_src
 
 Of course it wouldn't be a personal config without some theme changes...
 
 #+begin_src emacs-lisp
-  (add-hook 'enable-theme-functions
-  	  (lambda (theme)
+  (add-hook 'modus-themes-after-load-theme-hook
+  	  (lambda ()
   	    (set-face-attribute 'vertical-border nil
   				:foreground (face-background 'default))
   	    (set-face-attribute 'window-divider nil
@@ -295,8 +295,6 @@ I'm using Prot's =fontaine= package to setup my default fonts, independent of Ro
     :ensure t
     :config
     (global-colorful-mode))
-
-  (elpaca-wait)
 #+end_src
 
 
@@ -323,6 +321,7 @@ Note that there is a ~elpaca-wait~ call at the end because some customizations I
     :init (evil-collection-init))
 
   (use-package evil-god-state :ensure t :after evil
+    :after evil
     :config
     (evil-define-key 'normal 'global "\\" 'evil-execute-in-god-state)
     (evil-define-key 'god 'global "escape" 'evil-god-state-bail))
@@ -334,14 +333,13 @@ Note that there is a ~elpaca-wait~ call at the end because some customizations I
     :config (evil-commentary-mode))
 
   (use-package evil-numbers :ensure t :after evil
+    :after evil
     :config
     (evil-define-key '(normal visual) 'global
       (kbd "C-a") 'evil-numbers/inc-at-pt
       (kbd "C-x") 'evil-numbers/dec-at-pt
       (kbd "g C-a") 'evil-numbers/inc-at-pt-incremental
       (kbd "g C-x") 'evil-numbers/dec-at-pt-incremental))
-
-  (elpaca-wait)
 #+end_src
 
 
@@ -399,20 +397,21 @@ This has some nice features that I would like when using the builtin Dired. The 
   (add-hook 'dired-mode-hook 'dired-omit-mode)
 
   (define-key global-map (kbd "C-x C-d") 'dired-jump)
-  (evil-define-key 'normal dired-mode-map
-    "g." 'dired-omit-mode
-    "h" 'dired-jump
-    "l" 'dired-find-file
-    "L" (lambda () (interactive)
-  	(start-process "xdg" nil "xdg-open" (dired-get-file-for-visit)))
-    "n" 'evil-search-next
-    "N" 'evil-search-previous
-    "o" 'dired-sort-toggle-or-edit
-    "v" 'dired-toggle-marks
-    "m" 'dired-mark
-    "u" 'dired-unmark
-    "c" 'dired-create-directory
-    "t" 'dired-create-empty-file)
+  (with-eval-after-load 'evil
+    (evil-define-key 'normal dired-mode-map
+      "g." 'dired-omit-mode
+      "h" 'dired-jump
+      "l" 'dired-find-file
+      "L" (lambda () (interactive)
+  	  (start-process "xdg" nil "xdg-open" (dired-get-file-for-visit)))
+      "n" 'evil-search-next
+      "N" 'evil-search-previous
+      "o" 'dired-sort-toggle-or-edit
+      "v" 'dired-toggle-marks
+      "m" 'dired-mark
+      "u" 'dired-unmark
+      "c" 'dired-create-directory
+      "t" 'dired-create-empty-file))
   #+end_src
 
 I tried out =dirvish=, but I didn't like the jank without a custom setup, so I'm sticking to vanilla Dired.
@@ -423,7 +422,7 @@ I tried out =dirvish=, but I didn't like the jank without a custom setup, so I'm
 As much as I need some good buffer management tools, I don't like how IBuffer behaves particularly with evil. This is an attempt to make it that much better.
 
 #+begin_src emacs-lisp
-  (eval-after-load 'ibuffer
+  (with-eval-after-load 'evil
     '(progn
        (evil-set-initial-state 'ibuffer-mode 'normal)
        (evil-define-key 'normal ibuffer-mode-map
@@ -612,9 +611,10 @@ I'm using custom fringe bitmaps to indicate the locations of errors, warnings an
 
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook #'flymake-mode)
-  (evil-define-key 'normal flymake-mode-map
-    "]d" 'flymake-goto-next-error
-    "[d" 'flymake-goto-prev-error)
+  (with-eval-after-load 'evil
+    (evil-define-key 'normal flymake-mode-map
+      "]d" 'flymake-goto-next-error
+      "[d" 'flymake-goto-prev-error))
   (setq flymake-start-on-flymake-mode t
         flymake-indicator-type 'fringes)
 #+end_src
@@ -824,58 +824,78 @@ The next bit is all about the =org-modern= package by minad (Daniel Mendler). I 
     (org-modern-star nil)
     (org-modern-hide-stars t)
     (org-modern-timestamp '(" %^b %d " . " %H%M "))
-    (org-modern-todo-faces `(("TODO" . (:foreground "#af3029"
+    (org-modern-todo-faces `(("TODO" . (:foreground ,(modus-themes-get-color-value 'red)
   				      :height 95
   				      :box (1 . 2)
-  				      :overline "#cccccc"))
-  			   ("DOING" . (:foreground "#ad8301"
+  				      :overline ,(modus-themes-get-color-value 'bg-main)))
+  			   ("DOING" . (:foreground ,(modus-themes-get-color-value 'yellow)
   				       :height 95
   				       :box (1 . 2)
-  				       :overline "#cccccc"))
-  			   ("DONE" . (:foreground "#66800b"
+  				       :overline ,(modus-themes-get-color-value 'bg-main)))
+  			   ("DONE" . (:foreground ,(modus-themes-get-color-value 'green)
   				      :height 95
   				      :box (1 . 2)
-  				      :overline "#cccccc"))
-  			   ("HOLD" . (:foreground "#888888"
+  				      :overline ,(modus-themes-get-color-value 'bg-main)))
+  			   ("HOLD" . (:foreground ,(modus-themes-get-color-value 'fg-alt)
   				      :height 95
   				      :box (1 . 2)
-  				      :overline "#cccccc"))
-  			   ("NOPE" . (:foreground "#aaaaaa"
+  				      :overline ,(modus-themes-get-color-value 'bg-main)))
+  			   ("NOPE" . (:foreground ,(modus-themes-get-color-value 'fg-dim)
   				      :height 95
   				      :box (1 . 2)
-  				      :overline "#cccccc"))))
+  				      :overline ,(modus-themes-get-color-value 'bg-main)))))
     :custom-face
     (org-modern-label
      ((t (:family "Iosevka"
   	:height 95))))
     (org-modern-date-active
      ((t (:inherit (org-modern-label)
-  	:foreground "#cccccc"
-  	:background "#205ea6"
-  	:overline "#cccccc"
-  	:box (:color "#205ea6"
+  	:foreground ,(modus-themes-get-color-value 'bg-main)
+  	:background ,(modus-themes-get-color-value 'blue)
+  	:overline ,(modus-themes-get-color-value 'bg-main)
+  	:box (:color ,(modus-themes-get-color-value 'blue)
   	      :line-width (1 . 2))))))
     (org-modern-time-active
      ((t (:inherit (org-modern-label)
-  	:foreground "#205ea6"
-  	:background "#cccccc"
-  	:overline "#cccccc"
+  	:foreground ,(modus-themes-get-color-value 'blue)
+  	:background ,(modus-themes-get-color-value 'bg-main)
+  	:overline ,(modus-themes-get-color-value 'bg-main)
   	:box (:line-width (1 . 2))))))
     (org-modern-date-inactive
      ((t (:inherit (org-modern-label)
-  	:foreground "#cccccc"
-  	:background "#888888"
-  	:overline "#cccccc"
-  	:box (:color "#888888"
+  	:foreground ,(modus-themes-get-color-value 'bg-main)
+  	:background ,(modus-themes-get-color-value 'fg-dim)
+  	:overline ,(modus-themes-get-color-value 'bg-main)
+  	:box (:color ,(modus-themes-get-color-value 'fg-dim)
   	      :line-width (1 . 2))))))
     (org-modern-time-inactive
      ((t (:inherit (org-modern-label)
-  	:foreground "#888888"
-  	:background "#cccccc"
-  	:overline "#cccccc"
+  	:foreground ,(modus-themes-get-color-value 'fg-dim)
+  	:background ,(modus-themes-get-color-value 'bg-main)
+  	:overline ,(modus-themes-get-color-value 'bg-main)
   	:box (:line-width (1 . 2))))))
     :config
     (global-org-modern-mode))
+#+end_src
+
+I'd also like some changes in the faces of the headers themselves. I don't like how colourful they are since it feels distracting.
+
+#+begin_src emacs-lisp
+  (add-hook 'modus-themes-after-load-theme-hook
+  	  (lambda ()
+  	    (with-eval-after-load 'org-faces
+  	    (set-face-attribute 'org-level-1 nil
+  				:foreground (modus-themes-get-color-value 'fg-main))
+  	    (set-face-attribute 'org-level-2 nil
+  				:foreground (modus-themes-get-color-value 'fg-main))
+  	    (set-face-attribute 'org-level-3 nil
+  				:foreground (modus-themes-get-color-value 'fg-main))
+  	    (set-face-attribute 'org-level-4 nil
+  				:foreground (modus-themes-get-color-value 'fg-main))
+  	    (set-face-attribute 'org-level-5 nil
+  				:foreground (modus-themes-get-color-value 'fg-main))
+  	    (set-face-attribute 'org-level-6 nil
+  				:foreground (modus-themes-get-color-value 'fg-main)))))
 #+end_src
 
 *** Markdown
@@ -907,7 +927,7 @@ Org-contrib is a godsend! I'm a little disappointed there's a lot of conflicting
 
 * Treesitter and LSP
 
-This feels more comfortable and simultaneously not. I need to get more comfortable with both of these as they are implemented in Emacs.
+This feels more comfortable and simultaneously not. I need to get more comfortable with both of these as they are implemented in Emacs. There's also issues about being able to use LSPs on NixOS which I haven't yet worked on.
 
 #+begin_src emacs-lisp
   (use-package treesit-auto
@@ -925,10 +945,11 @@ This feels more comfortable and simultaneously not. I need to get more comfortab
     :config
     (exec-path-from-shell-initialize))
 
-  (evil-define-key 'normal eglot-mode-map
-    (kbd "g Q") 'eglot-format-buffer
-    (kbd "g R") 'eglot-rename
-    (kbd "g C") 'eglot-code-actions)
+  (with-eval-after-load 'evil
+    (evil-define-key 'normal eglot-mode-map
+      (kbd "g Q") 'eglot-format-buffer
+      (kbd "g R") 'eglot-rename
+      (kbd "g C") 'eglot-code-actions))
 #+end_src
 
 Some more nice-to-haves :P
@@ -996,26 +1017,36 @@ Dream feature (which is honestly impossible): I'd like Evil to mimic the use of 
 
 * Mode Line
 
-I'm moving from Rougier's =nano-modeline= and skipping other modeline packages like =doom-modeline= and others to write my custom modeline inspired by =nano-modeline=, since Rougier's package contains so much that I don't use myself and doesn't customize some things I need. I still would prefer a headerline instead of a modeline like Rougier.
+I'm moving from Rougier's =nano-modeline= and skipping other modeline packages like =doom-modeline= and others to write my custom modeline inspired by =nano-modeline=, since Rougier's package contains so much that I don't use myself and doesn't customize some things I need. I still would prefer a headerline instead of a modeline, similar to Nano Emacs.
 
 ** Faces
 
 The shenaniganery that goes on because I'm using stylix is genuinely painful. I really wish the theme could be loaded at the very beginning always. Oh well, here's a workaround for a NANO-modeline-style modeline.
 
 #+begin_src emacs-lisp
-  (defun drs/mode-line-faces ()
-    "Apply custom modeline faces to THEME."
-    (custom-set-faces
-     `(header-line ((t ( :foreground ,(face-foreground 'default)
-  		       :background ,(face-background 'mode-line)
-  		       :inherit nil))))
-     `(mode-line ((t ( :foreground ,(face-background 'mode-line)
-  		     :background ,(face-background 'default)
-  		     :underline t
-  		     :height 0.1))))
-     `(mode-line-active ((t (:inherit mode-line))))
-     `(mode-line-inactive ((t (:inherit mode-line))))))
-  (add-hook 'modus-themes-after-load-theme-hook #'drs/mode-line-faces)
+  (add-hook 'modus-themes-after-load-theme-hook
+  	  (lambda ()
+  	    (custom-set-faces
+  	     `(header-line ((t ( :foreground ,(modus-themes-get-color-value 'fg-mode-line-active)
+  				 :background ,(modus-themes-get-color-value 'bg-mode-line-active)
+  				 :inherit nil))))
+  	     `(header-line-weak ((t ( :foreground ,(modus-themes-get-color-value 'fg-dim)
+  				      :inherit header-line))))
+  	     `(mode-line ((t ( :foreground ,(modus-themes-get-color-value 'bg-main)
+  			       :background ,(modus-themes-get-color-value 'bg-main)
+  			       :underline ,(modus-themes-get-color-value 'border)
+  			       :box nil
+  			       :height 0.1))))
+  	     `(mode-line-active ((t ( :foreground ,(modus-themes-get-color-value 'bg-main)
+  				      :background ,(modus-themes-get-color-value 'bg-main)
+  				      :underline ,(modus-themes-get-color-value 'border)
+  				      :box nil
+  				      :height 0.1))))
+  	     `(mode-line-inactive ((t ( :foreground ,(modus-themes-get-color-value 'bg-main)
+  					:background ,(modus-themes-get-color-value 'bg-main)
+  					:underline ,(modus-themes-get-color-value 'border)
+  					:box nil
+  					:height 0.1)))))))
 #+end_src
 
 ** Modules
@@ -1023,21 +1054,14 @@ The shenaniganery that goes on because I'm using stylix is genuinely painful. I 
 I'm all for modularizing the components. Since I'm looking for a pretty chill modeline I don't see this section blowing up too much (famous last words).
 
 #+begin_src emacs-lisp
-  (defun mode-line-component-nothing ()
-    "Return literally nothing but a separator-like line."
-    `(:eval (propertize "%-" 'face `( :foreground ,(face-background 'default)
-  				   :background ,(face-background 'default)
-  				   :height 0.1
-  				   :box nil
-  				   :underline ,(modus-themes-get-color-value 'border :overrides)))))
-
-
   (defun mode-line-component-title ()
     "Return the title of the buffer."
     `(:eval (propertize "%b" 'face '(:inherit bold))))
 #+end_src
 
 ** Formats
+
+For now I'm just working on the default format that'll apply to all buffers. Eventually I'd like custom modelines based on the major mode.
 
 #+begin_src emacs-lisp
   (defun drs-mode-line-format-default ()
@@ -1046,17 +1070,16 @@ I'm all for modularizing the components. Since I'm looking for a pretty chill mo
      " "
      (mode-line-component-title)))
 
-  (defun drs-mode-line-format-line ()
+  (defun drs-mode-line-format-nothing ()
     "Modeline format that just makes a line to separate the echo area."
-    (list
-     (mode-line-component-nothing)))
+    "")
 #+end_src
 
 ** Enabling the modeline
 
 #+begin_src emacs-lisp
   (setq-default header-line-format (drs-mode-line-format-default))
-  (setq-default mode-line-format (drs-mode-line-format-line))
+  (setq-default mode-line-format (drs-mode-line-format-nothing))
 #+end_src
 
 

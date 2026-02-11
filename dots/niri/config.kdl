@@ -1,6 +1,8 @@
 prefer-no-csd
 screenshot-path null
 
+workspace "browser"
+
 input {
     keyboard {
         xkb {
@@ -62,6 +64,7 @@ window-rule {
 window-rule {
     match app-id="zen-beta"
     default-column-width { proportion 1.0; }
+    open-on-workspace "browser"
 }
 
 layer-rule {
@@ -81,7 +84,6 @@ spawn-at-startup "noctalia-shell"
 binds {
     Mod+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
     Mod+E hotkey-overlay-title="Open an Editor: emacs" { spawn-sh "emacsclient -nca ''"; }
-    Mod+B hotkey-overlay-title="Open a Browser: zen" { spawn "zen"; }
     Mod+Space hotkey-overlay-title="Open Noctalia's Launcher" { spawn-sh "noctalia-shell ipc call launcher toggle"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0"; }
@@ -158,6 +160,7 @@ binds {
     Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
     Mod+Ctrl+Shift+WheelScrollUp { move-column-left; }
 
+    Mod+B { focus-workspace "browser"; }
     Mod+1 { focus-workspace 1; }
     Mod+2 { focus-workspace 2; }
     Mod+3 { focus-workspace 3; }

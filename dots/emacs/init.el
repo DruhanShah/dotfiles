@@ -105,10 +105,10 @@
 				(agenda-date . (1.3))
 				(agenda-structure . (variable-pitch light 1.8))
 				(t . (variable-pitch 1.2))))
-  (modus-themes-load-theme 'ef-cyprus))
+  (modus-themes-load-theme 'ef-eagle))
 
-(add-hook 'enable-theme-functions
-	  (lambda (theme)
+(add-hook 'modus-themes-after-load-theme-hook
+	  (lambda ()
 	    (set-face-attribute 'vertical-border nil
 				:foreground (face-background 'default))
 	    (set-face-attribute 'window-divider nil
@@ -209,8 +209,6 @@
   :config
   (global-colorful-mode))
 
-(elpaca-wait)
-
 (use-package evil :ensure t
   :init
   (setq evil-want-keybinding nil
@@ -227,6 +225,7 @@
   :init (evil-collection-init))
 
 (use-package evil-god-state :ensure t :after evil
+  :after evil
   :config
   (evil-define-key 'normal 'global "\\" 'evil-execute-in-god-state)
   (evil-define-key 'god 'global "escape" 'evil-god-state-bail))
@@ -238,14 +237,13 @@
   :config (evil-commentary-mode))
 
 (use-package evil-numbers :ensure t :after evil
+  :after evil
   :config
   (evil-define-key '(normal visual) 'global
     (kbd "C-a") 'evil-numbers/inc-at-pt
     (kbd "C-x") 'evil-numbers/dec-at-pt
     (kbd "g C-a") 'evil-numbers/inc-at-pt-incremental
     (kbd "g C-x") 'evil-numbers/dec-at-pt-incremental))
-
-(elpaca-wait)
 
 (use-package transient
   :ensure t)
@@ -263,22 +261,23 @@
 (add-hook 'dired-mode-hook 'dired-omit-mode)
 
 (define-key global-map (kbd "C-x C-d") 'dired-jump)
-(evil-define-key 'normal dired-mode-map
-  "g." 'dired-omit-mode
-  "h" 'dired-jump
-  "l" 'dired-find-file
-  "L" (lambda () (interactive)
-	(start-process "xdg" nil "xdg-open" (dired-get-file-for-visit)))
-  "n" 'evil-search-next
-  "N" 'evil-search-previous
-  "o" 'dired-sort-toggle-or-edit
-  "v" 'dired-toggle-marks
-  "m" 'dired-mark
-  "u" 'dired-unmark
-  "c" 'dired-create-directory
-  "t" 'dired-create-empty-file)
+(with-eval-after-load 'evil
+  (evil-define-key 'normal dired-mode-map
+    "g." 'dired-omit-mode
+    "h" 'dired-jump
+    "l" 'dired-find-file
+    "L" (lambda () (interactive)
+	  (start-process "xdg" nil "xdg-open" (dired-get-file-for-visit)))
+    "n" 'evil-search-next
+    "N" 'evil-search-previous
+    "o" 'dired-sort-toggle-or-edit
+    "v" 'dired-toggle-marks
+    "m" 'dired-mark
+    "u" 'dired-unmark
+    "c" 'dired-create-directory
+    "t" 'dired-create-empty-file))
 
-(eval-after-load 'ibuffer
+(with-eval-after-load 'evil
   '(progn
      (evil-set-initial-state 'ibuffer-mode 'normal)
      (evil-define-key 'normal ibuffer-mode-map
@@ -409,9 +408,10 @@ surrounded by word boundaries."
   (global-corfu-mode))
 
 (add-hook 'prog-mode-hook #'flymake-mode)
-(evil-define-key 'normal flymake-mode-map
-  "]d" 'flymake-goto-next-error
-  "[d" 'flymake-goto-prev-error)
+(with-eval-after-load 'evil
+  (evil-define-key 'normal flymake-mode-map
+    "]d" 'flymake-goto-next-error
+    "[d" 'flymake-goto-prev-error))
 (setq flymake-start-on-flymake-mode t
       flymake-indicator-type 'fringes)
 
@@ -564,58 +564,74 @@ surrounded by word boundaries."
   (org-modern-star nil)
   (org-modern-hide-stars t)
   (org-modern-timestamp '(" %^b %d " . " %H%M "))
-  (org-modern-todo-faces `(("TODO" . (:foreground "#af3029"
+  (org-modern-todo-faces `(("TODO" . (:foreground ,(modus-themes-get-color-value 'red)
 				      :height 95
 				      :box (1 . 2)
-				      :overline "#cccccc"))
-			   ("DOING" . (:foreground "#ad8301"
+				      :overline ,(modus-themes-get-color-value 'bg-main)))
+			   ("DOING" . (:foreground ,(modus-themes-get-color-value 'yellow)
 				       :height 95
 				       :box (1 . 2)
-				       :overline "#cccccc"))
-			   ("DONE" . (:foreground "#66800b"
+				       :overline ,(modus-themes-get-color-value 'bg-main)))
+			   ("DONE" . (:foreground ,(modus-themes-get-color-value 'green)
 				      :height 95
 				      :box (1 . 2)
-				      :overline "#cccccc"))
-			   ("HOLD" . (:foreground "#888888"
+				      :overline ,(modus-themes-get-color-value 'bg-main)))
+			   ("HOLD" . (:foreground ,(modus-themes-get-color-value 'fg-alt)
 				      :height 95
 				      :box (1 . 2)
-				      :overline "#cccccc"))
-			   ("NOPE" . (:foreground "#aaaaaa"
+				      :overline ,(modus-themes-get-color-value 'bg-main)))
+			   ("NOPE" . (:foreground ,(modus-themes-get-color-value 'fg-dim)
 				      :height 95
 				      :box (1 . 2)
-				      :overline "#cccccc"))))
+				      :overline ,(modus-themes-get-color-value 'bg-main)))))
   :custom-face
   (org-modern-label
    ((t (:family "Iosevka"
 	:height 95))))
   (org-modern-date-active
    ((t (:inherit (org-modern-label)
-	:foreground "#cccccc"
-	:background "#205ea6"
-	:overline "#cccccc"
-	:box (:color "#205ea6"
+	:foreground ,(modus-themes-get-color-value 'bg-main)
+	:background ,(modus-themes-get-color-value 'blue)
+	:overline ,(modus-themes-get-color-value 'bg-main)
+	:box (:color ,(modus-themes-get-color-value 'blue)
 	      :line-width (1 . 2))))))
   (org-modern-time-active
    ((t (:inherit (org-modern-label)
-	:foreground "#205ea6"
-	:background "#cccccc"
-	:overline "#cccccc"
+	:foreground ,(modus-themes-get-color-value 'blue)
+	:background ,(modus-themes-get-color-value 'bg-main)
+	:overline ,(modus-themes-get-color-value 'bg-main)
 	:box (:line-width (1 . 2))))))
   (org-modern-date-inactive
    ((t (:inherit (org-modern-label)
-	:foreground "#cccccc"
-	:background "#888888"
-	:overline "#cccccc"
-	:box (:color "#888888"
+	:foreground ,(modus-themes-get-color-value 'bg-main)
+	:background ,(modus-themes-get-color-value 'fg-dim)
+	:overline ,(modus-themes-get-color-value 'bg-main)
+	:box (:color ,(modus-themes-get-color-value 'fg-dim)
 	      :line-width (1 . 2))))))
   (org-modern-time-inactive
    ((t (:inherit (org-modern-label)
-	:foreground "#888888"
-	:background "#cccccc"
-	:overline "#cccccc"
+	:foreground ,(modus-themes-get-color-value 'fg-dim)
+	:background ,(modus-themes-get-color-value 'bg-main)
+	:overline ,(modus-themes-get-color-value 'bg-main)
 	:box (:line-width (1 . 2))))))
   :config
   (global-org-modern-mode))
+
+(add-hook 'modus-themes-after-load-theme-hook
+	  (lambda ()
+	    (with-eval-after-load 'org-faces
+	    (set-face-attribute 'org-level-1 nil
+				:foreground (modus-themes-get-color-value 'fg-main))
+	    (set-face-attribute 'org-level-2 nil
+				:foreground (modus-themes-get-color-value 'fg-main))
+	    (set-face-attribute 'org-level-3 nil
+				:foreground (modus-themes-get-color-value 'fg-main))
+	    (set-face-attribute 'org-level-4 nil
+				:foreground (modus-themes-get-color-value 'fg-main))
+	    (set-face-attribute 'org-level-5 nil
+				:foreground (modus-themes-get-color-value 'fg-main))
+	    (set-face-attribute 'org-level-6 nil
+				:foreground (modus-themes-get-color-value 'fg-main)))))
 
 (use-package markdown-mode
   :ensure t)
@@ -644,10 +660,11 @@ surrounded by word boundaries."
   :config
   (exec-path-from-shell-initialize))
 
-(evil-define-key 'normal eglot-mode-map
-  (kbd "g Q") 'eglot-format-buffer
-  (kbd "g R") 'eglot-rename
-  (kbd "g C") 'eglot-code-actions)
+(with-eval-after-load 'evil
+  (evil-define-key 'normal eglot-mode-map
+    (kbd "g Q") 'eglot-format-buffer
+    (kbd "g R") 'eglot-rename
+    (kbd "g C") 'eglot-code-actions))
 
 (add-hook 'prog-mode-hook #'electric-pair-mode)
 
@@ -690,28 +707,29 @@ surrounded by word boundaries."
   :ensure t
   :bind (("C-x b" . consult-buffer)))
 
-(defun drs/mode-line-faces ()
-  "Apply custom modeline faces to THEME."
-  (custom-set-faces
-   `(header-line ((t ( :foreground ,(face-foreground 'default)
-		       :background ,(face-background 'mode-line)
-		       :inherit nil))))
-   `(mode-line ((t ( :foreground ,(face-background 'mode-line)
-		     :background ,(face-background 'default)
-		     :underline t
-		     :height 0.1))))
-   `(mode-line-active ((t (:inherit mode-line))))
-   `(mode-line-inactive ((t (:inherit mode-line))))))
-(add-hook 'modus-themes-after-load-theme-hook #'drs/mode-line-faces)
-
-(defun mode-line-component-nothing ()
-  "Return literally nothing but a separator-like line."
-  `(:eval (propertize "%-" 'face `( :foreground ,(face-background 'default)
-				   :background ,(face-background 'default)
-				   :height 0.1
-				   :box nil
-				   :underline ,(modus-themes-get-color-value 'border :overrides)))))
-
+(add-hook 'modus-themes-after-load-theme-hook
+	  (lambda ()
+	    (custom-set-faces
+	     `(header-line ((t ( :foreground ,(modus-themes-get-color-value 'fg-mode-line-active)
+				 :background ,(modus-themes-get-color-value 'bg-mode-line-active)
+				 :inherit nil))))
+	     `(header-line-weak ((t ( :foreground ,(modus-themes-get-color-value 'fg-dim)
+				      :inherit header-line))))
+	     `(mode-line ((t ( :foreground ,(modus-themes-get-color-value 'bg-main)
+			       :background ,(modus-themes-get-color-value 'bg-main)
+			       :underline ,(modus-themes-get-color-value 'border)
+			       :box nil
+			       :height 0.1))))
+	     `(mode-line-active ((t ( :foreground ,(modus-themes-get-color-value 'bg-main)
+				      :background ,(modus-themes-get-color-value 'bg-main)
+				      :underline ,(modus-themes-get-color-value 'border)
+				      :box nil
+				      :height 0.1))))
+	     `(mode-line-inactive ((t ( :foreground ,(modus-themes-get-color-value 'bg-main)
+					:background ,(modus-themes-get-color-value 'bg-main)
+					:underline ,(modus-themes-get-color-value 'border)
+					:box nil
+					:height 0.1)))))))
 
 (defun mode-line-component-title ()
   "Return the title of the buffer."
@@ -723,13 +741,12 @@ surrounded by word boundaries."
    " "
    (mode-line-component-title)))
 
-(defun drs-mode-line-format-line ()
+(defun drs-mode-line-format-nothing ()
   "Modeline format that just makes a line to separate the echo area."
-  (list
-   (mode-line-component-nothing)))
+  "")
 
 (setq-default header-line-format (drs-mode-line-format-default))
-(setq-default mode-line-format (drs-mode-line-format-line))
+(setq-default mode-line-format (drs-mode-line-format-nothing))
 
 (use-package ready-player
   :ensure t

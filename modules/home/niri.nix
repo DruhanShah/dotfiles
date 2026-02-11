@@ -500,7 +500,7 @@
         ".config/niri".recursive = true;
         
         ".cache/noctalia/wallpapers.json".text = builtins.toJSON {
-          defaultWallpaper = "${dotDir}/wallpapers/lake-art.jpg";
+          defaultWallpaper = "${dotDir}/wallpapers/ship-sepia.jpg";
         };
       };
   };
