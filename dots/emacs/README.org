@@ -821,7 +821,7 @@ The next bit is all about the =org-modern= package by minad (Daniel Mendler). I 
     :ensure t
     :after org
     :custom
-    (org-modern-star nil)
+    (org-modern-star 'fold)
     (org-modern-hide-stars t)
     (org-modern-timestamp '(" %^b %d " . " %H%M "))
     (org-modern-todo-faces `(("TODO" . (:foreground ,(modus-themes-get-color-value 'red)

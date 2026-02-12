@@ -561,7 +561,7 @@ surrounded by word boundaries."
   :ensure t
   :after org
   :custom
-  (org-modern-star nil)
+  (org-modern-star 'fold)
   (org-modern-hide-stars t)
   (org-modern-timestamp '(" %^b %d " . " %H%M "))
   (org-modern-todo-faces `(("TODO" . (:foreground ,(modus-themes-get-color-value 'red)
