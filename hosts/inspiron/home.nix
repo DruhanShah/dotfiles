@@ -5,6 +5,7 @@
     inputs.zen-browser.homeModules.beta
     inputs.nixcord.homeModules.nixcord
     inputs.noctalia.homeModules.default
+    inputs.vicinae.homeManagerModules.default
   ];
 
   programs.git = {
@@ -30,6 +31,7 @@
   modules.social.enable = true;
   modules.zen.enable = true;
   modules.zen.addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
+  modules.vicinae.enable = true;
   stylix.targets.emacs.enable = false;
   stylix.targets.zen-browser.profileNames = [ "default" ];
 
@@ -52,6 +54,7 @@
     xz
     gzip
 
+    tree
     wl-clipboard
     trash-cli
     texliveFull

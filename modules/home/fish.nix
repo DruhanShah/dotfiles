@@ -12,7 +12,12 @@ set fish_greeting
 '';
       functions = {
         fish_prompt = ''
-echo (set_color -o) (prompt_pwd --full-length-dirs 2) (set_color 66800b)" "(set_color normal)
+if test -n "$IN_NIX_SHELL"
+    set nix " 󱄅"
+else
+    set nix ""
+end
+echo -s (set_color -o) (prompt_pwd --full-length-dirs 2) (set_color 113384) $nix (set_color 226022)"  "(set_color normal)
 '';
       };
     };

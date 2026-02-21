@@ -5,7 +5,12 @@
   };
 
   config = lib.mkIf config.modules.games.enable {
-    programs.steam.enable = true;
+    programs.steam = {
+      enable = true;
+      package = pkgs.steam.override {
+        extraArgs = "-system-composer";
+      };
+    };
     environment.systemPackages = with pkgs; [
       zeroad
       mindustry

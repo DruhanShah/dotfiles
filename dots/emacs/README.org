@@ -93,6 +93,17 @@ This is a bunch of other niceties that I would like to have, since that would ma
   (global-auto-revert-mode)
 #+end_src
 
+** Utility functions
+
+As it turns out, there are a lot of convenient functions that I can do with in general. This config also requires them occasionally.
+
+#+begin_src emacs-lisp
+  (defun add-multiple-to-list (dst src)
+    "Merge content of SRC into DST."
+    (set dst
+         (append (eval dst) src)))
+#+end_src
+
 ** "Sane defaults"
 
 This section deals with simple default values that I would like to have set by default for /my/ Emacs experience. These are by no means general statements on what should be the defaults.
@@ -137,6 +148,75 @@ This section deals with simple default values that I would like to have set by d
   (set-display-table-slot standard-display-table
                           'wrap
   			(make-glyph-code ?- 'font-lock-comment-face))
+#+end_src
+
+
+* Vim Emulation
+
+I use Evil-mode along with God-mode as an Evil state. I've tried Meow and didn't like it as much. I've tried God-mode as is and loved it, except that it lacked the pure Vim bindings. One issue that I'm still having is that =C-u= to scroll still doesn't work and I don't know why.
+
+Note that there is a ~elpaca-wait~ call at the end because some customizations I use require Evil to be loaded.
+
+#+begin_src emacs-lisp
+  (use-package evil
+    :ensure t
+    :init
+    (setq evil-want-keybinding nil
+          evil-undo-system 'undo-redo
+          evil-default-state 'normal
+          evil-want-C-i-jump t
+          evil-want-C-w-delete t
+          evil-want-Y-yank-to-eol t
+          evil-want-C-u-scroll t
+          evil-want-C-d-scroll t)
+    :config
+    (evil-mode 1))
+#+end_src
+
+There are some nice-to-haves that mimic the editing plugins in my old Neovim config that I'd like replicated.
+
+#+begin_src emacs-lisp
+  (use-package evil-collection
+    :ensure t
+    :after evil
+    :init
+    (evil-collection-init))
+
+  (use-package evil-surround
+    :ensure t
+    :after evil
+    :config (global-evil-surround-mode 1))
+
+  (use-package evil-commentary
+    :ensure t
+    :after evil
+    :config (evil-commentary-mode))
+
+  (use-package evil-numbers
+    :ensure t
+    :after evil
+    :config
+    (evil-define-key '(normal visual) 'global
+      (kbd "C-a") 'evil-numbers/inc-at-pt
+      (kbd "C-x") 'evil-numbers/dec-at-pt
+      (kbd "g C-a") 'evil-numbers/inc-at-pt-incremental
+      (kbd "g C-x") 'evil-numbers/dec-at-pt-incremental))
+#+end_src
+
+Finally, there is a plugin that makes native emacs keybindings a lot nicer to deal with.
+
+#+begin_src emacs-lisp
+  (use-package evil-god-state
+    :ensure t
+    :after evil
+    :config
+    (evil-define-key 'normal global-map "\\" 'evil-execute-in-god-state)
+    (evil-define-key 'god global-map [escape] 'evil-god-state-bail))
+#+end_src
+
+The plugin loading as described earlier.
+#+begin_src emacs-lisp
+  (elpaca-wait)
 #+end_src
 
 
@@ -298,51 +378,6 @@ I'm using Prot's =fontaine= package to setup my default fonts, independent of Ro
 #+end_src
 
 
-* Vim Emulation
-
-I use Evil-mode along with God-mode as an Evil state. I've tried Meow and didn't like it as much. I've tried God-mode as is and loved it, except that it lacked the pure Vim bindings. One issue that I'm still having is that =C-u= to scroll still doesn't work and I don't know why.
-
-Note that there is a ~elpaca-wait~ call at the end because some customizations I use require Evil to be loaded.
-
-#+begin_src emacs-lisp
-  (use-package evil :ensure t
-    :init
-    (setq evil-want-keybinding nil
-          evil-undo-system 'undo-redo
-          evil-default-state 'normal
-          evil-want-C-i-jump t
-          evil-want-C-w-delete t
-          evil-want-Y-yank-to-eol t
-          evil-want-C-u-scroll t
-          evil-want-C-d-scroll t)
-    :config (evil-mode 1))
-
-  (use-package evil-collection :ensure t :after evil
-    :init (evil-collection-init))
-
-  (use-package evil-god-state :ensure t :after evil
-    :after evil
-    :config
-    (evil-define-key 'normal 'global "\\" 'evil-execute-in-god-state)
-    (evil-define-key 'god 'global "escape" 'evil-god-state-bail))
-
-  (use-package evil-surround :ensure t :after evil
-    :config (global-evil-surround-mode 1))
-
-  (use-package evil-commentary :ensure t :after evil
-    :config (evil-commentary-mode))
-
-  (use-package evil-numbers :ensure t :after evil
-    :after evil
-    :config
-    (evil-define-key '(normal visual) 'global
-      (kbd "C-a") 'evil-numbers/inc-at-pt
-      (kbd "C-x") 'evil-numbers/dec-at-pt
-      (kbd "g C-a") 'evil-numbers/inc-at-pt-incremental
-      (kbd "g C-x") 'evil-numbers/dec-at-pt-incremental))
-#+end_src
-
-
 * GitHub, Copilot and other AI stuff
 
 This sets up three major plugins: Magit (all hail), Copilot, and GPTel. Elpaca throws some weird errors if I don't include the transient =use-package= call.
@@ -397,21 +432,20 @@ This has some nice features that I would like when using the builtin Dired. The 
   (add-hook 'dired-mode-hook 'dired-omit-mode)
 
   (define-key global-map (kbd "C-x C-d") 'dired-jump)
-  (with-eval-after-load 'evil
-    (evil-define-key 'normal dired-mode-map
-      "g." 'dired-omit-mode
-      "h" 'dired-jump
-      "l" 'dired-find-file
-      "L" (lambda () (interactive)
-  	  (start-process "xdg" nil "xdg-open" (dired-get-file-for-visit)))
-      "n" 'evil-search-next
-      "N" 'evil-search-previous
-      "o" 'dired-sort-toggle-or-edit
-      "v" 'dired-toggle-marks
-      "m" 'dired-mark
-      "u" 'dired-unmark
-      "c" 'dired-create-directory
-      "t" 'dired-create-empty-file))
+  (evil-define-key 'normal dired-mode-map
+    "g." 'dired-omit-mode
+    "h" 'dired-jump
+    "l" 'dired-find-file
+    "L" (lambda () (interactive)
+  	(start-process "xdg" nil "xdg-open" (dired-get-file-for-visit)))
+    "n" 'evil-search-next
+    "N" 'evil-search-previous
+    "o" 'dired-sort-toggle-or-edit
+    "v" 'dired-toggle-marks
+    "m" 'dired-mark
+    "u" 'dired-unmark
+    "c" 'dired-create-directory
+    "t" 'dired-create-empty-file)
   #+end_src
 
 I tried out =dirvish=, but I didn't like the jank without a custom setup, so I'm sticking to vanilla Dired.
@@ -422,13 +456,10 @@ I tried out =dirvish=, but I didn't like the jank without a custom setup, so I'm
 As much as I need some good buffer management tools, I don't like how IBuffer behaves particularly with evil. This is an attempt to make it that much better.
 
 #+begin_src emacs-lisp
-  (with-eval-after-load 'evil
-    '(progn
-       (evil-set-initial-state 'ibuffer-mode 'normal)
-       (evil-define-key 'normal ibuffer-mode-map
-         (kbd "v") 'ibuffer-toggle-marks
-         (kbd "l") 'ibuffer-visit-buffer)))
-
+  (evil-set-initial-state 'ibuffer-mode 'normal)
+  (evil-define-key 'normal ibuffer-mode-map
+    "v" 'ibuffer-toggle-marks
+    "l" 'ibuffer-visit-buffer)
   (setq ibuffer-saved-filter-groups
         '(("custom"
   	 ("Dotfiles" (filename . "dotfiles/"))
@@ -611,10 +642,9 @@ I'm using custom fringe bitmaps to indicate the locations of errors, warnings an
 
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook #'flymake-mode)
-  (with-eval-after-load 'evil
-    (evil-define-key 'normal flymake-mode-map
-      "]d" 'flymake-goto-next-error
-      "[d" 'flymake-goto-prev-error))
+  (evil-define-key 'normal flymake-mode-map
+    "]d" 'flymake-goto-next-error
+    "[d" 'flymake-goto-prev-error)
   (setq flymake-start-on-flymake-mode t
         flymake-indicator-type 'fringes)
 #+end_src
@@ -704,8 +734,7 @@ Now we can get back to org.
   				   ("" "braket" t)
   				   ("" "physics" t)
   				   ("" "xcolor" t)
-  				   ("" "tikz" t)
-  				   ("" "tikz-cd" t))
+  				   ("" "tikz" t))
   	org-todo-keywords '((sequence "TODO" "DOING" "|" "DONE")
   			    (sequence "HOLD" "|" "NOPE"))
   	org-priority-highest 0
@@ -717,6 +746,9 @@ Now we can get back to org.
   			   "~/notes/agenda/work.org")
   	org-hidden-keywords '(title subtitle author date)
   	org-src-window-setup 'current-window)
+    (add-to-list 'cdlatex-math-symbol-alist '(?. "\\cdot"    "\\dots"))
+    (add-to-list 'cdlatex-math-symbol-alist '(?| "\\mapsto"  "\\longmapsto"  "\\:\\middle\\mid\\:"))
+    (add-to-list 'cdlatex-math-modify-alist '(?B "\\mathbb" nil t t nil))
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((emacs-lisp . t)
@@ -945,11 +977,10 @@ This feels more comfortable and simultaneously not. I need to get more comfortab
     :config
     (exec-path-from-shell-initialize))
 
-  (with-eval-after-load 'evil
-    (evil-define-key 'normal eglot-mode-map
-      (kbd "g Q") 'eglot-format-buffer
-      (kbd "g R") 'eglot-rename
-      (kbd "g C") 'eglot-code-actions))
+  (evil-define-key 'normal eglot-mode-map
+    (kbd "g Q") 'eglot-format-buffer
+    (kbd "g R") 'eglot-rename
+    (kbd "g C") 'eglot-code-actions)
 #+end_src
 
 Some more nice-to-haves :P
@@ -1030,8 +1061,6 @@ The shenaniganery that goes on because I'm using stylix is genuinely painful. I 
   	     `(header-line ((t ( :foreground ,(modus-themes-get-color-value 'fg-mode-line-active)
   				 :background ,(modus-themes-get-color-value 'bg-mode-line-active)
   				 :inherit nil))))
-  	     `(header-line-weak ((t ( :foreground ,(modus-themes-get-color-value 'fg-dim)
-  				      :inherit header-line))))
   	     `(mode-line ((t ( :foreground ,(modus-themes-get-color-value 'bg-main)
   			       :background ,(modus-themes-get-color-value 'bg-main)
   			       :underline ,(modus-themes-get-color-value 'border)
@@ -1049,30 +1078,84 @@ The shenaniganery that goes on because I'm using stylix is genuinely painful. I 
   					:height 0.1)))))))
 #+end_src
 
+Now that the faces are done for the config, I can setup all the packages. This is because I need a couple of packages (~nerd-icons~) for what comes next.
+#+begin_src emacs-lisp
+  (elpaca-wait)
+#+end_src
+
 ** Modules
 
 I'm all for modularizing the components. Since I'm looking for a pretty chill modeline I don't see this section blowing up too much (famous last words).
 
 #+begin_src emacs-lisp
+  (defun mode-line-padding ()
+    "Return a double-spaced padding."
+    ;; Double-spaced because we're using a proportional font
+    "  ")
+
   (defun mode-line-component-title ()
     "Return the title of the buffer."
-    `(:eval (propertize "%b" 'face '(:inherit bold))))
+    (let* ((filename (buffer-name))
+  	 (filename (cond
+  		    (ready-player-mode (replace-regexp-in-string
+  			"ready-player: \\(.*\\).\\(?:flac\\|mp3\\)"
+  			"\\1"
+  			filename))
+  		    (t filename)))
+  	 (icon (cond
+  		((eq major-mode 'ready-player-major-mode) (nerd-icons-mdicon "nf-md-music_circle"))
+  		((eq major-mode 'dired-mode) (nerd-icons-mdicon "nf-md-folder"))
+  		(t (nerd-icons-icon-for-file filename))))
+  	 (modified (cond
+  		    ((buffer-modified-p) (concat "  " (nerd-icons-faicon "nf-fa-floppy_disk")))
+  		    (t ""))))
+      (concat
+       icon
+       "  "
+       (propertize filename 'face '(:inherit bold))
+       modified)))
+
+  (defun mode-line-component-position ()
+    "Return position in line:column format."
+    (propertize (format-mode-line "%l:%C")
+  	      'face `(:foreground ,(face-foreground 'shadow))))
 #+end_src
 
 ** Formats
+
+First, I'll define a helper function to generate the mode-line-format with the spacer in between
+
+#+begin_src emacs-lisp
+  (defun mode-line-render (left right)
+    "Return a string of `window-width' length.
+  Containing LEFT, and RIGHT aligned respectively."
+    (let ((available-width
+           (- (window-width)
+              (+ (length (format-mode-line left))
+                 (length (format-mode-line right))))))
+      (append
+       left
+       (list (propertize
+  	    " "
+  	    'display `(space :align-to (- right-margin
+  					  ,(length (format-mode-line right))))))
+       right)))
+#+end_src
 
 For now I'm just working on the default format that'll apply to all buffers. Eventually I'd like custom modelines based on the major mode.
 
 #+begin_src emacs-lisp
   (defun drs-mode-line-format-default ()
     "Default modeline format for `prog-mode' and `text-mode'."
-    (list
-     " "
-     (mode-line-component-title)))
+    '((:eval (mode-line-render
+  	    (list (mode-line-padding)
+  		  (mode-line-component-title))
+  	    (list (mode-line-component-position)
+  		  (mode-line-padding))))))
 
   (defun drs-mode-line-format-nothing ()
-    "Modeline format that just makes a line to separate the echo area."
-    "")
+    "Modeline format to make a simple line to separate the echo area."
+    `(""))
 #+end_src
 
 ** Enabling the modeline
@@ -1151,3 +1234,12 @@ Now that I'm using NixOS, I'm editing a lot of =.nix= files, which need their ow
     :mode "\\.nix\\'")
 #+end_src
 
+** Quickshell
+
+Apparently every configuration language and its mother has a major-mode and LSP plugin these days.
+I'm considering the treesitter grammar, but I'm leaving this section for the LSP server just in case.
+
+#+begin_src emacs-lisp
+  (use-package qml-mode
+    :ensure t)
+#+end_src

@@ -2,6 +2,7 @@
 {
   imports = [
     ./niri.nix
+    ./vicinae.nix
     ./zen.nix
     ./kitty.nix
     ./media.nix

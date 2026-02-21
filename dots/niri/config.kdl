@@ -7,7 +7,7 @@ input {
     keyboard {
         xkb {
 	    layout "us"
-	    options "compose:ralt,caps:escape"
+	    options "compose:ralt,ctrl:nocaps"
 	}
     }
     touchpad {
@@ -25,7 +25,7 @@ output "eDP-1" {
 }
 
 layout {
-    gaps 16
+    gaps 24
     center-focused-column "never"
     preset-column-widths {
 	proportion 0.33333 
@@ -37,28 +37,30 @@ layout {
     }
     always-center-single-column
     focus-ring {
-	off
+        off
     }
     border {
-        on
-	width 2
-	active-color "#888888"
-	inactive-color "#cccccc"
-	urgent-color "#af3029"
+        off
     }
     shadow {
         on
-	softness 5
-	spread 1
+	softness 10
+	spread 4
 	offset x=0 y=4
-	color "#00000070"
+	color "#00000090"
 	draw-behind-window true
     }
 }
 
 window-rule {
-    geometry-corner-radius 12
+    geometry-corner-radius 8
     clip-to-geometry true
+}
+
+window-rule {
+    match is-active=false
+    match is-focused=false
+    opacity 0.8
 }
 
 window-rule {
@@ -77,6 +79,7 @@ hotkey-overlay {
     hide-not-bound
 }
 
+spawn-at-startup "xwayland-satellite"
 spawn-at-startup "syncthing"
 spawn-at-startup "noctalia-shell"
 
@@ -84,7 +87,7 @@ spawn-at-startup "noctalia-shell"
 binds {
     Mod+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
     Mod+E hotkey-overlay-title="Open an Editor: emacs" { spawn-sh "emacsclient -nca ''"; }
-    Mod+Space hotkey-overlay-title="Open Noctalia's Launcher" { spawn-sh "noctalia-shell ipc call launcher toggle"; }
+    Mod+Space hotkey-overlay-title="Open a Launcher: vicinae" { spawn-sh "vicinae toggle"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"; }
@@ -190,8 +193,8 @@ binds {
     Mod+C { center-column; }
     Mod+Ctrl+C { center-visible-columns; }
 
-    Mod+Minus { set-column-width "-5"; }
-    Mod+Equal { set-column-width "+5"; }
+    Mod+Minus { set-column-width "-40"; }
+    Mod+Equal { set-column-width "+40"; }
 
     Mod+Shift+Minus { set-window-height "-10%"; }
     Mod+Shift+Equal { set-window-height "+10%"; }
