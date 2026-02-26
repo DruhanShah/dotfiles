@@ -1,8 +1,6 @@
 prefer-no-csd
 screenshot-path null
 
-workspace "browser"
-
 input {
     keyboard {
         xkb {
@@ -26,6 +24,7 @@ output "eDP-1" {
 
 layout {
     gaps 24
+    background-color "00000000"
     center-focused-column "never"
     preset-column-widths {
 	proportion 0.33333 
@@ -43,7 +42,7 @@ layout {
         off
     }
     shadow {
-        on
+        off
 	softness 10
 	spread 4
 	offset x=0 y=4
@@ -63,15 +62,14 @@ window-rule {
     opacity 0.8
 }
 
+layer-rule {
+    match namespace="^wallpaper$"
+    place-within-backdrop true
+}
+
 window-rule {
     match app-id="zen-beta"
     default-column-width { proportion 1.0; }
-    open-on-workspace "browser"
-}
-
-layer-rule {
-    match namespace="^noctalia-overview*"
-    place-within-backdrop true
 }
 
 hotkey-overlay {
@@ -81,13 +79,15 @@ hotkey-overlay {
 
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "syncthing"
-spawn-at-startup "noctalia-shell"
+spawn-sh-at-startup "wbg -s ~/wallpapers/blank.png"
+spawn-at-startup "quickshell"
 
 
 binds {
-    Mod+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
-    Mod+E hotkey-overlay-title="Open an Editor: emacs" { spawn-sh "emacsclient -nca ''"; }
-    Mod+Space hotkey-overlay-title="Open a Launcher: vicinae" { spawn-sh "vicinae toggle"; }
+    Mod+Return { spawn "kitty"; }
+    Mod+E { spawn-sh "emacsclient -nca ''"; }
+    Mod+Space { spawn-sh "vicinae toggle"; }
+    Mod+B { spawn "zen-beta"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"; }
@@ -163,7 +163,6 @@ binds {
     Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
     Mod+Ctrl+Shift+WheelScrollUp { move-column-left; }
 
-    Mod+B { focus-workspace "browser"; }
     Mod+1 { focus-workspace 1; }
     Mod+2 { focus-workspace 2; }
     Mod+3 { focus-workspace 3; }
@@ -208,7 +207,6 @@ binds {
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
 
-    Mod+Escape { spawn-sh "noctalia-shell ipc call lockScreen lock"; }
     Mod+Ctrl+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
     Mod+Shift+Q { quit; }

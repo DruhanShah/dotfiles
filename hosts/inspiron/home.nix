@@ -4,7 +4,6 @@
     ../../modules/home
     inputs.zen-browser.homeModules.beta
     inputs.nixcord.homeModules.nixcord
-    inputs.noctalia.homeModules.default
     inputs.vicinae.homeManagerModules.default
   ];
 
@@ -59,6 +58,8 @@
     trash-cli
     texliveFull
     zotero
+
+    inputs.qml-niri.packages."x86_64-linux".quickshell
   ];
 
 }

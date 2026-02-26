@@ -58,6 +58,8 @@
         ".config/emacs/nano".recursive = true;
         ".config/emacs/snippets".source = symlink "${dotDir}/snippets";
         ".config/emacs/snippets".recursive = true;
+        ".config/emacs/themes".source = symlink "${dotDir}/themes";
+        ".config/emacs/themes".recursive = true;
       };
   };
 }

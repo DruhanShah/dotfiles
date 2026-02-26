@@ -9,8 +9,6 @@ This configuration started off heavily based off of [[https://github.com/rougier
 
 This file is a literate configuration, which means all the code blocks in this Org file will be exported using Org-Babel's tangle feature into their corresponding config files on save. As a result, all the configuration necessary will be in this file as far as possible. Sometime in the future, a Table of Contents will be implemented to make navigating this document easier.
 
-+Here's a screenshot of what this configuration looks like in action (this may or may not be slightly outdated):+
-
 
 * Preambles 
 
@@ -224,41 +222,19 @@ The plugin loading as described earlier.
 
 ** Colour Theme
 
-While I do greatly enjoy Rougier's ~nano-theme~ and Prot's ~modus-~ and ~ef-themes~, I would like something more tailored to my taste while still attempting to retain ideas from their themes. I tried building on top of Prot's ~modus-operandi~ but it ended being a lot messier than I'd have liked (definitely a skill issue). I'm also tired of waiting for Rougier's ~nano-theme~ rewrite. I tried out the Stylix themes but waiting for them to load before doing anything in the init file was a pain. I'm trying out Prot's ~ef-themes~ now.
+While I do greatly enjoy Rougier's ~nano-theme~ and Prot's ~modus-~ and ~ef-themes~, I would like something more tailored to my taste while still attempting to retain ideas from their themes. I tried building on top of Prot's ~modus-operandi~ but it ended being a lot messier than I'd have liked (definitely a skill issue). I do love Prot's ef-themes, but I'd still prefer some more customizability and comprehensive support like ~doom-themes~ provides. I understand that I can create custom themes with ~modus-themes~ with the new version, but I felt that required way too much work because of the variety of colours that are mandated.
 
 #+begin_src emacs-lisp
-  (use-package ef-themes
+  (add-to-list 'custom-theme-load-path (locate-user-emacs-file "themes/"))
+
+  (use-package doom-themes
     :ensure t
-    :init
-    (modus-themes-include-derivatives-mode)
+    :custom
+    (doom-themes-enable-bold t)
+    (doom-themes-enable-italic t)
     :config
-    (setq modus-themes-mixed-fonts t
-  	modus-themes-italic-constructs t
-  	modus-themes-bold-constructs t
-  	modus-themes-variable-pitch-ui t
-  	modus-themes-prompts '(extrabold)
-  	modus-themes-headings '((0 . (variable-pitch 1.5))
-  				(1 . (variable-pitch 1.2))
-  				(2 . (variable-pitch 1.2))
-  				(agenda-date . (1.3))
-  				(agenda-structure . (variable-pitch light 1.8))
-  				(t . (variable-pitch 1.2))))
-    (modus-themes-load-theme 'ef-eagle))
-#+end_src
-
-Of course it wouldn't be a personal config without some theme changes...
-
-#+begin_src emacs-lisp
-  (add-hook 'modus-themes-after-load-theme-hook
-  	  (lambda ()
-  	    (set-face-attribute 'vertical-border nil
-  				:foreground (face-background 'default))
-  	    (set-face-attribute 'window-divider nil
-  				:foreground (face-background 'default))
-  	    (set-face-attribute 'window-divider-last-pixel nil
-  				:foreground (face-background 'default))
-  	    (set-face-attribute 'window-divider-first-pixel nil
-  				:foreground (face-background 'default))))
+    (setq doom-everforest-light-background "soft")
+    (load-theme 'doom-everforest-light t))
 #+end_src
 
 ** UI niceties
@@ -749,6 +725,16 @@ Now we can get back to org.
     (add-to-list 'cdlatex-math-symbol-alist '(?. "\\cdot"    "\\dots"))
     (add-to-list 'cdlatex-math-symbol-alist '(?| "\\mapsto"  "\\longmapsto"  "\\:\\middle\\mid\\:"))
     (add-to-list 'cdlatex-math-modify-alist '(?B "\\mathbb" nil t t nil))
+    (add-to-list 'cdlatex-command-alist '("int"
+  					"Insert \\int_{}^{}"
+  					"\\int_{?}^{}"
+  					cdlatex-position-cursor
+  					nil nil t))
+    (add-to-list 'cdlatex-command-alist '("sum"
+  					"Insert \\sum_{}^{}"
+  					"\\sum_{?}^{}"
+  					cdlatex-position-cursor
+  					nil nil t))
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((emacs-lisp . t)
@@ -756,10 +742,6 @@ Now we can get back to org.
        (python . t)))
     (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file))
 #+end_src
-
-** Org-Roam
-
-I liked the idea behind Org-Roam. I like the project itself, I really do! Ultimately I think Zettelkasten isn't for me, and I'm better off just using interconnected notes in multiple subdirectories instead of having a zero-depth colossal notes directory.
 
 ** Jupyter and other Babel shenanigans
 
@@ -851,83 +833,63 @@ The next bit is all about the =org-modern= package by minad (Daniel Mendler). I 
 #+begin_src emacs-lisp
   (use-package org-modern
     :ensure t
-    :after org
+    :after org doom-themes
     :custom
     (org-modern-star 'fold)
     (org-modern-hide-stars t)
     (org-modern-timestamp '(" %^b %d " . " %H%M "))
-    (org-modern-todo-faces `(("TODO" . (:foreground ,(modus-themes-get-color-value 'red)
+    (org-modern-todo-faces `(("TODO" . (:foreground ,(doom-color 'red)
   				      :height 95
   				      :box (1 . 2)
-  				      :overline ,(modus-themes-get-color-value 'bg-main)))
-  			   ("DOING" . (:foreground ,(modus-themes-get-color-value 'yellow)
+  				      :overline ,(doom-color 'bg)))
+  			   ("DOING" . (:foreground ,(doom-color 'yellow)
   				       :height 95
   				       :box (1 . 2)
-  				       :overline ,(modus-themes-get-color-value 'bg-main)))
-  			   ("DONE" . (:foreground ,(modus-themes-get-color-value 'green)
+  				       :overline ,(doom-color 'bg)))
+  			   ("DONE" . (:foreground ,(doom-color 'green)
   				      :height 95
   				      :box (1 . 2)
-  				      :overline ,(modus-themes-get-color-value 'bg-main)))
-  			   ("HOLD" . (:foreground ,(modus-themes-get-color-value 'fg-alt)
+  				      :overline ,(doom-color 'bg)))
+  			   ("HOLD" . (:foreground ,(doom-color 'fg)
   				      :height 95
   				      :box (1 . 2)
-  				      :overline ,(modus-themes-get-color-value 'bg-main)))
-  			   ("NOPE" . (:foreground ,(modus-themes-get-color-value 'fg-dim)
+  				      :overline ,(doom-color 'bg)))
+  			   ("NOPE" . (:foreground ,(doom-color 'base4)
   				      :height 95
   				      :box (1 . 2)
-  				      :overline ,(modus-themes-get-color-value 'bg-main)))))
+  				      :overline ,(doom-color 'bg)))))
     :custom-face
     (org-modern-label
      ((t (:family "Iosevka"
   	:height 95))))
     (org-modern-date-active
      ((t (:inherit (org-modern-label)
-  	:foreground ,(modus-themes-get-color-value 'bg-main)
-  	:background ,(modus-themes-get-color-value 'blue)
-  	:overline ,(modus-themes-get-color-value 'bg-main)
-  	:box (:color ,(modus-themes-get-color-value 'blue)
+  	:foreground ,(doom-color 'bg)
+  	:background ,(doom-color 'blue)
+  	:overline ,(doom-color 'bg)
+  	:box (:color ,(doom-color 'blue)
   	      :line-width (1 . 2))))))
     (org-modern-time-active
      ((t (:inherit (org-modern-label)
-  	:foreground ,(modus-themes-get-color-value 'blue)
-  	:background ,(modus-themes-get-color-value 'bg-main)
-  	:overline ,(modus-themes-get-color-value 'bg-main)
+  	:foreground ,(doom-color 'blue)
+  	:background ,(doom-color 'bg)
+  	:overline ,(doom-color 'bg)
   	:box (:line-width (1 . 2))))))
     (org-modern-date-inactive
      ((t (:inherit (org-modern-label)
-  	:foreground ,(modus-themes-get-color-value 'bg-main)
-  	:background ,(modus-themes-get-color-value 'fg-dim)
-  	:overline ,(modus-themes-get-color-value 'bg-main)
-  	:box (:color ,(modus-themes-get-color-value 'fg-dim)
+  	:foreground ,(doom-color 'bg)
+  	:background ,(doom-color 'fg)
+  	:overline ,(doom-color 'bg)
+  	:box (:color ,(doom-color 'fg)
   	      :line-width (1 . 2))))))
     (org-modern-time-inactive
      ((t (:inherit (org-modern-label)
-  	:foreground ,(modus-themes-get-color-value 'fg-dim)
-  	:background ,(modus-themes-get-color-value 'bg-main)
-  	:overline ,(modus-themes-get-color-value 'bg-main)
+  	:foreground ,(doom-color 'fg)
+  	:background ,(doom-color 'bg)
+  	:overline ,(doom-color 'bg)
   	:box (:line-width (1 . 2))))))
     :config
     (global-org-modern-mode))
-#+end_src
-
-I'd also like some changes in the faces of the headers themselves. I don't like how colourful they are since it feels distracting.
-
-#+begin_src emacs-lisp
-  (add-hook 'modus-themes-after-load-theme-hook
-  	  (lambda ()
-  	    (with-eval-after-load 'org-faces
-  	    (set-face-attribute 'org-level-1 nil
-  				:foreground (modus-themes-get-color-value 'fg-main))
-  	    (set-face-attribute 'org-level-2 nil
-  				:foreground (modus-themes-get-color-value 'fg-main))
-  	    (set-face-attribute 'org-level-3 nil
-  				:foreground (modus-themes-get-color-value 'fg-main))
-  	    (set-face-attribute 'org-level-4 nil
-  				:foreground (modus-themes-get-color-value 'fg-main))
-  	    (set-face-attribute 'org-level-5 nil
-  				:foreground (modus-themes-get-color-value 'fg-main))
-  	    (set-face-attribute 'org-level-6 nil
-  				:foreground (modus-themes-get-color-value 'fg-main)))))
 #+end_src
 
 *** Markdown
@@ -957,9 +919,11 @@ Org-contrib is a godsend! I'm a little disappointed there's a lot of conflicting
 #+end_src
 
 
-* Treesitter and LSP
+* Development tools
 
-This feels more comfortable and simultaneously not. I need to get more comfortable with both of these as they are implemented in Emacs. There's also issues about being able to use LSPs on NixOS which I haven't yet worked on.
+** Treesitter and LSP
+
+Using treesitter and LSPs on emacs feels more comfortable and simultaneously not. I need to get more comfortable with both of these through the Emacs way.
 
 #+begin_src emacs-lisp
   (use-package treesit-auto
@@ -983,10 +947,21 @@ This feels more comfortable and simultaneously not. I need to get more comfortab
     (kbd "g C") 'eglot-code-actions)
 #+end_src
 
-Some more nice-to-haves :P
+** direnv
+
+Using ~direnv~ on NixOS is near-mandatory since it's recommended to install LSP servers on a per-project basis. Additionally, NixOS and emacs integrate well with this.
 
 #+begin_src emacs-lisp
-  (add-hook 'prog-mode-hook #'electric-pair-mode)
+  (use-package direnv
+    :ensure t
+    :config
+    (direnv-mode))
+#+end_src
+
+** Nice-to-haves
+
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook #'electric-pair-local-mode)
 
   (use-package highlight-indent-guides
     :ensure t
@@ -997,7 +972,7 @@ Some more nice-to-haves :P
   	highlight-indent-guides-auto-enabled t
   	highlight-indent-guides-responsive 'top
   	highlight-indent-guides-delay 0))
-    #+end_src
+#+end_src
 
 
 * Snippets
@@ -1018,8 +993,6 @@ I'm using good old =yasnippet= for this.
 
 This customizes the way the Minibuffer works in Emacs.
 
-Dream feature (which is honestly impossible): I'd like Evil to mimic the use of native features in completion, in the sense that =:= ends up behaving like =M-x= in the way it pops up vertico with completions. Similarly with =/= and =consult-line= and so on.
-
 #+begin_src emacs-lisp
   (use-package vertico
     :ensure t
@@ -1038,7 +1011,8 @@ Dream feature (which is honestly impossible): I'd like Evil to mimic the use of 
     :ensure t
     :custom
     (completion-styles '(orderless basic))
-    (completion-category-overrides '((file (styles basic partial-completion)))))
+    (completion-category-overrides '((file (styles partial-completion))))
+    (completion-pcm-leading-wildcard t))
 
   (use-package consult
     :ensure t
@@ -1050,35 +1024,7 @@ Dream feature (which is honestly impossible): I'd like Evil to mimic the use of 
 
 I'm moving from Rougier's =nano-modeline= and skipping other modeline packages like =doom-modeline= and others to write my custom modeline inspired by =nano-modeline=, since Rougier's package contains so much that I don't use myself and doesn't customize some things I need. I still would prefer a headerline instead of a modeline, similar to Nano Emacs.
 
-** Faces
-
-The shenaniganery that goes on because I'm using stylix is genuinely painful. I really wish the theme could be loaded at the very beginning always. Oh well, here's a workaround for a NANO-modeline-style modeline.
-
-#+begin_src emacs-lisp
-  (add-hook 'modus-themes-after-load-theme-hook
-  	  (lambda ()
-  	    (custom-set-faces
-  	     `(header-line ((t ( :foreground ,(modus-themes-get-color-value 'fg-mode-line-active)
-  				 :background ,(modus-themes-get-color-value 'bg-mode-line-active)
-  				 :inherit nil))))
-  	     `(mode-line ((t ( :foreground ,(modus-themes-get-color-value 'bg-main)
-  			       :background ,(modus-themes-get-color-value 'bg-main)
-  			       :underline ,(modus-themes-get-color-value 'border)
-  			       :box nil
-  			       :height 0.1))))
-  	     `(mode-line-active ((t ( :foreground ,(modus-themes-get-color-value 'bg-main)
-  				      :background ,(modus-themes-get-color-value 'bg-main)
-  				      :underline ,(modus-themes-get-color-value 'border)
-  				      :box nil
-  				      :height 0.1))))
-  	     `(mode-line-inactive ((t ( :foreground ,(modus-themes-get-color-value 'bg-main)
-  					:background ,(modus-themes-get-color-value 'bg-main)
-  					:underline ,(modus-themes-get-color-value 'border)
-  					:box nil
-  					:height 0.1)))))))
-#+end_src
-
-Now that the faces are done for the config, I can setup all the packages. This is because I need a couple of packages (~nerd-icons~) for what comes next.
+Now that everything else's done, I can setup all the packages. This is because I need a couple of packages (~nerd-icons~) for what comes next.
 #+begin_src emacs-lisp
   (elpaca-wait)
 #+end_src
@@ -1118,7 +1064,7 @@ I'm all for modularizing the components. Since I'm looking for a pretty chill mo
   (defun mode-line-component-position ()
     "Return position in line:column format."
     (propertize (format-mode-line "%l:%C")
-  	      'face `(:foreground ,(face-foreground 'shadow))))
+  	      'face `(:foreground ,(face-foreground 'default))))
 #+end_src
 
 ** Formats

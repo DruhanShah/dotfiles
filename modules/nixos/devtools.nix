@@ -10,9 +10,9 @@
       gcc
       gnumake
       zlib
-      direnv
     ];
 
+    programs.direnv.enable = true;
     programs.nix-ld = {
       enable = true;
       libraries = with pkgs; [

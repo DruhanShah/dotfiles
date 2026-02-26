@@ -41,14 +41,11 @@
     enable = true;
     config.common.default = [ "wlr" ];
   };
-  programs.gdk-pixbuf.modulePackages = [ pkgs.librsvg ];
 
   hardware.bluetooth.enable = true;
 
   services.upower.enable = true;
-
   services.printing.enable = true;
-
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -57,9 +54,17 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
-
   services.libinput.enable = true;
 
+  nixpkgs.config.allowUnfree = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  users.users.druhan = {
+    isNormalUser = true;
+    description = "Druhan Shah";
+    extraGroups = [ "networkmanager" "wheel" "video" ];
+    shell = pkgs.fish;
+  };
 
   programs.firefox.enable = true;
   programs.light.enable = true;
@@ -71,16 +76,6 @@
     clean.enable = true;
     clean.extraArgs = "--keep 3";
     flake = "/home/druhan/dotfiles";
-  };
-
-  nixpkgs.config.allowUnfree = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  users.users.druhan = {
-    isNormalUser = true;
-    description = "Druhan Shah";
-    extraGroups = [ "networkmanager" "wheel" "video" ];
-    shell = pkgs.fish;
   };
 
   modules.devtools.enable = true;
@@ -106,13 +101,12 @@
   services.openssh = {
     enable = true;
     settings = {
-      X11Forwarding = true;
       PermitRootLogin = "no";
       PasswordAuthentication = false;
     };
     openFirewall = true;
   };
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 
 }

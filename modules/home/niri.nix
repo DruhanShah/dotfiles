@@ -5,11 +5,10 @@
   };
 
   config = lib.mkIf config.modules.niri.enable {
-    programs.noctalia-shell.enable = true;
     home.packages = with pkgs; [
-      quickshell
+      wbg
     ];
-
+    
     home.file =
       let
         dotDir = "${config.home.homeDirectory}/dotfiles/dots";
@@ -20,10 +19,6 @@
 
         ".config/quickshell".source = symlink "${dotDir}/quickshell";
         ".config/quickshell".recursive = true;
-        
-        ".cache/noctalia/wallpapers.json".text = builtins.toJSON {
-          defaultWallpaper = "${dotDir}/wallpapers/blank.png";
-        };
       };
   };
 }
