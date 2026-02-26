@@ -10,7 +10,7 @@ Rectangle {
             verticalCenter: parent.verticalCenter
         }
         text: Number(UPower.displayDevice.percentage * 100).toFixed(1)
-        color: "#e4dbc0"
+        color: "#e6e4d9"
         font.family: "Inter"
         font.pixelSize: 14
         Component.onCompleted: {

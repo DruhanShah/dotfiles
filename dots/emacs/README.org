@@ -233,8 +233,7 @@ While I do greatly enjoy Rougier's ~nano-theme~ and Prot's ~modus-~ and ~ef-them
     (doom-themes-enable-bold t)
     (doom-themes-enable-italic t)
     :config
-    (setq doom-everforest-light-background "soft")
-    (load-theme 'doom-everforest-light t))
+    (load-theme 'doom-flexoki-light t))
 #+end_src
 
 ** UI niceties

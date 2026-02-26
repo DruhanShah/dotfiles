@@ -7,7 +7,7 @@
   config = lib.mkIf config.modules.stylix.enable {
     stylix.enable = true;
     stylix.polarity = "light";
-    stylix.base16Scheme = ../../dots/stylix/everforest-light-soft.yaml;
+    stylix.base16Scheme = ../../dots/stylix/flexoki-light.yaml;
     # stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
     stylix.cursor = {
       package = pkgs.bibata-cursors;

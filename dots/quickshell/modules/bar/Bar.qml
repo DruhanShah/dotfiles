@@ -10,7 +10,7 @@ PanelWindow {
         right: true
     }
     implicitHeight: 42
-    color: "#4f5b58"
+    color: "#6f6e69"
 
     RowLayout {
 	anchors {

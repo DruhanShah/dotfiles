@@ -13,7 +13,7 @@ Rectangle {
             verticalCenter: parent.verticalCenter
         }
         text: Qt.formatDateTime(clock.date, "hh:mm   ddd, MMM dd")
-        color: "#f1ecd0"
+        color: "#fffcf0"
         font.family: "Inter"
         font.pixelSize: 14
         Component.onCompleted: {
