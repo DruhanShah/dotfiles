@@ -1,46 +1,38 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import qs.services
 
 Rectangle {
-    anchors.left: parent.left
-    color: "#829181"
-    height: 30
-    width: 240
-    radius: 4
+    id: workspaceLayout
+    anchors {
+	verticalCenter: parent.verticalCenter
+	left: parent.left
+	right: parent.right
+    }
 
-    Rectangle {
-        id: workspaceLayout
+    RowLayout {
         anchors {
             verticalCenter: parent.verticalCenter
-            left: parent.left
-            right: parent.right
-            leftMargin: 10
-            rightMargin: 10
         }
+        spacing: 5
 
-        RowLayout {
-            anchors {
-                verticalCenter: parent.verticalCenter
-            }
-            spacing: 5
+        Repeater {
+            model: Niri.workspaces
 
-            Repeater {
-                model: niri.workspaces
-
-                Rectangle {
-                    visible: index < 11
-                    width: model.isActive ? 20: 20
-                    height: 20
-                    radius: 4
-                    color: model.isActive ? "#a6b0a0" : "#939f91"
-                    MouseArea {
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: niri.focusWorkspaceById(model.id)
-                    }
+            Rectangle {
+                visible: model.isActive || model.activeWindowId > 0
+                implicitWidth: model.isActive ? 36: 24
+                implicitHeight: 20
+                radius: 4
+                color: model.isActive ? "#B7B5AC" : "#878580"
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: Niri.focusWorkspaceById(model.id)
                 }
             }
         }
     }
 }
+

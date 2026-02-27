@@ -143,14 +143,20 @@
     :background (if doom-nord-dark-comment-bg (doom-lighten bg 0.05) 'unspecified))
    ((tab-line &override) :background modeline-bg :foreground blue)
    ((tab-line-tab-inactive &override) :foreground dark-blue)
-   (mode-line
+   (header-line
     :background modeline-bg :foreground modeline-fg
-    :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg)))
+    :inherit nil)
+   (mode-line
+    :background bg :foreground bg
+    :underline fg :height 0.1)
    (mode-line-inactive
-    :background modeline-bg-inactive :foreground modeline-fg-alt
-    :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg-inactive)))
-   (mode-line-emphasis :foreground (if -modeline-bright base8 highlight))
+    :background bg :foreground bg
+    :underline fg :height 0.1)
+   (mode-line-emphasis
+    :background bg :foreground bg
+    :underline fg :height 0.1)
    ((region &override) :foreground (or region-fg 'unspecified))
+   (completions-common-part :foreground blue :inherit 'orderless-match-face-1)
 
    ;;;; css-mode <built-in> / scss-mode
    (css-proprietary-property :foreground orange)
@@ -176,6 +182,11 @@
    ((paren-face-mismatch &override) :foreground base7 :background red :weight 'ultra-bold)
    ;;;; org <built-in>
    (org-hide :foreground hidden)
+   (org-document-title :foreground fg :height 1.5 :weight 'bold)
+   (org-level-1 :foreground fg :height 1.25 :weight 'bold)
+   (org-level-2 :foreground fg :height 1.1 :weight 'bold)
+   (org-level-3 :foreground fg :height 1.1 :weight 'bold)
+   (org-level-4 :foreground fg :height 1.1 :weight 'bold)
    ;;;; solaire-mode
    (solaire-mode-line-face
     :inherit 'mode-line

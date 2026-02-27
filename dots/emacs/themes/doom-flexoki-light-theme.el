@@ -51,8 +51,8 @@
    ;; These should represent a spectrum from bg to fg, where base0 is a starker
    ;; bg and base8 is a starker fg. For example, if bg is light grey and fg is
    ;; dark grey, base0 should be white and base8 should be black.
-   (base0      '("#fffefa" "#f0f0f0" "white"        ))
-   (base1      '("#fffcf0" "#e7e7e7" "brightblack"  ))
+   (base0      '("#fffcf0" "#f0f0f0" "white"        ))
+   (base1      '("#f2f0e5" "#e7e7e7" "brightblack"  ))
    (base2      '("#e6e4d9" "#dfdfdf" "brightblack"  ))
    (base3      '("#b7b5ac" "#c6c7c7" "brightblack"  ))
    (base4      '("#6f6e69" "#9ca0a4" "brightblack"  ))
@@ -137,6 +137,7 @@
     :underline fg :height 0.1)
    (shadow :foreground base4)
    (tooltip :background base1 :foreground fg)
+   (completions-common-part :foreground blue :inherit 'orderless-match-face-1)
 
    ;;;; centaur-tabs
    (centaur-tabs-unselected :background bg-alt :foreground base4)
@@ -172,6 +173,11 @@
    ((org-block-begin-line &override) :foreground fg :slant 'italic)
    (org-ellipsis :underline nil :background bg     :foreground red)
    ((org-quote &override) :background base1)
+   (org-document-title :foreground fg :height 1.5 :weight 'bold)
+   (org-level-1 :foreground fg :height 1.25 :weight 'bold)
+   (org-level-2 :foreground fg :height 1.1 :weight 'bold)
+   (org-level-3 :foreground fg :height 1.1 :weight 'bold)
+   (org-level-4 :foreground fg :height 1.1 :weight 'bold)
    ;;;; posframe
    (ivy-posframe               :background base0)
    ;;;; selectrum

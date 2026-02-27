@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import qs.modules.common
 
 PanelWindow {
     id: bar
@@ -10,13 +11,13 @@ PanelWindow {
         right: true
     }
     implicitHeight: 42
-    color: "#6f6e69"
+    color: Theme.base800
 
     RowLayout {
 	anchors {
 	    verticalCenter: parent.verticalCenter
 	    left: parent.left
-	    leftMargin: 12
+	    leftMargin: 16
 	}
 	Loader { active: true; sourceComponent: Workspaces {} }
     }
@@ -25,9 +26,9 @@ PanelWindow {
 	anchors {
 	    verticalCenter: parent.verticalCenter
 	    right: parent.right
-	    rightMargin: 12
+	    rightMargin: 16
 	}
-	spacing: 10
+	spacing: 32
 	Loader { active: true; sourceComponent: Power {} }
 	Loader { active: true; sourceComponent: Time {} }
     }

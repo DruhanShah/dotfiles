@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import qs.modules.common
 
 Rectangle {
     SystemClock {
@@ -12,10 +13,10 @@ Rectangle {
         anchors {
             verticalCenter: parent.verticalCenter
         }
-        text: Qt.formatDateTime(clock.date, "hh:mm   ddd, MMM dd")
-        color: "#fffcf0"
-        font.family: "Inter"
-        font.pixelSize: 14
+        text: Qt.formatDateTime(clock.date, "hh:mm  ddd, MMM dd")
+        color: Theme.paper
+        font.family: Theme.fontSans
+        font.pixelSize: Theme.fontSize
         Component.onCompleted: {
             parent.width = timeBlock.contentWidth
         }

@@ -22,6 +22,12 @@ output "eDP-1" {
     position x=0 y=0
 }
 
+overview {
+    workspace-shadow {
+        off
+    }
+}
+
 layout {
     gaps 24
     background-color "00000000"
@@ -95,9 +101,6 @@ binds {
     XF86AudioMicMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
 
     XF86AudioPlay allow-when-locked=true { spawn-sh "playerctl play-pause"; }
-    XF86AudioStop allow-when-locked=true { spawn-sh "playerctl stop"; }
-    XF86AudioPrev allow-when-locked=true { spawn-sh "playerctl previous"; }
-    XF86AudioNext allow-when-locked=true { spawn-sh "playerctl next"; }
 
     XF86MonBrightnessUp { spawn-sh "light -A 5"; }
     XF86MonBrightnessDown { spawn-sh "light -U 5"; }
