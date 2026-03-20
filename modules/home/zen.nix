@@ -11,7 +11,6 @@
   config = lib.mkIf config.modules.zen.enable {
     programs.zen-browser = {
       enable = true;
-      suppressXdgMigrationWarning = true;
       policies = {
         AutofillAddressEnabled = true;
         AutofillCreditCardEnabled = false;

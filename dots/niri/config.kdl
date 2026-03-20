@@ -2,14 +2,9 @@ prefer-no-csd
 screenshot-path null
 
 input {
-    keyboard {
-        xkb {
-	    layout "us"
-	    options "compose:ralt,ctrl:nocaps"
-	}
-    }
     touchpad {
         tap
+	dwt
 	natural-scroll
 	scroll-method "two-finger";
     }
@@ -20,16 +15,20 @@ output "eDP-1" {
     mode "1920x1080"
     scale 1
     position x=0 y=0
+    hot-corners {
+        off
+    }
 }
 
 overview {
+    zoom 0.5
     workspace-shadow {
         off
     }
 }
 
 layout {
-    gaps 24
+    gaps 36
     background-color "00000000"
     center-focused-column "never"
     preset-column-widths {
@@ -74,7 +73,7 @@ layer-rule {
 }
 
 window-rule {
-    match app-id="zen-beta"
+    match app-id="zen-beta|equibop"
     default-column-width { proportion 1.0; }
 }
 
@@ -102,24 +101,16 @@ binds {
 
     XF86AudioPlay allow-when-locked=true { spawn-sh "playerctl play-pause"; }
 
-    XF86MonBrightnessUp { spawn-sh "light -A 5"; }
-    XF86MonBrightnessDown { spawn-sh "light -U 5"; }
+    XF86MonBrightnessUp { spawn-sh "brightnessctl set +5%"; }
+    XF86MonBrightnessDown { spawn-sh "brightnessctl set 5%-"; }
 
     Mod+Q repeat=false { close-window; }
 
-    Mod+Left { focus-column-left; }
-    Mod+Down { focus-window-down; }
-    Mod+Up { focus-window-up; }
-    Mod+Right { focus-column-right; }
     Mod+H { focus-column-left; }
     Mod+J { focus-window-down; }
     Mod+K { focus-window-up; }
     Mod+L { focus-column-right; }
 
-    Mod+Ctrl+Left { move-column-left; }
-    Mod+Ctrl+Down { move-window-down; }
-    Mod+Ctrl+Up { move-window-up; }
-    Mod+Ctrl+Right { move-column-right; }
     Mod+Ctrl+H { move-column-left; }
     Mod+Ctrl+J { move-window-down; }
     Mod+Ctrl+K { move-window-up; }
@@ -128,19 +119,11 @@ binds {
     Mod+Home { focus-column-first; }
     Mod+End { focus-column-last; }
 
-    Mod+Shift+Left { focus-monitor-left; }
-    Mod+Shift+Down { focus-monitor-down; }
-    Mod+Shift+Up { focus-monitor-up; }
-    Mod+Shift+Right { focus-monitor-right; }
     Mod+Shift+H { focus-monitor-left; }
     Mod+Shift+J { focus-monitor-down; }
     Mod+Shift+K { focus-monitor-up; }
     Mod+Shift+L { focus-monitor-right; }
 
-    Mod+Shift+Ctrl+Left { move-window-to-monitor-left; }
-    Mod+Shift+Ctrl+Down { move-window-to-monitor-down; }
-    Mod+Shift+Ctrl+Up { move-window-to-monitor-up; }
-    Mod+Shift+Ctrl+Right { move-window-to-monitor-right; }
     Mod+Shift+Ctrl+H { move-window-to-monitor-left; }
     Mod+Shift+Ctrl+J { move-window-to-monitor-down; }
     Mod+Shift+Ctrl+K { move-window-to-monitor-up; }

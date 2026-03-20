@@ -2,17 +2,16 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
-import "./modules/bar/"
+import "./modules/notifs"
+import "./modules/bar"
 import "./modules/osd"
 import "./services"
 
 ShellRoot{
     id: root
 
-    LazyLoader{
-	active: true
-	component: Bar {}
-    }
+    Bar {}
     VolumeOSD {}
     BrightnessOSD {}
+    NotificationPanel {}
 }

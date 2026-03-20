@@ -1,10 +1,9 @@
 { config, pkgs, inputs, ... }:
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ../../modules/nixos
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ../../modules/nixos
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -32,15 +31,6 @@
     enable = true;
     wayland.enable = true;
   };
-  services.xserver = {
-    enable = true;
-    xkb.layout = "us";
-    xkb.options = "caps:escape, compose:ralt";
-  };
-  xdg.portal = {
-    enable = true;
-    config.common.default = [ "wlr" ];
-  };
 
   hardware.bluetooth.enable = true;
 
@@ -66,10 +56,7 @@
     shell = pkgs.fish;
   };
 
-  programs.firefox.enable = true;
-  programs.light.enable = true;
   programs.fish.enable = true;
-  programs.niri.enable = true;
 
   programs.nh = {
     enable = true;
@@ -78,24 +65,17 @@
     flake = "/home/druhan/dotfiles";
   };
 
+  modules.desktop.enable = true;
   modules.devtools.enable = true;
   modules.fonts.enable = true;
   modules.games.enable = true;
+  modules.kmonad.enable = true;
   modules.stylix.enable = true;
 
   environment.systemPackages = with pkgs; [
     git
     vim
     wget
-    kitty
-    grim
-    slurp
-    mupdf
-    ffmpeg
-    xwayland-satellite
-    wev
-    linux-wifi-hotspot
-    haveged
   ];
 
   services.openssh = {

@@ -10,6 +10,10 @@
       gcc
       gnumake
       zlib
+
+      copilot-language-server
+      mupdf
+      ffmpeg # Didn't know where else to put this lol
     ];
 
     programs.direnv.enable = true;

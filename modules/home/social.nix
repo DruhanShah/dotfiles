@@ -8,7 +8,7 @@
     programs.nixcord = {
       enable = true;
       discord.vencord.enable = false;
-      discord.equicord.enable = true;
+      discord.equicord.enable = false;
       equibop.enable = true;
       config = {
         frameless = true;

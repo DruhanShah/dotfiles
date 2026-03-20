@@ -20,6 +20,8 @@
         pop_to_root_on_close = true;
         favicon_service = "native";
         search_files_in_root = false;
+        theme.light.icon_theme = "Papirus";
+        theme.dark.icon_theme = "Papirus";
       };
     };
   };

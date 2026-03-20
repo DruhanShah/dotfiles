@@ -9,6 +9,11 @@
       wbg
     ];
     
+    gtk.iconTheme = {
+      package = pkgs.papirus-icon-theme;
+      name = "Papirus";
+    };
+    
     home.file =
       let
         dotDir = "${config.home.homeDirectory}/dotfiles/dots";

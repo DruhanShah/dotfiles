@@ -154,6 +154,15 @@
    (ediff-current-diff-Ancestor :foreground teal  :background (doom-lighten teal 0.8))
    ;;;; helm
    (helm-candidate-number :background blue :foreground bg)
+   ;;;; latex-mode
+   (preview-reference-face :inherit 'default)
+   (font-latex-sectioning-0-face :inherit 'bold :foreground blue :height 1.6)
+   (font-latex-sectioning-1-face :inherit 'bold :foreground blue :height 1.5)
+   (font-latex-sectioning-2-face :inherit 'bold :foreground blue :height 1.4)
+   (font-latex-sectioning-3-face :inherit 'bold :foreground blue :height 1.3)
+   (font-latex-sectioning-4-face :inherit 'bold :foreground blue :height 1.2)
+   (TeX-fold-folded-face :foreground 'unspecified :family 'unspecified)
+   (TeX-fold-unfolded-face :foreground 'unspecified :family 'unspecified)
    ;;;; lsp-mode
    (lsp-ui-doc-background      :background base0)
    ;;;; magit

@@ -5,7 +5,7 @@ import Quickshell.Io
 
 Singleton {
     id: root
-    property int maxBrightness: 100.0
+    property int maxBrightness: 96000.0
     property int currentBrightness
     property bool brightnessChanged
 
@@ -16,7 +16,7 @@ Singleton {
     Process {
         id: getCurrent
         running: true
-        command: ["light", "-G"]
+        command: ["brightnessctl", "get"]
         stdout: StdioCollector {
             onStreamFinished: {
                 if (root.currentBrightness != text) {

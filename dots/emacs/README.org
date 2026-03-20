@@ -28,16 +28,15 @@ This codeblock is directly from the Elpaca repository's README. I have only adde
 There's apparently something to be done when Elpaca is used with Emacs on NixOS, but I'm yet to implement that just yet.
 
 #+begin_src emacs-lisp
-  (defvar elpaca-installer-version 0.11)
+  (defvar elpaca-installer-version 0.12)
   (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
   (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
-  (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
-  (defvar elpaca-order
-    '(elpaca :repo "https://github.com/progfolio/elpaca.git"
-             :ref nil :depth 1 :inherit ignore
-             :files (:defaults "elpaca-test.el" (:exclude "extensions"))
-             :build (:not elpaca--activate-package)))
-  (let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+  (defvar elpaca-sources-directory (expand-file-name "sources/" elpaca-directory))
+  (defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+  			      :ref nil :depth 1 :inherit ignore
+  			      :files (:defaults "elpaca-test.el" (:exclude "extensions"))
+  			      :build (:not elpaca-activate)))
+  (let* ((repo  (expand-file-name "elpaca/" elpaca-sources-directory))
          (build (expand-file-name "elpaca/" elpaca-builds-directory))
          (order (cdr elpaca-order))
          (default-directory repo))
@@ -46,30 +45,25 @@ There's apparently something to be done when Elpaca is used with Emacs on NixOS,
       (make-directory repo t)
       (when (<= emacs-major-version 28) (require 'subr-x))
       (condition-case-unless-debug err
-          (if-let* ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
-                    ((zerop
-                      (apply #'call-process
-                             `("git" nil ,buffer t "clone"
-                               ,@(when-let* ((depth (plist-get order :depth)))
-                                   (list
-  				  (format "--depth=%d" depth)
-  				  "--no-single-branch"))
-                               ,(plist-get order :repo) ,repo))))
-                    ((zerop (call-process "git" nil buffer t "checkout"
-                                          (or (plist-get order :ref) "--"))))
-                    (emacs (concat invocation-directory invocation-name))
-                    ((zerop (call-process
-                             emacs nil buffer nil "-Q" "-L" "." "--batch"
-                             "--eval" "(byte-recompile-directory \".\" 0 'force)")))
-                    ((require 'elpaca))
-                    ((elpaca-generate-autoloads "elpaca" repo)))
-              (progn (message "%s" (buffer-string)) (kill-buffer buffer))
-            (error "%s" (with-current-buffer buffer (buffer-string))))
+  	(if-let* ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+  		  ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
+  						  ,@(when-let* ((depth (plist-get order :depth)))
+  						      (list (format "--depth=%d" depth) "--no-single-branch"))
+  						  ,(plist-get order :repo) ,repo))))
+  		  ((zerop (call-process "git" nil buffer t "checkout"
+  					(or (plist-get order :ref) "--"))))
+  		  (emacs (concat invocation-directory invocation-name))
+  		  ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+  					"--eval" "(byte-recompile-directory \".\" 0 'force)")))
+  		  ((require 'elpaca))
+  		  ((elpaca-generate-autoloads "elpaca" repo)))
+  	    (progn (message "%s" (buffer-string)) (kill-buffer buffer))
+  	  (error "%s" (with-current-buffer buffer (buffer-string))))
         ((error) (warn "%s" err) (delete-directory repo 'recursive))))
     (unless (require 'elpaca-autoloads nil t)
       (require 'elpaca)
       (elpaca-generate-autoloads "elpaca" repo)
-      (load "./elpaca-autoloads")))
+      (let ((load-source-file-function nil)) (load "./elpaca-autoloads"))))
   (add-hook 'after-init-hook #'elpaca-process-queues)
   (elpaca `(,@elpaca-order))
   (elpaca elpaca-use-package
@@ -89,17 +83,6 @@ This is a bunch of other niceties that I would like to have, since that would ma
   (setq gc-cons-threshold 63000000
         gc-cons-percentage 0.6)
   (global-auto-revert-mode)
-#+end_src
-
-** Utility functions
-
-As it turns out, there are a lot of convenient functions that I can do with in general. This config also requires them occasionally.
-
-#+begin_src emacs-lisp
-  (defun add-multiple-to-list (dst src)
-    "Merge content of SRC into DST."
-    (set dst
-         (append (eval dst) src)))
 #+end_src
 
 ** "Sane defaults"
@@ -140,12 +123,19 @@ This section deals with simple default values that I would like to have set by d
 
   (setq make-backup-files nil)
 
-  (set-display-table-slot standard-display-table
-                          'truncation
+  (set-display-table-slot standard-display-table 'truncation
   			(make-glyph-code ?… 'font-lock-comment-face))
-  (set-display-table-slot standard-display-table
-                          'wrap
+  (set-display-table-slot standard-display-table 'wrap
   			(make-glyph-code ?- 'font-lock-comment-face))
+#+end_src
+
+There's also some keybinds that I don't think make sense but I use very regularly.
+
+#+begin_src emacs-lisp
+  (define-key global-map (kbd "C-h C-f") 'describe-function)
+  (define-key global-map (kbd "C-h C-v") 'describe-variable)
+  (define-key global-map (kbd "C-h C-S-f") 'describe-face)
+  (define-key global-map (kbd "C-h C-e") 'view-echo-area-messages)
 #+end_src
 
 
@@ -300,6 +290,8 @@ I'm using Prot's =fontaine= package to setup my default fonts, independent of Ro
 
 ** Nice-to-haves
 
+I'm using Iosevka, so I might as well use all the ligatures I can :P
+
 #+begin_src emacs-lisp
   (use-package ligature
     :ensure t
@@ -312,6 +304,11 @@ I'm using Prot's =fontaine= package to setup my default fonts, independent of Ro
   		"+:" "-:" "=:" "<******>" "++" "+++"))
     (global-ligature-mode t))
 
+#+end_src
+
+Instead of setting specific code points to Nerd fonts, I'd rather use the ~nerd-icons-insert~ functions.
+
+#+begin_src emacs-lisp
   (use-package nerd-icons
     :ensure t
     :if (display-graphic-p)
@@ -346,10 +343,13 @@ I'm using Prot's =fontaine= package to setup my default fonts, independent of Ro
     :config
     (nerd-icons-completion-mode))
 
-  (use-package colorful-mode
-    :ensure t
-    :config
-    (global-colorful-mode))
+#+end_src
+
+Bonus points for hex-code colourization. I don't want to use ~colorful-mode~ since it's finicky, it renders colours in a weird way and its claim-to-fame over ~rainbow-mode~ is a bunch of features I never use.
+
+#+begin_src emacs-lisp
+  (use-package rainbow-mode
+    :ensure t)
 #+end_src
 
 
@@ -364,9 +364,11 @@ This sets up three major plugins: Magit (all hail), Copilot, and GPTel. Elpaca t
     :ensure t)
 #+end_src
 
-Here, I set up the AI-based stuff like copilot (for completions) and GPTel (for other LLM and agent capabilities). I still need to get a handle on what GPTel can do for my particular use case.
+Here, I set up the AI-based stuff like copilot (for completions) and GPTel (for other LLM and agent capabilities). Similar issues to transient ensure if I remove the ~track-changes~ installation.
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
+  (use-package track-changes
+    :ensure t)
   (use-package copilot
     :vc (:url "https://github.com/copilot-emacs/copilot.el"
          :rev :newest
@@ -376,19 +378,9 @@ Here, I set up the AI-based stuff like copilot (for completions) and GPTel (for 
     :config
     (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion))
 
-  (setq gemini-api-key (with-temp-buffer
-  		       (insert-file-contents "~/.config/emacs/.gemini")
-  		       (buffer-string)))
-
-  (use-package gptel
-    :ensure t
-    :config
-    (setq gptel-backend
-  	(gptel-make-gemini "Gemini"
-  			   :key gemini-api-key
-  			   :stream t)
-  	gptel-default-mode 'org-mode))
 #+end_src
+
+GPTel is currently disabled because firstly I'm not sure of its usability for my use-case, and secondly it's causing some issues with NixOS and secret management with Gemini API keys.
 
 
 * Dired
@@ -399,7 +391,7 @@ This has some nice features that I would like when using the builtin Dired. The 
   (require 'dired)
   (require 'dired-x)
   (setq dired-listing-switches
-        "-l --almost-all --human-readable --group-directories-first"
+        "-aghol --almost-all --human-readable --group-directories-first"
         dired-omit-files
         (concat dired-omit-files "\\|^\\..+$\\|^__pycache__$"))
   (put 'dired-find-alternate-file 'disabled nil)
@@ -522,22 +514,28 @@ It occurs to me that I am not an Emacs dictionary. Who'd have thunk?
 #+end_src
 
 
-* Regex builder
+* Regex Builder
 
-I'm starting to find too many insanely cool builtin features in Emacs. The Interactive Regex Builder is another in that huge list. Also, Karthink has a fantastic blog post on using the regex builder and tying it with using =query-replace-regexp= as a better, more visual version of vim's =:%s/= replacement.
+While I have been inspired by Karthink to start using the interactive regex builder instead of =:%s= for my search-and-replace needs, I'm a little hesitant since I'm uncomfortable with Emacs' regex handling. I'm considering getting more familiar with the ~rx~ notation before I jump head-first into the regex builder.
+
+Firstly, I set up ~reb~ to use ~rx~ the way I want it.
 
 #+begin_src emacs-lisp
   (require 're-builder)
-  (setq reb-re-syntax 'string)
+  (setq reb-re-syntax 'rx)
+#+end_src
 
-  (defvar drs/re-builder-positions nil
+Then, I yoink some code from Karthink's website that makes ~query-replace-regexp~ use ~reb~.
+
+#+begin_src emacs-lisp
+  (defvar drs/reb-pos nil
     "Store point and region bounds before calling `re-builder'.")
+
   (advice-add 're-builder
   	    :before
-  	    (defun my/re-builder-save-state (&rest _)
-  	      "Save into `my/re-builder-positions' the point and region
-    positions before calling `re-builder'."
-  	      (setq my/re-builder-positions
+  	    (defun drs/re-builder-save-state (&rest _)
+  	      "Save into `drs/reb-pos' the point and region positions before calling `re-builder'."
+  	      (setq drs/reb-pos
   		    (cons (point)
   			  (when (region-active-p)
   			    (list (region-beginning)
@@ -550,78 +548,61 @@ I'm starting to find too many insanely cool builtin features in Emacs. The Inter
     (interactive "P")
     (reb-update-regexp)
     (let* ((re (reb-target-value 'reb-regexp))
-           (replacement (query-replace-read-to
+  	 (replacement (query-replace-read-to
   		       re
   		       (concat "Query replace"
   			       (if current-prefix-arg
-                                     (if (eq current-prefix-arg '-) " backward" " word")
-                                   "")
+  				   (if (eq current-prefix-arg '-) " backward" " word")
+  				 "")
   			       " regexp"
   			       (if (with-selected-window reb-target-window
-                                       (region-active-p)) " in region" ""))
+  				     (region-active-p)) " in region" ""))
   		       t))
-           (pnt (car drs/re-builder-positions))
-           (beg (cadr drs/re-builder-positions))
-           (end (caddr drs/re-builder-positions)))
+  	 (pnt (car drs/reb-pos))
+  	 (beg (cadr drs/reb-pos))
+  	 (end (caddr drs/reb-pos)))
       (with-selected-window reb-target-window
         (goto-char pnt)
-        (setq drs/re-builder-positions nil)
+        (setq drs/reb-pos nil)
         (reb-quit)
         (query-replace-regexp re replacement delimited beg end))))
+#+end_src
 
+Now I believe I'm ready to make this a proper keybind-heaven.
 
-  (define-key reb-mode-map (kbd "RET") #'reb-replace-regexp)
-  (define-key reb-lisp-mode-map (kbd "RET") #'reb-replace-regexp)
-  ;; (define-key global-map (kbd "C-s") #'re-builder)
+#+begin_src emacs-lisp
+  
 #+end_src
 
 
-* PDF Tools and ePub reading
+* Minibuffer
 
-This section initially used PDF-Tools and =nov.el= for document reading (despite the jank from =nov.el=), but I'm now considering switching to Divya Ranjan's package =emacs-reader= which relies on MuPDF which I'm a big fan of. Looks quite promisnig!
-
-On first try it's beautiful! The only gripe I have is the lack of annotations and theming, both of which (especially in my case) are only minor nitpicks. There's also another issue of not being able to find =render-core.so= which I broke my head over for too long, but it ended up being a NixOS issue since compiling the C libraries in =emacs-reader= required the MuPDF libraries which weren't globally visible.
-
-There's still some breakages, but I'll get around to fixing them eventually, since I have Zathura for documents at the moment.
+This customizes the way the Minibuffer works in Emacs.
 
 #+begin_src emacs-lisp
-  (use-package reader
-    :ensure (:type git :host codeberg :repo "divyaranjan/emacs-reader"
-  	   :files ("*.el" "render-core.so")
-  	   :pre-build ("make" "all")))
-#+end_src
-
-
-* Completions and Spellchecking
-
-** Completions at point
-
-I'm (not really) using Corfu at the moment. Haven't tried out other completion frameworks
-
-#+begin_src emacs-lisp
-  (use-package corfu
+  (use-package vertico
     :ensure t
     :config
-    (setq corfu-auto t)
-    (global-corfu-mode))
-#+end_src
+    (vertico-mode 1)
+    (setq vertico-preselect 'first
+  	vertico-count 10
+  	vertico-resize nil))
 
-** Spell checking
+  (use-package marginalia
+    :ensure t
+    :config
+    (marginalia-mode))
 
-For spellchecking, I did try out jinx, but never ended up actually using it. Apparently Grammarly's Language Server borked itself. Then I switched to the OSS variant called LanguageTool (a maintained fork called LTeX+), it was bugged out of its tiny little mind. I've no updates on this end so far, but I'm willing to try out jinx again.
+  (use-package orderless
+    :ensure t
+    :custom
+    (completion-styles '(orderless basic))
+    (completion-category-overrides '((file (styles partial-completion))))
+    (completion-pcm-leading-wildcard t))
 
-** Syntax checking and diagnostics
-
-For syntax checking, I'm starting to use flymake-mode, which should integrate decently with the version of ~nano-modeline~ that I have.
-I'm using custom fringe bitmaps to indicate the locations of errors, warnings and notes.
-
-#+begin_src emacs-lisp
-  (add-hook 'prog-mode-hook #'flymake-mode)
-  (evil-define-key 'normal flymake-mode-map
-    "]d" 'flymake-goto-next-error
-    "[d" 'flymake-goto-prev-error)
-  (setq flymake-start-on-flymake-mode t
-        flymake-indicator-type 'fringes)
+  (use-package consult
+    :ensure t
+    :bind (("C-x b" . consult-buffer)))
 #+end_src
 
 
@@ -654,75 +635,53 @@ Some eshell niceties are to be expected :P
 #+end_src
 
 
-* Org Mode and LaTeX
+* PDF Tools and ePub reading
 
-All hail the OrgMode system! Lots of very helpful modules have been used here, and this is by far the largest section in my config.
+This section initially used PDF-Tools and ~nov.el~ for document reading (despite the jank from ~nov.el~), but I'm now considering switching to Divya Ranjan's package ~emacs-reader~ which relies on MuPDF which I'm a big fan of. Looks quite promisnig!
 
-** Baseline stuff
+On first try it's beautiful! The only gripe I have is the lack of annotations and theming, both of which (especially in my case) are only minor nitpicks. There were issues and breakages that I was having when loading PDFs on NixOS, but I ended up solving all of them by using the Nix build as described on the [[https://codeberg.org/MonadicSheep/emacs-reader/issues/115][Issues thread]] and then (very importantly) ensuring that the ~use-package~ call doesn't use ~elpaca~ to install it.
 
-First, since we're using ~org-cdlatex-mode~, we need to also install auctex, which might cause some issues.
+#+begin_src emacs-lisp
+  (use-package reader
+    :ensure nil)
+#+end_src
+
+
+* LaTeX
+
+The typesetting language beyond time. I used to use OrgMode for writing and then export it to LaTeX in pretty much every case except the rare few. I've realised that my usage of latex is now so complex that the tweaks I need to do in order to have a functioning export makes the doc unreadable right away. I'm therefore switching to AucTeX and moving to Nepal, where I will continue to live as a goat (jk).
+
+Along with AucTeX is this gem of a program called CDLaTeX which makes math input /fast/.
 
 #+begin_src emacs-lisp
   (use-package auctex
-    :ensure (:repo "https://git.savannah.gnu.org/git/auctex.git"
-  	   :branch "main"
-  	   :pre-build (("make" "elpa"))
-  	   :build (:not elpaca--compile-info)
-  	   :files ("*.el" "doc/*.info*" "etc" "images" "latex" "style")
-  	   :version (lambda (_) (require 'auctex) AUCTeX-version))
+    :ensure t
+    :hook (LaTeX-mode . visual-line-mode)
+    :hook (LaTeX-mode . cdlatex-mode)
+    :hook (LaTeX-mode . TeX-fold-mode)
     :config
-    (setq TeX-view-program-selection
-  	'((output-dvi "xdvi") (output-pdf "Zathura") (output-html "xdg-open"))))
+    (setq TeX-view-program-selection '((output-dvi "xdvi")
+  				     (output-pdf "Sioyek")
+  				     (output-html "xdg-open"))
+  	TeX-command-default "LaTeXMk"
+  	preview-default-option-list '("displaymath" "floats" "textmath" "graphics")
+  	TeX-parse-self t
+  	TeX-auto-save t)
+    (setq-default TeX-master nil))
+
+  (add-hook 'LaTeX-mode-hook
+            (defun preview-larger-previews ()
+              (setq preview-scale-function
+                    (lambda () (* 0.75
+                             (funcall (preview-scale-from-face)))))))
 
   (use-package cdlatex
-    :ensure t)
-#+end_src
-
-Now we can get back to org.
-
-#+begin_src emacs-lisp
-  (cl-pushnew 'org elpaca-ignored-dependencies)
-
-  (use-package org
-    :ensure nil
-    :hook (org-mode . visual-line-mode)
-    :hook (org-mode . mixed-pitch-mode)
-    :hook (org-mode . org-display-inline-images)
-    :hook (org-mode . org-cdlatex-mode)
-    :hook (org-mode . org-indent-mode)
+    :ensure t
     :config
-    (setq org-ellipsis " "
-  	org-fontify-quote-and-verse-blocks t
-          org-hide-emphasis-markers t
-          org-hide-leading-stars nil
-  	org-cycle-separator-lines 2
-          org-pretty-entities t
-          org-pretty-entities-include-sub-superscripts nil
-          org-use-sub-superscripts t
-          org-format-latex-options (plist-put org-format-latex-options :scale 0.75)
-          org-latex-src-block-backend 'listings
-  	org-latex-packages-alist '(("" "amsmath" t)
-  				   ("" "amssymb" t)
-  				   ("" "amsfonts" t)
-  				   ("" "amsthm" t)
-  				   ("" "mathtools" t)
-  				   ("" "braket" t)
-  				   ("" "physics" t)
-  				   ("" "xcolor" t)
-  				   ("" "tikz" t))
-  	org-todo-keywords '((sequence "TODO" "DOING" "|" "DONE")
-  			    (sequence "HOLD" "|" "NOPE"))
-  	org-priority-highest 0
-          org-priority-lowest 9
-  	org-priority-default 5
-  	org-agenda-files '("~/notes/agenda/habits.org"
-  			   "~/notes/agenda/leisure.org"
-  			   "~/notes/agenda/refile.org"
-  			   "~/notes/agenda/work.org")
-  	org-hidden-keywords '(title subtitle author date)
-  	org-src-window-setup 'current-window)
     (add-to-list 'cdlatex-math-symbol-alist '(?. "\\cdot"    "\\dots"))
     (add-to-list 'cdlatex-math-symbol-alist '(?| "\\mapsto"  "\\longmapsto"  "\\:\\middle\\mid\\:"))
+    (add-to-list 'cdlatex-math-symbol-alist '(?{ "\\subset"  "\\subseteq"))
+    (add-to-list 'cdlatex-math-symbol-alist '(?} "\\superset"  "\\superseteq"))
     (add-to-list 'cdlatex-math-modify-alist '(?B "\\mathbb" nil t t nil))
     (add-to-list 'cdlatex-command-alist '("int"
   					"Insert \\int_{}^{}"
@@ -733,16 +692,65 @@ Now we can get back to org.
   					"Insert \\sum_{}^{}"
   					"\\sum_{?}^{}"
   					cdlatex-position-cursor
-  					nil nil t))
+  					nil nil t)))
+#+end_src
+
+More vim emulation :D
+
+#+begin_src emacs-lisp
+  (use-package evil-tex
+    :ensure t
+    :after evil
+    :after auctex
+    :hook (LaTeX-mode . evil-tex-mode))
+#+end_src
+
+More things will likely show up here as time goes on :)
+
+
+* Org Mode
+
+All hail the OrgMode system! Lots of very helpful modules have been used here, and this is by far the largest section in my config.
+
+** Baseline stuff
+
+#+begin_src emacs-lisp
+  (cl-pushnew 'org elpaca-ignored-dependencies)
+
+  (use-package org
+    :ensure nil
+    :hook (org-mode . visual-line-mode)
+    :hook (org-mode . org-display-inline-images)
+    :hook (org-mode . org-cdlatex-mode)
+    :hook (org-mode . org-indent-mode)
+    :config
+    (setq org-ellipsis " "
+  	org-fontify-quote-and-verse-blocks t
+          org-hide-emphasis-markers t
+          org-hide-leading-stars nil
+  	org-cycle-separator-lines 2
+  	org-tags-column 0
+          org-pretty-entities t
+          org-pretty-entities-include-sub-superscripts nil
+          org-use-sub-superscripts t
+  	org-todo-keywords '((sequence "TODO" "HOLD" "DOING" "|" "NOPE" "DONE"))
+  	org-priority-highest 0
+          org-priority-lowest 9
+  	org-priority-default 5
+  	org-agenda-files '("~/notes/agenda/habits.org"
+  			   "~/notes/agenda/leisure.org"
+  			   "~/notes/agenda/refile.org"
+  			   "~/notes/agenda/work.org")
+  	org-hidden-keywords '(title subtitle author date)
+  	org-src-window-setup 'current-window)
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((emacs-lisp . t)
-       (latex . t)
        (python . t)))
     (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file))
 #+end_src
 
-** Jupyter and other Babel shenanigans
+** Babel shenanigans
 
 Babel is a module of Org mode that deals with other programming languages and how they integrate with Org. These integrations include "tangling" (bundling all codeblocks in an org file into an actual code file), and running in the file itself.
 
@@ -824,7 +832,8 @@ These are some nice-to-haves that make Org files look good in Emacs.
 
   (use-package mixed-pitch
     :ensure t
-    :hook (org-mode . mixed-pitch-mode))
+    :hook (org-mode . mixed-pitch-mode)
+    :hook (LaTeX-mode . mixed-pitch-mode))
 #+end_src
 
 The next bit is all about the =org-modern= package by minad (Daniel Mendler). I was earlier using the modified source code of the package as =nano-org= thinking I could nano-ify the whole thing, but in hindsight it was far more sensible to just customize some variables.
@@ -837,56 +846,61 @@ The next bit is all about the =org-modern= package by minad (Daniel Mendler). I 
     (org-modern-star 'fold)
     (org-modern-hide-stars t)
     (org-modern-timestamp '(" %^b %d " . " %H%M "))
-    (org-modern-todo-faces `(("TODO" . (:foreground ,(doom-color 'red)
-  				      :height 95
-  				      :box (1 . 2)
-  				      :overline ,(doom-color 'bg)))
-  			   ("DOING" . (:foreground ,(doom-color 'yellow)
+    (org-modern-todo-faces `(("TODO" . ( :foreground ,(doom-color 'red)
   				       :height 95
   				       :box (1 . 2)
   				       :overline ,(doom-color 'bg)))
-  			   ("DONE" . (:foreground ,(doom-color 'green)
-  				      :height 95
-  				      :box (1 . 2)
-  				      :overline ,(doom-color 'bg)))
-  			   ("HOLD" . (:foreground ,(doom-color 'fg)
-  				      :height 95
-  				      :box (1 . 2)
-  				      :overline ,(doom-color 'bg)))
-  			   ("NOPE" . (:foreground ,(doom-color 'base4)
-  				      :height 95
-  				      :box (1 . 2)
-  				      :overline ,(doom-color 'bg)))))
+  			   ("DOING" . ( :foreground ,(doom-color 'yellow)
+  				        :height 95
+  				        :box (1 . 2)
+  				        :overline ,(doom-color 'bg)))
+  			   ("DONE" . ( :foreground ,(doom-color 'green)
+  				       :height 95
+  				       :box (1 . 2)
+  				       :overline ,(doom-color 'bg)))
+  			   ("HOLD" . ( :foreground ,(doom-color 'fg)
+  				       :height 95
+  				       :box (1 . 2)
+  				       :overline ,(doom-color 'bg)))
+  			   ("NOPE" . ( :foreground ,(doom-color 'base4)
+  				       :height 95
+  				       :box (1 . 2)
+  				       :overline ,(doom-color 'bg)))))
     :custom-face
     (org-modern-label
-     ((t (:family "Iosevka"
-  	:height 95))))
+     ((t ( :family "Iosevka"
+  	 :height 95
+  	 :foreground ,(doom-color 'bg)
+  	 :box t))))
+    (org-modern-tag
+     ((t ( :foreground ,(doom-color 'bg)
+  	 :inherit (secondary-selection org-modern-label)))))
     (org-modern-date-active
-     ((t (:inherit (org-modern-label)
-  	:foreground ,(doom-color 'bg)
-  	:background ,(doom-color 'blue)
-  	:overline ,(doom-color 'bg)
-  	:box (:color ,(doom-color 'blue)
+     ((t ( :inherit (org-modern-label)
+  	 :foreground ,(doom-color 'bg)
+  	 :background ,(doom-color 'blue)
+  	 :overline ,(doom-color 'bg)
+  	 :box (:color ,(doom-color 'blue)
   	      :line-width (1 . 2))))))
     (org-modern-time-active
-     ((t (:inherit (org-modern-label)
-  	:foreground ,(doom-color 'blue)
-  	:background ,(doom-color 'bg)
-  	:overline ,(doom-color 'bg)
-  	:box (:line-width (1 . 2))))))
+     ((t ( :inherit (org-modern-label)
+  	 :foreground ,(doom-color 'blue)
+  	 :background ,(doom-color 'bg)
+  	 :overline ,(doom-color 'bg)
+  	 :box (:line-width (1 . 2))))))
     (org-modern-date-inactive
-     ((t (:inherit (org-modern-label)
-  	:foreground ,(doom-color 'bg)
-  	:background ,(doom-color 'fg)
-  	:overline ,(doom-color 'bg)
-  	:box (:color ,(doom-color 'fg)
+     ((t ( :inherit (org-modern-label)
+  	 :foreground ,(doom-color 'bg)
+  	 :background ,(doom-color 'fg)
+  	 :overline ,(doom-color 'bg)
+  	 :box (:color ,(doom-color 'fg)
   	      :line-width (1 . 2))))))
     (org-modern-time-inactive
-     ((t (:inherit (org-modern-label)
-  	:foreground ,(doom-color 'fg)
-  	:background ,(doom-color 'bg)
-  	:overline ,(doom-color 'bg)
-  	:box (:line-width (1 . 2))))))
+     ((t ( :inherit (org-modern-label)
+  	 :foreground ,(doom-color 'fg)
+  	 :background ,(doom-color 'bg)
+  	 :overline ,(doom-color 'bg)
+  	 :box (:line-width (1 . 2))))))
     :config
     (global-org-modern-mode))
 #+end_src
@@ -959,6 +973,8 @@ Using ~direnv~ on NixOS is near-mandatory since it's recommended to install LSP 
 
 ** Nice-to-haves
 
+Buncha IDE fluff.
+
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook #'electric-pair-local-mode)
 
@@ -971,6 +987,38 @@ Using ~direnv~ on NixOS is near-mandatory since it's recommended to install LSP 
   	highlight-indent-guides-auto-enabled t
   	highlight-indent-guides-responsive 'top
   	highlight-indent-guides-delay 0))
+#+end_src
+
+
+* Completions and Spellchecking
+
+** Completions at point
+
+I'm (not really) using Corfu at the moment. Haven't tried out other completion frameworks
+
+#+begin_src emacs-lisp
+  (use-package corfu
+    :ensure t
+    :config
+    (setq corfu-auto t)
+    (global-corfu-mode))
+#+end_src
+
+** Spell checking
+
+Will eventually give ~jinx~ another solid attempt.
+
+** Syntax checking and diagnostics
+
+TODO: add a modeline indicator for flymake diagnostics.
+
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook #'flymake-mode)
+  (evil-define-key 'normal flymake-mode-map
+    "]d" 'flymake-goto-next-error
+    "[d" 'flymake-goto-prev-error)
+  (setq flymake-start-on-flymake-mode t
+        flymake-indicator-type 'fringes)
 #+end_src
 
 
@@ -988,35 +1036,69 @@ I'm using good old =yasnippet= for this.
 #+end_src
 
 
-* Minibuffer
+* Music and Media
 
-This customizes the way the Minibuffer works in Emacs.
+** Music player
+
+I'm really picking from all the greats here; Xenodium (Álvaro) has a fantastic-looking package called Ready-Player which I'll be using to play my music locally.
 
 #+begin_src emacs-lisp
-  (use-package vertico
+  (use-package ready-player
     :ensure t
+    :after nerd-icons
+    :custom-face
+    (info-title-1 ((t (:inherit 'variable-pitch :weight bold :height 1.25))))
+    (info-title-2 ((t (:inherit 'variable-pitch :weight bold :height 1.4))))
     :config
-    (vertico-mode 1)
-    (setq vertico-preselect 'first
-  	vertico-count 10
-  	vertico-resize nil))
+    (setq ready-player-my-media-collection-location "~/Music")
+    (setq ready-player-open-externally-icon (propertize
+  					   (nerd-icons-octicon "nf-oct-link_external")
+  					   'face '( :box t
+  						    :family "Symbols Nerd Font"))
+  	ready-player-open-my-media-collection-icon (nerd-icons-mdicon "nf-md-home")
+  	ready-player-shuffle-icon (nerd-icons-mdicon "nf-md-shuffle")
+  	ready-player-repeat-icon (nerd-icons-mdicon "nf-md-repeat")
+  	ready-player-autoplay-icon (nerd-icons-mdicon "nf-md-refresh_auto")
+  	ready-player-search-icon (nerd-icons-octicon "nf-oct-search")
+  	ready-player-help-icon (nerd-icons-mdicon "nf-md-help")
+  	ready-player-previous-icon (propertize
+  				    (nerd-icons-mdicon "nf-md-skip_previous")
+  				    'face '( :box t
+  					     :family "Symbols Nerd Font"))
+  	ready-player-next-icon (propertize
+  				(nerd-icons-mdicon "nf-md-skip_next")
+  				'face ' ( :box t
+  					  :family "Symbols Nerd Font")))
 
-  (use-package marginalia
-    :ensure t
-    :config
-    (marginalia-mode))
+    ;; Redefining a function cos the message exceeds the echo area
+    (defun ready-player--make-time-progress-bar (progress total)
+      "Make a progress bar with PROGRESS out of TOTAL, aligned with frame width.
+  For example:
+  00:00 ------ 00:30 ------ 01:00"
+      (setq progress (round progress))
+      (setq total (round total))
+      (let* ((start-label "00:00")
+             (label (ready-player--format-time progress))
+             (total-label (ready-player--format-time total))
+             (reserved-width (+ (length start-label) 1   ; "00:00 " start
+                                1 (length label) 1       ; " 00:30 " current
+                                1 (length total-label) 1)) ; " 01:00" end
+             (bar-width (- (frame-width) reserved-width))
+             (percentage (/ (* progress 1.0) total))
+             (left-bars (round (* percentage bar-width)))
+             (right-bars (- bar-width left-bars)))
+        (concat start-label " "
+                (make-string left-bars ?┄)
+                " " label " "
+                (make-string right-bars ?┄)
+                " " total-label)))
 
-  (use-package orderless
-    :ensure t
-    :custom
-    (completion-styles '(orderless basic))
-    (completion-category-overrides '((file (styles partial-completion))))
-    (completion-pcm-leading-wildcard t))
-
-  (use-package consult
-    :ensure t
-    :bind (("C-x b" . consult-buffer)))
+    (ready-player-mode +1))
 #+end_src
+
+** RSS Feeds
+
+I was using Elfeed as my RSS feed, but I don't use it very often so I'm considering trying it again a while later.
 
 
 * Mode Line
@@ -1048,7 +1130,7 @@ I'm all for modularizing the components. Since I'm looking for a pretty chill mo
   			filename))
   		    (t filename)))
   	 (icon (cond
-  		((eq major-mode 'ready-player-major-mode) (nerd-icons-mdicon "nf-md-music_circle"))
+  		((eq major-mode 'ready-player-major-mode) (nerd-icons-mdicon "nf-md-music_note"))
   		((eq major-mode 'dired-mode) (nerd-icons-mdicon "nf-md-folder"))
   		(t (nerd-icons-icon-for-file filename))))
   	 (modified (cond
@@ -1059,6 +1141,36 @@ I'm all for modularizing the components. Since I'm looking for a pretty chill mo
        "  "
        (propertize filename 'face '(:inherit bold))
        modified)))
+
+
+  (defun diagnostic-counter (type)
+    "Compute number of diagnostics in buffer with TYPE's severity.
+  TYPE is usually keyword `:error', `:warning' or `:note'."
+    (let ((count 0))
+      (dolist (d (flymake-diagnostics))
+        (when (= (flymake--severity type)
+                 (flymake--severity (flymake-diagnostic-type d)))
+  	(cl-incf count)))
+      (if (cl-plusp count)
+  	(concat (number-to-string count) " ")
+        "")))
+
+  (defun mode-line-component-diagnostics ()
+    "Return a string with the flymake diagnostics."
+     (let ((err-count (diagnostic-counter :error))
+  	 (warn-count (diagnostic-counter :warning))
+  	 (note-count (diagnostic-counter :note)))
+       (concat
+        (if (string-empty-p err-count) ""
+  	(propertize (concat (nerd-icons-codicon "nf-cod-error") " " err-count)
+  		    'face 'error))
+        (if (string-empty-p warn-count) ""
+  	(propertize (concat (nerd-icons-codicon "nf-cod-warning") " " warn-count)
+  		    'face 'warning))
+        (if (string-empty-p note-count) ""
+  	(propertize (concat (nerd-icons-codicon "nf-cod-info") " " note-count)
+  		    'face 'success))
+        " ")))
 
   (defun mode-line-component-position ()
     "Return position in line:column format."
@@ -1095,7 +1207,9 @@ For now I'm just working on the default format that'll apply to all buffers. Eve
     '((:eval (mode-line-render
   	    (list (mode-line-padding)
   		  (mode-line-component-title))
-  	    (list (mode-line-component-position)
+  	    (list (mode-line-component-diagnostics)
+  		  (mode-line-padding)
+  		  (mode-line-component-position)
   		  (mode-line-padding))))))
 
   (defun drs-mode-line-format-nothing ()
@@ -1111,78 +1225,15 @@ For now I'm just working on the default format that'll apply to all buffers. Eve
 #+end_src
 
 
-* Music and Media
-
-** Music player
-
-I'm really picking from all the greats here; Xenodium (Álvaro) has a fantastic-looking package called Ready-Player which I'll be using to play my music locally.
-
-#+begin_src emacs-lisp
-  (use-package ready-player
-    :ensure t
-    :after nerd-icons
-    :custom-face
-    (info-title-1 ((t (:inherit 'variable-pitch :weight bold :height 1.25))))
-    (info-title-2 ((t (:inherit 'variable-pitch :weight bold :height 1.4))))
-    :config
-    (setq ready-player-my-media-collection-location "~/Music")
-    (setq ready-player-open-externally-icon (nerd-icons-octicon "nf-oct-link_external")
-  	ready-player-open-my-media-collection-icon (nerd-icons-mdicon "nf-md-home")
-  	ready-player-shuffle-icon (nerd-icons-mdicon "nf-md-shuffle")
-  	ready-player-repeat-icon (nerd-icons-mdicon "nf-md-repeat")
-  	ready-player-autoplay-icon (nerd-icons-mdicon "nf-md-refresh_auto")
-  	ready-player-search-icon (nerd-icons-octicon "nf-oct-search")
-  	ready-player-help-icon (nerd-icons-mdicon "nf-md-help")
-  	ready-player-previous-icon (nerd-icons-mdicon "nf-md-skip_previous")
-  	ready-player-next-icon (nerd-icons-mdicon "nf-md-skip_next"))
-    ;; Redefining a function cos the message exceeds the echo area
-    (defun ready-player--make-time-progress-bar (progress total)
-      "Make a progress bar with PROGRESS out of TOTAL, aligned with frame width.
-  For example:
-  00:00 ------ 00:30 ------ 01:00"
-      (setq progress (round progress))
-      (setq total (round total))
-      (let* ((start-label "00:00")
-             (label (ready-player--format-time progress))
-             (total-label (ready-player--format-time total))
-             (reserved-width (+ (length start-label) 1   ; "00:00 " start
-                                1 (length label) 1       ; " 00:30 " current
-                                1 (length total-label) 1)) ; " 01:00" end
-             (bar-width (- (frame-width) reserved-width))
-             (percentage (/ (* progress 1.0) total))
-             (left-bars (round (* percentage bar-width)))
-             (right-bars (- bar-width left-bars)))
-        (concat start-label " "
-                (make-string left-bars ?┄)
-                " " label " "
-                (make-string right-bars ?┄)
-                " " total-label)))
-    (ready-player-mode +1))
-#+end_src
-
-** RSS Feeds
-
-I was using Elfeed as my RSS feed, but I don't use it very often so I'm considering trying it again a while later.
-
-
 * Other esoteric stuff
 
 I had packages for Dyalog APL, Lean4 and GhostText here but I don't seem to use them at all so they're getting the boot.
-
-** Nix
-
-Now that I'm using NixOS, I'm editing a lot of =.nix= files, which need their own major mode and LSP.
 
 #+begin_src emacs-lisp
   (use-package nix-mode
     :ensure t
     :mode "\\.nix\\'")
 #+end_src
-
-** Quickshell
-
-Apparently every configuration language and its mother has a major-mode and LSP plugin these days.
-I'm considering the treesitter grammar, but I'm leaving this section for the LSP server just in case.
 
 #+begin_src emacs-lisp
   (use-package qml-mode

@@ -41,5 +41,6 @@
 
     stylix.autoEnable = true;
     stylix.targets.console.enable = false;
+    stylix.targets.nixos-icons.enable = false;
   };
 }

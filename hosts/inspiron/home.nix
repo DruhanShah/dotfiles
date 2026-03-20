@@ -9,6 +9,7 @@
 
   programs.git = {
     enable = true;
+    lfs.enable = true;
     settings.user.name = "DruhanShah";
     settings.user.email = "druhanrshah@gmail.com";
   };
@@ -57,6 +58,7 @@
     wl-clipboard
     trash-cli
     texliveFull
+    ghostscript
     zotero
 
     inputs.qml-niri.packages."x86_64-linux".quickshell

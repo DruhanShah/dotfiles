@@ -12,6 +12,13 @@
         selection-clipboard = "clipboard";
       };
     };
+    programs.sioyek = {
+      enable = true;
+      config = {
+        should_launch_new_instance = "1";
+        show_document_name_in_statusbar = "1";
+      };
+    };
     programs.calibre.enable = true;
     programs.mpv.enable = true;
 

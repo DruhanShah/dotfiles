@@ -17,22 +17,24 @@ Scope {
 		right: true
 	    }
 	    margins {
-		top: 20
-		right: 20
+		top: 12
+		right: 12
 	    }
             exclusiveZone: 0
             aboveWindows: WlrLayer.Overlay
 
-            implicitWidth: 200
-            implicitHeight: 40
+            implicitWidth: 240
+            implicitHeight: 60
             color: "transparent"
 
             mask: Region {}
 
             Rectangle {
                 anchors.fill: parent
-                radius: 8
+                radius: 12
                 color: Theme.base100
+		border.color: Theme.base300
+		border.width: 2
 
                 RowLayout {
                     anchors {
@@ -43,10 +45,13 @@ Scope {
 		    spacing: 12
 
                     Text {
-                        text: qsTr(Audio.sinkMuted ? "󰝟" : Audio.volume < 0.3 ? "󰕿" : Audio.volume < 0.7 ? "󰖀" : "󰕾")
-                        font.pixelSize: 20
+                        text: qsTr(Audio.sinkMuted ? "󰝟" :
+				   Audio.volume < 0.3 ? "󰕿" :
+				   Audio.volume < 0.7 ? "󰖀" : "󰕾")
+			width: 32
+                        font.pixelSize: 24
                         font.family: Theme.fontSymbol
-                        color: Theme.black
+                        color: Theme.base800
                     }
 
                     Rectangle {
@@ -54,7 +59,7 @@ Scope {
 
                         implicitHeight: 8
                         radius: 4
-                        color: Theme.base300
+                        color: Theme.base150
 
                         Rectangle {
                             anchors {
