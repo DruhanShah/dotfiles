@@ -99,10 +99,11 @@
       in {
         extensions.packages = with config.modules.zen.addons; [
 	        bitwarden
+          refined-github
+          sidebery
           sponsorblock
 	        stylus
 	        ublock-origin
-          zen-internet
 	        zotero-connector
         ];
 	      spacesForce = true;

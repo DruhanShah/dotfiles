@@ -1,6 +1,7 @@
 { pkgs, lib, ... }:
 {
   imports = [
+    ./firefox.nix
     ./niri.nix
     ./vicinae.nix
     ./zen.nix
