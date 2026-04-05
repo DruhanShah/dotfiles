@@ -7,4 +7,4 @@
   CapsLock)
 
 (deflayer default
-  (tap-hold-next-release 200 Esc LeftCtrl))
+  (tap-hold-next-release 100 Esc LeftCtrl))

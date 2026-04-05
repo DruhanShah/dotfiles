@@ -1,37 +1,43 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
-import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
+
 import qs.services
 
-PanelWindow {
-    id: root
+LazyLoader {
+    active: Notifs.visible.length > 0 && !Notifs.ncActive
 
-    anchors.top: true
-    anchors.left: true
-    implicitWidth: 380
-    implicitHeight: popupColumn.implicitHeight + 20
-    color: "transparent"
-    WlrLayershell.layer: WlrLayer.Overlay
-    WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
+    PanelWindow {
+        id: popupTray
+        implicitWidth: 300
+        color: "transparent"
+        focusable: false
 
-    ColumnLayout {
-        id: popupColumn
-        anchors {
-            top: parent.top; right: parent.left
-            margins: 10
-        }
-        spacing: 8
+        WlrLayershell.namespace: "quickshell:notificationPopups"
+        WlrLayershell.layer: WlrLayer.Overlay
+        WlrLayershell.exclusiveZone: 0
 
-        Repeater {
-            model: Notifications.trackedNotifications
+        anchors.top: true
+        anchors.bottom: true
+        margins.top: 16
+        margins.bottom: 16
 
-            delegate: NotificationPopup {
-                required property var modelData
-                notification: modelData
-                onDismissRequested: {
-                    animateOut(function() { modelData.dismiss(); });
+        property int spacing: 16
+
+        Column {
+            id: notificationColumn
+            anchors.right: parent.right
+            spacing: popupTray.spacing
+            width: parent.width
+
+            Repeater {
+                model: ScriptModel {
+                    values: [...Notifs.visible].reverse()
                 }
+
+                delegate: NotificationPopup {}
             }
         }
     }

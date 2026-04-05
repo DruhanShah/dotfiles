@@ -8,6 +8,8 @@
     home.packages = with pkgs; [
       gimp
       # inkscape
+      kicad
+      freecad
     ];
   };
 }

@@ -3,8 +3,7 @@
   imports = [
     ./firefox.nix
     ./niri.nix
-    ./vicinae.nix
-    ./zen.nix
+    ./rofi.nix
     ./kitty.nix
     ./media.nix
     ./editing.nix

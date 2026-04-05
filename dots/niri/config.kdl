@@ -22,17 +22,17 @@ output "eDP-1" {
 
 overview {
     zoom 0.5
+    backdrop-color "b7b5ac"
     workspace-shadow {
         off
     }
 }
 
 layout {
-    gaps 36
-    background-color "00000000"
+    gaps 48
+    background-color "b7b5ac"
     center-focused-column "never"
     preset-column-widths {
-	proportion 0.33333 
 	proportion 0.5 
 	proportion 1.0 
     }
@@ -48,12 +48,26 @@ layout {
     }
     shadow {
         off
-	softness 10
-	spread 4
-	offset x=0 y=4
-	color "#00000090"
-	draw-behind-window true
     }
+    tab-indicator {
+        on
+	hide-when-single-tab
+	place-within-column
+	gap 8
+	width 16
+	length total-proportion=1.0
+	position "left"
+	gaps-between-tabs 8
+        corner-radius 4
+        active-color "66800b"
+        inactive-color "878580"
+        urgent-color "af3029"
+    }
+}
+
+cursor {
+    xcursor-theme "Bibata-Modern-Classic"
+    xcursor-size 24
 }
 
 window-rule {
@@ -68,12 +82,17 @@ window-rule {
 }
 
 layer-rule {
-    match namespace="^wallpaper$"
-    place-within-backdrop true
+    match namespace="^rofi|vicinae$"
+    shadow {
+        on
+        softness 10
+	spread 5
+	color "#00000020"
+    }
 }
 
 window-rule {
-    match app-id="zen-beta|equibop"
+    match app-id="electron|firefox|org.freecad.FreeCAD|pcbnew|kicad|gimp"
     default-column-width { proportion 1.0; }
 }
 
@@ -84,27 +103,27 @@ hotkey-overlay {
 
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "syncthing"
-spawn-sh-at-startup "wbg -s ~/wallpapers/blank.png"
+// spawn-sh-at-startup "wbg -s ~/wallpapers/blank.png"
 spawn-at-startup "quickshell"
 
 
 binds {
     Mod+Return { spawn "kitty"; }
     Mod+E { spawn-sh "emacsclient -nca ''"; }
-    Mod+Space { spawn-sh "vicinae toggle"; }
-    Mod+B { spawn "zen-beta"; }
+    Mod+Space { spawn-sh "rofi -show drun"; }
+    Mod+B { spawn "firefox"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"; }
     XF86AudioMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
     XF86AudioMicMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
-
     XF86AudioPlay allow-when-locked=true { spawn-sh "playerctl play-pause"; }
 
     XF86MonBrightnessUp { spawn-sh "brightnessctl set +5%"; }
     XF86MonBrightnessDown { spawn-sh "brightnessctl set 5%-"; }
 
     Mod+Q repeat=false { close-window; }
+    Mod+O repeat=false { open-overview; }
 
     Mod+H { focus-column-left; }
     Mod+J { focus-window-down; }
@@ -134,21 +153,6 @@ binds {
     Mod+Shift+U { move-workspace-down; }
     Mod+Shift+I { move-workspace-up; }
 
-    Mod+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
-    Mod+WheelScrollUp cooldown-ms=150 { focus-workspace-up; }
-    Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
-    Mod+Ctrl+WheelScrollUp cooldown-ms=150 { move-column-to-workspace-up; }
-
-    Mod+WheelScrollRight { focus-column-right; }
-    Mod+WheelScrollLeft { focus-column-left; }
-    Mod+Ctrl+WheelScrollRight { move-column-right; }
-    Mod+Ctrl+WheelScrollLeft { move-column-left; }
-
-    Mod+Shift+WheelScrollDown { focus-column-right; }
-    Mod+Shift+WheelScrollUp { focus-column-left; }
-    Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
-    Mod+Ctrl+Shift+WheelScrollUp { move-column-left; }
-
     Mod+1 { focus-workspace 1; }
     Mod+2 { focus-workspace 2; }
     Mod+3 { focus-workspace 3; }
@@ -170,16 +174,14 @@ binds {
 
     Mod+BracketLeft { consume-or-expel-window-left; }
     Mod+BracketRight { consume-or-expel-window-right; }
+    Mod+BackSlash { toggle-column-tabbed-display; }
 
-    Mod+R { switch-preset-column-width; }
-    Mod+F { maximize-column; }
+    Mod+F { switch-preset-column-width; }
     Mod+Shift+F { fullscreen-window; }
-
     Mod+C { center-column; }
-    Mod+Ctrl+C { center-visible-columns; }
 
-    Mod+Minus { set-column-width "-40"; }
-    Mod+Equal { set-column-width "+40"; }
+    Mod+Minus { set-column-width "-5%"; }
+    Mod+Equal { set-column-width "+5%"; }
 
     Mod+Shift+Minus { set-window-height "-10%"; }
     Mod+Shift+Equal { set-window-height "+10%"; }
@@ -187,13 +189,7 @@ binds {
     Mod+V { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
 
-    Mod+W { toggle-column-tabbed-display; }
-
     Print { screenshot; }
-    Ctrl+Print { screenshot-screen; }
-    Alt+Print { screenshot-window; }
-
-    Mod+Ctrl+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
     Mod+Shift+Q { quit; }
 }

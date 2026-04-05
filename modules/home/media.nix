@@ -12,13 +12,6 @@
         selection-clipboard = "clipboard";
       };
     };
-    programs.sioyek = {
-      enable = true;
-      config = {
-        should_launch_new_instance = "1";
-        show_document_name_in_statusbar = "1";
-      };
-    };
     programs.calibre.enable = true;
     programs.mpv.enable = true;
 
@@ -29,5 +22,10 @@
         "application/epub+zip" = ["org.pwmt.zathura-pdf-mupdf.desktop" "org.pwmt.zathura.desktop"];
       };
     };
+
+    # Not sure where else to put the LaTeX and research stuff so here it is
+    home.packages = with pkgs; [
+      zotero
+    ];
   };
 }

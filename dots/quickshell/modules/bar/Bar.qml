@@ -22,7 +22,9 @@ LazyLoader {
                 left: parent.left
                 leftMargin: 16
             }
-            Loader { active: true; sourceComponent: Workspaces {} }
+            spacing: 8
+
+            Workspaces {}
         }
 
         RowLayout {
@@ -33,19 +35,10 @@ LazyLoader {
             }
             spacing: 8
 
-            Bluetooth { id: bluetoothWidget; onClicked: bluetoothPopup.toggle() }
-            Power { id: powerWidget; onClicked: powerPopup.toggle() }
+            Bluetooth {}
+            Battery {}
 	    Rectangle { implicitWidth: 12 }
-            Loader { active: true; sourceComponent: Time {} }
-        }
-
-	BluetoothPopup {
-	    id: bluetoothPopup
-	    anchorItem: bluetoothWidget
-	}
-	PowerPopup {
-            id: powerPopup
-            anchorItem: powerWidget
+            Time {}
         }
     }
 }

@@ -13,11 +13,12 @@ PopupWindow {
     property int contentHeight: 0
     readonly property bool isOpen: _open
 
-    readonly property int _pad: 24
+    readonly property int _pad_x: 24
+    readonly property int _pad_y: 24
     readonly property int _r:   8
 
-    implicitWidth:  contentWidth  + 2*_pad + 2*_r
-    implicitHeight: contentHeight + 2*_pad + _r
+    implicitWidth:  contentWidth  + 2*_pad_x
+    implicitHeight: contentHeight + 2*_pad_y
 
     color: "transparent"
 
@@ -65,52 +66,12 @@ PopupWindow {
             height: parent.height
 
             Rectangle {
-                anchors {
-                    fill:        parent
-                    topMargin:   _r
-                    leftMargin:  _r
-                    rightMargin: _r
-                }
+                anchors.fill:        parent
                 color:               Theme.base850
                 topLeftRadius:       0
                 topRightRadius:      0
                 bottomLeftRadius:    _r
                 bottomRightRadius:   _r
-            }
-
-            Shape {
-                width:  parent.width
-                height: _r
-                preferredRendererType: Shape.CurveRenderer
-
-                ShapePath {
-                    strokeWidth: 0
-                    fillColor:   Theme.base850
-
-                    startX: 0; startY: 0
-                    PathLine {
-			x: root.implicitWidth
-			y: 0
-		    }
-                    PathArc {
-                        x:         root.implicitWidth - _r
-                        y:         _r
-                        radiusX:   _r
-                        radiusY:   _r
-                        direction: PathArc.Counterclockwise
-                    }
-                    PathLine {
-			x: _r
-			y: _r
-		    }
-                    PathArc {
-                        x:         0
-                        y:         0
-                        radiusX:   _r
-                        radiusY:   _r
-                        direction: PathArc.Counterclockwise
-                    }
-                }
             }
 
             Item {
@@ -120,10 +81,10 @@ PopupWindow {
                     left:        parent.left
                     right:       parent.right
                     bottom:      parent.bottom
-                    topMargin:   _pad
-                    leftMargin:  _pad + _r
-                    rightMargin: _pad + _r
-                    bottomMargin: _pad
+                    topMargin:   _pad_y - 8
+                    leftMargin:  _pad_x
+                    rightMargin: _pad_x
+                    bottomMargin: _pad_y
                 }
             }
         }

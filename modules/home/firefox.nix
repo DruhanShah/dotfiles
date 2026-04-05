@@ -17,21 +17,24 @@
           name = "default";
           isDefault = true;
           settings = {
-            "browser.tabs.closeWindowWithLastTab" = false;
             "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+            # "fennec.drawer.autohide" = true;
           };
-          extensions.packages = with config.modules.firefox.addons; [
-            ublock-origin
-            sidebery
-            bitwarden
-            refined-github
-            sponsorblock
-            stylus
-            zotero-connector
-          ];
+          extensions = {
+            force = true;
+            packages = with config.modules.firefox.addons; [
+              ublock-origin
+              sidebery
+              bitwarden
+              refined-github
+              sponsorblock
+              stylus
+              zotero-connector
+            ];
+          };
           extraConfig = builtins.readFile ../../dots/firefox/user.js;
-          userChrome = builtins.readFile ../../dots/firefox/userChrome.css;
-          userContent = builtins.readFile ../../dots/firefox/userContent.css;
+          userChrome = ../../dots/firefox/userChrome.css;
+          userContent = ../../dots/firefox/userContent.css;
         };
       };
       policies = {

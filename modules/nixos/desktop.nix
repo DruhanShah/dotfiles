@@ -24,6 +24,8 @@
       grim
       slurp
       wev
+      wlr-randr
+      wl-clipboard
       libnotify
       linux-wifi-hotspot
       haveged

@@ -12,6 +12,11 @@
       equibop.enable = true;
       config = {
         frameless = true;
+        useQuickCss = true;
+        themes = {
+          "Flexoki-Light" = ../../dots/discord/flexoki.css;
+        };
+        enabledThemes = [ "Flexoki-Light.css" ];
       };
     };
 

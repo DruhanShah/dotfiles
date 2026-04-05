@@ -1,15 +1,13 @@
-import QtQuick
-import QtQuick.Layouts
 import Quickshell
-import Quickshell.Wayland
-import "./modules/notifs"
-import "./modules/bar"
-import "./modules/osd"
-import "./services"
 
-ShellRoot{
+import qs.modules.notifs
+import qs.modules.bar
+import qs.modules.osd
+import qs.services
+
+ShellRoot {
     id: root
-
+    
     Bar {}
     VolumeOSD {}
     BrightnessOSD {}

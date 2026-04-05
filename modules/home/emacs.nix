@@ -42,7 +42,8 @@
     };
 
     home.packages = with pkgs; [
-      nixd
+      texliveFull
+      ghostscript
     ];
 
     home.file =
@@ -54,8 +55,6 @@
         ".config/emacs/early-init.el".source = symlink "${dotDir}/early-init.el";
         ".config/emacs/README.org".source = symlink "${dotDir}/README.org";
 
-        ".config/emacs/nano".source = symlink "${dotDir}/nano";
-        ".config/emacs/nano".recursive = true;
         ".config/emacs/snippets".source = symlink "${dotDir}/snippets";
         ".config/emacs/snippets".recursive = true;
         ".config/emacs/themes".source = symlink "${dotDir}/themes";

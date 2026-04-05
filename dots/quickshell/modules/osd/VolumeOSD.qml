@@ -4,6 +4,7 @@ import Quickshell
 import Quickshell.Wayland
 import qs.services
 import qs.modules.common
+import qs.modules.icons
 
 Scope {
     id: root
@@ -32,9 +33,7 @@ Scope {
             Rectangle {
                 anchors.fill: parent
                 radius: 12
-                color: Theme.base100
-		border.color: Theme.base300
-		border.width: 2
+                color: Theme.base850
 
                 RowLayout {
                     anchors {
@@ -44,22 +43,17 @@ Scope {
                     }
 		    spacing: 12
 
-                    Text {
-                        text: qsTr(Audio.sinkMuted ? "󰝟" :
-				   Audio.volume < 0.3 ? "󰕿" :
-				   Audio.volume < 0.7 ? "󰖀" : "󰕾")
-			width: 32
-                        font.pixelSize: 24
-                        font.family: Theme.fontSymbol
-                        color: Theme.base800
-                    }
+		    VolumeIcon {
+			volume: Audio.volume
+			muted: Audio.sinkMuted
+		    }
 
                     Rectangle {
                         Layout.fillWidth: true
 
                         implicitHeight: 8
                         radius: 4
-                        color: Theme.base150
+                        color: Theme.base700
 
                         Rectangle {
                             anchors {
@@ -70,7 +64,7 @@ Scope {
 
                             implicitWidth: parent.width * (Audio.volume < 1.0 ? Audio.volume : 1.0)
                             radius: parent.radius
-                            color: Theme.base700
+                            color: Audio.sinkMuted ? Theme.redBright : Theme.blueBright
                         }
                     }
                 }

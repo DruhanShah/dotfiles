@@ -661,7 +661,7 @@ Along with AucTeX is this gem of a program called CDLaTeX which makes math input
     :hook (LaTeX-mode . TeX-fold-mode)
     :config
     (setq TeX-view-program-selection '((output-dvi "xdvi")
-  				     (output-pdf "Sioyek")
+  				     (output-pdf "Zathura")
   				     (output-html "xdg-open"))
   	TeX-command-default "LaTeXMk"
   	preview-default-option-list '("displaymath" "floats" "textmath" "graphics")
@@ -673,7 +673,7 @@ Along with AucTeX is this gem of a program called CDLaTeX which makes math input
             (defun preview-larger-previews ()
               (setq preview-scale-function
                     (lambda () (* 0.75
-                             (funcall (preview-scale-from-face)))))))
+  				(funcall (preview-scale-from-face)))))))
 
   (use-package cdlatex
     :ensure t

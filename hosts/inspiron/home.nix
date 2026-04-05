@@ -2,26 +2,14 @@
 {
   imports = [
     ../../modules/home
-    inputs.zen-browser.homeModules.beta
     inputs.nixcord.homeModules.nixcord
-    inputs.vicinae.homeManagerModules.default
   ];
-
-  programs.git = {
-    enable = true;
-    lfs.enable = true;
-    settings.user.name = "DruhanShah";
-    settings.user.email = "druhanrshah@gmail.com";
-  };
-
-  programs.btop = {
-    enable = true;
-    settings.vim_keys = true;
-  };
 
   modules.fish.enable = true;
   modules.kitty.enable = true;
   modules.emacs.enable = true;
+  modules.firefox.enable = true;
+  modules.firefox.addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
   modules.niri.enable = true;
   modules.qtile.enable = false;
   modules.wallpapers.enable = true;
@@ -29,15 +17,18 @@
   modules.editing.enable = true;
   modules.syncthing.enable = true;
   modules.social.enable = true;
-  modules.zen.enable = true;
-  modules.zen.addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
-  modules.vicinae.enable = true;
+  modules.rofi.enable = true;
+
   stylix.targets.emacs.enable = false;
-  stylix.targets.zen-browser.profileNames = [ "default" ];
+  stylix.targets.rofi.enable = false;
+  stylix.targets.kitty.enable = false;
+  stylix.targets.nixcord.enable = false;
+  stylix.targets.firefox.colorTheme.enable = true;
+  stylix.targets.firefox.profileNames = [ "default" ];
 
   home.username = "druhan";
   home.homeDirectory = "/home/druhan";
-  home.stateVersion = "25.11";
+  home.stateVersion = "26.05";
 
   xdg.userDirs = {
     enable = true;
@@ -46,22 +37,8 @@
     documents = "$HOME/documents";
   };
 
+  # This is only here because I don't wanna deal with passing inputs as an argument to the niri module.
   home.packages = with pkgs; [
-    atool
-    unzip
-    zip
-    unrar
-    xz
-    gzip
-
-    tree
-    wl-clipboard
-    trash-cli
-    texliveFull
-    ghostscript
-    zotero
-
     inputs.qml-niri.packages."x86_64-linux".quickshell
   ];
-
 }
