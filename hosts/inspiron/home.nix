@@ -17,14 +17,7 @@
   modules.editing.enable = true;
   modules.syncthing.enable = true;
   modules.social.enable = true;
-  modules.rofi.enable = true;
-
-  stylix.targets.emacs.enable = false;
-  stylix.targets.rofi.enable = false;
-  stylix.targets.kitty.enable = false;
-  stylix.targets.nixcord.enable = false;
-  stylix.targets.firefox.colorTheme.enable = true;
-  stylix.targets.firefox.profileNames = [ "default" ];
+  modules.stylix.enable = true;
 
   home.username = "druhan";
   home.homeDirectory = "/home/druhan";
@@ -36,9 +29,4 @@
     download = "$HOME/downloads";
     documents = "$HOME/documents";
   };
-
-  # This is only here because I don't wanna deal with passing inputs as an argument to the niri module.
-  home.packages = with pkgs; [
-    inputs.qml-niri.packages."x86_64-linux".quickshell
-  ];
 }

@@ -6,6 +6,5 @@
     ./fonts.nix
     ./games.nix
     ./kmonad.nix
-    ./stylix.nix
   ];
 }

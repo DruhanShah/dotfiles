@@ -4,7 +4,8 @@ import QtQuick.Layouts
 import Quickshell
 import qs.modules.common
 import qs.modules.icons
-import qs.modules.bar
+import qs.widgets.bar
+
 
 Rectangle {
     id: root
@@ -41,7 +42,7 @@ Rectangle {
 	contentHeight: content.implicitHeight
 	anchorItem: root
 
-	readonly property var _today: new Date()
+	readonly property date _today: clock.date
 
 	property int _month: _today.getMonth()
 	property int _year:  _today.getFullYear()

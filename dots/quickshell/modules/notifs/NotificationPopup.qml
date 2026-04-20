@@ -29,7 +29,7 @@ Rectangle {
     y: -height
     opacity: 0
 
-    width: 300
+    width: 360
     color: Theme.base850
     radius: 8
     border.color: {
@@ -44,7 +44,7 @@ Rectangle {
     }
     border.width: 2
 
-    height: contentRow.height + 16
+    height: contentRow.height + 32
 
     ParallelAnimation {
         id: appearAnimation
@@ -97,36 +97,15 @@ Rectangle {
         discardAnimation.running = true;
     }
 
-    Rectangle {
-        id: closeButton
-	color: "transparent"
-	implicitHeight: Theme.fontSize
-	implicitWidth: Theme.fontSize
+    MouseArea {
+	anchors.fill: parent
+	hoverEnabled: true
+	cursorShape: Qt.PointingHandCursor
+	acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
 
-        anchors {
-            top: root.top
-            right: root.right
-            topMargin: 10
-            rightMargin: 16
-        }
-
-	Text {
-	    anchors.centerIn: closeButton
-	    text: ""
-	    color: Theme.paper
-	    font.pixelSize: Theme.fontSize
-	    font.family: Theme.fontSymbol
-	}
-
-	MouseArea {
-	    anchors.fill: parent
-	    hoverEnabled: true
-	    cursorShape: Qt.PointingHandCursor
-	    acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
-
-	    onClicked: root.dismiss();
-	}
+	onClicked: root.dismiss();
     }
+
 
     Row {
         id: contentRow
@@ -138,8 +117,8 @@ Rectangle {
             id: iconBackground
 
             anchors.verticalCenter: parent.verticalCenter
-            implicitHeight: 60
-            implicitWidth: 60
+            implicitHeight: 48
+            implicitWidth: 48
             color: "transparent"
 
             MouseArea {
@@ -179,7 +158,7 @@ Rectangle {
                 IconImage {
                     anchors.fill: parent
                     smooth: true
-                    implicitSize: 60
+                    implicitSize: 48
                     source: Quickshell.iconPath(root.modelData.appIcon)
                     asynchronous: true
                 }
@@ -196,7 +175,7 @@ Rectangle {
                     anchors.centerIn: parent
                     text: "󰂚"
                     font.family: Theme.fontSymbol
-                    font.pixelSize: 60
+                    font.pixelSize: 48
                     color: Theme.paper
                 }
             }

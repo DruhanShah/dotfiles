@@ -12,19 +12,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixcord.url = "github:kaylorben/nixcord";
-    stylix = {
-      url = "github:nix-community/stylix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    quickshell = {
-      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    qml-niri = {
-      url = "github:imiric/qml-niri/main";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.quickshell.follows = "quickshell";
-    };
   };
 
   outputs = { self, nixpkgs, ... }@inputs: {
@@ -32,7 +19,6 @@
       system = "x86_64-linux";
       modules = [
         ./hosts/inspiron/configuration.nix
-	      inputs.stylix.nixosModules.stylix
 	      inputs.home-manager.nixosModules.home-manager {
 	        home-manager.useGlobalPkgs = true;
 	        home-manager.useUserPackages = true;

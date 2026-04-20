@@ -6,13 +6,8 @@
 
   config = lib.mkIf config.modules.niri.enable {
     home.packages = with pkgs; [
-      wbg
+      quickshell
     ];
-    
-    gtk.iconTheme = {
-      package = pkgs.papirus-icon-theme;
-      name = "Papirus";
-    };
     
     home.file =
       let

@@ -18,11 +18,12 @@
           isDefault = true;
           settings = {
             "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-            # "fennec.drawer.autohide" = true;
+            "fennec.urlbar.float" = true;
           };
           extensions = {
             force = true;
             packages = with config.modules.firefox.addons; [
+              firefox-color
               ublock-origin
               sidebery
               bitwarden
@@ -31,6 +32,62 @@
               stylus
               zotero-connector
             ];
+            settings = {
+              firefox-color.settings = {
+                manifest_version = 2;
+                name = "Flexoki Dynamic Theme";
+                description = "Dynamic theme using the flexoki color scheme.";
+                author = "Jost Alemann";
+                version = "1.0";
+                theme = {
+                  properties = {
+                    additional_backgrounds_alignment = [
+                      "top"
+                    ];
+                    additional_backgrounds_tiling = [
+                      "repeat"
+                    ];
+                  };
+                  colors = {
+                    toolbar = "rgb(255, 252, 240)";
+                    toolbar_text = "rgb(64, 62, 60)";
+                    frame = "rgb(242, 240, 229)";
+                    tab_background_text = "rgb(64, 62, 60)";
+                    toolbar_field = "rgb(230, 228, 217)";
+                    toolbar_field_text = "rgb(64, 62, 60)";
+                    tab_line = "rgb(159, 157, 150)";
+                    popup = "rgb(255, 252, 240)";
+                    popup_text = "rgb(64, 62, 60)";
+                    button_background_active = "rgb(159, 157, 150)";
+                    frame_inactive = "rgb(255, 252, 240)";
+                    icons_attention = "rgb(32, 94, 166)";
+                    icons = "rgb(64, 62, 60)";
+                    ntp_background = "rgb(255, 252, 240)";
+                    ntp_text = "rgb(64, 62, 60)";
+                    popup_border = "rgb(32, 94, 166)";
+                    popup_highlight_text = "rgb(64, 62, 60)";
+                    popup_highlight = "rgb(159, 157, 150)";
+                    sidebar_border = "rgba(255, 252, 240, 0)";
+                    sidebar_highlight_text = "rgb(64, 62, 60)";
+                    sidebar_highlight = "rgb(32, 94, 166)";
+                    sidebar_text = "rgb(64, 62, 60)";
+                    sidebar = "rgb(255, 252, 240)";
+                    tab_background_separator = "rgb(32, 94, 166)";
+                    tab_loading = "rgb(64, 62, 60)";
+                    tab_selected = "rgb(255, 252, 240)";
+                    tab_text = "rgb(64, 62, 60)";
+                    toolbar_bottom_separator = "rgb(255, 252, 240)";
+                    toolbar_field_border_focus = "rgb(32, 94, 166)";
+                    toolbar_field_border = "rgb(255, 252, 240)";
+                    toolbar_field_focus = "rgb(255, 252, 240)";
+                    toolbar_field_highlight_text = "rgb(255, 252, 240)";
+                    toolbar_field_highlight = "rgb(32, 94, 166)";
+                    toolbar_field_separator = "rgb(32, 94, 166)";
+                    toolbar_vertical_separator = "rgb(32, 94, 166)";
+                  };
+                };
+              };
+            };
           };
           extraConfig = builtins.readFile ../../dots/firefox/user.js;
           userChrome = ../../dots/firefox/userChrome.css;

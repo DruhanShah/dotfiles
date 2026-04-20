@@ -5,6 +5,8 @@ import Quickshell
 import Quickshell.Services.UPower
 import qs.modules.common
 import qs.modules.icons
+import qs.widgets.bar
+
 
 Rectangle {
     id: root

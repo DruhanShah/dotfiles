@@ -7,6 +7,7 @@ import Quickshell.Wayland
 import qs.services
 import qs.modules.common
 import qs.modules.icons
+import qs.widgets.osd
 
 Scope {
     id: root
@@ -49,25 +50,10 @@ Scope {
 			brightness: Brightness.brightnessPercent()
 		    }
 
-                    Rectangle {
-                        Layout.fillWidth: true
-
-                        implicitHeight: 8
-                        radius: 4
-                        color: Theme.base700
-
-                        Rectangle {
-                            anchors {
-                                left: parent.left
-                                top: parent.top
-                                bottom: parent.bottom
-                            }
-
-                            implicitWidth: parent.width * Brightness.brightnessPercent()
-                            radius: parent.radius
-                            color: Theme.purpleBright
-                        }
-                    }
+		    Slider {
+			value: Brightness.brightnessPercent()
+			barColor: Theme.purpleBright
+		    }
                 }
             }
         }

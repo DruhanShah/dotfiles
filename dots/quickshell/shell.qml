@@ -3,6 +3,7 @@ import Quickshell
 import qs.modules.notifs
 import qs.modules.bar
 import qs.modules.osd
+import qs.modules.launcher
 import qs.services
 
 ShellRoot {
@@ -12,4 +13,5 @@ ShellRoot {
     VolumeOSD {}
     BrightnessOSD {}
     NotificationPanel {}
+    Launcher {}
 }

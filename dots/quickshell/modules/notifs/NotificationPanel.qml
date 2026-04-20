@@ -11,7 +11,7 @@ LazyLoader {
 
     PanelWindow {
         id: popupTray
-        implicitWidth: 300
+        implicitWidth: 360
         color: "transparent"
         focusable: false
 

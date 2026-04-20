@@ -5,6 +5,8 @@ import Quickshell
 import Quickshell.Bluetooth
 import qs.modules.common
 import qs.modules.icons
+import qs.widgets.bar
+
 
 Rectangle {
     id: root
@@ -52,35 +54,14 @@ Rectangle {
                     Layout.fillWidth: true
 		}
 
-		Rectangle {
-                    id: toggleBtn
-                    implicitWidth: 40
-                    implicitHeight: 20
-                    radius: 10
-                    color: adapter && adapter.enabled ? Theme.greenBright : Theme.base600
-
-                    readonly property var adapter: Bluetooth.defaultAdapter
-
-                    Rectangle {
-			width: 14; height: 14
-			radius: 7
-			color: Theme.paper
-			anchors.verticalCenter: parent.verticalCenter
-			x: parent.adapter && parent.adapter.enabled ? 23 : 3
-
-			Behavior on x {
-                            NumberAnimation { duration: 150; easing.type: Easing.InOutQuad }
+		Toggle {
+		    id: toggleBtn
+		    enabled: Bluetooth.defaultAdapter ? Bluetooth.defaultAdapter.enabled : false
+		    onToggled: function(enabled) {
+			if (Bluetooth.defaultAdapter) {
+			    Bluetooth.defaultAdapter.enabled = enabled
 			}
-                    }
-
-                    MouseArea {
-			anchors.fill: parent
-			cursorShape: Qt.PointingHandCursor
-			onClicked: {
-                            if (toggleBtn.adapter)
-				toggleBtn.adapter.enabled = !toggleBtn.adapter.enabled
-			}
-                    }
+		    }
 		}
             }
 

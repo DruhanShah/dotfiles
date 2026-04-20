@@ -7,7 +7,6 @@
   config = lib.mkIf config.modules.editing.enable {
     home.packages = with pkgs; [
       gimp
-      # inkscape
       kicad
       freecad
     ];

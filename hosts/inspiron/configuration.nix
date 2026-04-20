@@ -48,6 +48,7 @@
 
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.auto-optimise-store = true;
 
   users.users.druhan = {
     isNormalUser = true;
@@ -70,7 +71,6 @@
   modules.fonts.enable = true;
   modules.games.enable = true;
   modules.kmonad.enable = true;
-  modules.stylix.enable = true;
 
   environment.systemPackages = with pkgs; [
     git

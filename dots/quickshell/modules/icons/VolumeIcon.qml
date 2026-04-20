@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Shapes
+import QtQuick.Layouts
 import qs.modules.common
 
 Item {
@@ -10,8 +11,7 @@ Item {
 
     implicitWidth: 24
     implicitHeight: 16
-    anchors.left: parent.left
-    anchors.verticalCenter: parent.verticalCenter
+    Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
     
     Shape {
         anchors.fill: parent

@@ -4,6 +4,7 @@ import Quickshell
 import qs.modules.common
 import qs.modules.bar
 
+
 LazyLoader {
     active: true
     PanelWindow {
@@ -20,10 +21,12 @@ LazyLoader {
             anchors {
                 verticalCenter: parent.verticalCenter
                 left: parent.left
-                leftMargin: 16
+                leftMargin: 8
             }
-            spacing: 8
+            spacing: 6
 
+	    Power {}
+	    Rectangle { implicitWidth: 0 }
             Workspaces {}
         }
 
@@ -36,6 +39,7 @@ LazyLoader {
             spacing: 8
 
             Bluetooth {}
+	    Network {}
             Battery {}
 	    Rectangle { implicitWidth: 12 }
             Time {}

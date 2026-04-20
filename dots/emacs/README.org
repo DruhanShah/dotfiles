@@ -659,6 +659,7 @@ Along with AucTeX is this gem of a program called CDLaTeX which makes math input
     :hook (LaTeX-mode . visual-line-mode)
     :hook (LaTeX-mode . cdlatex-mode)
     :hook (LaTeX-mode . TeX-fold-mode)
+    :hook (LaTeX-mode . reftex-mode)
     :config
     (setq TeX-view-program-selection '((output-dvi "xdvi")
   				     (output-pdf "Zathura")
@@ -679,9 +680,9 @@ Along with AucTeX is this gem of a program called CDLaTeX which makes math input
     :ensure t
     :config
     (add-to-list 'cdlatex-math-symbol-alist '(?. "\\cdot"    "\\dots"))
-    (add-to-list 'cdlatex-math-symbol-alist '(?| "\\mapsto"  "\\longmapsto"  "\\:\\middle\\mid\\:"))
+    (add-to-list 'cdlatex-math-symbol-alist '(?| "\\mapsto"  "\\longmapsto"  "\\:\\mid\\:"))
     (add-to-list 'cdlatex-math-symbol-alist '(?{ "\\subset"  "\\subseteq"))
-    (add-to-list 'cdlatex-math-symbol-alist '(?} "\\superset"  "\\superseteq"))
+    (add-to-list 'cdlatex-math-symbol-alist '(?} "\\supset"  "\\supseteq"))
     (add-to-list 'cdlatex-math-modify-alist '(?B "\\mathbb" nil t t nil))
     (add-to-list 'cdlatex-command-alist '("int"
   					"Insert \\int_{}^{}"
@@ -747,7 +748,10 @@ All hail the OrgMode system! Lots of very helpful modules have been used here, a
      'org-babel-load-languages
      '((emacs-lisp . t)
        (python . t)))
-    (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file))
+    (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
+    (evil-define-key 'normal org-mode-map
+      "gk" 'evil-previous-visual-line
+      "gj" 'evil-next-visual-line))
 #+end_src
 
 ** Babel shenanigans
@@ -1125,9 +1129,9 @@ I'm all for modularizing the components. Since I'm looking for a pretty chill mo
     (let* ((filename (buffer-name))
   	 (filename (cond
   		    (ready-player-mode (replace-regexp-in-string
-  			"ready-player: \\(.*\\).\\(?:flac\\|mp3\\)"
-  			"\\1"
-  			filename))
+  					"ready-player: \\(.*\\).\\(?:flac\\|mp3\\)"
+  					"\\1"
+  					filename))
   		    (t filename)))
   	 (icon (cond
   		((eq major-mode 'ready-player-major-mode) (nerd-icons-mdicon "nf-md-music_note"))
@@ -1141,6 +1145,31 @@ I'm all for modularizing the components. Since I'm looking for a pretty chill mo
        "  "
        (propertize filename 'face '(:inherit bold))
        modified)))
+
+
+  (defun mode-line-component-directory ()
+    "Return the directory of the buffer."
+    (let* ((max-length 64)
+           (dir default-directory)
+           (path (reverse (split-string (abbreviate-file-name dir) "/")))
+           (output ""))
+      (when (and path (equal "" (car path)))
+        (setq path (cdr path)))
+      (while (and path (< (length output) (- max-length 0)))
+        (setq output (concat (car path) "/" output))
+        (setq path (cdr path)))
+      (when path
+        (setq output (concat "…/" output)))
+      (propertize (concat (nerd-icons-faicon "nf-fa-terminal")
+  			"  "
+  			output)
+  		'face '(:inherit 'bold))))
+
+  (defun mode-line-component-shell ()
+    "Return the shell name if in a shell buffer."
+    (propertize (if eshell-mode "Eshell"
+                  shell-file-name)
+  	      'face `(:foreground ,(face-foreground 'default))))
 
 
   (defun diagnostic-counter (type)
@@ -1157,20 +1186,20 @@ I'm all for modularizing the components. Since I'm looking for a pretty chill mo
 
   (defun mode-line-component-diagnostics ()
     "Return a string with the flymake diagnostics."
-     (let ((err-count (diagnostic-counter :error))
-  	 (warn-count (diagnostic-counter :warning))
-  	 (note-count (diagnostic-counter :note)))
-       (concat
-        (if (string-empty-p err-count) ""
-  	(propertize (concat (nerd-icons-codicon "nf-cod-error") " " err-count)
-  		    'face 'error))
-        (if (string-empty-p warn-count) ""
-  	(propertize (concat (nerd-icons-codicon "nf-cod-warning") " " warn-count)
-  		    'face 'warning))
-        (if (string-empty-p note-count) ""
-  	(propertize (concat (nerd-icons-codicon "nf-cod-info") " " note-count)
-  		    'face 'success))
-        " ")))
+    (let ((err-count (diagnostic-counter :error))
+  	(warn-count (diagnostic-counter :warning))
+  	(note-count (diagnostic-counter :note)))
+      (concat
+       (if (string-empty-p err-count) ""
+         (propertize (concat (nerd-icons-codicon "nf-cod-error") " " err-count)
+  		   'face 'error))
+       (if (string-empty-p warn-count) ""
+         (propertize (concat (nerd-icons-codicon "nf-cod-warning") " " warn-count)
+  		   'face 'warning))
+       (if (string-empty-p note-count) ""
+         (propertize (concat (nerd-icons-codicon "nf-cod-info") " " note-count)
+  		   'face 'success))
+       " ")))
 
   (defun mode-line-component-position ()
     "Return position in line:column format."
@@ -1204,24 +1233,43 @@ For now I'm just working on the default format that'll apply to all buffers. Eve
 #+begin_src emacs-lisp
   (defun drs-mode-line-format-default ()
     "Default modeline format for `prog-mode' and `text-mode'."
-    '((:eval (mode-line-render
+    (mode-line-render
   	    (list (mode-line-padding)
   		  (mode-line-component-title))
   	    (list (mode-line-component-diagnostics)
   		  (mode-line-padding)
   		  (mode-line-component-position)
-  		  (mode-line-padding))))))
+  		  (mode-line-padding))))
+
+  (defun drs-mode-line-format-terminal ()
+    "Modeline format for `eshell' and other terminal modes."
+    (mode-line-render
+  	    (list (mode-line-padding)
+  		  (mode-line-component-directory))
+  	    (list (mode-line-component-shell)
+  		  (mode-line-padding))))
 
   (defun drs-mode-line-format-nothing ()
     "Modeline format to make a simple line to separate the echo area."
-    `(""))
+    "")
 #+end_src
 
 ** Enabling the modeline
 
 #+begin_src emacs-lisp
-  (setq-default header-line-format (drs-mode-line-format-default))
-  (setq-default mode-line-format (drs-mode-line-format-nothing))
+  (defun drs-header-line-format ()
+    "Determine header line format based on major mode."
+    '((:eval (cond
+  	    ((derived-mode-p 'term-mode) (drs-mode-line-format-terminal))
+  	    ((derived-mode-p 'eshell-mode) (drs-mode-line-format-terminal))
+  	    (t (drs-mode-line-format-default))))))
+
+  (defun drs-mode-line-format ()
+    "Determine mode line format (literally nothing)."
+    '((:eval (drs-mode-line-format-nothing))))
+
+  (setq-default header-line-format (drs-header-line-format))
+  (setq-default mode-line-format (drs-mode-line-format))
 #+end_src
 
 

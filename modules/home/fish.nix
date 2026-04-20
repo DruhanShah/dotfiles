@@ -32,7 +32,11 @@ echo -s (set_color -o) (prompt_pwd --full-length-dirs 2) (set_color 113384) $nix
     
     programs.btop = {
       enable = true;
-      settings.vim_keys = true;
+      settings = {
+        vim_keys = true;
+        color_theme = "flexoki_light";
+      };
+      themes.flexoki_light = ../../dots/btop/flexoki_light.theme;
     };
 
     # Other shell utils

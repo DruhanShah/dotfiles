@@ -2,9 +2,11 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
+
 import qs.services
 import qs.modules.common
 import qs.modules.icons
+import qs.widgets.osd
 
 Scope {
     id: root
@@ -48,25 +50,10 @@ Scope {
 			muted: Audio.sinkMuted
 		    }
 
-                    Rectangle {
-                        Layout.fillWidth: true
-
-                        implicitHeight: 8
-                        radius: 4
-                        color: Theme.base700
-
-                        Rectangle {
-                            anchors {
-                                left: parent.left
-                                top: parent.top
-                                bottom: parent.bottom
-                            }
-
-                            implicitWidth: parent.width * (Audio.volume < 1.0 ? Audio.volume : 1.0)
-                            radius: parent.radius
-                            color: Audio.sinkMuted ? Theme.redBright : Theme.blueBright
-                        }
-                    }
+		    Slider {
+			value: Audio.volume
+			barColor: Audio.sinkMuted ? Theme.redBright : Theme.blueBright
+		    }
                 }
             }
         }

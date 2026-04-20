@@ -7,6 +7,8 @@
   config = lib.mkIf config.modules.kitty.enable {
     programs.kitty = {
       enable = true;
+      font.name = "Iosevka";
+      font.size = 10.8;
       settings = {
         window_padding_width = 20;
       };
@@ -15,7 +17,7 @@ confirm_os_window_close -1
 modify_font cell_height 120%
       '';
       shellIntegration.enableFishIntegration = true;
-      # themeFile = "flexoki-light";
+      themeFile = "flexoki_light";
     };
   };
 }

@@ -1,9 +1,9 @@
 { pkgs, lib, ... }:
 {
   imports = [
+    ./stylix.nix
     ./firefox.nix
     ./niri.nix
-    ./rofi.nix
     ./kitty.nix
     ./media.nix
     ./editing.nix

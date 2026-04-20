@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Shapes
 import Quickshell
 import qs.modules.common
-import qs.modules.bar
 
 PopupWindow {
     id: root
@@ -23,8 +22,8 @@ PopupWindow {
     color: "transparent"
 
     anchor {
-        item:    anchorItem
-        edges:   Edges.Bottom
+	item: anchorItem
+	edges: Edges.Bottom
         gravity: Edges.Bottom
     }
 
@@ -32,12 +31,11 @@ PopupWindow {
     visible: false
 
     function open() {
-	if (BarState.activePopup && BarState.activePopup !== root)
-	    BarState.activePopup.close()
-	BarState.activePopup = root
+        if (BarState.activePopup && BarState.activePopup !== root)
+            BarState.activePopup.close()
+        BarState.activePopup = root
         _open = true
         visible = true
-        _wrapper.y = -implicitHeight
         _anim.from  = -implicitHeight
         _anim.to    = 0
         _anim.start()
@@ -45,7 +43,7 @@ PopupWindow {
 
     function close() {
         _open = false
-	BarState.activePopup = null
+        BarState.activePopup = null
         _anim.from = 0
         _anim.to   = -implicitHeight
         _anim.start()
@@ -53,7 +51,7 @@ PopupWindow {
 
     function toggle() {
         if (_open) close()
-	else open()
+        else open()
     }
 
     Item {
@@ -77,10 +75,7 @@ PopupWindow {
             Item {
                 id: _contentArea
                 anchors {
-                    top:         parent.top
-                    left:        parent.left
-                    right:       parent.right
-                    bottom:      parent.bottom
+		    fill: parent
                     topMargin:   _pad_y - 8
                     leftMargin:  _pad_x
                     rightMargin: _pad_x
@@ -92,7 +87,7 @@ PopupWindow {
 
     NumberAnimation {
         id: _anim
-        target:   _wrapper
+        target: _wrapper
         property: "y"
         duration: 200
         easing.type: Easing.InOutQuad
