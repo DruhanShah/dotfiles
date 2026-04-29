@@ -6,39 +6,50 @@ import qs.modules.common
 Item {
     implicitWidth: 30
     implicitHeight: 16
+    anchors.centerIn: parent
 
     Shape {
         anchors.fill: parent
+	anchors.topMargin: -1
+	anchors.leftMargin: -3
+	preferredRendererType: Shape.CurveRenderer
 
         ShapePath {
-            strokeColor: Theme.paper
+            strokeColor: Theme.base200
+            strokeWidth: 0
+            fillColor: Theme.base200
+            capStyle: ShapePath.RoundCap
+            joinStyle: ShapePath.RoundJoin
+
+	    startX: 4; startY: 2
+	    PathLine { x: width - 4; y: 2 }
+	    PathLine { x: width - 4; y: height - 2 }
+	    PathLine { x: width/2 + 5; y: height - 2 }
+	    PathLine { x: width/2 + 5; y: height + 2 }
+	    PathLine { x: width/2 - 5; y: height + 2 }
+	    PathLine { x: width/2 - 5; y: height - 2 }
+	    PathLine { x: 4; y: height - 2 }
+	    PathLine { x: 4; y: 2 }
+        }
+
+        ShapePath {
+            strokeColor: Theme.base850
             strokeWidth: 2
             fillColor: "transparent"
             capStyle: ShapePath.RoundCap
             joinStyle: ShapePath.RoundJoin
 
-            PathMove { x: 15; y: 0 }
-            PathLine { x: 15; y: 6 }
-
-            PathMove { x: 7;  y: 6 }
-            PathLine { x: 23; y: 6 }
-
-            PathMove { x: 9;  y: 6 }
-            PathLine { x: 9;  y: 10 }
-
-            PathMove { x: 15; y: 6 }
-            PathLine { x: 15; y: 10 }
-
-            PathMove { x: 21; y: 6 }
-            PathLine { x: 21; y: 10 }
-
-            PathMove { x: 7;  y: 10 }
-            PathLine { x: 7;  y: 13 }
-            PathQuad { x: 10; y: 16; controlX: 7;  controlY: 16 }
-            PathLine { x: 20; y: 16 }
-            PathQuad { x: 23; y: 13; controlX: 23; controlY: 16 }
-            PathLine { x: 23; y: 10 }
-            PathLine { x: 7;  y: 10 }
+	    startX: 0; startY: 2
+	    PathMove { relativeX: 7; y: 2 }
+	    PathLine { relativeX: 0; relativeY: height / 2 - 4 }
+	    PathMove { relativeX: 4; y: 2 }
+	    PathLine { relativeX: 0; relativeY: height / 2 - 4 }
+	    PathMove { relativeX: 4; y: 2 }
+	    PathLine { relativeX: 0; relativeY: height / 2 - 4 }
+	    PathMove { relativeX: 4; y: 2 }
+	    PathLine { relativeX: 0; relativeY: height / 2 - 4 }
+	    PathMove { relativeX: 4; y: 2 }
+	    PathLine { relativeX: 0; relativeY: height / 2 - 4 }
         }
     }
 }

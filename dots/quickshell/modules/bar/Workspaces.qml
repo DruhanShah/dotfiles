@@ -2,6 +2,7 @@ import Quickshell.Widgets
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+
 import qs.services.niri
 import qs.modules.common
 
@@ -14,17 +15,20 @@ Rectangle {
     Rectangle {
 	id: workspaceLayout
 	height: workspaceList.implicitHeight + 12
-	width: workspaceList.implicitWidth + 8
+	width: workspaceList.implicitWidth + 16
 	radius: 4
 	color: Theme.base700
 	anchors.verticalCenter: parent.verticalCenter
 
 	RowLayout {
 	    id: workspaceList
-            anchors.verticalCenter: parent.verticalCenter
+            anchors {
+		top: parent.top
+		bottom: parent.bottom
+		left: parent.left
+		leftMargin: 8
+	    }
             spacing: 8
-
-	    Rectangle {}
 
             Repeater {
 		model: Niri.workspaces

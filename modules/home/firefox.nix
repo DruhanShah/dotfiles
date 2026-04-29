@@ -18,7 +18,6 @@
           isDefault = true;
           settings = {
             "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-            "fennec.urlbar.float" = true;
           };
           extensions = {
             force = true;
@@ -89,9 +88,6 @@
               };
             };
           };
-          extraConfig = builtins.readFile ../../dots/firefox/user.js;
-          userChrome = ../../dots/firefox/userChrome.css;
-          userContent = ../../dots/firefox/userContent.css;
         };
       };
       policies = {
@@ -113,5 +109,18 @@
         };
       };
     };
+
+    home.file =
+      let
+        dotDir = "${config.home.homeDirectory}/dotfiles/dots";
+        symlink = config.lib.file.mkOutOfStoreSymlink;
+      in {
+        ".mozilla/firefox/default/chrome/parfait".source = symlink "${dotDir}/firefox/parfait";
+        ".mozilla/firefox/default/chrome/parfait".recursive = true;
+
+        ".mozilla/firefox/default/chrome/userContent.css".source = symlink "${dotDir}/firefox/userContent.css";
+        ".mozilla/firefox/default/chrome/userChrome.css".source = symlink "${dotDir}/firefox/userChrome.css";
+        ".mozilla/firefox/default/chrome/user.js".source = symlink "${dotDir}/firefox/user.js";
+      };
   };
 }

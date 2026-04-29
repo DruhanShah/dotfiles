@@ -3,9 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Shapes
 import Quickshell
 import Quickshell.Services.UPower
+
 import qs.modules.common
 import qs.modules.icons
-import qs.widgets.bar
+import qs.widgets
 
 
 Rectangle {

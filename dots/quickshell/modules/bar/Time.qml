@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import Quickshell
 import qs.modules.common
 import qs.modules.icons
-import qs.widgets.bar
+import qs.widgets
 
 
 Rectangle {

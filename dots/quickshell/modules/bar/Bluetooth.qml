@@ -3,23 +3,25 @@ import QtQuick.Layouts
 import QtQuick.Shapes
 import Quickshell
 import Quickshell.Bluetooth
+
 import qs.modules.common
 import qs.modules.icons
-import qs.widgets.bar
+import qs.widgets
 
 
 Rectangle {
     id: root
-    signal clicked()
+
     width: icon.implicitWidth
     height: 42
     color: "transparent"
 
+    signal clicked()
     onClicked: bluetoothPopup.toggle()
 
-    readonly property bool enabled: Bluetooth.defaultAdapter
-                                    ? Bluetooth.defaultAdapter.enabled
-                                    : false
+    readonly property bool enabled: (Bluetooth.defaultAdapter
+				     ? Bluetooth.defaultAdapter.enabled
+                                     : false)
 
     BluetoothIcon {
 	id: icon
@@ -34,7 +36,7 @@ Rectangle {
 
     Popup {
 	id: bluetoothPopup
-	contentWidth: 300
+	contentWidth: 320
 	contentHeight: content.implicitHeight
 	anchorItem: root
 
@@ -85,16 +87,10 @@ Rectangle {
 			Layout.fillWidth: true
 			spacing: 12
 
-			Image {
-                            source: Quickshell.iconPath(modelData.icon, 16)
-                            width: 16; height: 16
-                            sourceSize: Qt.size(16, 16)
-                            visible: status === Image.Ready
-			}
-			Rectangle {
-                            visible: parent.children[0].status !== Image.Ready
-                            width: 16; height: 16; radius: 8
-                            color: modelData.connected ? Theme.green : Theme.base600
+			BluetoothDeviceIcon {
+			    deviceName: modelData.name
+			    width: 32
+			    height: 32
 			}
 
 			Text {
@@ -128,12 +124,20 @@ Rectangle {
                             radius: 8
                             color: "transparent"
 			    border.width: 1
-			    border.color: Theme.base600
+			    border.color: (modelData.state !== BluetoothDevice.Connecting
+					   ? Theme.base300 : Theme.base700)
 
                             Text {
 				id: connectLabel
 				anchors.centerIn: parent
-				text: modelData.connected ? "Disconnect" : "Connect"
+				text: {
+				    if (modelData.state === BluetoothDevice.Connected)
+					return "Disconnect"
+				    else if (modelData.state === BluetoothDevice.Disconnected)
+					return "Connect"
+				    else if (modelData.state === BluetoothDevice.Connecting)
+					return "Connecting…"
+				}
 				color: Theme.paper
 				font.pixelSize: 11
                             }

@@ -7,6 +7,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import qs.modules.common
+import qs.widgets
 
 Scope {
     id: root
@@ -74,7 +75,6 @@ Scope {
 	    right: true
 	}
 
-	// Dark overlay backdrop
 	MouseArea {
 	    anchors.fill: parent
 	    onClicked: launcherPanel.visible = false
@@ -85,29 +85,27 @@ Scope {
 	    }
 	}
 
-	// Centered launcher box
 	Rectangle {
 	    id: launcherBox
 	    anchors.centerIn: parent
-	    width: 580
+	    width: 640
 	    height: 480
 	    radius: 16
-	    color: Theme.base100
-	    border.color: Theme.paper
-	    border.width: 1
+	    color: Theme.paper
+	    border.width: 0
 
 	    ColumnLayout {
 		anchors.fill: parent
-		anchors.margins: 16
+		anchors.margins: 8
 		spacing: 12
 
 		Rectangle {
 		    Layout.fillWidth: true
-		    height: 44
+		    height: 52
 		    radius: 10
-		    color: Theme.base100
+		    color: Theme.paper
 		    border.color: searchInput.activeFocus ? Theme.base300 : Theme.paper
-		    border.width: 1
+		    border.width: 0
 
 		    Behavior on border.color {
 			ColorAnimation { duration: 150 }
@@ -115,38 +113,21 @@ Scope {
 
 		    RowLayout {
 			anchors.fill: parent
-			anchors.leftMargin: 14
-			anchors.rightMargin: 14
-			spacing: 10
-
-			Text {
-			    text: ""
-			    color: Theme.base600
-			    font.pixelSize: 16
-			    font.family: Theme.fontSans
-			    Layout.alignment: Qt.AlignVCenter
-			}
+			anchors.leftMargin: 16
+			anchors.rightMargin: 16
+			spacing: 12
 
 			TextInput {
 			    id: searchInput
 			    Layout.fillWidth: true
 			    Layout.alignment: Qt.AlignVCenter
-			    color: Theme.black
-			    font.pixelSize: 15
+			    color: Theme.base800
+			    font.pixelSize: Theme.fontSize + 8
 			    font.family: Theme.fontSans
 			    clip: true
 			    focus: true
 			    Accessible.role: Accessible.EditableText
 			    Accessible.name: "Search applications"
-
-			    Text {
-				anchors.fill: parent
-				text: "Type to search..."
-				color: Theme.base600
-				font: parent.font
-				visible: !parent.text && !parent.activeFocus
-				verticalAlignment: Text.AlignVCenter
-			    }
 
 			    onTextChanged: root.selectedIndex = 0
 
@@ -177,14 +158,6 @@ Scope {
 		    }
 		}
 
-		// Results count
-		Text {
-		    text: resultsList.count + " application" + (resultsList.count !== 1 ? "s" : "")
-		    color: Theme.base600
-		    font.pixelSize: 11
-		    font.family: Theme.fontSans
-		}
-
 		// App list
 		ListView {
 		    id: resultsList
@@ -200,7 +173,7 @@ Scope {
 
 		    highlight: Rectangle {
 			radius: 8
-			color: Theme.base300
+			color: Theme.base150
 		    }
 
 		    delegate: Rectangle {
@@ -212,12 +185,12 @@ Scope {
 			Accessible.name: (modelData.name ?? "Application") + (modelData.genericName ? " - " + modelData.genericName : "")
 
 			width: resultsList.width
-			height: 44
+			height: 48
 			radius: 8
-			color: hoverArea.containsMouse && root.selectedIndex !== index ? Theme.base400 : "transparent"
+			color: hoverArea.containsMouse && root.selectedIndex !== index ? Theme.base50 : "transparent"
 
 			Behavior on color {
-			    ColorAnimation { duration: 100 }
+			    ColorAnimation { duration: 50 }
 			}
 
 			RowLayout {
@@ -228,8 +201,8 @@ Scope {
 
 			    // App icon
 			    Item {
-				width: 28
-				height: 28
+				width: 32
+				height: 32
 				Layout.alignment: Qt.AlignVCenter
 
 				IconImage {
@@ -253,12 +226,12 @@ Scope {
 			    ColumnLayout {
 				Layout.fillWidth: true
 				Layout.alignment: Qt.AlignVCenter
-				spacing: 1
+				spacing: 2
 
 				Text {
 				    text: delegateRoot.modelData.name ?? ""
-				    color: root.selectedIndex === delegateRoot.index ? Theme.black : Theme.base700
-				    font.pixelSize: 13
+				    color: root.selectedIndex === delegateRoot.index ? Theme.black : Theme.base800
+				    font.pixelSize: Theme.fontSize
 				    font.family: Theme.fontSans
 				    font.bold: root.selectedIndex === delegateRoot.index
 				    elide: Text.ElideRight
@@ -268,7 +241,7 @@ Scope {
 				Text {
 				    text: delegateRoot.modelData.genericName ?? delegateRoot.modelData.comment ?? ""
 				    color: Theme.base600
-				    font.pixelSize: 11
+				    font.pixelSize: Theme.fontSize - 3
 				    font.family: Theme.fontSans
 				    elide: Text.ElideRight
 				    Layout.fillWidth: true
@@ -298,40 +271,8 @@ Scope {
 		    }
 		}
 
-		// Footer hint
-		RowLayout {
-		    Layout.fillWidth: true
-		    spacing: 16
+		// Footer tabs
 
-		    Row {
-			spacing: 4
-			Rectangle {
-			    width: hintUp.width + 8
-			    height: 18
-			    radius: 4
-			    color: Theme.base200
-			    Text {
-				id: hintUp
-				anchors.centerIn: parent
-				text: "↑↓"
-				color: Theme.base600
-				font.pixelSize: 10
-				font.family: Theme.fontSans
-			    }
-			}
-			Text {
-			    text: "navigate"
-			    color: Theme.base600
-			    font.pixelSize: 10
-			    font.family: Theme.fontSans
-			    anchors.verticalCenter: parent.verticalCenter
-			}
-		    }
-
-		    Item {
-			Layout.fillWidth: true
-		    }
-		}
 	    }
 	}
     }

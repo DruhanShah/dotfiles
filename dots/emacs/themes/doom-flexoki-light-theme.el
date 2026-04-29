@@ -64,7 +64,7 @@
    (grey       base4)
    (red        '("#AF3029" "#e45649" "red"          ))
    (orange     '("#66800B" "#dd8844" "brightred"    ))
-   (green      '("#50a14f" "#50a14f" "green"        ))
+   (green      '("#66800b" "#50a14f" "green"        ))
    (teal       '("#24837B" "#44b9b1" "brightgreen"  ))
    (yellow     '("#AD8301" "#986801" "yellow"       ))
    (blue       '("#205EA6" "#4078f2" "brightblue"   ))

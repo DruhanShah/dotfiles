@@ -1,4 +1,5 @@
 import Quickshell
+import Quickshell.Wayland
 
 import qs.modules.notifs
 import qs.modules.bar

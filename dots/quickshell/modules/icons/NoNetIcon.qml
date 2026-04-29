@@ -4,50 +4,72 @@ import QtQuick.Shapes
 import qs.modules.common
 
 Item {
+    id: root
+    
+    readonly property real cx: width / 2 - 4
+    readonly property real cy: height - 5
+    readonly property real r: 9
+
     implicitWidth: 30
     implicitHeight: 16
-
-    readonly property real cx: width / 2
-    readonly property real cy: height - 2
-    readonly property real r: Math.min(width, height) * 1.1
+    anchors.centerIn: parent
 
     Shape {
         anchors.fill: parent
+	preferredRendererType: Shape.CurveRenderer
 
         ShapePath {
-            strokeColor: Theme.paper
-            strokeWidth: 2
-            fillColor: "transparent"
+            strokeColor: "transparent"
+            strokeWidth: 0
+            fillColor: Theme.base700
             capStyle: ShapePath.RoundCap
+	    joinStyle: ShapePath.RoundJoin
 
-            PathAngleArc {
+	    startX: cx
+	    startY: cy
+	    PathLine {
+		x: cx + r * Math.sin(Math.PI/180 * 75/2)
+		y: cy - r * Math.cos(Math.PI/180 * 75/2) + 1
+	    }
+	    PathAngleArc {
                 centerX: cx
                 centerY: cy
                 radiusX: r
                 radiusY: r
-                startAngle: 180
-                sweepAngle: 180
+                startAngle: -(90 - 75/2)
+                sweepAngle: -75
             }
+	    PathLine {
+		x: cx
+		y: cy
+	    }
         }
 
         ShapePath {
-            strokeColor: Theme.red
+            strokeColor: Theme.base600
             strokeWidth: 2
             fillColor: "transparent"
             capStyle: ShapePath.RoundCap
+	    joinStyle: ShapePath.RoundJoin
 
-            PathMove { x: cx - 7; y: 3 }
-            PathLine { x: cx + 7; y: 13 }
+	    startX: cx
+	    startY: cy + 3 * 2 * Math.cos(Math.PI*75/360)
+	    PathLine {
+		x: cx + (r + 3 * (1 + 2*Math.cos(Math.PI*75/360))) * Math.sin(Math.PI * 75 / 360)
+		y: cy - (r + 3 * (1 + 2*Math.cos(Math.PI*75/360))) * Math.cos(Math.PI * 75 / 360) + 3 * 2 * Math.cos(Math.PI*75/360)
+	    }
+	    PathAngleArc {
+                centerX: cx
+                centerY: cy + 3 * 2 * Math.cos(Math.PI*75/360)
+                radiusX: (r + 3 * (1 + 2 * Math.cos(Math.PI*75/360)))
+                radiusY: (r + 3 * (1 + 2 * Math.cos(Math.PI*75/360)))
+                startAngle: -(90 - 75/2)
+                sweepAngle: -75
+            }
+	    PathLine {
+		x: cx
+		y: cy + 3 * 2 * Math.cos(Math.PI*75/360)
+	    }
         }
-    }
-
-    Rectangle {
-        width: 4
-        height: 4
-        radius: 2
-        color: Theme.paper
-        opacity: 0.4
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
     }
 }

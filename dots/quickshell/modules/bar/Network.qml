@@ -5,7 +5,7 @@ import Quickshell
 
 import qs.modules.common
 import qs.modules.icons
-import qs.widgets.bar
+import qs.widgets
 
 
 Rectangle {
@@ -26,7 +26,7 @@ Rectangle {
     NetIcon {
 	id: icon
 	anchors.centerIn: parent
-	wifiConnected: true
+	wifiConnected: false
 	wifiStrength: 0.5
 	ethConnected: false
     }
@@ -44,11 +44,25 @@ Rectangle {
 
 	    Tabs {
 		id: tabs
-		Layout.fillWidth: true
-		model: [
-		    { name: "Wi-Fi", first: true, last: false },
-		    { name: "Wired", first: false, last: false },
-		    { name: "VPN", first: false, last: true }
+		activeTab: wifiTab
+		content: [
+		    Tab {
+			id: wifiTab
+			parentBar: tabs
+			title: "Wi-Fi"
+			isFirst: true
+		    },
+		    Tab {
+			id: ethTab
+			parentBar: tabs
+			title: "Ethernet"
+		    },
+		    Tab {
+			id: vpnTab
+			parentBar: tabs
+			title: "VPN"
+			isLast: true
+		    }
 		]
 	    }
 	}

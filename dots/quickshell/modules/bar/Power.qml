@@ -5,7 +5,7 @@ import Quickshell
 
 import qs.modules.common
 import qs.modules.icons
-import qs.widgets.bar
+import qs.widgets
 import qs.services
 
 

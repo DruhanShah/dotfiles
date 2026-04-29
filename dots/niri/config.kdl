@@ -81,18 +81,8 @@ window-rule {
     opacity 0.8
 }
 
-layer-rule {
-    match namespace="^rofi|vicinae$"
-    shadow {
-        on
-        softness 10
-	spread 5
-	color "#00000020"
-    }
-}
-
 window-rule {
-    match app-id="electron|firefox|org.freecad.FreeCAD|pcbnew|kicad|gimp"
+    match app-id="equibop|firefox|org.freecad.FreeCAD|pcbnew|kicad|gimp"
     default-column-width { proportion 1.0; }
 }
 

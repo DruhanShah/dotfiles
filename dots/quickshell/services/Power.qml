@@ -54,8 +54,9 @@ Singleton {
     }
 
     function lock() {
-	Quickshell.execDetached({
-	    command: ["swaylock", "-f", "-c", "00000000"]
-	})
+	console.log("Locking has not been implemented yet.");
+	/* Quickshell.execDetached({ */
+	/*     command: ["swaylock", "-f", "-c", "00000000"] */
+	/* }) */
     }
 }

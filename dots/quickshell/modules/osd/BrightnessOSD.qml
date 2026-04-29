@@ -7,7 +7,7 @@ import Quickshell.Wayland
 import qs.services
 import qs.modules.common
 import qs.modules.icons
-import qs.widgets.osd
+import qs.widgets
 
 Scope {
     id: root
@@ -50,7 +50,7 @@ Scope {
 			brightness: Brightness.brightnessPercent()
 		    }
 
-		    Slider {
+		    OSDSlider {
 			value: Brightness.brightnessPercent()
 			barColor: Theme.purpleBright
 		    }
