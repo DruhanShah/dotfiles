@@ -16,7 +16,7 @@ Item {
 
     WifiIcon {
 	id: wifiIcon
-	visible: root.wifiConnected
+	visible: root.wifiConnected && !root.ethConnected
 	strength: root.wifiStrength
     }
 

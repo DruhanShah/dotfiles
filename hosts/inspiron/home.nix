@@ -28,5 +28,6 @@
     desktop = "$HOME";
     download = "$HOME/downloads";
     documents = "$HOME/documents";
+    projects = "$HOME/stuff";
   };
 }

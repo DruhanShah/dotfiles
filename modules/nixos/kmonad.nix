@@ -14,7 +14,18 @@
       keyboards = {
         ergomech = {
           device = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
-          config = builtins.readFile ../../dots/kmonad/emacs-pinky.kbd;
+          config = ''
+(defcfg
+  input (device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
+  output (uinput-sink "ergomech")
+  fallthrough true)
+
+(defsrc
+  CapsLock)
+
+(deflayer default
+  (tap-hold-next-release 100 Esc LeftCtrl))
+'';
         };
       };
     };

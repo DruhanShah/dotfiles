@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }:
 {
   options = {
-    modules.fish.enable = lib.mkEnableOption "Enable Fish config";
+    modules.fish.enable = lib.mkEnableOption "Enable Fish and other shell config";
   };
 
   config = lib.mkIf config.modules.fish.enable {
@@ -17,12 +17,11 @@ if test -n "$IN_NIX_SHELL"
 else
     set nix ""
 end
-echo -s (set_color -o) (prompt_pwd --full-length-dirs 2) (set_color 113384) $nix (set_color 226022)"  "(set_color normal)
+echo -s (set_color -o) (prompt_pwd --full-length-dirs 2) (set_color 205EA6) $nix (set_color 879A39)"  "(set_color normal)
 '';
       };
     };
 
-    # Also some git stuff
     programs.git = {
       enable = true;
       lfs.enable = true;
@@ -36,7 +35,7 @@ echo -s (set_color -o) (prompt_pwd --full-length-dirs 2) (set_color 113384) $nix
         vim_keys = true;
         color_theme = "flexoki_light";
       };
-      themes.flexoki_light = ../../dots/btop/flexoki_light.theme;
+      themes.flexoki_light = ../../dots/flexoki-btop.theme;
     };
 
     # Other shell utils
@@ -50,8 +49,6 @@ echo -s (set_color -o) (prompt_pwd --full-length-dirs 2) (set_color 113384) $nix
       gzip
       p7zip
 
-      # Shell utils
-      gh
       trash-cli
       jq
     ];
