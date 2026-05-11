@@ -24,7 +24,7 @@ Rectangle {
     topRightRadius: isLast ? 8 : 2
     bottomLeftRadius: isFirst ? 8 : 2
     bottomRightRadius: isLast ? 8 : 2
-    color: active ? Theme.base500 : Theme.base850
+    color: active ? Theme.base300 : Theme.base800
     border.color: Theme.base700
     border.width: active ? 0 : 1
 

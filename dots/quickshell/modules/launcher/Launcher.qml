@@ -91,7 +91,7 @@ Scope {
 	    width: 640
 	    height: 480
 	    radius: 16
-	    color: Theme.paper
+	    color: Theme.base850
 	    border.width: 0
 
 	    ColumnLayout {
@@ -103,8 +103,8 @@ Scope {
 		    Layout.fillWidth: true
 		    height: 52
 		    radius: 10
-		    color: Theme.paper
-		    border.color: searchInput.activeFocus ? Theme.base300 : Theme.paper
+		    color: Theme.base850
+		    border.color: searchInput.activeFocus ? Theme.base700 : Theme.base850
 		    border.width: 0
 
 		    Behavior on border.color {
@@ -121,7 +121,7 @@ Scope {
 			    id: searchInput
 			    Layout.fillWidth: true
 			    Layout.alignment: Qt.AlignVCenter
-			    color: Theme.base800
+			    color: Theme.paper
 			    font.pixelSize: Theme.fontSize + 8
 			    font.family: Theme.fontSans
 			    clip: true
@@ -158,11 +158,37 @@ Scope {
 		    }
 		}
 
+		// Tabs for choices
+		Tabs {
+		    id: tabs
+		    activeTab: launcherTab
+		    content: [
+			Tab {
+			    id: launcherTab
+			    parentBar: tabs
+			    title: "Apps"
+			    isFirst: true
+			},
+			Tab {
+			    id: calculatorTab
+			    parentBar: tabs
+			    title: "Calculator"
+			},
+			Tab {
+			    id: characterTab
+			    parentBar: tabs
+			    title: "Character selection"
+			    isLast: true
+			},
+		    ]
+		}
+
 		// App list
 		ListView {
 		    id: resultsList
 		    Layout.fillWidth: true
 		    Layout.fillHeight: true
+		    visible: launcherTab.active
 		    model: filteredApps
 		    clip: true
 		    spacing: 2
@@ -173,7 +199,7 @@ Scope {
 
 		    highlight: Rectangle {
 			radius: 8
-			color: Theme.base150
+			color: Theme.base700
 		    }
 
 		    delegate: Rectangle {
@@ -187,7 +213,7 @@ Scope {
 			width: resultsList.width
 			height: 48
 			radius: 8
-			color: hoverArea.containsMouse && root.selectedIndex !== index ? Theme.base50 : "transparent"
+			color: hoverArea.containsMouse && root.selectedIndex !== index ? Theme.base800 : "transparent"
 
 			Behavior on color {
 			    ColorAnimation { duration: 50 }
@@ -230,7 +256,7 @@ Scope {
 
 				Text {
 				    text: delegateRoot.modelData.name ?? ""
-				    color: root.selectedIndex === delegateRoot.index ? Theme.black : Theme.base800
+				    color: root.selectedIndex === delegateRoot.index ? Theme.paper : Theme.base50
 				    font.pixelSize: Theme.fontSize
 				    font.family: Theme.fontSans
 				    font.bold: root.selectedIndex === delegateRoot.index
@@ -240,7 +266,7 @@ Scope {
 
 				Text {
 				    text: delegateRoot.modelData.genericName ?? delegateRoot.modelData.comment ?? ""
-				    color: Theme.base600
+				    color: Theme.base500
 				    font.pixelSize: Theme.fontSize - 3
 				    font.family: Theme.fontSans
 				    elide: Text.ElideRight
@@ -264,15 +290,12 @@ Scope {
 		    Text {
 			anchors.centerIn: parent
 			text: "  No applications found"
-			color: Theme.base600
+			color: Theme.base500
 			font.pixelSize: 14
 			font.family: Theme.fontSans
 			visible: resultsList.count === 0 && searchInput.text !== ""
 		    }
 		}
-
-		// Footer tabs
-
 	    }
 	}
     }

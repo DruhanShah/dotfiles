@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 
 import qs.modules.common
-import qs.modules.bar
+/* import qs.modules.bar */
 
 
 LazyLoader {

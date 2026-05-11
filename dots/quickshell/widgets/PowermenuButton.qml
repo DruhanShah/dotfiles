@@ -6,7 +6,7 @@ import qs.modules.common
 
 Rectangle {
     id: root
-    color: "transparent"
+    color: Theme.base800
     border.color: Theme.base700
     border.width: 1
     radius: 8
@@ -41,7 +41,11 @@ Rectangle {
 	cursorShape: Qt.PointingHandCursor
 	hoverEnabled: true
 	onClicked: root.click()
-	onEntered: root.color = Theme.base700
-	onExited: root.color = "transparent"
+	onEntered: root.color = Theme.base600
+	onExited: root.color = Theme.base800
+    }
+
+    Behavior on color {
+	ColorAnimation { duration: 100 }
     }
 }

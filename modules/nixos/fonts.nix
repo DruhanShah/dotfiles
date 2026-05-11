@@ -13,6 +13,8 @@
 
       inter
       iosevka
+      libre-baskerville
+      raleway
 
       roboto
       roboto-slab

@@ -109,14 +109,6 @@ Rectangle {
                             font.pixelSize: 11
 			}
 
-			Text {
-                            visible: modelData.pairing
-                            text: "pairing…"
-                            color: Theme.paper
-                            opacity: 0.5
-                            font.pixelSize: 11
-			}
-
 			Rectangle {
                             visible: !modelData.pairing
                             implicitWidth: connectLabel.implicitWidth + 16

@@ -16,6 +16,13 @@
         package = pkgs.papirus-icon-theme;
         name = "Papirus";
       };
+      gtk3 = {
+        theme.name = "adw-gtk3";
+      };
+      font = {
+        name = "Inter";
+        size = 10.8;
+      };
     };
 
     home.file =

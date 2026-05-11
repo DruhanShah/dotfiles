@@ -127,6 +127,10 @@ This section deals with simple default values that I would like to have set by d
   			(make-glyph-code ?… 'font-lock-comment-face))
   (set-display-table-slot standard-display-table 'wrap
   			(make-glyph-code ?- 'font-lock-comment-face))
+
+  (setq custom-safe-themes t)
+  (setq use-short-answers t)
+  (setq read-answer-short t)
 #+end_src
 
 There's also some keybinds that I don't think make sense but I use very regularly.
@@ -394,6 +398,7 @@ This has some nice features that I would like when using the builtin Dired. The 
         "-aghol --almost-all --human-readable --group-directories-first"
         dired-omit-files
         (concat dired-omit-files "\\|^\\..+$\\|^__pycache__$"))
+  (setq dired-auto-revert-buffer #'dired-directory-changed-p)
   (put 'dired-find-alternate-file 'disabled nil)
   (add-hook 'dired-mode-hook 'dired-hide-details-mode)
   (add-hook 'dired-mode-hook 'dired-omit-mode)
@@ -1204,7 +1209,7 @@ I'm all for modularizing the components. Since I'm looking for a pretty chill mo
   (defun mode-line-component-position ()
     "Return position in line:column format."
     (propertize (format-mode-line "%l:%C")
-  	      'face `(:foreground ,(face-foreground 'default))))
+  	      'face `(:foreground ,(face-foreground 'shadow))))
 #+end_src
 
 ** Formats
@@ -1238,8 +1243,7 @@ For now I'm just working on the default format that'll apply to all buffers. Eve
   		  (mode-line-component-title))
   	    (list (mode-line-component-diagnostics)
   		  (mode-line-padding)
-  		  (mode-line-component-position)
-  		  (mode-line-padding))))
+  		  (mode-line-component-position))))
 
   (defun drs-mode-line-format-terminal ()
     "Modeline format for `eshell' and other terminal modes."
@@ -1250,7 +1254,7 @@ For now I'm just working on the default format that'll apply to all buffers. Eve
   		  (mode-line-padding))))
 
   (defun drs-mode-line-format-nothing ()
-    "Modeline format to make a simple line to separate the echo area."
+    "Modeline format to display nothing (should look like a simple line to separate the echo area)."
     "")
 #+end_src
 

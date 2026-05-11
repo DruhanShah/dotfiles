@@ -49,14 +49,11 @@ Singleton {
 
     function logout() {
 	Quickshell.execDetached({
-	    command: ["loginctl", "terminate-session"]
+	    command: ["loginctl", "kill-user", "druhan"]
 	})
     }
 
     function lock() {
 	console.log("Locking has not been implemented yet.");
-	/* Quickshell.execDetached({ */
-	/*     command: ["swaylock", "-f", "-c", "00000000"] */
-	/* }) */
     }
 }
