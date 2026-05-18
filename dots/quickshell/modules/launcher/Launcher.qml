@@ -158,7 +158,6 @@ Scope {
 		    }
 		}
 
-		// Tabs for choices
 		Tabs {
 		    id: tabs
 		    activeTab: launcherTab
@@ -289,7 +288,7 @@ Scope {
 		    // Empty state
 		    Text {
 			anchors.centerIn: parent
-			text: "  No applications found"
+			text: "No applications found"
 			color: Theme.base500
 			font.pixelSize: 14
 			font.family: Theme.fontSans

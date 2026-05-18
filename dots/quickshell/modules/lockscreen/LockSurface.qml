@@ -1,104 +1,125 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Fusion
-import Quickshell.Wayland
+import Quickshell
+
+import qs.modules.common
+import qs.services
 
 Rectangle {
     id: root
     required property LockContext context
-    readonly property ColorGroup colors: Window.active ? palette.active : palette.inactive
+    color: "transparent"
+    anchors.fill: parent
 
-    color: colors.window
-
-    Button {
-	text: "Its not working, let me out"
-	onClicked: context.unlocked();
+    SystemClock {
+	id: clock
+	precision: SystemClock.Minutes
     }
 
-    Label {
-	id: clock
-	property var date: new Date()
+    Image {
+        id: background
+        anchors.fill: parent
+        source: "file:///home/druhan/dotfiles/dots/wallpapers/ship-sepia.jpg"
+    }
 
-	anchors {
-	    horizontalCenter: parent.horizontalCenter
-	    top: parent.top
-	    topMargin: 100
-	}
+    Text {
+        id: time
 
-	// The native font renderer tends to look nicer at large sizes.
-	renderType: Text.NativeRendering
-	font.pointSize: 80
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            top: parent.top
+            topMargin: 120
+        }
 
-	// updates the clock every second
-	Timer {
-	    running: true
-	    repeat: true
-	    interval: 1000
+        color: Theme.paper
+	opacity: 0.8
+        font.family: Theme.fontSerif
+	font.bold: true
+        font.pointSize: 108
 
-	    onTriggered: clock.date = new Date();
-	}
+        text: Qt.formatDateTime(clock.date, "hh:mm")
+    }
 
-	// updated when the date changes
-	text: {
-	    const hours = this.date.getHours().toString().padStart(2, '0');
-	    const minutes = this.date.getMinutes().toString().padStart(2, '0');
-	    return `${hours}:${minutes}`;
-	}
+    Text {
+        id: date
+
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: time.top
+        }
+
+        color: Theme.paper
+	opacity: 0.8
+        font.family: Theme.fontSerif
+	font.bold: true
+        font.pointSize: 32
+
+        text: Qt.formatDateTime(clock.date, "ddd, MMM dd")
     }
 
     ColumnLayout {
-	// Uncommenting this will make the password entry invisible except on the active monitor.
-	// visible: Window.active
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: parent.bottom
+	    bottomMargin: 128
+        }
 
-	anchors {
-	    horizontalCenter: parent.horizontalCenter
-	    top: parent.verticalCenter
-	}
+        Text {
+            text: root.context.pamMessage
+            font.family: Theme.fontSans
+            color: Theme.black
+        }
 
-	RowLayout {
-	    TextField {
-		id: passwordBox
+	TextField {
+	    id: passwordBox
+	    leftInset: -5
 
-		implicitWidth: 400
-		padding: 10
+            background: Rectangle {
+                implicitWidth: 240
+		implicitHeight: 42
+                radius: 20
+                color: Theme.base100
+		opacity: 0.6
+                border.color: Theme.base600
+                border.width: passwordBox.enabled ? 1 : 0
 
-		focus: true
-		enabled: !root.context.unlockInProgress
-		echoMode: TextInput.Password
-		inputMethodHints: Qt.ImhSensitiveData
+                Behavior on border.width {
+                    NumberAnimation {
+                        duration: 200
+                        easing.type: Easing.InOutQuad
+                    }
+                }
+            }
 
-		// Update the text in the context when the text in the box changes.
-		onTextChanged: root.context.currentText = this.text;
-
-		// Try to unlock when enter is pressed.
-		onAccepted: root.context.tryUnlock();
-
-		// Update the text in the box to match the text in the context.
-		// This makes sure multiple monitors have the same text.
-		Connections {
-		    target: root.context
-
-		    function onCurrentTextChanged() {
-			passwordBox.text = root.context.currentText;
-		    }
-		}
+	    cursorDelegate: Rectangle {
+		width: 0
+		color: "transparent"
 	    }
 
-	    Button {
-		text: "Unlock"
-		padding: 10
+            focus: true
+            enabled: !root.context.unlockInProgress
+            echoMode: TextInput.Password
+            inputMethodHints: Qt.ImhSensitiveData
+            placeholderText: "Password"
+            font.family: Theme.fontMono
+	    horizontalAlignment: TextInput.AlignHCenter
 
-		// don't steal focus from the text box
-		focusPolicy: Qt.NoFocus
+            placeholderTextColor: Theme.base700
+            passwordCharacter: '⏺'
+            color: Theme.paper
 
-		enabled: !root.context.unlockInProgress && root.context.currentText !== "";
-		onClicked: root.context.tryUnlock();
-	    }
-	}
+            onTextChanged: root.context.currentText = this.text
+            onAccepted: root.context.tryUnlock()
 
-	Label {
-	    visible: root.context.showFailure
-	    text: "Incorrect password"
-	}
+            Connections {
+                target: root.context
+
+                function onCurrentTextChanged() {
+                    passwordBox.text = root.context.currentText;
+                }
+            }
+        }
+
     }
 }

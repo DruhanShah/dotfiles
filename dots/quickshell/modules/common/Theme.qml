@@ -34,6 +34,7 @@ QtObject {
     readonly property color magenta: "#A02F6F"
     readonly property color magentaBright: "#CE5D97"
     
+    readonly property string fontSerif: "Libre Baskerville"
     readonly property string fontSans: "Inter"
     readonly property string fontMono: "Iosevka"
     readonly property string fontSymbol: "Symbols Nerd Font"

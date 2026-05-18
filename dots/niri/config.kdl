@@ -100,6 +100,7 @@ binds {
     Mod+Return { spawn "kitty"; }
     Mod+E { spawn-sh "emacsclient -nca ''"; }
     Mod+Space { spawn-sh "qs ipc call launcher toggle"; }
+    Mod+Escape { spawn-sh "qs ipc call lockscreen lock"; }
     Mod+B { spawn "firefox"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0"; }

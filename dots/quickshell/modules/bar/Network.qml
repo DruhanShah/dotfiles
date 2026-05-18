@@ -189,7 +189,6 @@ Rectangle {
 			}
 		    }
 		}
-	    }
 
 		Text {
 		    visible: wifiPanel.wifiDevice
@@ -200,7 +199,93 @@ Rectangle {
 		    font.pixelSize: 12
 		    Layout.alignment: Qt.AlignHCenter
 		}
+	    }
 
+	    ColumnLayout {
+		id: ethPanel
+		visible: ethTab.active
+		Layout.fillWidth: true
+		spacing: 8
+
+		property NetworkDevice ethDevice: (
+		    Networking.devices.values[0].type == DeviceType.Wired
+			? Networking.devices.values[0]
+			: Networking.devices.values[1]
+		)
+
+		Repeater {
+		    model: ethPanel.ethDevice ? ethPanel.ethDevice.networks : null
+
+		    RowLayout {
+			required property Network modelData
+			Layout.fillWidth: true
+			spacing: 12
+
+			NetIcon {
+			    id: icon
+			    ethConnected: true
+			    width: 32
+			    height: 32
+			}
+
+			Text {
+			    text: modelData.name
+			    color: modelData.connected ? Theme.paper : Theme.base300
+			    font.pixelSize: 13
+			    elide: Text.ElideRight
+			    Layout.fillWidth: true
+			}
+
+			Rectangle {
+			    implicitWidth: connectLabel.implicitWidth + 16
+			    implicitHeight: 22
+			    radius: 8
+			    color: "transparent"
+			    border.width: 1
+			    border.color: (modelData.state == ConnectionState.Connected
+					   || modelData.state == ConnectionState.Disconnected
+					   ? Theme.base300 : Theme.base700)
+
+			    Text {
+				id: connectLabel
+				anchors.centerIn: parent
+				text: {
+				    if (modelData.state === ConnectionState.Connected)
+					return "Disconnect"
+				    else if (modelData.state === ConnectionState.Disconnected)
+					return "Connect"
+				    else if (modelData.state === ConnectionState.Connecting)
+					return "Connecting…"
+				}
+				color: Theme.paper
+				font.pixelSize: 11
+			    }
+
+			    MouseArea {
+				anchors.fill: parent
+				cursorShape: Qt.PointingHandCursor
+				onClicked: {
+				    if (modelData.connected) {
+					modelData.disconnect()
+				    } else {
+					modelData.connect()
+				    }
+				}
+			    }
+			}
+		    }
+		}
+
+		Text {
+		    visible: ethPanel.ethDevice
+			&& ethPanel.ethDevice.networks.count === 0
+		    text: "No known networks"
+		    color: Theme.paper
+		    opacity: 0.4
+		    font.pixelSize: 12
+		    Layout.alignment: Qt.AlignHCenter
+		}
+	    }
 	}
     }
 }
