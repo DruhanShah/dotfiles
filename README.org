@@ -1,4 +1,19 @@
 #+title: My dotfiles
 #+author: Druhan Shah
 
- This is my currently WIP repository consisting of my NixOS configuration. This used to contain my Arch Linux configuration, but I've since moved OSes. Till I move completely, there will be a separate branch that will contain the older configs.
+ This is my currently WIP repository consisting of my NixOS configuration. This used to contain my Arch Linux configuration, but I've since moved OSes. +Till I move completely, there will be a separate branch that will contain the older configs+ I've completely moved and have only retained the main branch.
+
+ 
+* Directory structure
+
+- It all begins in =flake.nix=. Basically, this file decides what remote repository we get relevant packages from and then imports a bunch of Nix modules scattered in the dotfiles.
+- =hosts/= contains device-specific configs. Right now it's just the one, but who knows.
+- =dots/= contains all non-Nix config files. If something is too big to be managed by a single Nix module conveniently, or just can't be managed by a Nix module, then it's in this directory.
+- =modules/= contains specifically Nix modules. These modules are further divided into =nixos/= for system-level modules and =home/= for user-level modules (precisely for nixos and home-manager respectively).
+
+Notably, my quickshell and emacs configurations are quite extensive (if I do say so myself), and are in their respective directories in =dots/=. My wallpaper collection is also in the same directory.
+
+
+* AI usage
+
+I have attempted to keep the use of AI at a minimum when dealing with this repository. That being said, some files (particularly some in the quickshell config) are partially or completely AI generated. I intend to change this in the near future with some (much needed) refactors. The goal is to make this entirely my own creation (which will also help with maintainability).
