@@ -12,8 +12,15 @@
       zlib
 
       copilot-language-server
+      python314Packages.jedi-language-server
+      yaml-language-server
+      bash-language-server
+      
       mupdf
-      ffmpeg # Didn't know where else to put this lol
+      ffmpeg
+      imagemagick
+      # Doesn't actually belong here but I'm putting it next to ffmpeg
+      yt-dlp
     ];
 
     programs.direnv.enable = true;
@@ -22,6 +29,7 @@
       libraries = with pkgs; [
         stdenv.cc.cc.lib
         zlib
+        imagemagick
       ];
     };
   };

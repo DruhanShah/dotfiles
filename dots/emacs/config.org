@@ -1,0 +1,999 @@
+#+title: Druhan's Emacs Configuration
+#+author: Druhan Shah
+
+#+startup: overview
+#+property: header-args :tangle yes
+
+This configuration started off heavily based off of Nicolas Rougier's Emacs packages and ideas. It has now, however, grown into a monstrosity beyond singular attribution, having incorporated ideas and packages by other giants in the Emacs world such as Karthink, Minad, Prot, and Xenodium, and will continue to grow as I understand Emacs and my own working style better. The hope is that by the end it will have condensed into a semblance of order. It /is/ supposed to be somewhat sensibly structured after all.
+
+This file is a literate configuration, which means all the code blocks in this Org file will be exported using Org-Babel's tangle feature into their corresponding config files on save. As a result, all the configuration necessary will be in this file as far as possible.
+
+* Bits and bobs
+
+This is a bunch of other niceties that I would like to have, since that would make configuration and usage a good bit easier.
+
+** Initialization speedup
+
+This is simply something that makes the garbage collector chill out so that the startup time isn't abysmal. I'm using the client-server setup, so that shouldn't be a huge deal, but I'm keeping this here anyways.
+
+#+begin_src emacs-lisp
+  (setq gc-cons-threshold 63000000
+        gc-cons-percentage 0.6)
+#+end_src
+
+** "Sane defaults"
+
+This section deals with simple default values that I would like to have set by default for /my/ Emacs experience. These are by no means general statements on what should be the defaults.
+
+#+begin_src emacs-lisp
+  (setq inhibit-startup-screen t)
+  (setq inhibit-startup-message t)
+  (setq inhibit-startup-echo-area-message t)
+  (setq initial-scratch-message nil)
+  (setq initial-buffer-choice nil)
+
+  (setq frame-title-format nil)
+  (setq use-file-dialog nil)
+  (setq use-dialog-box nil)
+  (setq pop-up-windows nil)
+  (setq indicate-empty-lines nil)
+  (setq cursor-in-non-selected-windows nil)
+
+  (setq initial-major-mode 'text-mode)
+  (setq default-major-mode 'text-mode)
+  (setq font-lock-maximum-decoration t)
+  (setq auto-fill-mode nil)
+  (setq fill-column 80)
+
+  (setq-default cursor-type '(hbar .  2))
+  (setq-default cursor-in-non-selected-windows nil)
+  (setq blink-cursor-mode nil)
+
+  (setq default-frame-alist
+        (append (list
+                 '(vertical-scroll-bars . nil)
+                 '(scroll-bar-mode . -1)
+                 '(tool-bar-lines . 0)
+  	       '(tool-bar-position . left)
+                 '(menu-bar-lines . 0))))
+
+  (setq make-backup-files nil)
+
+  (set-display-table-slot standard-display-table 'truncation
+  			(make-glyph-code ?… 'font-lock-comment-face))
+  (set-display-table-slot standard-display-table 'wrap
+  			(make-glyph-code ?- 'font-lock-comment-face))
+
+  (setq custom-safe-themes t)
+  (setq use-short-answers t)
+  (setq read-answer-short t)
+
+  (global-auto-revert-mode)
+#+end_src
+
+There's also some keybinds that I don't think make sense but I use very regularly.
+
+#+begin_src emacs-lisp
+  (define-key global-map (kbd "C-h C-f") 'describe-function)
+  (define-key global-map (kbd "C-h C-v") 'describe-variable)
+  (define-key global-map (kbd "C-h C-S-f") 'describe-face)
+  (define-key global-map (kbd "C-h C-e") 'view-echo-area-messages)
+#+end_src
+
+
+* Vim Emulation
+
+I use Evil-mode along with God-mode as an Evil state. I've tried Meow and didn't like it as much. I've tried God-mode as is and loved it, except that it lacked the pure Vim bindings. One issue that I'm still having is that =C-u= to scroll still doesn't work and I don't know why.
+
+#+begin_src emacs-lisp
+  (use-package evil
+    :init
+    (setq evil-want-keybinding nil
+          evil-undo-system 'undo-redo
+          evil-default-state 'normal
+          evil-want-C-i-jump t
+          evil-want-C-w-delete t
+          evil-want-Y-yank-to-eol t
+          evil-want-C-u-scroll t
+          evil-want-C-d-scroll t)
+    :config (evil-mode 1))
+#+end_src
+
+There are some nice-to-haves that mimic the editing plugins in my old Neovim config that I'd like replicated.
+
+#+begin_src emacs-lisp
+  (use-package evil-collection
+    :after evil
+    :config (evil-collection-init))
+
+  (use-package evil-surround
+    :after evil
+    :config (global-evil-surround-mode 1))
+
+  (use-package evil-commentary
+    :after evil
+    :config (evil-commentary-mode))
+
+  (use-package evil-numbers
+    :after evil
+    :config
+    (evil-define-key '(normal visual) 'global
+      (kbd "C-a") 'evil-numbers/inc-at-pt
+      (kbd "C-x") 'evil-numbers/dec-at-pt
+      (kbd "g C-a") 'evil-numbers/inc-at-pt-incremental
+      (kbd "g C-x") 'evil-numbers/dec-at-pt-incremental))
+#+end_src
+
+Finally, there is a plugin that makes native emacs keybindings a lot nicer to deal with.
+
+#+begin_src emacs-lisp
+  (use-package evil-god-state
+    :after evil
+    :config
+    (evil-define-key 'normal global-map "\\" 'evil-execute-in-god-state)
+    (evil-define-key 'god global-map [escape] 'evil-god-state-bail))
+#+end_src
+
+
+* UI and theme
+
+** Colour Theme
+
+While I do greatly enjoy Rougier's ~nano-theme~ and Prot's ~modus-~ and ~ef-themes~, I would like something more tailored to my taste while still attempting to retain ideas from their themes. I tried building on top of Prot's ~modus-operandi~ but it ended being a lot messier than I'd have liked (definitely a skill issue). I do love Prot's ef-themes, but I'd still prefer some more customizability and comprehensive support like ~doom-themes~ provides. I understand that I can create custom themes with ~modus-themes~ with the new version, but I felt that required way too much work because of the variety of colours that are mandated.
+
+#+begin_src emacs-lisp
+  (add-to-list 'custom-theme-load-path (locate-user-emacs-file "themes/"))
+
+  (use-package doom-themes
+    :custom
+    (doom-themes-enable-bold t)
+    (doom-themes-enable-italic t)
+    :config
+    (load-theme 'doom-nord-dark t))
+#+end_src
+
+** UI niceties
+
+Rougier's designs were instrumental in showing how important good spacing is. However, instead of going the barebones route and then having to fiddle with the window dividers, I'll be using Prot's =spacious-padding= package so that I can have a clear section in the code all for this.
+
+#+begin_src emacs-lisp
+  (use-package spacious-padding
+    :config
+    (setq spacious-padding-widths
+  	'( :internal-border-width 20
+  	   :header-line-width 6
+  	   :mode-line-width 0
+  	   :custom-button-width 3
+  	   :right-divider-width 20
+  	   :scroll-bar-width 0
+  	   :fringe-width 0))
+    (spacious-padding-mode 1))
+#+end_src
+
+There's also pixel-perfect scrolling which really makes the emacs experience feel more modern.
+
+#+begin_src emacs-lisp
+  (use-package ultra-scroll
+    :init
+    (setq scroll-conservatively 3
+  	scroll-margin 0)
+    :config
+    (ultra-scroll-mode 1))
+#+end_src
+
+
+* Typography
+
+This is all the stuff I need to improve typography when using Emacs. This includes coding ligatures, icons, and colour code rendering.
+
+** Font setup
+
+I'm using Prot's =fontaine= package to setup my default fonts, independent of Rougier's packages.
+
+#+begin_src emacs-lisp
+  (use-package fontaine
+    :config
+    (setq fontaine-presets
+  	'((default
+  	   :default-family "Iosevka"
+  	   :fixed-pitch-family "Iosevka"
+  	   :variable-pitch-family "Inter"
+  	   :mode-line-active-family "Inter"
+  	   :mode-line-inactive-family "Inter"
+  	   :header-line-family "Inter"
+
+  	   :default-weight regular
+  	   :bold-weight semi-bold
+  	   :italic-slant italic
+
+  	   :default-height 108
+  	   :line-spacing 0.1)))
+    (fontaine-set-preset 'default))
+#+end_src
+
+** Nice-to-haves
+
+I'm using Iosevka, so I might as well use all the ligatures I can :P
+
+#+begin_src emacs-lisp
+  (use-package ligature
+    :config
+    (ligature-set-ligatures
+     'prog-mode '("<---" "<--"  "<<-" "<-" "->" "-->" "--->" "<->" "<-->" "<--->"
+  		"<---->" "<!--" "<==" "<===" "<=" "=>" "=>>" "==>" "===>" ">=" "<=>"
+  		"<==>" "<===>" "<====>" "<!---" "<~~" "<~" "~>" "~~>" "::" ":::"
+  		"==" "!=" "===" "!==" ":=" ":-" ":+" "<*" "<*>" "*>" "<|" "<|>" "|>"
+  		"+:" "-:" "=:" "<******>" "++" "+++"))
+    (global-ligature-mode t))
+
+#+end_src
+
+Instead of setting specific code points to Nerd fonts, I'd rather use the ~nerd-icons-insert~ functions.
+
+#+begin_src emacs-lisp
+  (use-package nerd-icons
+    :if (display-graphic-p)
+    :config
+    (setq nerd-icons-font-family "Symbols Nerd Font"))
+
+  (use-package nerd-icons-dired
+    :after nerd-icons
+    :hook (dired-mode . nerd-icons-dired-mode))
+
+  (use-package nerd-icons-ibuffer
+    :after nerd-icons
+    :hook (ibuffer-mode . nerd-icons-ibuffer-mode)
+    :config
+    (setq nerd-icons-ibuffer-formats
+  	'(("  "
+  	   mark " "
+  	   (icon 2 2) " "
+  	   (name 24 24 :left :elide) "  "))))
+
+  (use-package nerd-icons-corfu
+    :after nerd-icons
+    :after corfu
+    :config (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
+  (use-package nerd-icons-completion
+    :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
+    :config
+    (nerd-icons-completion-mode))
+
+#+end_src
+
+Bonus points for hex-code colourization. I don't want to use ~colorful-mode~ since it's finicky, it renders colours in a weird way and its claim-to-fame over ~rainbow-mode~ is a bunch of features I never use.
+
+#+begin_src emacs-lisp
+  (use-package rainbow-mode)
+#+end_src
+
+
+* GitHub, Copilot and other AI stuff
+
+This sets up three major plugins: Magit (all hail), Copilot, and GPTel.
+
+#+begin_src emacs-lisp
+  (use-package transient)
+  (use-package magit)
+#+end_src
+
+Here, I set up the AI-based stuff like copilot (for completions) and GPTel (for other LLM and agent capabilities). Similar issues to transient ensure if I remove the ~track-changes~ installation.
+
+#+begin_src emacs-lisp
+  (use-package copilot
+    :vc (:url "https://github.com/copilot-emacs/copilot.el"
+         :rev :newest
+         :branch "main")
+    :hook (prog-mode . copilot-mode)
+    :config
+    (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion))
+
+#+end_src
+
+GPTel is currently disabled because firstly I'm not sure of its usability for my use-case, and secondly it's causing some issues with NixOS and secret management with Gemini API keys.
+
+
+* Dired
+
+This has some nice features that I would like when using the builtin Dired. The keybinds are to make it more like other Vim-like file managers, particularly Ranger (which is what I used earlier).
+
+#+begin_src emacs-lisp
+  (require 'dired)
+  (require 'dired-x)
+  (setq dired-listing-switches
+        "-aghol --almost-all --human-readable --group-directories-first"
+        dired-omit-files
+        (concat dired-omit-files "\\|^\\..+$\\|^__pycache__$"))
+  (setq dired-auto-revert-buffer #'dired-directory-changed-p)
+  (setq image-dired-cmd-create-thumbnail-program "/run/current-system/sw/bin/magick")
+  (put 'dired-find-alternate-file 'disabled nil)
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+  (add-hook 'dired-mode-hook 'dired-omit-mode)
+
+  (define-key global-map (kbd "C-x C-d") 'dired-jump)
+  (evil-define-key 'normal dired-mode-map
+    "g." 'dired-omit-mode
+    "h" 'dired-jump
+    "l" 'dired-find-file
+    "L" (lambda () (interactive)
+  	(start-process "xdg" nil "xdg-open" (dired-get-file-for-visit)))
+    "n" 'evil-search-next
+    "N" 'evil-search-previous
+    "o" 'dired-sort-toggle-or-edit
+    "v" 'dired-toggle-marks
+    "m" 'dired-mark
+    "u" 'dired-unmark
+    "c" 'dired-create-directory
+    "t" 'dired-create-empty-file)
+  #+end_src
+
+I tried out =dirvish=, but I didn't like the jank without a custom setup, so I'm sticking to vanilla Dired.
+
+
+* IBuffer
+
+As much as I need some good buffer management tools, I don't like how IBuffer behaves particularly with evil. This is an attempt to make it that much better.
+
+#+begin_src emacs-lisp
+  (evil-set-initial-state 'ibuffer-mode 'normal)
+  (evil-define-key 'normal ibuffer-mode-map
+    "v" 'ibuffer-toggle-marks
+    "l" 'ibuffer-visit-buffer)
+  (setq ibuffer-saved-filter-groups
+        '(("custom"
+  	 ("Dotfiles" (filename . "dotfiles/"))
+  	 ("Org files" (mode . org-mode))
+  	 ("Code" (derived-mode . prog-mode))
+  	 ("Text files" (and (mode . text-mode)
+  			    (not (starred-name))))
+  	 ("Dired" (mode . dired-mode))
+  	 ("Magit" (name . "\*magit"))
+  	 ("Auxiliary buffers" (starred-name)))))
+  (setq ibuffer-show-empty-filter-groups nil
+        ibuffer-use-header-line t
+        ibuffer-display-summary nil
+        ibuffer-eliding-string "…"
+        ibuffer-marked-char ?\
+        ibuffer-modified-char ?\
+        ibuffer-read-only-char ?\
+        ibuffer-deletion-char ?\)
+  (define-key global-map (kbd "C-x C-b") 'ibuffer)
+#+end_src
+
+
+* Which-Key
+
+It occurs to me that I am not an Emacs dictionary. Who'd have thunk? Perhaps this doesn't warrant an entire section to itself, but I'll leave that issue for when I inevitably declare Emacs bankruptcy.
+
+#+begin_src emacs-lisp
+  (which-key-mode 1)
+  (which-key-setup-side-window-bottom)
+  (which-key-enable-god-mode-support)
+#+end_src
+
+
+* Regex Builder
+
+While I have been inspired by Karthink to start using the interactive regex builder instead of =:%s= for my search-and-replace needs, I'm a little hesitant since I'm uncomfortable with Emacs' regex handling. I'm considering getting more familiar with the ~rx~ notation before I jump head-first into the regex builder.
+
+Firstly, I set up ~reb~ to use ~rx~ the way I want it.
+
+#+begin_src emacs-lisp
+  (require 're-builder)
+  (setq reb-re-syntax 'rx)
+#+end_src
+
+Then, I should yoink some code from Karthink's website that makes ~query-replace-regexp~ use ~reb~, but the code itself is kinda jank and doesn't work perfectly (afaik). I'll have to actually grok what's going on in order to (hopefully) write my own function for this.
+
+
+* Minibuffer
+
+This customizes the way the Minibuffer works in Emacs.
+
+#+begin_src emacs-lisp
+  (use-package vertico
+    :config
+    (vertico-mode 1)
+    (setq vertico-preselect 'first
+  	vertico-count 10
+  	vertico-resize nil))
+
+  (use-package marginalia
+    :config
+    (marginalia-mode))
+
+  (use-package orderless
+    :custom
+    (completion-styles '(orderless basic))
+    (completion-category-overrides '((file (styles partial-completion))))
+    (completion-pcm-leading-wildcard t))
+
+  (use-package consult
+    :bind (("C-x b" . consult-buffer)))
+#+end_src
+
+
+* Eshell and Eat
+
+I'm pretty much set on using =emacs-eat= as a terminal with Eshell. I just need to figure out how to make it look nice, and how to personalize it to my usage. One superpower I read about on Reddit was the usage of snippets in the terminal with YASnippet.
+
+#+begin_src emacs-lisp
+  (use-package eat)
+#+end_src
+
+Some eshell niceties are to be expected :P
+
+#+begin_src emacs-lisp
+  (setq eshell-prompt-function
+  	  (lambda ()
+  	    (concat
+  	     (propertize "\n" 'face `(:foreground ,(face-background 'default)
+  				      :extend t
+  				      :underline ,(face-foreground 'default)))
+  	     (propertize " " 'face `(:height 1.6
+  				     :weight 'bold))
+  	     (propertize " " 'face `(:foreground ,(face-foreground 'default)
+  				     :extend t)))))
+
+  (define-key global-map (kbd "C-x C-s") 'eshell)
+#+end_src
+
+
+* PDF Tools and ePub reading
+
+This section initially used PDF-Tools and ~nov.el~ for document reading (despite the jank from ~nov.el~), but I'm now considering switching to Divya Ranjan's package ~emacs-reader~ which relies on MuPDF which I'm a big fan of. Looks quite promisnig!
+
+On first try it's beautiful! The only gripe I have is the lack of annotations and theming, both of which (especially in my case) are only minor nitpicks. There were issues and breakages that I was having when loading PDFs on NixOS, but I ended up solving all of them by using the Nix build as described on the [[https://codeberg.org/MonadicSheep/emacs-reader/issues/115][Issues thread]] and then (very importantly) ensuring that the ~use-package~ call doesn't use ~elpaca~ to install it.
+
+#+begin_src emacs-lisp
+  (use-package reader)
+#+end_src
+
+
+* LaTeX
+
+The typesetting language beyond time. I used to use OrgMode for writing and then export it to LaTeX in pretty much every case except the rare few. I've realised that my usage of latex is now so complex that the tweaks I need to do in order to have a functioning export makes the doc unreadable right away. I'm therefore switching to AucTeX and moving to Nepal, where I will continue to live as a goat (jk).
+
+Along with AucTeX is this gem of a program called CDLaTeX which makes math input /fast/.
+
+#+begin_src emacs-lisp
+  (use-package auctex
+    :hook (LaTeX-mode . visual-line-mode)
+    :hook (LaTeX-mode . cdlatex-mode)
+    :hook (LaTeX-mode . TeX-fold-mode)
+    :hook (LaTeX-mode . reftex-mode)
+    :config
+    (setq TeX-view-program-selection '((output-dvi "xdvi")
+  				     (output-pdf "Zathura")
+  				     (output-html "xdg-open"))
+  	TeX-command-default "LaTeXMk"
+  	preview-default-option-list '("displaymath" "floats" "textmath" "graphics")
+  	TeX-parse-self t
+  	TeX-auto-save t)
+    (setq-default TeX-master nil))
+
+  (add-hook 'LaTeX-mode-hook
+            (defun preview-larger-previews ()
+              (setq preview-scale-function
+                    (lambda () (* 0.75
+  				(funcall (preview-scale-from-face)))))))
+
+  (use-package cdlatex
+    :config
+    (add-to-list 'cdlatex-math-symbol-alist '(?. "\\cdot"    "\\dots"))
+    (add-to-list 'cdlatex-math-symbol-alist '(?| "\\mapsto"  "\\longmapsto"  "\\:\\mid\\:"))
+    (add-to-list 'cdlatex-math-symbol-alist '(?{ "\\subset"  "\\subseteq"))
+    (add-to-list 'cdlatex-math-symbol-alist '(?} "\\supset"  "\\supseteq"))
+    (add-to-list 'cdlatex-math-modify-alist '(?B "\\mathbb" nil t t nil))
+    (add-to-list 'cdlatex-command-alist '("int"
+  					"Insert \\int_{}^{}"
+  					"\\int_{?}^{}"
+  					cdlatex-position-cursor
+  					nil nil t))
+    (add-to-list 'cdlatex-command-alist '("sum"
+  					"Insert \\sum_{}^{}"
+  					"\\sum_{?}^{}"
+  					cdlatex-position-cursor
+  					nil nil t)))
+#+end_src
+
+More vim emulation :D
+
+#+begin_src emacs-lisp
+  (use-package evil-tex
+    :after evil
+    :after auctex
+    :hook (LaTeX-mode . evil-tex-mode))
+#+end_src
+
+More things will likely show up here as time goes on :)
+
+
+* Org Mode
+
+All hail the OrgMode system! Lots of very helpful modules have been used here, and this is by far the largest section in my config.
+
+** Baseline stuff
+
+#+begin_src emacs-lisp
+  (use-package org
+    :ensure nil
+    :hook (org-mode . visual-line-mode)
+    :hook (org-mode . org-display-inline-images)
+    :hook (org-mode . org-cdlatex-mode)
+    :hook (org-mode . org-indent-mode)
+    :config
+    (setq org-ellipsis " "
+  	org-fontify-quote-and-verse-blocks t
+          org-hide-emphasis-markers t
+          org-hide-leading-stars nil
+  	org-cycle-separator-lines 2
+  	org-tags-column 0
+          org-pretty-entities t
+          org-pretty-entities-include-sub-superscripts nil
+          org-use-sub-superscripts t
+  	org-todo-keywords '((sequence "TODO" "HOLD" "DOING" "|" "NOPE" "DONE"))
+  	org-priority-highest 0
+          org-priority-lowest 9
+  	org-priority-default 5
+  	org-agenda-files '("~/notes/agenda/habits.org"
+  			   "~/notes/agenda/leisure.org"
+  			   "~/notes/agenda/refile.org"
+  			   "~/notes/agenda/work.org")
+  	org-hidden-keywords '(title subtitle author date)
+  	org-src-window-setup 'current-window)
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((emacs-lisp . t)
+       (python . t)))
+    (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
+    (evil-define-key 'normal org-mode-map
+      "gk" 'evil-previous-visual-line
+      "gj" 'evil-next-visual-line))
+#+end_src
+
+** Babel shenanigans
+
+Babel is a module of Org mode that deals with other programming languages and how they integrate with Org. These integrations include "tangling" (bundling all codeblocks in an org file into an actual code file), and running in the file itself.
+
+This section used to include stuff about exporting and editing Jupyter notebooks, but I've abandoned that now. I'll likely be switching to marimo whenever interactivity is a requirement.
+
+For now, I'm just using a function to auto-tangle. I'm considering changing it to simply ~org-babel-tangle~ an org file from the init.el
+
+#+begin_src emacs-lisp
+  (use-package org-auto-tangle
+    :after org
+    :hook (org-mode . org-auto-tangle-mode))
+#+end_src
+
+** UI Stuff
+
+These are some nice-to-haves that make Org files look good in Emacs.
+
+#+begin_src emacs-lisp
+  (use-package org-autolist
+    :after org
+    :hook (org-mode . org-autolist-mode))
+
+  (use-package mixed-pitch
+    :hook (org-mode . mixed-pitch-mode)
+    :hook (LaTeX-mode . mixed-pitch-mode))
+#+end_src
+
+The next bit is all about the =org-modern= package by minad (Daniel Mendler). I was earlier using the modified source code of the package as =nano-org= thinking I could nano-ify the whole thing, but in hindsight it was far more sensible to just customize some variables.
+
+#+begin_src emacs-lisp
+  (use-package org-modern
+    :after org doom-themes
+    :custom
+    (org-modern-star 'fold)
+    (org-modern-hide-stars t)
+    (org-modern-timestamp '(" %^b %d " . " %H%M "))
+    (org-modern-todo-faces `(("TODO" . ( :foreground ,(doom-color 'red)
+  				       :height 95
+  				       :box (1 . 2)
+  				       :overline ,(doom-color 'bg)))
+  			   ("DOING" . ( :foreground ,(doom-color 'yellow)
+  				        :height 95
+  				        :box (1 . 2)
+  				        :overline ,(doom-color 'bg)))
+  			   ("DONE" . ( :foreground ,(doom-color 'green)
+  				       :height 95
+  				       :box (1 . 2)
+  				       :overline ,(doom-color 'bg)))
+  			   ("HOLD" . ( :foreground ,(doom-color 'fg)
+  				       :height 95
+  				       :box (1 . 2)
+  				       :overline ,(doom-color 'bg)))
+  			   ("NOPE" . ( :foreground ,(doom-color 'base4)
+  				       :height 95
+  				       :box (1 . 2)
+  				       :overline ,(doom-color 'bg)))))
+    :custom-face
+    (org-modern-label
+     ((t ( :family "Iosevka"
+  	 :height 95
+  	 :foreground ,(doom-color 'bg)
+  	 :box t))))
+    (org-modern-tag
+     ((t ( :foreground ,(doom-color 'bg)
+  	 :inherit (secondary-selection org-modern-label)))))
+    (org-modern-date-active
+     ((t ( :inherit (org-modern-label)
+  	 :foreground ,(doom-color 'bg)
+  	 :background ,(doom-color 'blue)
+  	 :overline ,(doom-color 'bg)
+  	 :box (:color ,(doom-color 'blue)
+  	      :line-width (1 . 2))))))
+    (org-modern-time-active
+     ((t ( :inherit (org-modern-label)
+  	 :foreground ,(doom-color 'blue)
+  	 :background ,(doom-color 'bg)
+  	 :overline ,(doom-color 'bg)
+  	 :box (:line-width (1 . 2))))))
+    (org-modern-date-inactive
+     ((t ( :inherit (org-modern-label)
+  	 :foreground ,(doom-color 'bg)
+  	 :background ,(doom-color 'fg)
+  	 :overline ,(doom-color 'bg)
+  	 :box (:color ,(doom-color 'fg)
+  	      :line-width (1 . 2))))))
+    (org-modern-time-inactive
+     ((t ( :inherit (org-modern-label)
+  	 :foreground ,(doom-color 'fg)
+  	 :background ,(doom-color 'bg)
+  	 :overline ,(doom-color 'bg)
+  	 :box (:line-width (1 . 2))))))
+    :config
+    (global-org-modern-mode))
+#+end_src
+
+*** Markdown
+
+Markdown is surprisingly similar to Org notation, but the rendering isn't nearly as good. I'll be fixing that here (as much as I can). Some changes are in the [[Face Overrides]] subsection of the themes section.
+
+There was a neat little toggle for the plaintext vs rendered text mode, but I use it infrequently enough that a simple =M-x= should suffice.
+
+#+begin_src emacs-lisp
+  (use-package markdown-mode)
+
+  (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
+  (add-hook 'markdown-view-mode-hook #'mixed-pitch-mode)
+#+end_src
+
+
+* Development tools
+
+** Treesitter and LSP
+
+Using treesitter and LSPs on emacs feels more comfortable and simultaneously not. I need to get more comfortable with both of these through the Emacs way.
+
+#+begin_src emacs-lisp
+  (use-package treesit-auto
+    :custom
+    (treesit-auto-install 'prompt)
+    :config
+    (treesit-auto-add-to-auto-mode-alist 'all)
+    (global-treesit-auto-mode))
+
+  (setq treesit-font-lock-level 4)
+
+  (use-package exec-path-from-shell
+    :config
+    (exec-path-from-shell-initialize))
+
+  (evil-define-key 'normal eglot-mode-map
+    (kbd "g Q") 'eglot-format-buffer
+    (kbd "g R") 'eglot-rename
+    (kbd "g C") 'eglot-code-actions)
+#+end_src
+
+** direnv
+
+Using ~direnv~ on NixOS is near-mandatory since it's recommended to install LSP servers on a per-project basis. Additionally, NixOS and emacs integrate well with this.
+
+#+begin_src emacs-lisp
+  (use-package direnv :config (direnv-mode))
+#+end_src
+
+** Nice-to-haves
+
+Buncha IDE fluff.
+
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook #'electric-pair-local-mode)
+
+  (use-package highlight-indent-guides
+    :hook (prog-mode . highlight-indent-guides-mode)
+    :config
+    (highlight-indent-guides-auto-set-faces)
+    (setq highlight-indent-guides-method 'character
+  	highlight-indent-guides-auto-enabled t
+  	highlight-indent-guides-responsive 'top
+  	highlight-indent-guides-delay 0))
+#+end_src
+
+
+* Completions and Spellchecking
+
+** Completions at point
+
+I'm (not really) using Corfu at the moment. Haven't tried out other completion frameworks
+
+#+begin_src emacs-lisp
+  (use-package corfu
+    :config
+    (setq corfu-auto t)
+    (global-corfu-mode))
+#+end_src
+
+** Spell checking
+
+Will eventually give ~jinx~ another solid attempt.
+
+** Syntax checking and diagnostics
+
+TODO: add a modeline indicator for flymake diagnostics.
+
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook #'flymake-mode)
+  (evil-define-key 'normal flymake-mode-map
+    "]d" 'flymake-goto-next-error
+    "[d" 'flymake-goto-prev-error)
+  (setq flymake-start-on-flymake-mode t
+        flymake-indicator-type 'fringes)
+#+end_src
+
+
+* Snippets
+
+I'm starting to get the idea that snippets are going to be very useful. (Who'd have thought?)
+I'm using good old =yasnippet= for this.
+
+#+begin_src emacs-lisp
+  (use-package yasnippet
+    :config
+    (yas-global-mode 1)
+    (setq yas-snippet-dirs '(".config/emacs/snippets")))
+#+end_src
+
+
+* Music and Media
+
+This used to contain stuff about Elfeed as well, but I don't use it as often anymore so I got rid of it.
+
+** Music player
+
+I'm really picking from all the greats here; Xenodium (Álvaro) has a fantastic-looking package called Ready-Player which I'll be using to play my music locally.
+
+#+begin_src emacs-lisp
+  (use-package ready-player
+    :after nerd-icons
+    :custom-face
+    (info-title-1 ((t (:inherit 'variable-pitch :weight bold :height 1.25))))
+    (info-title-2 ((t (:inherit 'variable-pitch :weight bold :height 1.4))))
+    :config
+    (setq ready-player-my-media-collection-location "~/Music")
+    (setq ready-player-open-externally-icon (propertize
+  					   (nerd-icons-octicon "nf-oct-link_external")
+  					   'face '( :box t
+  						    :family "Symbols Nerd Font"))
+  	ready-player-open-my-media-collection-icon (nerd-icons-mdicon "nf-md-home")
+  	ready-player-shuffle-icon (nerd-icons-mdicon "nf-md-shuffle")
+  	ready-player-repeat-icon (nerd-icons-mdicon "nf-md-repeat")
+  	ready-player-autoplay-icon (nerd-icons-mdicon "nf-md-refresh_auto")
+  	ready-player-search-icon (nerd-icons-octicon "nf-oct-search")
+  	ready-player-help-icon (nerd-icons-mdicon "nf-md-help")
+  	ready-player-previous-icon (propertize
+  				    (nerd-icons-mdicon "nf-md-skip_previous")
+  				    'face '( :box t
+  					     :family "Symbols Nerd Font"))
+  	ready-player-next-icon (propertize
+  				(nerd-icons-mdicon "nf-md-skip_next")
+  				'face ' ( :box t
+  					  :family "Symbols Nerd Font")))
+
+    ;; Redefining a function cos the message exceeds the echo area
+    (defun ready-player--make-time-progress-bar (progress total)
+      "Make a progress bar with PROGRESS out of TOTAL, aligned with frame width.
+  For example:
+  00:00 ------ 00:30 ------ 01:00"
+      (setq progress (round progress))
+      (setq total (round total))
+      (let* ((start-label "00:00")
+             (label (ready-player--format-time progress))
+             (total-label (ready-player--format-time total))
+             (reserved-width (+ (length start-label) 1   ; "00:00 " start
+                                1 (length label) 1       ; " 00:30 " current
+                                1 (length total-label) 1)) ; " 01:00" end
+             (bar-width (- (frame-width) reserved-width))
+             (percentage (/ (* progress 1.0) total))
+             (left-bars (round (* percentage bar-width)))
+             (right-bars (- bar-width left-bars)))
+        (concat start-label " "
+                (make-string left-bars ?┄)
+                " " label " "
+                (make-string right-bars ?┄)
+                " " total-label)))
+
+    (ready-player-mode +1))
+#+end_src
+
+Man I Love Emacs! It already recognizes the action of using my headphones' gestures to pause music as the =<AudioPlayPause>= key so I can bind it to the =C-c m SPC= key
+
+#+begin_src emacs-lisp
+  (define-key global-map (kbd "<AudioPause>") (kbd "C-c m SPC"))
+#+end_src
+
+
+* Mode Line
+
+I'm moving from Rougier's =nano-modeline= and skipping other modeline packages like =doom-modeline= and others to write my custom modeline inspired by =nano-modeline=, since Rougier's package contains so much that I don't use myself and doesn't customize some things I need. I still would prefer a headerline instead of a modeline, similar to Nano Emacs.
+
+** Modules
+
+I'm all for modularizing the components. Since I'm looking for a pretty chill modeline I don't see this section blowing up too much (famous last words).
+
+#+begin_src emacs-lisp
+  (defun mode-line-padding ()
+    "Return a double-spaced padding."
+    ;; Double-spaced because we're using a proportional font
+    "  ")
+
+  (defun mode-line-component-title ()
+    "Return the title of the buffer."
+    (let* ((filename (buffer-name))
+  	 (filename (cond
+  		    (ready-player-mode (replace-regexp-in-string
+  					"ready-player: \\(.*\\).\\(?:flac\\|mp3\\)"
+  					"\\1"
+  					filename))
+  		    (t filename)))
+  	 (icon (cond
+  		((eq major-mode 'ready-player-major-mode) (nerd-icons-mdicon "nf-md-music_note"))
+  		((eq major-mode 'dired-mode) (nerd-icons-mdicon "nf-md-folder"))
+  		(t (nerd-icons-icon-for-file filename))))
+  	 (modified (cond
+  		    ((buffer-modified-p) (concat "  " (nerd-icons-faicon "nf-fa-floppy_disk")))
+  		    (t ""))))
+      (concat
+       icon
+       "  "
+       (propertize filename 'face '(:inherit bold))
+       modified)))
+
+
+  (defun mode-line-component-directory ()
+    "Return the directory of the buffer."
+    (let* ((max-length 64)
+           (dir default-directory)
+           (path (reverse (split-string (abbreviate-file-name dir) "/")))
+           (output ""))
+      (when (and path (equal "" (car path)))
+        (setq path (cdr path)))
+      (while (and path (< (length output) (- max-length 0)))
+        (setq output (concat (car path) "/" output))
+        (setq path (cdr path)))
+      (when path
+        (setq output (concat "…/" output)))
+      (propertize (concat (nerd-icons-faicon "nf-fa-terminal")
+  			"  "
+  			output)
+  		'face '(:inherit 'bold))))
+
+  (defun mode-line-component-shell ()
+    "Return the shell name if in a shell buffer."
+    (propertize (if eshell-mode "Eshell"
+                  shell-file-name)
+  	      'face `(:foreground ,(face-foreground 'default))))
+
+
+  (defun diagnostic-counter (type)
+    "Compute number of diagnostics in buffer with TYPE's severity.
+  TYPE is usually keyword `:error', `:warning' or `:note'."
+    (let ((count 0))
+      (dolist (d (flymake-diagnostics))
+        (when (= (flymake--severity type)
+                 (flymake--severity (flymake-diagnostic-type d)))
+  	(cl-incf count)))
+      (if (cl-plusp count)
+  	(concat (number-to-string count) " ")
+        "")))
+
+  (defun mode-line-component-diagnostics ()
+    "Return a string with the flymake diagnostics."
+    (let ((err-count (diagnostic-counter :error))
+  	(warn-count (diagnostic-counter :warning))
+  	(note-count (diagnostic-counter :note)))
+      (concat
+       (if (string-empty-p err-count) ""
+         (propertize (concat (nerd-icons-codicon "nf-cod-error") " " err-count)
+  		   'face 'error))
+       (if (string-empty-p warn-count) ""
+         (propertize (concat (nerd-icons-codicon "nf-cod-warning") " " warn-count)
+  		   'face 'warning))
+       (if (string-empty-p note-count) ""
+         (propertize (concat (nerd-icons-codicon "nf-cod-info") " " note-count)
+  		   'face 'success))
+       " ")))
+
+  (defun mode-line-component-position ()
+    "Return position in line:column format."
+    (propertize (format-mode-line "%l:%C")
+  	      'face `(:foreground ,(face-foreground 'shadow))))
+#+end_src
+
+** Formats
+
+First, I'll define a helper function to generate the mode-line-format with the spacer in between
+
+#+begin_src emacs-lisp
+  (defun mode-line-render (left right)
+    "Return a string of `window-width' length.
+  Containing LEFT, and RIGHT aligned respectively."
+    (let ((available-width
+           (- (window-width)
+              (+ (length (format-mode-line left))
+                 (length (format-mode-line right))))))
+      (append
+       left
+       (list (propertize
+  	    " "
+  	    'display `(space :align-to (- right-margin
+  					  ,(length (format-mode-line right))))))
+       right)))
+#+end_src
+
+For now I'm just working on the default format that'll apply to all buffers. Eventually I'd like custom modelines based on the major mode.
+
+#+begin_src emacs-lisp
+  (defun drs-mode-line-format-default ()
+    "Default modeline format for `prog-mode' and `text-mode'."
+    (mode-line-render
+  	    (list (mode-line-padding)
+  		  (mode-line-component-title))
+  	    (list (mode-line-component-diagnostics)
+  		  (mode-line-padding)
+  		  (mode-line-component-position))))
+
+  (defun drs-mode-line-format-terminal ()
+    "Modeline format for `eshell' and other terminal modes."
+    (mode-line-render
+  	    (list (mode-line-padding)
+  		  (mode-line-component-directory))
+  	    (list (mode-line-component-shell)
+  		  (mode-line-padding))))
+
+  (defun drs-mode-line-format-nothing ()
+    "Modeline format to display nothing (should look like a simple line to separate the echo area)."
+    "")
+#+end_src
+
+** Enabling the modeline
+
+#+begin_src emacs-lisp
+  (defun drs-header-line-format ()
+    "Determine header line format based on major mode."
+    '((:eval (cond
+  	    ((derived-mode-p 'term-mode) (drs-mode-line-format-terminal))
+  	    ((derived-mode-p 'eshell-mode) (drs-mode-line-format-terminal))
+  	    (t (drs-mode-line-format-default))))))
+
+  (defun drs-mode-line-format ()
+    "Determine mode line format (literally nothing)."
+    '((:eval (drs-mode-line-format-nothing))))
+
+  (setq-default header-line-format (drs-header-line-format))
+  (setq-default mode-line-format (drs-mode-line-format))
+#+end_src
+
+
+* Other esoteric stuff
+
+I had packages for Dyalog APL, Lean4 and GhostText here but I don't seem to use them at all so they're getting the boot.
+
+#+begin_src emacs-lisp
+  (use-package nix-mode :mode "\\.nix\\'")
+  (use-package qml-mode :mode "\\.qml\\'")
+#+end_src

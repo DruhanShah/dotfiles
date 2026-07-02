@@ -3,6 +3,7 @@
   imports = [
     ./stylix.nix
     ./firefox.nix
+    ./zen.nix
     ./niri.nix
     ./kitty.nix
     ./media.nix

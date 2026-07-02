@@ -23,12 +23,14 @@
       brightnessctl
       grim
       slurp
+      cliphist
       wev
       wlr-randr
       wl-clipboard
       libnotify
       linux-wifi-hotspot
       haveged
+      libqalculate
     ];
   };
 }

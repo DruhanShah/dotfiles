@@ -10,14 +10,23 @@
       interactiveShellInit = ''
 set fish_greeting
 '';
+      shellAliases = {
+        ltrcgpu3 = "kitty +kitten ssh gamba@ltrcgpu3";
+        ada = "kitty +kitten ssh druhan@ada.iiit.ac.in";
+        python = "python3.14";
+      };
       functions = {
-        fish_prompt = ''
+        fish_prompt =
+          let
+            blue = if (config.modules.theme == "nord") then "(set_color 205EA6)" else "(set_color 81A1C1)";
+            green = if (config.modules.theme == "nord") then "(set_color 879A39)" else "(set_color A3BE8C)";
+          in ''
 if test -n "$IN_NIX_SHELL"
-    set nix " 󱄅"
+    set nix " 󱄅 "
 else
     set nix ""
 end
-echo -s (set_color -o) (prompt_pwd --full-length-dirs 2) (set_color 205EA6) $nix (set_color 879A39)"  "(set_color normal)
+echo -s (set_color -o) (prompt_pwd --full-length-dirs 2) ${blue} $nix ${green}"  "(set_color normal)
 '';
       };
     };
@@ -33,7 +42,7 @@ echo -s (set_color -o) (prompt_pwd --full-length-dirs 2) (set_color 205EA6) $nix
       enable = true;
       settings = {
         vim_keys = true;
-        color_theme = "flexoki_light";
+        color_theme = if config.modules.theme == "nord" then "nord" else "flexoki_light";
       };
       themes.flexoki_light = ../../dots/flexoki-btop.theme;
     };

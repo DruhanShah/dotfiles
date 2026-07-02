@@ -2,6 +2,11 @@
 {
   options = {
     modules.stylix.enable = lib.mkEnableOption "Enable Stylix-like customizations";
+    modules.theme = lib.mkOption {
+      type = lib.types.enum [ "nord" "flexoki" ];
+      default = "flexoki";
+      description = "Theme for user-wide customizations.";
+    };
   };
 
   config = lib.mkIf config.modules.stylix.enable {

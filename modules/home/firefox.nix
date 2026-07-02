@@ -28,7 +28,6 @@
               bitwarden
               refined-github
               sponsorblock
-              stylus
               zotero-connector
             ];
             settings = {
@@ -121,6 +120,36 @@
         ".mozilla/firefox/default/chrome/userContent.css".source = symlink "${dotDir}/firefox/userContent.css";
         ".mozilla/firefox/default/chrome/userChrome.css".source = symlink "${dotDir}/firefox/userChrome.css";
         ".mozilla/firefox/default/chrome/user.js".source = symlink "${dotDir}/firefox/user.js";
+      };
+
+    xdg.mimeApps =
+      let
+        associations = builtins.listToAttrs (
+          map (name: {
+            inherit name;
+            value = "firefox.desktop";
+          }) [
+            "application/x-extension-shtml"
+            "application/x-extension-xhtml"
+            "application/x-extension-html"
+            "application/x-extension-xht"
+            "application/x-extension-htm"
+            "x-scheme-handler/unknown"
+            "x-scheme-handler/mailto"
+            "x-scheme-handler/chrome"
+            "x-scheme-handler/about"
+            "x-scheme-handler/https"
+            "x-scheme-handler/http"
+            "application/xhtml+xml"
+            "application/json"
+            "text/plain"
+            "text/html"
+          ]
+        );
+      in {
+        enable = true;
+        associations.added = associations;
+        defaultApplications = associations;
       };
   };
 }

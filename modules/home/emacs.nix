@@ -9,9 +9,40 @@
       enable = true;
       package = pkgs.emacs-pgtk;
       extraPackages = epkgs: with epkgs; [
-        tree-sitter
-        tree-sitter-langs
-      	treesit-grammars.with-all-grammars
+        use-package
+
+        evil
+	      evil-collection
+	      evil-surround
+	      evil-commentary
+	      evil-numbers
+	      evil-god-state
+	      evil-tex
+
+        doom-themes
+	      spacious-padding
+	      ultra-scroll
+	      
+        fontaine
+	      ligature
+	      nerd-icons
+	      nerd-icons-dired
+	      nerd-icons-ibuffer
+	      nerd-icons-corfu
+	      nerd-icons-completion
+        rainbow-mode
+	      
+        transient
+	      magit
+	      copilot
+
+        vertico
+	      marginalia
+	      orderless
+	      consult
+
+        eat
+
         (melpaBuild {
           ename = "reader";
           pname = "emacs-reader";
@@ -28,6 +59,34 @@
           buildInputs = with pkgs; [ gcc mupdf gnumake pkg-config ];
           preBuild = "make clean all";
         })
+
+        auctex
+	      cdlatex
+        xenops
+
+        org-auto-tangle
+	      org-autolist
+	      mixed-pitch
+	      org-modern
+	      markdown-mode
+	      org-contrib
+
+        tree-sitter
+        tree-sitter-langs
+      	treesit-grammars.with-all-grammars
+	      treesit-auto
+	      exec-path-from-shell
+	      direnv
+	      highlight-indent-guides
+
+	      corfu
+
+	      yasnippet
+
+	      ready-player
+
+	      nix-mode
+	      qml-mode
       ];
     };
     services.emacs = {
@@ -51,9 +110,13 @@
         dotDir = "${config.home.homeDirectory}/dotfiles/dots/emacs";
         symlink = config.lib.file.mkOutOfStoreSymlink;
       in {
-        ".config/emacs/init.el".source = symlink "${dotDir}/init.el";
-        ".config/emacs/early-init.el".source = symlink "${dotDir}/early-init.el";
-        ".config/emacs/README.org".source = symlink "${dotDir}/README.org";
+        ".config/emacs/init.el".text = ''
+(require 'org)
+(require 'ob-tangle)
+(mapc #'org-babel-load-file (directory-files "~/dotfiles/dots/emacs/" t "\\.org$"))
+'';
+        ".config/emacs/early-init.el".text = "";
+        ".config/emacs/config.org".source = symlink "${dotDir}/config.org";
 
         ".config/emacs/snippets".source = symlink "${dotDir}/snippets";
         ".config/emacs/snippets".recursive = true;

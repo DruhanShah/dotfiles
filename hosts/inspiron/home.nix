@@ -3,8 +3,10 @@
   imports = [
     ../../modules/home
     inputs.nixcord.homeModules.nixcord
+    inputs.zen-browser.homeModules.beta
   ];
 
+  modules.theme = "nord";
   modules.fish.enable = true;
   modules.kitty.enable = true;
   modules.emacs.enable = true;
@@ -18,6 +20,8 @@
   modules.syncthing.enable = true;
   modules.social.enable = true;
   modules.stylix.enable = true;
+  modules.zen.enable = false;
+  modules.zen.addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
 
   home.username = "druhan";
   home.homeDirectory = "/home/druhan";
