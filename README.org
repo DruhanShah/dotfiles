@@ -1,7 +1,7 @@
 #+title: My dotfiles
 #+author: Druhan Shah
 
- This is my currently WIP repository consisting of my NixOS configuration. This used to contain my Arch Linux configuration, but I've since moved OSes. +Till I move completely, there will be a separate branch that will contain the older configs+ I've completely moved and have only retained the main branch.
+ This is my currently WIP repository consisting of my NixOS configuration. This used to contain my Arch Linux configuration, but I've since moved OSes. +Until I move completely, there will be a separate branch that will contain the older configs.+ I've completely moved and have only retained the main branch.
 
  
 * Directory structure

@@ -62,14 +62,11 @@
 
         auctex
 	      cdlatex
-        xenops
 
-        org-auto-tangle
 	      org-autolist
 	      mixed-pitch
 	      org-modern
 	      markdown-mode
-	      org-contrib
 
         tree-sitter
         tree-sitter-langs

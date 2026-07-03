@@ -30,6 +30,11 @@
 	        home-manager.backupFileExtension = "back";
 	        home-manager.extraSpecialArgs = { inherit inputs; };
 	        home-manager.users.druhan = import ./hosts/inspiron/home.nix;
+          home-manager.sharedModules = [
+            inputs.nixcord.homeModules.nixcord
+            inputs.zen-browser.homeModules.beta
+            ./modules/home
+          ];
         }
       ];
     };

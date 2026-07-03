@@ -22,7 +22,6 @@ output "eDP-1" {
 
 overview {
     zoom 0.5
-    backdrop-color "b7b5ac"
     workspace-shadow {
         off
     }
@@ -30,7 +29,10 @@ overview {
 
 layout {
     gaps 48
-    background-color "b7b5ac"
+    struts {
+        top -24
+    }
+    background-color "#a7c08000"
     center-focused-column "never"
     preset-column-widths {
 	proportion 0.5 
@@ -44,7 +46,11 @@ layout {
         off
     }
     border {
-        off
+        on
+        width 1
+        active-gradient to="#9da9a0" from="#7a8478" angle=-45
+        inactive-gradient to="#9da9a0" from="#7a8478" angle=-45
+	urgent-color "#bf616a"
     }
     shadow {
         on
@@ -64,9 +70,9 @@ layout {
 	position "left"
 	gaps-between-tabs 8
         corner-radius 4
-        active-color "#66800b"
-        inactive-color "#878580"
-        urgent-color "#af3029"
+        active-color "#a7c080"
+        inactive-color "#859289"
+        urgent-color "#e67e80"
     }
 }
 
@@ -78,19 +84,19 @@ blur {
 }
 
 cursor {
-    xcursor-theme "Bibata-Modern-Classic"
+    xcursor-theme "Bibata-Modern-Ice"
     xcursor-size 24
 }
 
 window-rule {
-    geometry-corner-radius 12
+    geometry-corner-radius 16
     clip-to-geometry true
 }
 
 window-rule {
     match is-active=false
     match is-focused=false
-    opacity 0.8
+    opacity 0.85
     background-effect {
         blur true
     }
@@ -101,6 +107,11 @@ window-rule {
     default-column-width { proportion 1.0; }
 }
 
+layer-rule {
+    match namespace="^wallpaper$"
+    place-within-backdrop true
+}
+
 hotkey-overlay {
     skip-at-startup
     hide-not-bound
@@ -109,6 +120,7 @@ hotkey-overlay {
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "syncthing"
 spawn-sh-at-startup "quickshell"
+spawn-sh-at-startup "swaybg -i ~/dotfiles/dots/wallpapers/ghibli-field.png"
 spawn-sh-at-startup "wl-paste --watch cliphist store"
 
 

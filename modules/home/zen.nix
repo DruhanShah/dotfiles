@@ -16,9 +16,11 @@
         default = {
           settings = {
             # Settings in about:config
+            "browser.theme.content-theme" = if config.modules.theme == "everforest" then 2 else 1;
+            "zen.theme.gradient.show-custom-colors" = true;
           };
           sine = {
-            enabled = true;
+            enable = true;
             mods = [
               # Sine Mods
               # Zen Mods
@@ -40,11 +42,11 @@
                 type = "gradient";
                 colors = [
                   {
-                    algorithm = "complementary";
+                    algorithm = "floating";
                     type = "undefined";
-                    red = 255;
-                    green = 252;
-                    blue = 240;
+                    red = if config.modules.theme == "everforest" then 39 else 255;
+                    green = if config.modules.theme == "everforest" then 46 else 255;
+                    blue = if config.modules.theme == "everforest" then 53 else 255;
                   }
                 ];
                 opacity = 1.0;
@@ -55,7 +57,6 @@
             force = true;
             packages = with config.modules.firefox.addons; [
               ublock-origin
-              sidebery
               bitwarden
               refined-github
               sponsorblock

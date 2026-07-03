@@ -39,7 +39,7 @@
     --settingsicons: 0;
 }
 '';
-          "Nord" = ''
+          "Everforest" = ''
 @import url('https://mwittrien.github.io/BetterDiscordAddons/Themes/DiscordRecolor/DiscordRecolor.css');
 
 :root {
@@ -65,7 +65,7 @@
 }
 '';
         };
-        enabledThemes = if config.modules.theme == "nord" then [ "Nord.css" ] else [ "Flexoki-Light.css" ];
+        enabledThemes = if config.modules.theme == "everforest" then [ "Everforest.css" ] else [ "Flexoki-Light.css" ];
       };
     };
 

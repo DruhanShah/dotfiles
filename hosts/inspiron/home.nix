@@ -1,12 +1,18 @@
 { config, pkgs, inputs, ... }:
 {
-  imports = [
-    ../../modules/home
-    inputs.nixcord.homeModules.nixcord
-    inputs.zen-browser.homeModules.beta
-  ];
+  home.username = "druhan";
+  home.homeDirectory = "/home/druhan";
+  home.stateVersion = "26.05";
 
-  modules.theme = "nord";
+  xdg.userDirs = {
+    enable = true;
+    desktop = "$HOME";
+    download = "$HOME/downloads";
+    documents = "$HOME/documents";
+    projects = "$HOME/stuff";
+  };
+
+  modules.theme = "flexoki";
   modules.fish.enable = true;
   modules.kitty.enable = true;
   modules.emacs.enable = true;
@@ -22,16 +28,4 @@
   modules.stylix.enable = true;
   modules.zen.enable = false;
   modules.zen.addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
-
-  home.username = "druhan";
-  home.homeDirectory = "/home/druhan";
-  home.stateVersion = "26.05";
-
-  xdg.userDirs = {
-    enable = true;
-    desktop = "$HOME";
-    download = "$HOME/downloads";
-    documents = "$HOME/documents";
-    projects = "$HOME/stuff";
-  };
 }

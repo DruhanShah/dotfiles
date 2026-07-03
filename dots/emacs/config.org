@@ -148,8 +148,9 @@ While I do greatly enjoy Rougier's ~nano-theme~ and Prot's ~modus-~ and ~ef-them
     :custom
     (doom-themes-enable-bold t)
     (doom-themes-enable-italic t)
+    (doom-everforest-background "hard")
     :config
-    (load-theme 'doom-nord-dark t))
+    (load-theme 'doom-flexoki-light t))
 #+end_src
 
 ** UI niceties
@@ -551,20 +552,6 @@ All hail the OrgMode system! Lots of very helpful modules have been used here, a
     (evil-define-key 'normal org-mode-map
       "gk" 'evil-previous-visual-line
       "gj" 'evil-next-visual-line))
-#+end_src
-
-** Babel shenanigans
-
-Babel is a module of Org mode that deals with other programming languages and how they integrate with Org. These integrations include "tangling" (bundling all codeblocks in an org file into an actual code file), and running in the file itself.
-
-This section used to include stuff about exporting and editing Jupyter notebooks, but I've abandoned that now. I'll likely be switching to marimo whenever interactivity is a requirement.
-
-For now, I'm just using a function to auto-tangle. I'm considering changing it to simply ~org-babel-tangle~ an org file from the init.el
-
-#+begin_src emacs-lisp
-  (use-package org-auto-tangle
-    :after org
-    :hook (org-mode . org-auto-tangle-mode))
 #+end_src
 
 ** UI Stuff

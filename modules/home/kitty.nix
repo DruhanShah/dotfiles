@@ -38,7 +38,7 @@ symbol_map U+f0001-U+f1af0 Symbols Nerd Font
 symbol_map U+2630,U+2665,U+26a1,U+2b58,U+e0a3,U+e0ca Symbols Nerd Font
       '';
       shellIntegration.enableFishIntegration = true;
-      themeFile = if config.modules.theme == "nord" then "Nord" else "Flexoki";
+      themeFile = if config.modules.theme == "everforest" then "everforest_dark_hard" else "flexoki_light";
     };
   };
 }

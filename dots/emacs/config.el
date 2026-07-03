@@ -95,8 +95,9 @@
   :custom
   (doom-themes-enable-bold t)
   (doom-themes-enable-italic t)
+  (doom-everforest-background "hard")
   :config
-  (load-theme 'doom-nord-dark t))
+  (load-theme 'doom-flexoki-light t))
 
 (use-package spacious-padding
   :config
@@ -362,10 +363,6 @@
   (evil-define-key 'normal org-mode-map
     "gk" 'evil-previous-visual-line
     "gj" 'evil-next-visual-line))
-
-(use-package org-auto-tangle
-  :after org
-  :hook (org-mode . org-auto-tangle-mode))
 
 (use-package org-autolist
   :after org
