@@ -12,7 +12,6 @@
     projects = "$HOME/stuff";
   };
 
-  modules.theme = "flexoki";
   modules.fish.enable = true;
   modules.kitty.enable = true;
   modules.emacs.enable = true;
@@ -26,6 +25,4 @@
   modules.syncthing.enable = true;
   modules.social.enable = true;
   modules.stylix.enable = true;
-  modules.zen.enable = false;
-  modules.zen.addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
 }

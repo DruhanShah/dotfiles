@@ -15,9 +15,9 @@
         dotDir = "${config.home.homeDirectory}/dotfiles/dots";
         symlink = config.lib.file.mkOutOfStoreSymlink;
       in {
-        ".config/niri/config.kdl".source = symlink "${dotDir}/niri/${config.modules.theme}.kdl";
+        ".config/niri/config.kdl".source = symlink "${dotDir}/niri/config.kdl";
 
-        ".config/quickshell".source = symlink "${dotDir}/quickshell/${config.modules.theme}";
+        ".config/quickshell".source = symlink "${dotDir}/quickshell";
         ".config/quickshell".recursive = true;
       };
   };

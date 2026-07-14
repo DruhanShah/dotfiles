@@ -18,6 +18,7 @@
 	      evil-numbers
 	      evil-god-state
 	      evil-tex
+        evil-textobj-tree-sitter
 
         doom-themes
 	      spacious-padding
@@ -32,8 +33,6 @@
 	      nerd-icons-completion
         rainbow-mode
 	      
-        transient
-	      magit
 	      copilot
 
         vertico
@@ -66,7 +65,6 @@
 	      org-autolist
 	      mixed-pitch
 	      org-modern
-	      markdown-mode
 
         tree-sitter
         tree-sitter-langs

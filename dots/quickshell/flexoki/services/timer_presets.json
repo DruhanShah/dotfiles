@@ -1,6 +1,0 @@
-[
-  { "label": "Pomo Work", "seconds": 1500 },
-  { "label": "Pomo Short Break", "seconds": 300 },
-  { "label": "Pomo Long Break", "seconds": 900 },
-  { "label": "Typical Eval", "seconds": 1200 }
-]

@@ -8,7 +8,7 @@
     home.packages = with pkgs; [
       gimp
       kicad
-      freecad
+      # freecad
     ];
   };
 }

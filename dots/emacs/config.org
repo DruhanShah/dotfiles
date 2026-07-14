@@ -59,11 +59,6 @@ This section deals with simple default values that I would like to have set by d
 
   (setq make-backup-files nil)
 
-  (set-display-table-slot standard-display-table 'truncation
-  			(make-glyph-code ?… 'font-lock-comment-face))
-  (set-display-table-slot standard-display-table 'wrap
-  			(make-glyph-code ?- 'font-lock-comment-face))
-
   (setq custom-safe-themes t)
   (setq use-short-answers t)
   (setq read-answer-short t)
@@ -71,7 +66,9 @@ This section deals with simple default values that I would like to have set by d
   (global-auto-revert-mode)
 #+end_src
 
-There's also some keybinds that I don't think make sense but I use very regularly.
+** Help keybinds
+
+There's also some keybinds that I think work better with my current keybind system, but that I also use frequently enough to justify the rebinding.
 
 #+begin_src emacs-lisp
   (define-key global-map (kbd "C-h C-f") 'describe-function)
@@ -272,14 +269,7 @@ Bonus points for hex-code colourization. I don't want to use ~colorful-mode~ sin
 
 * GitHub, Copilot and other AI stuff
 
-This sets up three major plugins: Magit (all hail), Copilot, and GPTel.
-
-#+begin_src emacs-lisp
-  (use-package transient)
-  (use-package magit)
-#+end_src
-
-Here, I set up the AI-based stuff like copilot (for completions) and GPTel (for other LLM and agent capabilities). Similar issues to transient ensure if I remove the ~track-changes~ installation.
+Here, I set up the AI-based stuff like copilot (for completions) and GPTel (for other LLM and agent capabilities).
 
 #+begin_src emacs-lisp
   (use-package copilot
@@ -515,7 +505,7 @@ More things will likely show up here as time goes on :)
 
 All hail the OrgMode system! Lots of very helpful modules have been used here, and this is by far the largest section in my config.
 
-** Baseline stuff
+** Baseline org
 
 #+begin_src emacs-lisp
   (use-package org
@@ -636,19 +626,6 @@ The next bit is all about the =org-modern= package by minad (Daniel Mendler). I 
     (global-org-modern-mode))
 #+end_src
 
-*** Markdown
-
-Markdown is surprisingly similar to Org notation, but the rendering isn't nearly as good. I'll be fixing that here (as much as I can). Some changes are in the [[Face Overrides]] subsection of the themes section.
-
-There was a neat little toggle for the plaintext vs rendered text mode, but I use it infrequently enough that a simple =M-x= should suffice.
-
-#+begin_src emacs-lisp
-  (use-package markdown-mode)
-
-  (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
-  (add-hook 'markdown-view-mode-hook #'mixed-pitch-mode)
-#+end_src
-
 
 * Development tools
 
@@ -674,6 +651,19 @@ Using treesitter and LSPs on emacs feels more comfortable and simultaneously not
     (kbd "g Q") 'eglot-format-buffer
     (kbd "g R") 'eglot-rename
     (kbd "g C") 'eglot-code-actions)
+#+end_src
+
+Even more vim emulation!
+
+#+begin_src emacs-lisp
+  (use-package evil-textobj-tree-sitter
+    :after evil
+    :config
+    (define-key evil-outer-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "function.outer"))
+    (define-key evil-inner-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "function.inner"))
+
+    (define-key evil-outer-text-objects-map "c" (evil-textobj-tree-sitter-get-textobj "class.outer"))
+    (define-key evil-inner-text-objects-map "c" (evil-textobj-tree-sitter-get-textobj "class.inner")))
 #+end_src
 
 ** direnv
@@ -761,11 +751,10 @@ I'm really picking from all the greats here; Xenodium (Álvaro) has a fantastic-
     (info-title-1 ((t (:inherit 'variable-pitch :weight bold :height 1.25))))
     (info-title-2 ((t (:inherit 'variable-pitch :weight bold :height 1.4))))
     :config
-    (setq ready-player-my-media-collection-location "~/Music")
+    (setq ready-player-my-media-collection-location "~/music")
     (setq ready-player-open-externally-icon (propertize
   					   (nerd-icons-octicon "nf-oct-link_external")
-  					   'face '( :box t
-  						    :family "Symbols Nerd Font"))
+  					   'face '(:box t :family "Symbols Nerd Font"))
   	ready-player-open-my-media-collection-icon (nerd-icons-mdicon "nf-md-home")
   	ready-player-shuffle-icon (nerd-icons-mdicon "nf-md-shuffle")
   	ready-player-repeat-icon (nerd-icons-mdicon "nf-md-repeat")
@@ -774,12 +763,10 @@ I'm really picking from all the greats here; Xenodium (Álvaro) has a fantastic-
   	ready-player-help-icon (nerd-icons-mdicon "nf-md-help")
   	ready-player-previous-icon (propertize
   				    (nerd-icons-mdicon "nf-md-skip_previous")
-  				    'face '( :box t
-  					     :family "Symbols Nerd Font"))
+  				    'face '(:box t :family "Symbols Nerd Font"))
   	ready-player-next-icon (propertize
   				(nerd-icons-mdicon "nf-md-skip_next")
-  				'face ' ( :box t
-  					  :family "Symbols Nerd Font")))
+  				'face ' (:box t :family "Symbols Nerd Font")))
 
     ;; Redefining a function cos the message exceeds the echo area
     (defun ready-player--make-time-progress-bar (progress total)

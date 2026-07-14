@@ -34,11 +34,6 @@
 
 (setq make-backup-files nil)
 
-(set-display-table-slot standard-display-table 'truncation
-			(make-glyph-code ?… 'font-lock-comment-face))
-(set-display-table-slot standard-display-table 'wrap
-			(make-glyph-code ?- 'font-lock-comment-face))
-
 (setq custom-safe-themes t)
 (setq use-short-answers t)
 (setq read-answer-short t)
@@ -177,9 +172,6 @@
   (nerd-icons-completion-mode))
 
 (use-package rainbow-mode)
-
-(use-package transient)
-(use-package magit)
 
 (use-package copilot
   :vc (:url "https://github.com/copilot-emacs/copilot.el"
@@ -436,11 +428,6 @@
   :config
   (global-org-modern-mode))
 
-(use-package markdown-mode)
-
-(add-hook 'markdown-mode-hook #'mixed-pitch-mode)
-(add-hook 'markdown-view-mode-hook #'mixed-pitch-mode)
-
 (use-package treesit-auto
   :custom
   (treesit-auto-install 'prompt)
@@ -458,6 +445,15 @@
   (kbd "g Q") 'eglot-format-buffer
   (kbd "g R") 'eglot-rename
   (kbd "g C") 'eglot-code-actions)
+
+(use-package evil-textobj-tree-sitter
+  :after evil
+  :config
+  (define-key evil-outer-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "function.outer"))
+  (define-key evil-inner-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "function.inner"))
+
+  (define-key evil-outer-text-objects-map "c" (evil-textobj-tree-sitter-get-textobj "class.outer"))
+  (define-key evil-inner-text-objects-map "c" (evil-textobj-tree-sitter-get-textobj "class.inner")))
 
 (use-package direnv :config (direnv-mode))
 
@@ -495,11 +491,10 @@
   (info-title-1 ((t (:inherit 'variable-pitch :weight bold :height 1.25))))
   (info-title-2 ((t (:inherit 'variable-pitch :weight bold :height 1.4))))
   :config
-  (setq ready-player-my-media-collection-location "~/Music")
+  (setq ready-player-my-media-collection-location "~/music")
   (setq ready-player-open-externally-icon (propertize
 					   (nerd-icons-octicon "nf-oct-link_external")
-					   'face '( :box t
-						    :family "Symbols Nerd Font"))
+					   'face '(:box t :family "Symbols Nerd Font"))
 	ready-player-open-my-media-collection-icon (nerd-icons-mdicon "nf-md-home")
 	ready-player-shuffle-icon (nerd-icons-mdicon "nf-md-shuffle")
 	ready-player-repeat-icon (nerd-icons-mdicon "nf-md-repeat")
@@ -508,12 +503,10 @@
 	ready-player-help-icon (nerd-icons-mdicon "nf-md-help")
 	ready-player-previous-icon (propertize
 				    (nerd-icons-mdicon "nf-md-skip_previous")
-				    'face '( :box t
-					     :family "Symbols Nerd Font"))
+				    'face '(:box t :family "Symbols Nerd Font"))
 	ready-player-next-icon (propertize
 				(nerd-icons-mdicon "nf-md-skip_next")
-				'face ' ( :box t
-					  :family "Symbols Nerd Font")))
+				'face ' (:box t :family "Symbols Nerd Font")))
 
   ;; Redefining a function cos the message exceeds the echo area
   (defun ready-player--make-time-progress-bar (progress total)

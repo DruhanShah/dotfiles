@@ -18,8 +18,8 @@ set fish_greeting
       functions = {
         fish_prompt =
           let
-            blue = if (config.modules.theme == "everforest") then "(set_color 7FBBB3)" else "(set_color 81A1C1)";
-            green = if (config.modules.theme == "everforest") then "(set_color A7C080)" else "(set_color A3BE8C)";
+            blue = "(set_color 81A1C1)";
+            green = "(set_color A3BE8C)";
           in ''
 if test -n "$IN_NIX_SHELL"
     set nix " 󱄅 "
@@ -42,7 +42,7 @@ echo -s (set_color -o) (prompt_pwd --full-length-dirs 2) ${blue} $nix ${green}" 
       enable = true;
       settings = {
         vim_keys = true;
-        color_theme = if config.modules.theme == "everforest" then "everforest_dark_hard" else "flexoki_light";
+        color_theme = "flexoki_light";
       };
       themes.flexoki_light = ../../dots/flexoki-btop.theme;
     };

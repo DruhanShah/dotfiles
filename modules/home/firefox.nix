@@ -18,11 +18,12 @@
           isDefault = true;
           settings = {
             "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-            "browser.theme.content-theme" = if config.modules.theme == "everforest" then 2 else 1;
+            "browser.theme.content-theme" = 1;
           };
           extensions = {
             force = true;
             packages = with config.modules.firefox.addons; [
+              vimium
               firefox-color
               ublock-origin
               sidebery
@@ -32,7 +33,7 @@
               zotero-connector
             ];
             settings = {
-              firefox-color.settings = lib.importJSON ../../dots/firefox/${config.modules.theme}.json;
+              firefox-color.settings = lib.importJSON ../../dots/firefox/flexoki.json;
             };
           };
         };
