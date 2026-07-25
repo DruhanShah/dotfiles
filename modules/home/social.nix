@@ -7,9 +7,7 @@
   config = lib.mkIf config.modules.social.enable {
     programs.nixcord = {
       enable = true;
-      discord.vencord.enable = false;
-      discord.equicord.enable = true;
-      equibop.enable = true;
+      discord.vencord.enable = true;
       config = {
         frameless = true;
         useQuickCss = true;
@@ -46,6 +44,7 @@
 
     home.packages = with pkgs; [
       signal-desktop
+      element-desktop
     ];
   };
 }

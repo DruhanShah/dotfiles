@@ -42,6 +42,7 @@ Rectangle {
 	contentWidth: 300
 	contentHeight: content.implicitHeight
 	anchorItem: root
+	last: true
 
 	readonly property date _today: clock.date
 

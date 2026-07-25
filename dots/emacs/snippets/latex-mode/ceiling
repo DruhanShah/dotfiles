@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: ceiling
+# key: ceil
+# group: math
+# --
+\\left\\lceil $1 \\right\\rceil $0

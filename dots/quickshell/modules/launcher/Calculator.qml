@@ -36,17 +36,6 @@ Item {
             border.color: Theme.base600
             border.width: 1
 
-	    RectangularShadow {
-		anchors.fill: inputBlock
-		radius: 12
-		color: Theme.base900
-		spread: 4
-		blur: 50
-		offset.x: 0
-		offset.y: 0
-		opacity: 0.5
-	    }
-
             Text {
                 anchors.fill: parent
                 anchors.margins: 24
@@ -98,25 +87,7 @@ Item {
             border.color: Theme.base500
             border.width: 1
             
-            transform: Scale {
-                origin.x: resultBlock.width / 2
-                origin.y: resultBlock.height / 2
-                xScale: 1.05
-                yScale: 1.05
-            }
-
             Behavior on border.color { ColorAnimation { duration: 150 } }
-
-	    RectangularShadow {
-		anchors.fill: parent
-		radius: 12
-		color: Theme.base900
-		spread: 4
-		blur: 50
-		offset.x: 0
-		offset.y: 0
-		opacity: 0.5
-	    }
 
             Text {
                 anchors.fill: parent
@@ -136,14 +107,7 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    Qalculate.copyResult();
-                    
-                    resultBlock.border.color = Theme.paper;
-                    Qt.callLater(() => {
-                        resultBlock.border.color = Theme.base500;
-                    });
-                }
+                onClicked: Qalculate.copyResult()
             }
         }
     }

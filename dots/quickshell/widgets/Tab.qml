@@ -20,7 +20,7 @@ Item {
     Text {
         id: textItem
         text: root.title
-        color: root.isActive ? Theme.black : Theme.base200
+        color: root.isActive ? Theme.black : Theme.base100
         font.family: Theme.fontSans
         font.pixelSize: Theme.fontSize - 2
         anchors.centerIn: parent

@@ -38,7 +38,10 @@
   services.printing.enable = true;
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
-  security.polkit.enable = true;
+  security.polkit = {
+    enable = true;
+    enablePkexecWrapper = true;
+  };
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -88,6 +91,6 @@
     openFirewall = true;
   };
 
-  system.stateVersion = "26.05";
+  system.stateVersion = "26.11";
 
 }

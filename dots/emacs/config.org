@@ -136,18 +136,26 @@ Finally, there is a plugin that makes native emacs keybindings a lot nicer to de
 
 ** Colour Theme
 
-While I do greatly enjoy Rougier's ~nano-theme~ and Prot's ~modus-~ and ~ef-themes~, I would like something more tailored to my taste while still attempting to retain ideas from their themes. I tried building on top of Prot's ~modus-operandi~ but it ended being a lot messier than I'd have liked (definitely a skill issue). I do love Prot's ef-themes, but I'd still prefer some more customizability and comprehensive support like ~doom-themes~ provides. I understand that I can create custom themes with ~modus-themes~ with the new version, but I felt that required way too much work because of the variety of colours that are mandated.
+While I do greatly enjoy Rougier's ~nano-theme~ and Prot's ~modus-~ and ~ef-themes~, I would like something more tailored to my taste while still attempting to retain ideas from their themes. I'm going to be using Prot's ~modus-themes~ package to create a custom theme using the Flexoki palette. I used to use the ~doom-themes~ package for this, but since I made the decision to nuke dark themes from my system, Modus themes are back on the menu.
 
 #+begin_src emacs-lisp
   (add-to-list 'custom-theme-load-path (locate-user-emacs-file "themes/"))
 
-  (use-package doom-themes
+  (use-package modus-themes
     :custom
-    (doom-themes-enable-bold t)
-    (doom-themes-enable-italic t)
-    (doom-everforest-background "hard")
+    (modus-themes-italic-constructs t)
+    (modus-themes-bold-constructs t)
+    (modus-themes-mixed-fonts t)
+    (modus-themes-variable-pitch-ui t)
+    (modus-themes-disable-other-themes t)
+    (modus-themes-headings '( (0 . (bold 1.6))
+  			    (1 . (bold 1.25))
+  			    (2 . (bold 1.1))
+  			    (3 . (bold 1.0))
+  			    (t . (variable-pitch))))
     :config
-    (load-theme 'doom-flexoki-light t))
+    (modus-themes-include-derivatives-mode 1)
+    (modus-themes-load-theme 'modus-flexoki-light))
 #+end_src
 
 ** UI niceties
@@ -158,14 +166,17 @@ Rougier's designs were instrumental in showing how important good spacing is. Ho
   (use-package spacious-padding
     :config
     (setq spacious-padding-widths
-  	'( :internal-border-width 20
-  	   :header-line-width 6
+  	'( :internal-border-width 0
+  	   :header-line-width 15
   	   :mode-line-width 0
   	   :custom-button-width 3
-  	   :right-divider-width 20
+  	   :right-divider-width 2
   	   :scroll-bar-width 0
   	   :fringe-width 0))
     (spacious-padding-mode 1))
+
+  (setq-default left-margin-width 4
+  	      right-margin-width 4)
 #+end_src
 
 There's also pixel-perfect scrolling which really makes the emacs experience feel more modern.
@@ -405,30 +416,10 @@ This customizes the way the Minibuffer works in Emacs.
 #+end_src
 
 
-* Eshell and Eat
+* Terminal Emulation
 
-I'm pretty much set on using =emacs-eat= as a terminal with Eshell. I just need to figure out how to make it look nice, and how to personalize it to my usage. One superpower I read about on Reddit was the usage of snippets in the terminal with YASnippet.
-
-#+begin_src emacs-lisp
-  (use-package eat)
-#+end_src
-
-Some eshell niceties are to be expected :P
-
-#+begin_src emacs-lisp
-  (setq eshell-prompt-function
-  	  (lambda ()
-  	    (concat
-  	     (propertize "\n" 'face `(:foreground ,(face-background 'default)
-  				      :extend t
-  				      :underline ,(face-foreground 'default)))
-  	     (propertize " " 'face `(:height 1.6
-  				     :weight 'bold))
-  	     (propertize " " 'face `(:foreground ,(face-foreground 'default)
-  				     :extend t)))))
-
-  (define-key global-map (kbd "C-x C-s") 'eshell)
-#+end_src
+I used to be a big fan of Eshell and Eat because of the ability to use snippets there, but emulation proved to be a PITA.
+I tried using a package that used the ~libghostty~ to emulate a terminal, and it was much nicer, but the problem of having multiple open terminal buffers was more of a pain than I thought. Also there were some emulation issues too. I suppose I'll stick to Ghostty for now until I find something more my style, or learn to using something optimally.
 
 
 * PDF Tools and ePub reading
@@ -462,7 +453,8 @@ Along with AucTeX is this gem of a program called CDLaTeX which makes math input
   	preview-default-option-list '("displaymath" "floats" "textmath" "graphics")
   	TeX-parse-self t
   	TeX-auto-save t)
-    (setq-default TeX-master nil))
+    (setq-default TeX-master t
+  		TeX-engine 'luatex))
 
   (add-hook 'LaTeX-mode-hook
             (defun preview-larger-previews ()
@@ -505,46 +497,83 @@ More things will likely show up here as time goes on :)
 
 All hail the OrgMode system! Lots of very helpful modules have been used here, and this is by far the largest section in my config.
 
-** Baseline org
+** The usual + UI
 
 #+begin_src emacs-lisp
-  (use-package org
-    :ensure nil
-    :hook (org-mode . visual-line-mode)
-    :hook (org-mode . org-display-inline-images)
-    :hook (org-mode . org-cdlatex-mode)
-    :hook (org-mode . org-indent-mode)
-    :config
-    (setq org-ellipsis " "
-  	org-fontify-quote-and-verse-blocks t
-          org-hide-emphasis-markers t
-          org-hide-leading-stars nil
-  	org-cycle-separator-lines 2
-  	org-tags-column 0
-          org-pretty-entities t
-          org-pretty-entities-include-sub-superscripts nil
-          org-use-sub-superscripts t
-  	org-todo-keywords '((sequence "TODO" "HOLD" "DOING" "|" "NOPE" "DONE"))
-  	org-priority-highest 0
-          org-priority-lowest 9
-  	org-priority-default 5
-  	org-agenda-files '("~/notes/agenda/habits.org"
-  			   "~/notes/agenda/leisure.org"
-  			   "~/notes/agenda/refile.org"
-  			   "~/notes/agenda/work.org")
-  	org-hidden-keywords '(title subtitle author date)
-  	org-src-window-setup 'current-window)
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((emacs-lisp . t)
-       (python . t)))
-    (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
-    (evil-define-key 'normal org-mode-map
+  (use-package org)
+
+  (add-hook 'org-mode-hook #'visual-line-mode)
+  (add-hook 'org-mode-hook #'org-display-inline-images)
+  (add-hook 'org-mode-hook #'org-cdlatex-mode)
+  (add-hook 'org-mode-hook #'org-indent-mode)
+
+  ;; Pretty typography
+  (setq org-ellipsis " "
+        org-fontify-quote-and-verse-blocks t
+        org-hide-emphasis-markers t
+        org-hide-leading-stars nil
+        org-cycle-separator-lines 2
+        org-tags-column 0
+        org-pretty-entities t
+        org-pretty-entities-include-sub-superscripts nil
+        org-use-sub-superscripts t)
+  ;; Et cetera
+  (setq org-hidden-keywords '(title subtitle author date)
+        org-src-window-setup 'current-window)
+
+  (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
+  (evil-define-key 'normal org-mode-map
       "gk" 'evil-previous-visual-line
-      "gj" 'evil-next-visual-line))
+      "gj" 'evil-next-visual-line)
 #+end_src
 
-** UI Stuff
+The agenda-specific stuff I'll write in another block since they're so significant in my mind. This basically replaces the fancy TODO keywords from ~org-modern~. I can make them a little nicer, but I'm lazy rn.
+
+#+begin_src emacs-lisp
+  (setq org-todo-keywords '((sequence "TODO" "HOLD" "DOING" "|" "NOPE" "DONE"))
+        org-todo-keyword-faces (modus-themes-with-colors
+  			       `(("TODO" . ( :foreground ,red
+  					     :background ,bg-red-subtle
+  					     :box (:line-width (3 . 2) :color ,bg-red-subtle)
+  					     :height 0.9
+  					     :weight bold))
+  				 ("HOLD" . ( :foreground ,blue
+  					     :background ,bg-blue-subtle
+  					     :box (:line-width (3 . 2) :color ,bg-blue-subtle)
+  					     :height 0.9
+  					     :weight bold))
+  				 ("DOING" . ( :foreground ,yellow
+  					      :background ,bg-yellow-subtle
+  					      :box (:line-width (3 . 2) :color ,bg-yellow-subtle)
+  					      :height 0.9
+  					      :weight bold))
+  				 ("NOPE" . ( :foreground ,fg-dim
+  					     :background ,bg-dim
+  					     :box (:line-width (3 . 2) :color ,bg-dim)
+  					     :height 0.9
+  					     :weight bold))
+  				 ("DONE" . ( :foreground ,green
+  					     :background ,bg-green-subtle
+  					     :box (:line-width (3 . 2) :color ,bg-green-subtle)
+  					     :height 0.9
+  					     :weight bold))))
+        org-priority-highest 0
+        org-priority-lowest 9
+        org-priority-default 5
+        org-agenda-files '("~/notes/agenda/habits.org"
+  			 "~/notes/agenda/leisure.org"
+  			 "~/notes/agenda/refile.org"
+  			 "~/notes/agenda/work.org"))
+#+end_src
+
+The concept of Org timestamp overlays blew my mind. Apparently the ~org-timestamp-custom-formats~ variable can just do the thing that I needed ~org-modern~ for! Now I can just set this and then set some funky faces to make it look pretty and I'm done!
+
+#+begin_src emacs-lisp
+  (setq org-timestamp-custom-formats '("%a, %b %d" . "%a, %b %d | %R")
+        org-display-custom-times t)
+#+end_src
+
+** Bonus ducks
 
 These are some nice-to-haves that make Org files look good in Emacs.
 
@@ -558,73 +587,8 @@ These are some nice-to-haves that make Org files look good in Emacs.
     :hook (LaTeX-mode . mixed-pitch-mode))
 #+end_src
 
-The next bit is all about the =org-modern= package by minad (Daniel Mendler). I was earlier using the modified source code of the package as =nano-org= thinking I could nano-ify the whole thing, but in hindsight it was far more sensible to just customize some variables.
+The ~org-modern~ package by =minad= (Daniel Mendler) has been removed, since I've found more natural-feeling native ways of doing the things that I used the package for. That's not to say it's a bad package, though! I just use it for some things that I can do without.
 
-#+begin_src emacs-lisp
-  (use-package org-modern
-    :after org doom-themes
-    :custom
-    (org-modern-star 'fold)
-    (org-modern-hide-stars t)
-    (org-modern-timestamp '(" %^b %d " . " %H%M "))
-    (org-modern-todo-faces `(("TODO" . ( :foreground ,(doom-color 'red)
-  				       :height 95
-  				       :box (1 . 2)
-  				       :overline ,(doom-color 'bg)))
-  			   ("DOING" . ( :foreground ,(doom-color 'yellow)
-  				        :height 95
-  				        :box (1 . 2)
-  				        :overline ,(doom-color 'bg)))
-  			   ("DONE" . ( :foreground ,(doom-color 'green)
-  				       :height 95
-  				       :box (1 . 2)
-  				       :overline ,(doom-color 'bg)))
-  			   ("HOLD" . ( :foreground ,(doom-color 'fg)
-  				       :height 95
-  				       :box (1 . 2)
-  				       :overline ,(doom-color 'bg)))
-  			   ("NOPE" . ( :foreground ,(doom-color 'base4)
-  				       :height 95
-  				       :box (1 . 2)
-  				       :overline ,(doom-color 'bg)))))
-    :custom-face
-    (org-modern-label
-     ((t ( :family "Iosevka"
-  	 :height 95
-  	 :foreground ,(doom-color 'bg)
-  	 :box t))))
-    (org-modern-tag
-     ((t ( :foreground ,(doom-color 'bg)
-  	 :inherit (secondary-selection org-modern-label)))))
-    (org-modern-date-active
-     ((t ( :inherit (org-modern-label)
-  	 :foreground ,(doom-color 'bg)
-  	 :background ,(doom-color 'blue)
-  	 :overline ,(doom-color 'bg)
-  	 :box (:color ,(doom-color 'blue)
-  	      :line-width (1 . 2))))))
-    (org-modern-time-active
-     ((t ( :inherit (org-modern-label)
-  	 :foreground ,(doom-color 'blue)
-  	 :background ,(doom-color 'bg)
-  	 :overline ,(doom-color 'bg)
-  	 :box (:line-width (1 . 2))))))
-    (org-modern-date-inactive
-     ((t ( :inherit (org-modern-label)
-  	 :foreground ,(doom-color 'bg)
-  	 :background ,(doom-color 'fg)
-  	 :overline ,(doom-color 'bg)
-  	 :box (:color ,(doom-color 'fg)
-  	      :line-width (1 . 2))))))
-    (org-modern-time-inactive
-     ((t ( :inherit (org-modern-label)
-  	 :foreground ,(doom-color 'fg)
-  	 :background ,(doom-color 'bg)
-  	 :overline ,(doom-color 'bg)
-  	 :box (:line-width (1 . 2))))))
-    :config
-    (global-org-modern-mode))
-#+end_src
 
 
 * Development tools
@@ -778,9 +742,9 @@ I'm really picking from all the greats here; Xenodium (Álvaro) has a fantastic-
       (let* ((start-label "00:00")
              (label (ready-player--format-time progress))
              (total-label (ready-player--format-time total))
-             (reserved-width (+ (length start-label) 1   ; "00:00 " start
-                                1 (length label) 1       ; " 00:30 " current
-                                1 (length total-label) 1)) ; " 01:00" end
+             (reserved-width (+ (length start-label) 1
+                                1 (length label) 1
+                                1 (length total-label) 1))
              (bar-width (- (frame-width) reserved-width))
              (percentage (/ (* progress 1.0) total))
              (left-bars (round (* percentage bar-width)))
@@ -794,7 +758,7 @@ I'm really picking from all the greats here; Xenodium (Álvaro) has a fantastic-
     (ready-player-mode +1))
 #+end_src
 
-Man I Love Emacs! It already recognizes the action of using my headphones' gestures to pause music as the =<AudioPlayPause>= key so I can bind it to the =C-c m SPC= key
+Man I Love Emacs! It already recognizes the action of using my headphones' gestures to pause music as the =<AudioPlayPause>= key so I can bind it to the =C-c m SPC= key.
 
 #+begin_src emacs-lisp
   (define-key global-map (kbd "<AudioPause>") (kbd "C-c m SPC"))
@@ -811,9 +775,8 @@ I'm all for modularizing the components. Since I'm looking for a pretty chill mo
 
 #+begin_src emacs-lisp
   (defun mode-line-padding ()
-    "Return a double-spaced padding."
-    ;; Double-spaced because we're using a proportional font
-    "  ")
+    "Return lots of padding for the edges."
+    "    ")
 
   (defun mode-line-component-title ()
     "Return the title of the buffer."
@@ -851,17 +814,10 @@ I'm all for modularizing the components. Since I'm looking for a pretty chill mo
         (setq path (cdr path)))
       (when path
         (setq output (concat "…/" output)))
-      (propertize (concat (nerd-icons-faicon "nf-fa-terminal")
+      (propertize (concat ;; (nerd-icons-faicon "nf-fa-terminal")
   			"  "
   			output)
   		'face '(:inherit 'bold))))
-
-  (defun mode-line-component-shell ()
-    "Return the shell name if in a shell buffer."
-    (propertize (if eshell-mode "Eshell"
-                  shell-file-name)
-  	      'face `(:foreground ,(face-foreground 'default))))
-
 
   (defun diagnostic-counter (type)
     "Compute number of diagnostics in buffer with TYPE's severity.
@@ -936,8 +892,7 @@ For now I'm just working on the default format that'll apply to all buffers. Eve
     (mode-line-render
   	    (list (mode-line-padding)
   		  (mode-line-component-directory))
-  	    (list (mode-line-component-shell)
-  		  (mode-line-padding))))
+  	    (list (mode-line-padding))))
 
   (defun drs-mode-line-format-nothing ()
     "Modeline format to display nothing (should look like a simple line to separate the echo area)."
@@ -950,8 +905,8 @@ For now I'm just working on the default format that'll apply to all buffers. Eve
   (defun drs-header-line-format ()
     "Determine header line format based on major mode."
     '((:eval (cond
-  	    ((derived-mode-p 'term-mode) (drs-mode-line-format-terminal))
   	    ((derived-mode-p 'eshell-mode) (drs-mode-line-format-terminal))
+  	    ((derived-mode-p 'ghostel-mode) (drs-mode-line-format-terminal))
   	    (t (drs-mode-line-format-default))))))
 
   (defun drs-mode-line-format ()

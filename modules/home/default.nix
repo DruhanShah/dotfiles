@@ -4,7 +4,7 @@
     ./stylix.nix
     ./firefox.nix
     ./niri.nix
-    ./kitty.nix
+    ./ghostty.nix
     ./media.nix
     ./editing.nix
     ./syncthing.nix

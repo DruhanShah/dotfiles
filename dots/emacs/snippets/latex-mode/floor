@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: floor
+# key: floor
+# group: math
+# --
+\\left\\lfloor $1 \\right\\rfloor $0

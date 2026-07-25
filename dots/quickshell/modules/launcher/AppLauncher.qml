@@ -72,7 +72,7 @@ Item {
         anchors.fill: parent
         model: filteredApps
         clip: false
-        spacing: 16
+        spacing: 0
         boundsBehavior: Flickable.StopAtBounds
         currentIndex: appLauncher.selectedIndex
         highlightFollowsCurrentItem: true
@@ -85,91 +85,102 @@ Item {
 
         highlight: Rectangle { color: "transparent" }
 
-        delegate: Rectangle {
-            id: delegateRoot
-            required property var modelData
-            required property int index
-            readonly property bool isCurrent: ListView.isCurrentItem
+	delegate: Rectangle {
+	    id: delegateWrapper
+	    required property var modelData
+	    required property int index
 
-            Accessible.role: Accessible.Button
-            Accessible.name: (modelData.name ?? "Application") +
-                (modelData.genericName ? " – " + modelData.genericName : "")
+	    width: childrenRect.width
+	    height: childrenRect.height
+	    color: "transparent"
 
-            width: 240
-            height: 240
-            radius: 12
-            
-            color: isCurrent ? Theme.base850 : Theme.base700
-            border.color: isCurrent ? Theme.base500 : Theme.base600
-            border.width: 1
-            z: isCurrent ? 1 : 0.5
+	    transform: [
+		Scale {
+		    origin.x: width / 2
+		    origin.y: height / 2
+		    xScale: (1 - Math.abs(resultsList.currentIndex - index) * 0.2)
+		    yScale: (1 - Math.abs(resultsList.currentIndex - index) * 0.2)
+		    Behavior on xScale { NumberAnimation { duration: 250; easing: Easing.InOutQuad } }
+		    Behavior on yScale { NumberAnimation { duration: 250; easing: Easing.InOutQuad } }
+		}
+	    ]
 
 	    RectangularShadow {
-		anchors.fill: parent
-		radius: 12
+		anchors.fill: delegateRoot
 		color: Theme.base900
-		spread: 4
+		opacity: 0.3
 		blur: 50
-		offset.x: 0
-		offset.y: 0
-		opacity: 0.5
+		spread: 4
+		z: 0
 	    }
+	    
+	    Rectangle {
+		id: delegateRoot
+		property var modelData: delegateWrapper.modelData
+		property int index: delegateWrapper.index
+		property bool isCurrent: delegateWrapper.ListView.isCurrentItem
 
-            transform: [
-                Scale {
-                    origin.x: width / 2
-                    origin.y: height / 2
-                    xScale: delegateRoot.isCurrent ? 1.1 : 1
-                    yScale: delegateRoot.isCurrent ? 1.1 : 1
-                    Behavior on xScale { NumberAnimation { duration: 250; easing: Easing.OutQuint } }
-                    Behavior on yScale { NumberAnimation { duration: 250; easing: Easing.OutQuint } }
-                }
-            ]
+		Accessible.role: Accessible.Button
+		Accessible.name: (modelData.name ?? "Application") +
+                    (modelData.genericName ? " – " + modelData.genericName : "")
 
-            Behavior on color { ColorAnimation { duration: 150 } }
-            Behavior on border.color { ColorAnimation { duration: 150 } }
+		width: 250
+		height: 250
+		radius: 12
+		
+		color: Theme.base850
+		border.color: isCurrent ? Theme.base500 : Theme.base600
+		border.width: 1
+		z: isCurrent ? 1 : 0.5
 
-            ColumnLayout {
-                anchors.centerIn: parent
-                spacing: 24
+		opacity: (1 - Math.abs(resultsList.currentIndex - index) * 0.45)
 
-                Item {
-                    width: 64
-                    height: 64
-                    Layout.alignment: Qt.AlignHCenter
+		Behavior on color { ColorAnimation { duration: 250 } }
+		Behavior on border.color { ColorAnimation { duration: 250 } }
+		Behavior on opacity { NumberAnimation { duration: 250 } }
 
-                    IconImage {
-                        anchors.fill: parent
-                        source: Quickshell.iconPath(delegateRoot.modelData.icon ?? "", true)
-                        visible: (delegateRoot.modelData.icon ?? "") !== ""
+		ColumnLayout {
+                    anchors.centerIn: parent
+                    spacing: 24
+
+                    Item {
+			width: 64
+			height: 64
+			Layout.alignment: Qt.AlignHCenter
+
+			IconImage {
+                            anchors.fill: parent
+                            source: Quickshell.iconPath(delegateRoot.modelData.icon ?? "", true)
+                            visible: (delegateRoot.modelData.icon ?? "") !== ""
+			}
                     }
-                }
 
-                Text {
-                    text: delegateRoot.modelData.name ?? ""
-                    color: appLauncher.selectedIndex === delegateRoot.index ? Theme.paper : Theme.base50
-                    font.pixelSize: Theme.fontSize - 1
-                    font.family: Theme.fontSans
-                    font.weight: appLauncher.selectedIndex === delegateRoot.index ? Font.Medium : Font.Normal
-                    elide: Text.ElideRight
-                    Layout.maximumWidth: 200
-                    Layout.alignment: Qt.AlignHCenter
-                }
-            }
-
-            MouseArea {
-                id: hoverArea
-                anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    if (appLauncher.selectedIndex === delegateRoot.index) {
-                        delegateRoot.modelData.execute();
-                        appLauncher.launchRequested();
-                    } else {
-                        appLauncher.selectedIndex = delegateRoot.index;
+                    Text {
+			text: delegateRoot.modelData.name ?? ""
+			color: appLauncher.selectedIndex === delegateRoot.index ? Theme.paper : Theme.base50
+			font.pixelSize: Theme.fontSize - 1
+			font.family: Theme.fontSans
+			font.weight: appLauncher.selectedIndex === delegateRoot.index ? Font.Medium : Font.Normal
+			elide: Text.ElideRight
+			Layout.maximumWidth: 200
+			Layout.alignment: Qt.AlignHCenter
                     }
-                }
-            }
-        }
+		}
+
+		MouseArea {
+                    id: hoverArea
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: {
+			if (appLauncher.selectedIndex === delegateRoot.index) {
+                            delegateRoot.modelData.execute();
+                            appLauncher.launchRequested();
+			} else {
+                            appLauncher.selectedIndex = delegateRoot.index;
+			}
+                    }
+		}
+            }   
+	}
     }
 }

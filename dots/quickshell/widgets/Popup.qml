@@ -14,11 +14,13 @@ PopupWindow {
     property int contentHeight: 0
     readonly property bool isOpen: _open
 
+    property bool first: false
+    property bool last: false
     readonly property int _pad_x: 24
     readonly property int _pad_y: 24
-    readonly property int _r: 8
+    readonly property int _r: 20
 
-    implicitWidth:  contentWidth  + 2*_pad_x
+    implicitWidth: contentWidth + 2*_pad_x
     implicitHeight: contentHeight + 2*_pad_y
 
     color: "transparent"
@@ -38,8 +40,8 @@ PopupWindow {
         BarState.activePopup = root
         _open = true
         visible = true
-        _anim.from  = -implicitHeight
-        _anim.to    = 0
+        _anim.from = -implicitHeight
+        _anim.to = 0
         _anim.start()
     }
 
@@ -47,7 +49,7 @@ PopupWindow {
         _open = false
         BarState.activePopup = null
         _anim.from = 0
-        _anim.to   = -implicitHeight
+        _anim.to = -implicitHeight
         _anim.start()
     }
 
@@ -62,24 +64,24 @@ PopupWindow {
 
         Item {
             id: _wrapper
-            width:  parent.width
+            width: parent.width
             height: parent.height
 
             Rectangle {
-                anchors.fill:        parent
-                color:               Theme.base850
-                topLeftRadius:       0
-                topRightRadius:      0
-                bottomLeftRadius:    _r
-                bottomRightRadius:   _r
+                anchors.fill: parent
+                color: Theme.base850
+                topLeftRadius: 0
+                topRightRadius: 0
+                bottomLeftRadius: root.first ? 0 : _r
+                bottomRightRadius: root.last ? 0 : _r
             }
 
             Item {
                 id: _contentArea
                 anchors {
 		    fill: parent
-                    topMargin:   _pad_y - 8
-                    leftMargin:  _pad_x
+                    topMargin: _pad_y - 8
+                    leftMargin: _pad_x
                     rightMargin: _pad_x
                     bottomMargin: _pad_y
                 }

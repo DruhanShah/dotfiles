@@ -2,4 +2,4 @@
 # name: usepackage
 # key: pkg
 # --
-\usepackage{$0}
+\\usepackage{$0}

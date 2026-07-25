@@ -10,6 +10,7 @@
       gcc
       gnumake
       zlib
+      jdk
 
       copilot-language-server
       python314Packages.jedi-language-server
@@ -30,6 +31,7 @@
         stdenv.cc.cc.lib
         zlib
         imagemagick
+        jdk
       ];
     };
   };

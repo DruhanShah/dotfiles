@@ -7,10 +7,9 @@ Rectangle {
     id: root
     height: 42
     Layout.fillWidth: true
-    color: Theme.base900
+    color: Theme.base950
     radius: 21
 
-    // Expose model and currentIndex so parent can control/read them
     property alias model: listView.model
     property alias currentIndex: listView.currentIndex
 

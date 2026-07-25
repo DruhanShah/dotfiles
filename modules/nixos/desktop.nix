@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }:
 {
   options = {
-    modules.desktop.enable = lib.mkEnableOption "Enable barebones desktop with Niri, Firefox, Kitty and utilities";
+    modules.desktop.enable = lib.mkEnableOption "Enable barebones desktop with Niri, Firefox, Ghostty and other necessities.";
   };
 
   config = lib.mkIf config.modules.desktop.enable {
@@ -19,7 +19,7 @@
     
     environment.systemPackages = with pkgs; [
       xwayland-satellite
-      kitty
+      ghostty
       brightnessctl
       grim
       slurp

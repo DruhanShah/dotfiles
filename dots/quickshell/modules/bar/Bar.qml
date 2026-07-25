@@ -34,7 +34,7 @@ LazyLoader {
 
 		PowerWidget {}
 		Rectangle { implicitWidth: 0 }
-		WorkspaceWidget {}
+		WorkspaceWidget { outputName: modelData.name }
             }
 
             RowLayout {

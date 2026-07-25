@@ -30,7 +30,7 @@ Rectangle {
 
     width: 360
     color: Theme.base850
-    radius: 8
+    radius: 20
     border.color: {
         switch (modelData.urgency || NotificationUrgency.Low) {
         case NotificationUrgency.Critical:

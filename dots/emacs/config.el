@@ -86,25 +86,36 @@
 
 (add-to-list 'custom-theme-load-path (locate-user-emacs-file "themes/"))
 
-(use-package doom-themes
+(use-package modus-themes
   :custom
-  (doom-themes-enable-bold t)
-  (doom-themes-enable-italic t)
-  (doom-everforest-background "hard")
+  (modus-themes-italic-constructs t)
+  (modus-themes-bold-constructs t)
+  (modus-themes-mixed-fonts t)
+  (modus-themes-variable-pitch-ui t)
+  (modus-themes-disable-other-themes t)
+  (modus-themes-headings '( (0 . (bold 1.6))
+			    (1 . (bold 1.25))
+			    (2 . (bold 1.1))
+			    (3 . (bold 1.0))
+			    (t . (variable-pitch))))
   :config
-  (load-theme 'doom-flexoki-light t))
+  (modus-themes-include-derivatives-mode 1)
+  (modus-themes-load-theme 'modus-flexoki-light))
 
 (use-package spacious-padding
   :config
   (setq spacious-padding-widths
-	'( :internal-border-width 20
-	   :header-line-width 6
+	'( :internal-border-width 0
+	   :header-line-width 15
 	   :mode-line-width 0
 	   :custom-button-width 3
-	   :right-divider-width 20
+	   :right-divider-width 2
 	   :scroll-bar-width 0
 	   :fringe-width 0))
   (spacious-padding-mode 1))
+
+(setq-default left-margin-width 4
+	      right-margin-width 4)
 
 (use-package ultra-scroll
   :init
@@ -260,21 +271,6 @@
 (use-package consult
   :bind (("C-x b" . consult-buffer)))
 
-(use-package eat)
-
-(setq eshell-prompt-function
-	  (lambda ()
-	    (concat
-	     (propertize "\n" 'face `(:foreground ,(face-background 'default)
-				      :extend t
-				      :underline ,(face-foreground 'default)))
-	     (propertize " " 'face `(:height 1.6
-				     :weight 'bold))
-	     (propertize " " 'face `(:foreground ,(face-foreground 'default)
-				     :extend t)))))
-
-(define-key global-map (kbd "C-x C-s") 'eshell)
-
 (use-package reader)
 
 (use-package auctex
@@ -290,7 +286,8 @@
 	preview-default-option-list '("displaymath" "floats" "textmath" "graphics")
 	TeX-parse-self t
 	TeX-auto-save t)
-  (setq-default TeX-master nil))
+  (setq-default TeX-master t
+		TeX-engine 'luatex))
 
 (add-hook 'LaTeX-mode-hook
           (defun preview-larger-previews ()
@@ -321,40 +318,69 @@
   :after auctex
   :hook (LaTeX-mode . evil-tex-mode))
 
-(use-package org
-  :ensure nil
-  :hook (org-mode . visual-line-mode)
-  :hook (org-mode . org-display-inline-images)
-  :hook (org-mode . org-cdlatex-mode)
-  :hook (org-mode . org-indent-mode)
-  :config
-  (setq org-ellipsis " "
-	org-fontify-quote-and-verse-blocks t
-        org-hide-emphasis-markers t
-        org-hide-leading-stars nil
-	org-cycle-separator-lines 2
-	org-tags-column 0
-        org-pretty-entities t
-        org-pretty-entities-include-sub-superscripts nil
-        org-use-sub-superscripts t
-	org-todo-keywords '((sequence "TODO" "HOLD" "DOING" "|" "NOPE" "DONE"))
-	org-priority-highest 0
-        org-priority-lowest 9
-	org-priority-default 5
-	org-agenda-files '("~/notes/agenda/habits.org"
-			   "~/notes/agenda/leisure.org"
-			   "~/notes/agenda/refile.org"
-			   "~/notes/agenda/work.org")
-	org-hidden-keywords '(title subtitle author date)
-	org-src-window-setup 'current-window)
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-lisp . t)
-     (python . t)))
-  (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
-  (evil-define-key 'normal org-mode-map
+(use-package org)
+
+(add-hook 'org-mode-hook #'visual-line-mode)
+(add-hook 'org-mode-hook #'org-display-inline-images)
+(add-hook 'org-mode-hook #'org-cdlatex-mode)
+(add-hook 'org-mode-hook #'org-indent-mode)
+
+;; Pretty typography
+(setq org-ellipsis " "
+      org-fontify-quote-and-verse-blocks t
+      org-hide-emphasis-markers t
+      org-hide-leading-stars nil
+      org-cycle-separator-lines 2
+      org-tags-column 0
+      org-pretty-entities t
+      org-pretty-entities-include-sub-superscripts nil
+      org-use-sub-superscripts t)
+;; Et cetera
+(setq org-hidden-keywords '(title subtitle author date)
+      org-src-window-setup 'current-window)
+
+(setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
+(evil-define-key 'normal org-mode-map
     "gk" 'evil-previous-visual-line
-    "gj" 'evil-next-visual-line))
+    "gj" 'evil-next-visual-line)
+
+(setq org-todo-keywords '((sequence "TODO" "HOLD" "DOING" "|" "NOPE" "DONE"))
+      org-todo-keyword-faces (modus-themes-with-colors
+			       `(("TODO" . ( :foreground ,red
+					     :background ,bg-red-subtle
+					     :box (:line-width (3 . 2) :color ,bg-red-subtle)
+					     :height 0.9
+					     :weight bold))
+				 ("HOLD" . ( :foreground ,blue
+					     :background ,bg-blue-subtle
+					     :box (:line-width (3 . 2) :color ,bg-blue-subtle)
+					     :height 0.9
+					     :weight bold))
+				 ("DOING" . ( :foreground ,yellow
+					      :background ,bg-yellow-subtle
+					      :box (:line-width (3 . 2) :color ,bg-yellow-subtle)
+					      :height 0.9
+					      :weight bold))
+				 ("NOPE" . ( :foreground ,fg-dim
+					     :background ,bg-dim
+					     :box (:line-width (3 . 2) :color ,bg-dim)
+					     :height 0.9
+					     :weight bold))
+				 ("DONE" . ( :foreground ,green
+					     :background ,bg-green-subtle
+					     :box (:line-width (3 . 2) :color ,bg-green-subtle)
+					     :height 0.9
+					     :weight bold))))
+      org-priority-highest 0
+      org-priority-lowest 9
+      org-priority-default 5
+      org-agenda-files '("~/notes/agenda/habits.org"
+			 "~/notes/agenda/leisure.org"
+			 "~/notes/agenda/refile.org"
+			 "~/notes/agenda/work.org"))
+
+(setq org-timestamp-custom-formats '("%a, %b %d" . "%a, %b %d | %R")
+      org-display-custom-times t)
 
 (use-package org-autolist
   :after org
@@ -363,70 +389,6 @@
 (use-package mixed-pitch
   :hook (org-mode . mixed-pitch-mode)
   :hook (LaTeX-mode . mixed-pitch-mode))
-
-(use-package org-modern
-  :after org doom-themes
-  :custom
-  (org-modern-star 'fold)
-  (org-modern-hide-stars t)
-  (org-modern-timestamp '(" %^b %d " . " %H%M "))
-  (org-modern-todo-faces `(("TODO" . ( :foreground ,(doom-color 'red)
-				       :height 95
-				       :box (1 . 2)
-				       :overline ,(doom-color 'bg)))
-			   ("DOING" . ( :foreground ,(doom-color 'yellow)
-				        :height 95
-				        :box (1 . 2)
-				        :overline ,(doom-color 'bg)))
-			   ("DONE" . ( :foreground ,(doom-color 'green)
-				       :height 95
-				       :box (1 . 2)
-				       :overline ,(doom-color 'bg)))
-			   ("HOLD" . ( :foreground ,(doom-color 'fg)
-				       :height 95
-				       :box (1 . 2)
-				       :overline ,(doom-color 'bg)))
-			   ("NOPE" . ( :foreground ,(doom-color 'base4)
-				       :height 95
-				       :box (1 . 2)
-				       :overline ,(doom-color 'bg)))))
-  :custom-face
-  (org-modern-label
-   ((t ( :family "Iosevka"
-	 :height 95
-	 :foreground ,(doom-color 'bg)
-	 :box t))))
-  (org-modern-tag
-   ((t ( :foreground ,(doom-color 'bg)
-	 :inherit (secondary-selection org-modern-label)))))
-  (org-modern-date-active
-   ((t ( :inherit (org-modern-label)
-	 :foreground ,(doom-color 'bg)
-	 :background ,(doom-color 'blue)
-	 :overline ,(doom-color 'bg)
-	 :box (:color ,(doom-color 'blue)
-	      :line-width (1 . 2))))))
-  (org-modern-time-active
-   ((t ( :inherit (org-modern-label)
-	 :foreground ,(doom-color 'blue)
-	 :background ,(doom-color 'bg)
-	 :overline ,(doom-color 'bg)
-	 :box (:line-width (1 . 2))))))
-  (org-modern-date-inactive
-   ((t ( :inherit (org-modern-label)
-	 :foreground ,(doom-color 'bg)
-	 :background ,(doom-color 'fg)
-	 :overline ,(doom-color 'bg)
-	 :box (:color ,(doom-color 'fg)
-	      :line-width (1 . 2))))))
-  (org-modern-time-inactive
-   ((t ( :inherit (org-modern-label)
-	 :foreground ,(doom-color 'fg)
-	 :background ,(doom-color 'bg)
-	 :overline ,(doom-color 'bg)
-	 :box (:line-width (1 . 2))))))
-  :config
-  (global-org-modern-mode))
 
 (use-package treesit-auto
   :custom
@@ -518,9 +480,9 @@ For example:
     (let* ((start-label "00:00")
            (label (ready-player--format-time progress))
            (total-label (ready-player--format-time total))
-           (reserved-width (+ (length start-label) 1   ; "00:00 " start
-                              1 (length label) 1       ; " 00:30 " current
-                              1 (length total-label) 1)) ; " 01:00" end
+           (reserved-width (+ (length start-label) 1
+                              1 (length label) 1
+                              1 (length total-label) 1))
            (bar-width (- (frame-width) reserved-width))
            (percentage (/ (* progress 1.0) total))
            (left-bars (round (* percentage bar-width)))
@@ -536,9 +498,8 @@ For example:
 (define-key global-map (kbd "<AudioPause>") (kbd "C-c m SPC"))
 
 (defun mode-line-padding ()
-  "Return a double-spaced padding."
-  ;; Double-spaced because we're using a proportional font
-  "  ")
+  "Return lots of padding for the edges."
+  "    ")
 
 (defun mode-line-component-title ()
   "Return the title of the buffer."
@@ -576,17 +537,10 @@ For example:
       (setq path (cdr path)))
     (when path
       (setq output (concat "…/" output)))
-    (propertize (concat (nerd-icons-faicon "nf-fa-terminal")
+    (propertize (concat ;; (nerd-icons-faicon "nf-fa-terminal")
 			"  "
 			output)
 		'face '(:inherit 'bold))))
-
-(defun mode-line-component-shell ()
-  "Return the shell name if in a shell buffer."
-  (propertize (if eshell-mode "Eshell"
-                shell-file-name)
-	      'face `(:foreground ,(face-foreground 'default))))
-
 
 (defun diagnostic-counter (type)
   "Compute number of diagnostics in buffer with TYPE's severity.
@@ -651,8 +605,7 @@ Containing LEFT, and RIGHT aligned respectively."
   (mode-line-render
 	    (list (mode-line-padding)
 		  (mode-line-component-directory))
-	    (list (mode-line-component-shell)
-		  (mode-line-padding))))
+	    (list (mode-line-padding))))
 
 (defun drs-mode-line-format-nothing ()
   "Modeline format to display nothing (should look like a simple line to separate the echo area)."
@@ -661,8 +614,8 @@ Containing LEFT, and RIGHT aligned respectively."
 (defun drs-header-line-format ()
   "Determine header line format based on major mode."
   '((:eval (cond
-	    ((derived-mode-p 'term-mode) (drs-mode-line-format-terminal))
 	    ((derived-mode-p 'eshell-mode) (drs-mode-line-format-terminal))
+	    ((derived-mode-p 'ghostel-mode) (drs-mode-line-format-terminal))
 	    (t (drs-mode-line-format-default))))))
 
 (defun drs-mode-line-format ()

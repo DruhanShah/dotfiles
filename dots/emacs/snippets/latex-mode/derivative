@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: derivative
+# key: ddx
+# group: math
+# --
+\\frac{\\mathrm{d} $1}{\\mathrm{d} ${2:x}}$0

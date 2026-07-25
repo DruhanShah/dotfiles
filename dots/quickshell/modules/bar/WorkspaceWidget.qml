@@ -10,6 +10,8 @@ Rectangle {
     id: root
     color: "transparent"
     height: 42
+
+    required property string outputName
     
     RowLayout {
 	Layout.fillWidth: true
@@ -17,7 +19,7 @@ Rectangle {
 	spacing: 8
 
 	Repeater {
-	    model: Niri.workspaces
+	    model: Niri.workspaces.filter(w => w.output === root.outputName)
 	    Rectangle {
 		id: workspaceDelegate
 
@@ -97,8 +99,10 @@ Rectangle {
 				Rectangle {
 				    required property var modelData
 
+				    readonly property int maxWidth: root.outputName === "eDP-1" ? 1920 : 2512
+
 				    Layout.fillHeight: true
-				    Layout.preferredWidth: (modelData.layout.tileWidth + 48) / 1920 * 20
+				    Layout.preferredWidth: (modelData.layout.tileWidth + 48) / maxWidth * 20
 				    radius: 2
 				    color: (modelData.windowId == workspaceDelegate.modelData.activeWindowId
 					    && workspaceDelegate.modelData.isFocused)

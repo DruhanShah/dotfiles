@@ -2,7 +2,7 @@
 {
   home.username = "druhan";
   home.homeDirectory = "/home/druhan";
-  home.stateVersion = "26.05";
+  home.stateVersion = "26.11";
 
   xdg.userDirs = {
     enable = true;
@@ -13,7 +13,7 @@
   };
 
   modules.fish.enable = true;
-  modules.kitty.enable = true;
+  modules.ghostty.enable = true;
   modules.emacs.enable = true;
   modules.firefox.enable = true;
   modules.firefox.addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};

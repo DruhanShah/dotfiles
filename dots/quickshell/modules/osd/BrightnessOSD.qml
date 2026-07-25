@@ -34,7 +34,7 @@ Scope {
 
             Rectangle {
                 anchors.fill: parent
-                radius: 12
+                radius: 20
                 color: Theme.base850
 
                 RowLayout {

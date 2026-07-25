@@ -35,6 +35,7 @@ Rectangle {
 	contentWidth: 240
 	contentHeight: content.implicitHeight
 	anchorItem: root
+	first: true
 
 	ColumnLayout {
 	    id: content

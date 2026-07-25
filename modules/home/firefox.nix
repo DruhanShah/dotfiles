@@ -18,12 +18,12 @@
           isDefault = true;
           settings = {
             "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-            "browser.theme.content-theme" = 1;
+            "svg.context-properties.content.enabled" = true;
+            "browser.newtabpage.activity-stream.nova.enabled" = false;
           };
           extensions = {
             force = true;
             packages = with config.modules.firefox.addons; [
-              vimium
               firefox-color
               ublock-origin
               sidebery
@@ -63,9 +63,6 @@
         dotDir = "${config.home.homeDirectory}/dotfiles/dots";
         symlink = config.lib.file.mkOutOfStoreSymlink;
       in {
-        ".mozilla/firefox/default/chrome/parfait".source = symlink "${dotDir}/firefox/parfait";
-        ".mozilla/firefox/default/chrome/parfait".recursive = true;
-
         ".mozilla/firefox/default/chrome/userContent.css".source = symlink "${dotDir}/firefox/userContent.css";
         ".mozilla/firefox/default/chrome/userChrome.css".source = symlink "${dotDir}/firefox/userChrome.css";
         ".mozilla/firefox/default/chrome/user.js".source = symlink "${dotDir}/firefox/user.js";

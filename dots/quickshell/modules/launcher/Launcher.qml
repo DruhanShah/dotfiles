@@ -59,8 +59,8 @@ Scope {
         RectangularShadow {
             anchors.fill: launcherBase
             color: Theme.base900
-            opacity: 0.5
-            offset { x: 0; y: 22 }
+            opacity: 0.7
+            offset { x: 0; y: 18 }
             blur: 50
             spread: 4
             radius: launcherBase.radius
@@ -76,7 +76,7 @@ Scope {
             
             width: 1080
             height: 480
-            radius: 12
+            radius: 24
             color: Theme.base800
             border.color: Theme.base700
             border.width: 1

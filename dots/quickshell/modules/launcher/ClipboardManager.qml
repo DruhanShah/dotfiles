@@ -72,7 +72,7 @@ Item {
         anchors.fill: parent
         model: filteredModel
         clip: false
-        spacing: 16
+        spacing: 0
         boundsBehavior: Flickable.StopAtBounds
         currentIndex: clipboardManager.selectedIndex
         highlightFollowsCurrentItem: true
@@ -86,120 +86,131 @@ Item {
         highlight: Rectangle { color: "transparent" }
 
         delegate: Rectangle {
-            id: delegateRoot
-            required property var modelData
-            required property int index
-            readonly property bool isCurrent: ListView.isCurrentItem
-            readonly property bool isImage: modelData.preview.startsWith("[[ binary data")
+	    id: delegateWrapper
+	    required property var modelData
+	    required property int index
 
-            width: 240
-            height: 240
-            radius: 12
-            
-            color: isCurrent ? Theme.base850 : Theme.base700
-            border.color: isCurrent ? Theme.base500 : Theme.base600
-            border.width: 1
-            z: isCurrent ? 1 : 0.5
+	    width: childrenRect.width
+	    height: childrenRect.height
+	    color: "transparent"
+
+	    transform: [
+		Scale {
+		    origin.x: width / 2
+		    origin.y: height / 2
+		    xScale: (1 - Math.abs(resultsList.currentIndex - index) * 0.2)
+		    yScale: (1 - Math.abs(resultsList.currentIndex - index) * 0.2)
+		    Behavior on xScale { NumberAnimation { duration: 250; easing: Easing.InOutQuad } }
+		    Behavior on yScale { NumberAnimation { duration: 250; easing: Easing.InOutQuad } }
+		}
+	    ]
 
 	    RectangularShadow {
-		anchors.fill: parent
-		radius: 12
+		anchors.fill: delegateRoot
 		color: Theme.base900
-		spread: 4
+		opacity: 0.3
 		blur: 50
-		offset.x: 0
-		offset.y: 0
-		opacity: 0.5
+		spread: 4
+		z: 0
 	    }
 
-            transform: [
-                Scale {
-                    origin.x: width / 2
-                    origin.y: height / 2
-                    xScale: delegateRoot.isCurrent ? 1.1 : 1
-                    yScale: delegateRoot.isCurrent ? 1.1 : 1
-                    Behavior on xScale { NumberAnimation { duration: 250; easing: Easing.OutQuint } }
-                    Behavior on yScale { NumberAnimation { duration: 250; easing: Easing.OutQuint } }
-                }
-            ]
+	    Rectangle {
+		id: delegateRoot
+		property var modelData: delegateWrapper.modelData
+		property int index: delegateWrapper.index
+		readonly property bool isCurrent: delegateWrapper.ListView.isCurrentItem
+		readonly property bool isImage: modelData.preview.startsWith("[[ binary data")
 
-            Behavior on color { ColorAnimation { duration: 150 } }
-            Behavior on border.color { ColorAnimation { duration: 150 } }
+		width: 250
+		height: 250
+		radius: 12
+		
+		color: Theme.base850
+		border.color: isCurrent ? Theme.base500 : Theme.base600
+		border.width: 1
+		z: isCurrent ? 1 : 0.5
 
-            ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: 16
-                spacing: 8
+		opacity: (1 - Math.abs(resultsList.currentIndex - index) * 0.45)
 
-                RowLayout {
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignTop
+		Behavior on color { ColorAnimation { duration: 250 } }
+		Behavior on border.color { ColorAnimation { duration: 250 } }
+		Behavior on opacity { NumberAnimation { duration: 250 } }
+
+		ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 16
                     spacing: 8
 
-                    Text {
-                        text: delegateRoot.isImage ? "" : ""
-                        color: delegateRoot.isCurrent ? Theme.paper : Theme.base400
-                        font.pixelSize: 14
-                        font.family: Theme.fontSymbol
+                    RowLayout {
+			Layout.fillWidth: true
+			Layout.alignment: Qt.AlignTop
+			spacing: 8
+
+			Text {
+                            text: delegateRoot.isImage ? "" : ""
+                            color: Theme.paper
+                            font.pixelSize: 14
+                            font.family: Theme.fontSymbol
+			}
+
+			Text {
+                            text: delegateRoot.isImage ? "Image Clipping" : "Text Clipping"
+                            color: Theme.paper
+                            font.pixelSize: 12
+                            font.family: Theme.fontSans
+                            font.weight: Font.DemiBold
+                            Layout.fillWidth: true
+			}
                     }
 
-                    Text {
-                        text: delegateRoot.isImage ? "Image Clipping" : "Text Clipping"
-                        color: delegateRoot.isCurrent ? Theme.paper : Theme.base400
-                        font.pixelSize: 12
-                        font.family: Theme.fontSans
-                        font.weight: Font.DemiBold
-                        Layout.fillWidth: true
-                    }
-                }
+                    Item {
+			Layout.fillWidth: true
+			Layout.fillHeight: true
+			clip: true
 
-                Item {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    clip: true
+			Text {
+                            anchors.fill: parent
+                            visible: !delegateRoot.isImage
+                            text: delegateRoot.modelData.preview
+                            color: Theme.paper
+                            font.pixelSize: Theme.fontSize
+                            font.family: Theme.fontMono
+                            font.weight: Font.Light
+                            opacity: delegateRoot.isCurrent ? 1.0 : 0.7
+                            wrapMode: Text.WrapAnywhere
+                            elide: Text.ElideRight
+			}
 
-                    Text {
-                        anchors.fill: parent
-                        visible: !delegateRoot.isImage
-                        text: delegateRoot.modelData.preview
-                        color: delegateRoot.isCurrent ? Theme.paper : Theme.base50
-                        font.pixelSize: Theme.fontSize
-                        font.family: Theme.fontMono
-                        font.weight: Font.Light
-                        opacity: delegateRoot.isCurrent ? 1.0 : 0.7
-                        wrapMode: Text.WrapAnywhere
-                        elide: Text.ElideRight
-                    }
+			Image {
+                            anchors.fill: parent
+                            visible: delegateRoot.isImage && delegateRoot.isCurrent
+                            source: (delegateRoot.isImage && delegateRoot.isCurrent) ? Clipboard.activePreviewPath : ""
+                            fillMode: Image.PreserveAspectFit
+			}
 
-                    Image {
-                        anchors.fill: parent
-                        visible: delegateRoot.isImage && delegateRoot.isCurrent
-                        source: (delegateRoot.isImage && delegateRoot.isCurrent) ? Clipboard.activePreviewPath : ""
-                        fillMode: Image.PreserveAspectFit
+			Text {
+                            anchors.centerIn: parent
+                            visible: delegateRoot.isImage && !delegateRoot.isCurrent
+                            text: "Preview Hidden"
+                            color: Theme.base400
+                            font.pixelSize: Theme.fontSize
+                            font.family: Theme.fontSans
+			}
                     }
+		}
 
-                    Text {
-                        anchors.centerIn: parent
-                        visible: delegateRoot.isImage && !delegateRoot.isCurrent
-                        text: "Preview Hidden"
-                        color: Theme.base400
-                        font.pixelSize: Theme.fontSize
-                        font.family: Theme.fontSans
+		MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: {
+			if (clipboardManager.selectedIndex === delegateRoot.index) {
+                            clipboardManager.confirm();
+			} else {
+                            clipboardManager.selectedIndex = delegateRoot.index;
+			}
                     }
-                }
+		}
             }
-
-            MouseArea {
-                anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    if (clipboardManager.selectedIndex === delegateRoot.index) {
-                        clipboardManager.confirm();
-                    } else {
-                        clipboardManager.selectedIndex = delegateRoot.index;
-                    }
-                }
-            }
-        }
+	}
     }
 }

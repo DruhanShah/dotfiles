@@ -83,7 +83,7 @@ cursor {
 }
 
 window-rule {
-    geometry-corner-radius 12
+    geometry-corner-radius 24
     clip-to-geometry true
 }
 
@@ -97,7 +97,7 @@ window-rule {
 }
 
 window-rule {
-    match app-id="equibop|firefox|zen-beta|org.freecad.FreeCAD|pcbnew|kicad|gimp"
+    match app-id="discord|firefox|element|org.freecad.FreeCAD|pcbnew|kicad|gimp"
     default-column-width { proportion 1.0; }
 }
 
@@ -113,7 +113,7 @@ spawn-sh-at-startup "wl-paste --watch cliphist store"
 
 
 binds {
-    Mod+Return { spawn "kitty"; }
+    Mod+Return { spawn "ghostty"; }
     Mod+E { spawn-sh "emacsclient -nca ''"; }
     Mod+Space { spawn-sh "qs ipc call launcher toggle"; }
     Mod+Escape { spawn-sh "qs ipc call lockscreen lock"; }

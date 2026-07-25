@@ -20,7 +20,7 @@
 	      evil-tex
         evil-textobj-tree-sitter
 
-        doom-themes
+        modus-themes
 	      spacious-padding
 	      ultra-scroll
 	      
@@ -39,8 +39,6 @@
 	      marginalia
 	      orderless
 	      consult
-
-        eat
 
         (melpaBuild {
           ename = "reader";

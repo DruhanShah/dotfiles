@@ -11,22 +11,25 @@
 set fish_greeting
 '';
       shellAliases = {
-        ltrcgpu3 = "kitty +kitten ssh gamba@ltrcgpu3";
-        ada = "kitty +kitten ssh druhan@ada.iiit.ac.in";
+        ltrcgpu3 = "ssh gamba@ltrcgpu3";
+        ada = "ssh druhan@ada.iiit.ac.in";
         python = "python3.14";
       };
       functions = {
-        fish_prompt =
-          let
-            blue = "(set_color 81A1C1)";
-            green = "(set_color A3BE8C)";
-          in ''
-if test -n "$IN_NIX_SHELL"
-    set nix " 󱄅 "
+        fish_prompt = ''
+echo (string repeat -n (math $COLUMNS-1) "─") (set_color normal)
+echo -s (set_color A3BE8C) "  " (set_color normal)
+'';
+        ed = ''
+if test $INSIDE_EMACS = "ghostel"
+    if test -n "$argv[1]"
+        ghostel_cmd dired $argv[1]
+    else
+        ghostel_cmd dired ~
+    end
 else
-    set nix ""
+    cd $argv[1]
 end
-echo -s (set_color -o) (prompt_pwd --full-length-dirs 2) ${blue} $nix ${green}"  "(set_color normal)
 '';
       };
     };
